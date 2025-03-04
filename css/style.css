@@ -1,0 +1,182 @@
+/* section 1 */
+/* animação */
+@import url('https://fonts.googleapis.com/css?family=Roboto:700');
+@keyframes showTopText {
+  0% { transform: translate3d(0, 100%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+@keyframes showBottomText {
+  0% { transform: translate3d(0, -100%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+.animated-title {
+  color: rgb(6, 17, 62);
+  font-family: Roboto, Arial, sans-serif;
+  height: 90vmin;
+  left: 30%;
+  position: absolute;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  width: 45vmin;
+}
+.text-top, .text-bottom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.animated-title > div {
+  height: 50%;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+}
+.animated-title > div div {
+  font-size: 6vmin;
+  padding: 2vmin 0;
+  position: absolute;
+}
+.animated-title > div div span {
+  display: block;
+}
+.animated-title > div.text-top {
+  border-bottom: 0.5vmin solid rgb(6, 17, 62);
+  ;
+  top: 0;
+}
+.animated-title > div.text-top div {
+  animation: showTopText 0.5s;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+  bottom: 0;
+  transform: translate(0, 100%);
+}
+
+.animated-title > div.text-bottom {
+  bottom: 0;
+}
+.animated-title > div.text-bottom div {
+  animation: showBottomText 0.5s;
+  animation-delay: 1.3s;
+  animation-fill-mode: forwards;
+  top: 0;
+  transform: translate(0, -100%);
+}
+/* fim animação */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+#secao1 {
+    position: relative;
+    background: #cce5ff;
+    padding: 100px 0 200px 0;
+}
+.galeria {
+    padding: 20px;
+}
+#sobre{
+    color: rgb(6, 17, 62);
+    font-family: Roboto, Arial, sans-serif;
+    right: 55%;
+    left: 15%;
+    position: absolute;
+    top: 60%;
+}
+#sobre:first-of-type, #secao1 h1:first-of-type{    
+    animation: showup 19s forwards;
+}
+@keyframes showup {
+    0% {opacity:0;}
+    10% {opacity:0;}
+    20% {opacity:1;}
+
+}
+#logo{
+    width: 25%;
+    right: 15%;
+    left: 60%;
+    position: absolute;
+    top: 20%;
+}
+/* fim section 1 */
+/* secão 4 */
+#secao4 {
+    display: flex;
+    align-items: center;
+    background-color: #e6e6e6;
+    overflow: hidden;
+}
+
+.texto {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    
+}
+
+.linha {
+    position: absolute;
+    left: 20%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 90%;
+    background-color: #0033cc;
+    border-radius: 10px;
+}
+
+#entenda {
+    font-size: 230%;
+    margin-bottom: 15px;
+    width: 43%;
+    margin-left: 20%;
+}
+
+.botao {
+    background-color: #0033cc;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-left: 20%;
+}
+
+
+.imagem img {
+    margin-left: 85px;
+    width: 95%;
+    height: 290px;
+    display: block;
+}
+/* fim secão 4 */
+
+
+
+
+@media (max-width: 768px){
+    #sobre{
+        right: 10%;
+        left: 10%;
+        top: 55%;
+    }
+    .imagem img {
+        display: none;
+    }
+    #entenda {
+        font-size: 150%;
+        width: 48%;
+
+    }
+    .linha {
+        left: 15%;
+        top: 50%;
+        width: 4px;
+        height: 80%;
+    }
+}
