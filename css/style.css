@@ -44,8 +44,8 @@
   top: 0;
 }
 .animated-title > div.text-top div {
-  animation: showTopText 0.5s;
-  animation-delay: 0.5s;
+  animation: showTopText 0.8s;
+  animation-delay: 0.1s;
   animation-fill-mode: forwards;
   bottom: 0;
   transform: translate(0, 100%);
@@ -55,8 +55,8 @@
   bottom: 0;
 }
 .animated-title > div.text-bottom div {
-  animation: showBottomText 0.5s;
-  animation-delay: 1.3s;
+  animation: showBottomText 0.8s;
+  animation-delay: 0.8s;
   animation-fill-mode: forwards;
   top: 0;
   transform: translate(0, -100%);
@@ -72,6 +72,7 @@ body {
     position: relative;
     background: #cce5ff;
     padding: 100px 0 200px 0;
+
 }
 .galeria {
     padding: 20px;
@@ -89,8 +90,8 @@ body {
 }
 @keyframes showup {
     0% {opacity:0;}
-    10% {opacity:0;}
-    20% {opacity:1;}
+    8% {opacity:0;}
+    18% {opacity:1;}
 
 }
 #logo{
