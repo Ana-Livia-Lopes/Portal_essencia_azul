@@ -1,0 +1,118 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-image: url('../img/ess_azul_bckg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-entrar{
+    background-color: white;
+    padding: 20px;
+    width: 440px;
+    border-radius: 0.3rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#logo-topo{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 190px;
+}
+
+#logo-topo img{
+    width: 50px;
+}
+
+#logo-topo p{
+    font-family: 'Montserrat';
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #1535b5ce;
+}
+
+#campos{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    margin-top: 18px;
+    font-family: 'Montserrat';
+}
+
+#campos h1{
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+label{
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: #000000a0;
+}
+
+input{
+    width: 380px;
+    height: 55px;
+    background-color: #ECECEC;
+    border: none;
+    border-radius: 0.1rem;
+    margin-bottom: 25px;
+    padding-left: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Montserrat';
+    color: #000000c9;
+}
+
+button{
+    background-color: #1535B5;
+    color: white;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 16px;
+    width: 90px;
+    height: 40px;
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 0.2rem;
+}
+
+#esq-senha{
+    text-decoration: none;
+    text-decoration: underline !important;
+    color: #00AEFF;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+#voltar{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-direction: row;
+    text-decoration: none;
+    color: #0000008b;
+    font-weight: 600;
+}
