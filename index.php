@@ -32,12 +32,66 @@
     </section>
     
     <!-- galeria -->
+    <h2>Galeria de Fotos</h2>
     <section id="secao2"> 
-        <h2>Galeria de Fotos</h2>
     </section>
     <!-- cards -->
+    <h2>cards</h2>
     <section id="secao3">
-        <h2>cards</h2>
+        <article class="card">
+  <img
+    class="card__background"
+    src="./img/missao.png"
+    width="1920"
+    height="2193"
+  />
+  <div class="card__content | flow">
+    <div class="card__content--container | flow">
+      <h2 class="card__title">Missão</h2>
+      <p class="card__description">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+        labore laudantium deserunt fugiat numquam.
+      </p>
+    </div>
+    
+  </div>
+</article>
+<article class="card">
+  <img
+    class="card__background"
+    src="./img/visao.png"
+    width="1920"
+    height="2193"
+  />
+  <div class="card__content | flow">
+    <div class="card__content--container | flow">
+      <h2 class="card__title">Visão</h2>
+      <p class="card__description">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+        labore laudantium deserunt fugiat numquam.
+      </p>
+    </div>
+
+  </div>
+</article>
+<article class="card">
+  <img
+    class="card__background"
+    src="./img/valores.png"
+    width="1920"
+    height="2193"
+  />
+  <div class="card__content | flow">
+    <div class="card__content--container | flow">
+      <h2 class="card__title">Valores</h2>
+      <p class="card__description">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+        labore laudantium deserunt fugiat numquam.
+      </p>
+    </div>
+
+  </div>
+</article>
     </section>
     <!-- entenda sobre -->
     <section id="secao4">
@@ -57,8 +111,14 @@
     </section>
     <!-- ajuda -->
     <section id="secao6">
-        <h2>c</h2>
+        <div class="texto2">
+            <div class="ajuda"></div>
+            <h2 id="tituloAjuda">Precisa de ajuda?</h2>
+            <p id="textoAjuda">Responda ao formulário e faça parte dessa causa!</p>
+            <a href="#" class="botao2">clique aqui</a>
+        </div>
     </section>
+    <img id="menino" src="./img/menino.png">
 
 </body>
     
