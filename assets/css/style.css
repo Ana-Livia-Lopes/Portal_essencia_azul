@@ -71,7 +71,7 @@ body {
 #secao1 {
     position: relative;
     background: #cce5ff;
-    padding: 100px 0 200px 0;
+    padding: 150px 0 200px 0;
 
 }
 .galeria {
@@ -79,11 +79,14 @@ body {
 }
 #sobre{
     color: rgb(6, 17, 62);
-    font-family: Roboto, Arial, sans-serif;
+    font-family: var(--font-text);
     right: 55%;
     left: 15%;
     position: absolute;
-    top: 60%;
+    top: 55%;
+    font-size: 20px;
+    font-weight: 100;
+
 }
 #sobre:first-of-type, #secao1 h1:first-of-type{    
     animation: showup 19s forwards;
@@ -95,11 +98,11 @@ body {
 
 }
 #logo{
-    width: 25%;
+    width: 15%;
     right: 15%;
     left: 60%;
     position: absolute;
-    top: 20%;
+    top: 15%;
 }
 /* fim section 1 */
 /* secão 2 */
@@ -354,6 +357,8 @@ body {
   overflow: hidden;
   margin-top: 190px;
   height: 222px;
+  position: relative;
+  overflow: visible;
 }
 
 .texto2 {
@@ -364,19 +369,20 @@ body {
 
 #textoAjuda {
   font-size: 150%;
-  margin-bottom: 15px;
-  width: 43%;
-  margin-left: 20%;
+  margin-bottom: 35px;
+  width: 100%;
 }
 #tituloAjuda {
   font-size: 230%;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 #menino{
   width: 330px;
-  position: absolute ;
-  bottom: 66px;
-  margin-right: 950px;
+  position: absolute;
+  bottom: 0;
+  margin-left: 8%;
 }
 .botao2 {
   background-color: #0033cc;
@@ -385,7 +391,6 @@ body {
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: bold;
-  margin-top: 30px;
 }
 /* fim secao 6 */
 
