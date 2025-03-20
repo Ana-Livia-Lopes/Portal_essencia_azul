@@ -1,0 +1,31 @@
+{
+  "name": "portal_essencia_azul",
+  "version": "1.0.0",
+  "description": "O arquivo de inicialização do projeto é `index.js` do diretório raíz.\r Ele inicia um servidor HTTP, buscando suas configurações de hostname e porta no arquivo `config.json`:\r ```json\r {\r     \"hostname\": \"0.0.0.0\",\r     \"port\": 8080\r }\r ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guilherme-paiva2007/essencia_azul.git"
+  },
+  "author": "SmartWeb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guilherme-paiva2007/essencia_azul/issues"
+  },
+  "homepage": "https://github.com/guilherme-paiva2007/essencia_azul#readme",
+  "dependencies": {
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "@types/node": "^22.13.10",
+    "@types/ws": "^8.18.0",
+    "mysql": "^2.18.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "ws": "^8.18.1"
+  }
+}
