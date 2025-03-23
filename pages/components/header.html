@@ -1,202 +1,233 @@
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
+        rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <header id="header">
-        <div id="container">
-            <a href="/inicio" id="box-img">
+    <nav>
+        <div id="paginas">
+
+            <a href="/" id="box-img">
                 <img src="/img/logo.png" alt="logo">
-                <p>PORTAL ESSÊNCIA AZUL</p>
+                <p>PORTAL <br> ESSÊNCIA AZUL</p>
             </a>
-            <nav>
-                <ul id="nav1">
-                    <li><h3><a href="/inicio">Início</a></h3></li>
-                    <li><h3><a href="/eventos">Eventos</a></h3></li>
-                    <li><h3><a href="/catalogo">Catálogo</a></h3></li>
-                    <li><h3><a href="/documentos">Documentos</a></h3></li>
-                    <li><h3><a href="/voluntarios">Voluntários</a></h3></li>
-                    <li><h3><a href="/conscientizacao">Conscientização</a></h3></li>
-                    <li><h3><a href="/contato">Contato</a></h3></li>
-                </ul>
-                <div id="user-div">
-                    <a id='' href='/formulario'><button>Formulário</button></a>
-                </div>
 
-                <!-- Nav responsiva -->
-                <input type="checkbox" id="checkbox">
-                <label for="checkbox" id="botao">☰</label>
-                <ul id="nav2">
-                    <li><h3><a href="/">início</a></h3></li>
-                    <li><h3><a href="/servicos">Serviços</a></h3></li>
-                    <li><h3><a href="/ocupacoes">Ocupações</a></h3></li>
-                    <li><h3><a href="/contato">Contato</a></h3></li>
-                    <li><h3><a id='login' href='/entrar'>🚪</a></h3></li>
-                </ul>
-            </nav>
+            <ul id="nav1">
+                <li><a class="item-nav" href="/">Início</a></li>
+                <li><a class="item-nav" href="/eventos">Eventos</a></li>
+                <li><a class="item-nav" href="/catalogo">Catálogo</a></li>
+                <li><a class="item-nav" href="/documentos">Documentos</a></li>
+                <li><a class="item-nav" href="/voluntarios">Voluntários</a></li>
+                <li><a class="item-nav" href="/conscientizacao">Conscientização</a></li>
+                <li><a class="item-nav" href="/contato">Contato</a></li>
+            </ul>
+
+            <div id="formulario">
+                <a id='' href='/formulario'><button>Formulário</button></a>
+            </div>
+
         </div>
-    </header>
 
-    <style>
-        header {
-            background-color: rgb(255, 255, 255);
-            color: #0e3960;
-            padding: 10px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-            transition: all 0.4s ease;
-        }
+        <!-- Nav responsiva -->
+        <input type="checkbox" id="checkbox">
+        <label for="checkbox" id="botao"><i class="fa-solid fa-bars"></i></label>
+        <ul id="nav2">
+            <li><a class="item-nav2" href="/">Início</a></li>
+            <li><a class="item-nav2" href="/eventos">Eventos</a></li>
+            <li><a class="item-nav2" href="/catalogo">Catálogo</a></li>
+            <li><a class="item-nav2" href="/documentos">Documentos</a></li>
+            <li><a class="item-nav2" href="/voluntarios">Voluntários</a></li>
+            <li><a class="item-nav2" href="/conscientizacao">Conscientização</a></li>
+            <li><a class="item-nav2" href="/contato">Contato</a></li>
+            <li><a class="item-nav2" href="/formulario">Formulário</a></li>
+        </ul>
+    </nav>
+</header>
 
-        #header.ativo{
-            top: -95px;
-            opacity: 0;
-        }
+<style>
+    header {
+        background-color: rgb(255, 255, 255);
+        color: #0e3960;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        transition: all 0.4s ease;
+        width: 100%;
+        height: 73px;
+        display: flex;
+    }
 
-        #container {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    #header.ativo {
+        top: -95px;
+        opacity: 0;
+    }
 
-        #box-img{
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 250px;
-        }
+    #box-img {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 200px;
+        text-decoration: none;
+    }
 
-        #box-img img{
-            width: 55px;
-        }
+    #box-img img {
+        width: 45px;
+    }
 
-        #box-img p{
-            font-family: 'Montserrat';
-            font-size: 13.5px;
-            font-weight: 800;
-            color: #1535b5ce;
-        }
+    #box-img p {
+        font-family: 'Montserrat';
+        font-size: 13.5px;
+        font-weight: 800;
+        color: #1535b5ce;
+        text-align: left;
+    }
 
-        #nav1{
-            display: flex;
-            justify-content: center;
-        }
-        
-        #user-div{
-            display: flex;
-            align-items: center;
-            list-style: none;
-        }
-        #user{
-            background-color: rgba(255, 255, 255, 0);
-            border: none;
-            color: #0e3960;
-            text-decoration: none;
-            font-size: 17px;
-            font-weight: bold;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            text-transform: uppercase;
-            cursor: pointer;
-            height: 30px;
-            margin-top: 7px;
-            align-self: center;
-        }
-        #opt-nome{
+    #paginas {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+        width: 100%;
+    }
+
+    #nav1 {
+        display: flex;
+        justify-content: space-evenly;
+        width: 70%;
+    }
+
+    #formulario {
+        display: flex;
+        align-items: center;
+        list-style: none;
+    }
+
+    #formulario button{
+        background-color: #1535B5;
+        color: white;
+        font-family: 'Montserrat';
+        font-weight: 600;
+        font-size: 15px;
+        border: none;
+        border-radius: 0.4rem;
+        width: 120px;
+        height: 40px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    #formulario button:hover{
+        background-color: #142e96;
+    }
+
+    #user {
+        background-color: rgba(255, 255, 255, 0);
+        border: none;
+        color: #0e3960;
+        text-decoration: none;
+        font-size: 17px;
+        font-weight: bold;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        text-transform: uppercase;
+        cursor: pointer;
+        height: 30px;
+        margin-top: 7px;
+        align-self: center;
+    }
+
+    header nav {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        justify-content: space-between;
+    }
+
+    header nav ul {
+        list-style: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+    }
+
+    nav ul li{
+        display: flex;
+        align-items: center;
+    }
+
+    .item-nav2{
+        text-decoration: none;
+        color: #132b8b;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .item-nav {
+        color: #1535b5bd;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .item-nav {
+        transition: all 0.3s;
+    }
+
+    .item-nav:hover {
+        color: #1535B5;
+        transform: scale(1.2);
+    }
+
+
+    #checkbox {
+        display: none;
+    }
+
+    #botao {
+        display: none;
+        font-size: 40px;
+        color: #00304D;
+        cursor: pointer;
+        float: right;
+        margin-right: 10%;
+    }
+
+    #nav2 {
+        display: none;
+        position: absolute;
+        background-color: rgb(255, 255, 255);
+        top: 70px;
+        width: 365px;
+        z-index: 1;
+        border: solid 5px rgb(255, 255, 255);
+        font-family: 'Montserrat';
+    }
+
+
+    @media (max-width: 768px) {
+        #nav1 {
             display: none;
         }
-        #opt-sair{
-            background-color: rgb(255, 255, 255);
-            font-weight: 600;
-            cursor: pointer;
+
+        #formulario{
+            display: none;
         }
+
         header nav {
             display: flex;
-            flex-direction: row;
-            flex-grow: 1;
-            justify-content: space-between;
+            align-items: center;
         }
 
-        header nav ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
-        header nav ul li {
-            padding: 10px;
-        }
-
-        header nav ul li a {
-            color: #0e3960;
-            text-decoration: none;
-            font-size: 17px;
-            font-weight: bold;
-            font-family: 'Montserrat', sans-serif;
-            margin: 0 3vw;
-        }
-
-        a{
-            transition: color 0.3s;
-        }
-
-        a:hover{
-            color:#297caf;
-        }
-
-
-        #checkbox{
-            display: none;
-        }
-
-        #botao{
-            display: none;
-            font-size: 40px;
-            color:#00304D;
-            cursor: pointer;
+        #botao {
+            display: block;
             float: right;
-            margin-right: 10%;
         }
 
-        #nav2{ 
-            display: none;
-            position: absolute;
-            background-color: rgba(216, 219, 220, 0.707);
-            top: 70px;
-            right: 0;
-            width: 200px;
-            z-index: 1; 
-            border: solid 5px rgba(217, 217, 217, 0.886);
+        #checkbox:checked+#botao+#nav2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-
-        @media (max-width: 768px) {
-            #nav1{
-                display: none;
-            }
-            header nav{
-                justify-content: right;
-            }
-            #user-div{
-                margin-right: 20px;
-                display: none;
-            }
-            #opt-sair{
-                font-size: 12px;
-                width: 30px;
-            }
-            #botao{
-                display: block;
-                float: right;
-            }
-            #checkbox:checked + #botao + #nav2{
-                display: block;
-            }
-            .logo{
-                margin-left: 5%;
-            }
-
-        }
-    </style>
+    }
+</style>
