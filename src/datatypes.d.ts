@@ -45,12 +45,20 @@ declare class Familia {
     sobrenome: string
     endereco: string
 
-    get total_residentes(): (Acolhido | Residente)[] // Todos os residentes, incluindo acolhidos
+    // get total_residentes(): (Acolhido | Residente)[] // Todos os residentes, incluindo acolhidos
     
-    get acolhidos(): Acolhido[] // Somente acolhidos
-    get outros_residentes(): Residente[] // Outros residentes não acolhidos
-    get outros_residentes_autistas(): Residente[] // Somente residentes não acolhidos autistas
-    get outros_residentes_investigacao(): Residente[] // Somente residentes não acolhidos em investigação
+    // get acolhidos(): Acolhido[] // Somente acolhidos
+    // get outros_residentes(): Residente[] // Outros residentes não acolhidos
+    // get outros_residentes_autistas(): Residente[] // Somente residentes não acolhidos autistas
+    // get outros_residentes_investigacao(): Residente[] // Somente residentes não acolhidos em investigação
+
+    get acolhidos(): Acolhido[]
+    get residentes(): Residente[]
+    get moradores(): (Acolhido | Residente)[]
+
+    get autistas(): number
+    get em_investigacao(): number
+    get neurotipicos(): number
 
     observacoes: string
 }
@@ -65,6 +73,7 @@ declare class Documento {
 
 declare class Admin {
     private id: number
+    readonly nivel: 2|1
     nome: string
     email: string
     senha: string
@@ -74,12 +83,18 @@ declare class Apoiador {
     private id: number
     nome: string
     logo: Blob
+    link: string
 }
 
-declare class SolicitacaoAcolhido {
+declare class Imagem {
     private id: number
-    formulario_json: string
+    titulo: string
+    descricao: string
+    grupos: string[]
+    conteudo: Blob
 }
+
+declare class SolicitacaoAcolhido {}
 
 declare class SolicitacaoVoluntario {
     private id: number
@@ -88,14 +103,20 @@ declare class SolicitacaoVoluntario {
     email: string
     telefone: string
     como_ajudar: string
-    outras_ajudas: string
     por_que_ser_voluntario: string
 }
 
 declare class RegistroAlteracao {
     private id: number
     private id_admin: number
-    time: Date
+    get admin(): Admin
+    data: Date
     description: string
-    
+    alteracao: {
+        tabela: string
+        campo: string
+        id: number
+        valor_novo: any
+        valor_antigo: any
+    }
 }

@@ -1,0 +1,141 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+section{
+    background-color: #aed4ffd4;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    font-family: 'Montserrat';
+}
+
+#formularios{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#descricao{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 40px;
+    padding-top: 30px;
+    width: 580px;
+    text-align: justify;
+    gap: 25px;
+    border-radius: 0.5rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+#logo-topo{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 190px;
+}
+
+#logo-topo img{
+    width: 50px;
+}
+
+#logo-topo p{
+    font-family: 'Montserrat';
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #1535b5ce;
+}
+
+#descricao h1{
+    align-self: center;
+    font-size: 27px;
+    font-weight: 600;
+}
+
+.caixas{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: white;
+    width: 580px;
+    padding: 40px;
+    border-radius: 0.5rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.caixas h2{
+    font-size: 17px;
+    font-weight: 550;
+}
+
+.div-maior-input-radio{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.div-menor-input-radio{
+    display: flex;
+    align-items: center;
+}
+
+.caixas div input{
+    width: 40px;
+}
+
+input{
+    width: 560px;
+    background-color: rgb(237, 237, 237);
+    height: 23px;
+    padding: 8px;
+    border: 2px solid rgb(195, 195, 195);
+    border-radius: 0.2rem;
+    align-self: center;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.781);
+}
+
+select{
+    width: 580px;
+    background-color: rgb(237, 237, 237);
+    padding: 8px;
+    border: 2px solid rgb(195, 195, 195);
+    border-radius: 0.2rem;
+    align-self: center;
+    font-size: 16px;
+}
+
+textarea{
+    width: 560px;
+    background-color: rgb(237, 237, 237);
+    height: 120px;
+    padding: 8px;
+    border: 2px solid rgb(195, 195, 195);
+    border-radius: 0.2rem;
+    align-self: center;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.781);
+    font-family: Arial, Helvetica, sans-serif;
+    resize: none;
+}
+
+button{
+    width: 200px;
+    height: 45px;
+    background-color: #1535B5;
+    font-family: "Montserrat";
+    color: white;
+    font-weight: 600;
+    font-size: 17px;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+button:hover{
+    background-color: #142e96;
+}
