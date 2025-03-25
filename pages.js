@@ -16,4 +16,5 @@ module.exports = function deployPages(server) {
     server.openPageDir(path.resolve(__dirname, "./assets/"), "/");
     server.openPageDir(path.resolve(__dirname, "./pages/components"), "/components/");
     server.openPageList(pages, path.resolve(__dirname, "./pages/"));
+    console.log(`Loaded ${server.pages.length} pages.`);
 }
