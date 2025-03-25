@@ -29,6 +29,13 @@ process.stdin.on("data", data => {
         p => ({ path: p.path, ["content-type"]: p.contentType, file: p.filelocation })
     ));
     if (data === "pages reload") deployPages(server);
+
+    if (data === "help") {
+        console.table([
+            { command: "pages", description: "Lista as páginas existentes." },
+            { command: "pages reload", description: "Reinstancia as páginas da pages_list.js e dos diretórios automáticos." }
+        ]);
+    }
 });
 
 server.listen(config.server.port, config.server.port);
