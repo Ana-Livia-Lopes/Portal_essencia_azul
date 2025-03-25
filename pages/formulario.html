@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/formulario.css">
+        <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
         <title>Formulário - Portal Essência Azul</title>
     </head>
     <body>
@@ -10,6 +12,196 @@
         <script type="module">
             import importComponent from "/js/importComponent.js";
             importComponent(document.getElementById("header"), "/components/header.html");
+        </script>
+        <section>
+            <form action="" id="formularios">
+                <div id="descricao">
+                    <div id='logo-topo'>
+                        <img src="./img/logo.png" alt="">
+                        <p>PORTAL ESSÊNCIA AZUL</p>
+                    </div>
+                    <h1>Solicitar cadastro</h1>
+                    <p>
+                        Prezados pais, responsáveis e membros da nossa comunidade,
+                        <br><br>
+                        A Associação Essência Azul tem o compromisso de oferecer suporte e 
+                        apoio integral a famílias de crianças e pessoas com autismo. 
+                        Acreditamos que cada indivíduo é único e merece o melhor 
+                        atendimento possível. Para cumprir nossa missão com excelência, é 
+                        fundamental que tenhamos informações detalhadas sobre nossos 
+                        membros, a fim de personalizar o suporte e serviços de acordo com 
+                        as necessidades individuais.
+                        <br><br>
+                        Este formulário foi criado para nos ajudar a conhecer melhor cada 
+                        membro da nossa comunidade. Todas as informações fornecidas aqui 
+                        são tratadas com absoluta confidencialidade e segurança. Nossa 
+                        prioridade é o bem-estar de todos, e essas informações nos 
+                        permitirão oferecer suporte direcionado e eficaz.
+                        <br><br>
+                        Pedimos que preencham o formulário com sinceridade e precisão, 
+                        fornecendo todas as informações relevantes. Lembre-se de que esses 
+                        dados serão usados exclusivamente para os fins da Associação 
+                        Essência Azul, e nunca serão compartilhados com terceiros sem seu 
+                        consentimento.
+                        <br><br>
+                        Agradecemos sua colaboração e confiança. Juntos, podemos criar um 
+                        ambiente de apoio e compreensão, promovendo o bem-estar e a 
+                        qualidade de vida das pessoas com autismo e suas famílias.
+                        <br><br>
+                        Com carinho,
+                        <br><br>
+                        Simone Rocha e Carol Carvalho 
+                        Associação Essência Azul
+                    </p>
+                </div>
+                <div class="caixas">
+                    <h2>Nome dos pais/responsáveis</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>E-mail de contato</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Endereço</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Telefone de contato</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Nome do autista</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Quantas pessoas moram na sua residência?</h2>
+                    <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Quantas pessoas tem laudo de autismo?</h2>
+                    <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Quantas pessoas estão em investigação?</h2>
+                    <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Idade do autista</h2>
+                    <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Nível de suporte</h2>
+                    <select name="" id="">
+                        <option value="">Selecionar</option>
+                        <option value="">Nível 1</option>
+                        <option value="">Nível 2</option>
+                        <option value="">Nível 3</option>
+                    </select>
+                </div>
+                <div class="caixas">
+                    <h2>Escola onde estuda ou não estuda</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Tem carteirinha de identificação do autismo?</h2>
+                    <div class="div-maior-input-radio">
+                        <div class="div-menor-input-radio">
+                            <input type="radio" name="identificação">
+                            <span>Sim</span>
+                        </div>
+                        <div class="div-menor-input-radio">
+                            <input type="radio" name="identificação">
+                            <span>Não</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="caixas">
+                    <h2>Usa o cordão de girassol ou quebra-cabeça?</h2>
+                    <div class="div-maior-input-radio">
+                        <div class="div-menor-input-radio">
+                            <input type="radio" name="cordão">
+                            <span>Sim</span>
+                        </div>
+                        <div class="div-menor-input-radio">
+                            <input type="radio" name="cordão">
+                            <span>Não</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="caixas">
+                    <h2>Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?</h2>
+                    <div class="div-maior-input-radio">       
+                        <div class="div-menor-input-radio">
+                            <input type="radio" name="estacionamento">
+                            <span>Sim</span>
+                        </div>                
+                        <div class="div-menor-input-radio">
+                            <input type="radio" name="estacionamento">
+                            <span>Não</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="caixas">
+                    <h2>Se criança, tem profissional de apoio na escola?</h2>
+                    <div class="div-maior-input-radio">
+                        <div class="div-menor-input-radio">
+                            <input type="radio" name="apoio">
+                            <span>Sim</span>
+                        </div>
+                        <div class="div-menor-input-radio">
+                            <input type="radio" name="apoio">
+                            <span>Não</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="caixas">
+                    <h2>Áreas de Interesse (interesses da criança/pessoa autista, o que gosta de fazer?)</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Hiperfoco (descreva em que o autista demonstra hiperfoco)</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Como o autista se acalma? (técnicas ou atividades que acalmam a criança/pessoa autista)</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Atividades que o autista NÃO gosta de fazer (atividades que a criança evita ou não gosta)</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Restrições alimentares (se a criança/pessoa tem restrições alimentares, descreva)</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Comida favorita</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Qual o convênio? (convênio ou SUS)</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Quais terapias está fazendo? (Lista de terapias ou tratamentos que a criança/pessoa está fazendo)</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Quais terapias necessita e NÃO está fazendo?</h2>
+                    <input type="text" placeholder="Escreva aqui">
+                </div>
+                <div class="caixas">
+                    <h2>Deixe aqui qualquer observação a mais que você gostaria de fazer e considera importante</h2>
+                    <Textarea placeholder="Escreva aqui"></Textarea>
+                </div>
+                <button>Solicitar cadastro</button>
+            </form>
+        </section>
+        <footer id="footer"></footer>
+        <script type="module">
+            import importComponent from "/js/importComponent.js";
+            importComponent(document.getElementById("footer"), "/components/footer.html");
         </script>
     </body>
 </html>
