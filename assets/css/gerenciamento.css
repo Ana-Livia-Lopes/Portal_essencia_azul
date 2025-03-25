@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat';
+}
+
+.links-pg {
+    color: #00A6FF;
+    margin-bottom: 10px;
+    margin-left: 60px;
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+#titulo1 {
+    color: #1535B5;
+    font-size: 70px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.links-pg-div {
+    margin-top: 60px;
+}
