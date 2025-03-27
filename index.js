@@ -1,3 +1,16 @@
+function tryModules(...modules) {
+    for (const mod of modules) {
+        try {
+            require(mod);
+        } catch {
+            console.error(`Erro ao importar "${mod}". Utilize \x1b[48;2;16;0;48m\x1b[38;2;95;158;160mnpm install\x1b[0m para instalar as dependências do projeto.`);
+            process.exit();
+        }
+    }
+}
+
+tryModules("ws", "chokidar", "mysql", "react", "react-dom");
+
 const { ServerManager } = require("./src/tools");
 
 try { require("./config.json") } catch {

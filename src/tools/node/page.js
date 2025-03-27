@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const Property = require("../property.js");
 const { TypedMap, TypedSet } = require("../collections");
+const chokidar = require("chokidar");
 
 var Page = ( function() {
     const defaultContentTypesForEXT = {
@@ -60,6 +61,9 @@ var Page = ( function() {
     }
 
     const privateCollectionMaps = new WeakMap();
+
+    /** @type {Map<string, chokidar.FSWatcher>} */
+    const chokidarWatchers = new Map();
 
     const Page = class Page {
         constructor(filelocation, pagelocation, pageType = "hypertext", contentType, { statusCode, flags, events } = {}) {
@@ -319,7 +323,7 @@ var Page = ( function() {
             collection.append(...pages);
         }
 
-        static MapDir(dirpath, pathbase = "/", collection) {
+        static MapDir(dirpath, pathbase = "/", collection, syncChanges) {
             if (!(collection instanceof Page.Collection)) throw new TypeError("Collection needs to be a PageCollection instance");
             if (!fs.existsSync(dirpath)) {
                 console.error(new Error(`No directory available in ${dirpath}`));
@@ -350,6 +354,30 @@ var Page = ( function() {
             }
 
             collection.append(...pages);
+
+            if (syncChanges) {
+                const watcher = chokidar.watch(dirpath, { persistent: true, ignoreInitial: true });
+
+                watcher.on("add", newpath => {
+                    const newStat = fs.statSync(newpath);
+                    if (newStat.isFile()) {
+                        collection.append(new Page(
+                            newpath,
+                            path.join(pathbase, path.relative(dirpath, newpath)),
+                            "hypertext"
+                        ));
+                        console.log("adding new page at " + newpath);
+                    }
+                });
+
+                watcher.on("unlink", oldpath => {
+                    collection.remove(path.join(pathbase, path.relative(dirpath, oldpath)).replaceAll("\\", "/"));
+                    console.log("removing old page at " + oldpath);
+                    // nao ta funcionando essa coisa, acho q é o collection remove
+                });
+
+                chokidarWatchers.set(dirpath, watcher);
+            }
         }
 
         static Content = class PageContent {
@@ -451,10 +479,11 @@ var Page = ( function() {
 
             remove(...pages) {
                 const maps = privateCollectionMaps.get(this);
-                for (const page of pages) {
+                for (let page of pages) {
+                    if (typeof page === "string") page = maps.all.get(page);
                     if (page instanceof Page) {
-                        maps.all.delete(page);
-                        maps.simple.delete(page);
+                        maps.all.delete(page.path);
+                        maps.simple.delete(page.path);
                         maps.special.delete(page);
                     }
                 }
