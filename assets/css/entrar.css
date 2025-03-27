@@ -82,6 +82,11 @@ input{
     color: #000000c9;
 }
 
+#link-button{
+    align-self: center;
+    text-decoration: none;
+}
+
 button{
     background-color: #1535B5;
     color: white;
@@ -97,6 +102,7 @@ button{
     margin-bottom: 20px;
     border: none;
     border-radius: 0.2rem;
+    cursor: pointer;
 }
 
 #esq-senha{
@@ -115,4 +121,5 @@ button{
     text-decoration: none;
     color: #0000008b;
     font-weight: 600;
+    cursor: pointer;
 }
