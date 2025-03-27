@@ -97,7 +97,7 @@ var ServerManager = ( function() {
 
         openPageDir(dirpath, pathbase) {
             if (!pathbase.startsWith("/")) pathbase = "/" + pathbase;
-            Page.MapDir(dirpath, pathbase, this.pages);
+            Page.MapDir(dirpath, pathbase, this.pages, true);
         }
 
         openPageList(array, path) {

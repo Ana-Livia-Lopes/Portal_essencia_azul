@@ -193,8 +193,9 @@ declare namespace Page {
      * @param dirpath Localização do diretório.
      * @param pathbase Caminho base que será adicionado no início de todos os arquivos instanciados.
      * @param collection Coleção onde as instâncias serão salvas.
+     * @param syncChanges Coloca o diretório em observação e manipula as páginas conforme o diretório é alterado.
      */
-    export function MapDir(dirpath: string, pathbase: string, collection: PageCollection): void
+    export function MapDir(dirpath: string, pathbase: string, collection: PageCollection, syncChanges?: boolean): void
     /**
      * Mapeia um array com páginas para instanciar.
      * @param array Lista com objetos informando como as páginas serão instanciadas.
