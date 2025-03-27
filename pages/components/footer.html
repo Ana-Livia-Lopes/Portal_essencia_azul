@@ -5,7 +5,124 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <footer id="footer">
-    <img src="/img/puzzle.png" alt="">
-    <img src="/img/puzzle.png" alt="">
+    <img id="puzzle1-footer" src="/img/puzzle.png" alt="">
+    <div id="texto">
+        <h1>Portal Essência Azul</h1>
+        <h2>Grupo de Apoio a Pais de Crianças e Adolescentes portadores de TEA</h2>
+        <div id="info">
+            <div id="endereco-email">
+                <h3>Endereço:</h3>
+                <p>R. Prof. João Batista Ortiz Monteiro, 345 - Vila Antônio Augusto Luiz, Caçapava - SP, 12287-310</p>
+                <h3 id="email">Email:</h3>
+                <p>essenciatea@gmail.com</p>
+            </div>
+            <div id="redes-contato">
+                <ul>
+                    <li class="item-contato"><i class="fa-brands fa-instagram"></i>@essencia.azul</li>
+                    <li class="item-contato"><i class="fa-brands fa-facebook"></i>Essência Azul</li>
+                    <li class="item-contato"><i class="fa-brands fa-whatsapp"></i>(12) 99651-1830 / (12) 99126-3198</li>
+                </ul>
+            </div>
+            <div id="desenvolvedores">
+                <h3>Este site foi desenvolvido pela SmartWeb</h3>
+                <h4>Desenvolvedores:</h4>
+                <ul>
+                    <li>Ana Lívia dos Santos Lopes</li>
+                    <li>Gabriel Reis de Brito</li>
+                    <li>Guilherme Ricardo de Paiva</li>
+                    <li>Isadora Gomes da Silva</li>
+                    <li>Lucas Randal Abreu Balderrama</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <img id="puzzle2-footer" src="/img/puzzle.png" alt="">
 </footer>
+
+<style>
+    #footer{
+        background-color: #4a62be;
+        color: white;
+        font-family: "Montserrat";
+        display: flex;
+        height: 360px;
+    }
+
+    #puzzle1-footer{
+        width: 220px;
+        height:min-content;
+        display: block;
+        margin-right: auto;
+        margin-bottom: auto;
+    }
+
+    #puzzle2-footer{
+        width: 220px;
+        height: min-content;
+        transform: rotate(180deg);
+        display: block;
+        margin-left: auto;
+        margin-top: auto;
+    }
+
+    #texto{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #info{
+        display: flex;
+        gap: 80px;
+        margin-top: 100px;
+        position: absolute;
+    }
+
+    h1{
+        font-size: 27px;
+        margin-bottom: 10px;
+    }
+
+    h2{
+        font-size: 19px;
+    }
+
+    h3{
+        font-size: 18px;
+    }
+
+    h4{
+        margin-top: 10px;
+        font-size: 16px;
+    }
+
+    ul{
+        list-style: none;
+    }
+
+    #endereco-email{
+        width: 300px;
+    }
+
+    #email{
+        margin-top: 15px;
+    }
+
+    #desenvolvedores{
+        width: 300px;
+    }
+
+    .item-contato{
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .fa-brands{
+        font-size: 22px;
+    }
+</style>
+
 </html>
