@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/css/gerenciamento.css">
-        <title>Gerenciamento - Portal Essência Azul</title>
-    </head>
-    <body>
-        <header id="header"></header>
-        <script type="module">
-            import importComponent from "/js/importComponent.js";
-            importComponent(document.getElementById("header"), "/components/header.html");
-        </script>
 
-        <h1 id="titulo1">Gerenciamento</h1>
-        <div class="links-pg-div">            
-            <h3 class=""><a class="links-pg" href="./cadastrar_adm.html">+ Cadastrar administrador</a></h3>
-            <h3 class="links-pg">+ Cadastrar acolhido</h3>
-            <h3 class="links-pg">Solicitações de cadastro</h3>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/gerenciamento.css">
+    <title>Gerenciamento - Portal Essência Azul</title>
+</head>
+
+<body>
+    <header id="header"></header>
+    <script type="module">
+        import importComponent from "/js/importComponent.js";
+        importComponent(document.getElementById("header"), "/components/header.html");
+    </script>
+
+    <h1 id="titulo1">Gerenciamento</h1>
+    <div class="links-pg-div">
+        <h3><a href="./cadastrar_adm.html">+ Cadastrar administrador</a></h3>
+        <h3><a href="">+ Cadastrar acolhido</a></h3>
+        <h3><a href="">Solicitações de cadastro</a></h3>
+    </div>
+
+    <div id="atalhos">
+        <div id="botoes-direita">
+            <button class="botao">Voluntários</button>
+            <button class="botao">Administradores</button>
+            <button class="botao">Famílias</button>
+            <button class="botao-esp">Relatórios</button>
+            <button class="botao-esp">Acolhidos</button>
         </div>
+    </div>
+</body>
 
-        <div id="botoes">
-
-        </div>
-    </body>
 </html>

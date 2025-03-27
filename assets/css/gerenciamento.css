@@ -4,14 +4,6 @@
     font-family: 'Montserrat';
 }
 
-.links-pg {
-    color: #00A6FF;
-    margin-bottom: 10px;
-    margin-left: 60px;
-    margin-top: 10px;
-    text-decoration: none;
-}
-
 #titulo1 {
     color: #1535B5;
     font-size: 70px;
@@ -22,4 +14,83 @@
 
 .links-pg-div {
     margin-top: 60px;
+}
+
+.links-pg-div h3 {
+    margin-bottom: 20px;
+}
+
+.links-pg-div h3 a:hover {
+    color: #0033CC;
+}
+
+.links-pg-div h3 a {
+    color: #00A6FF;
+    text-decoration: none;
+    margin-left: 60px;
+    margin-top: 10px;
+}
+
+.botao {
+    background-color: #1535B5;
+    color: #fff;
+    padding: 13px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    font-size: 14px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.botao:hover {
+    background-color: #142e96;
+}
+
+#atalhos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px;
+}
+
+#botao-esquerda {
+    flex: 1;
+}
+
+.botao-esp {
+    background-color: #1535B5;
+    color: #fff;
+    padding: 13px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    font-size: 14px;
+    transition: all 0.3s;
+    cursor: pointer;
+    width: 80px;
+}
+
+.botao-esp:hover {
+    background-color: #142e96;
+}
+
+#botoes-direita {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+    max-width: 400px; /* Ajuste para manter um alinhamento melhor */
+}
+
+#botoes-direita button {
+    flex: 1 1 auto;
+    white-space: nowrap;
+}
+
+#botoes-direita button:nth-child(4) {
+    width: 120px; /* Ajuste conforme necessário */
+    align-self: center;
 }
