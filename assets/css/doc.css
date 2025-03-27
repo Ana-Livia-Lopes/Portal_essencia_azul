@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#section1 {
+    background: url('/img/docBanner1.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    text-align: center;
+    padding-top: 2em;
+    height: 500px;
+}
+#section1 div h1 {
+    color: #FDFBD6;
+    font-family: 'Montserrat';
+    font-size: 35px;
+    font-weight: 700;
+    margin-top: 180px;
+    text-align: center;
+    text-shadow: 1px 2px 2px black;
+}
+#section2 div{
+    background-color: #fdfbd6fd;
+    margin: 30px;
+    padding: 20px;
+    border-radius: 7px;
+    width: 40%;
+    font-family: 'Montserrat';
+}

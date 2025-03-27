@@ -58,6 +58,10 @@ var DataTypes = ( function() {
         arquivo;
     }
 
+    const Imagem = class Imagem {
+        
+    }
+
     const Admin = class Admin {
         id;
         nome;

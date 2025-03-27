@@ -348,7 +348,57 @@ body {
     display: block;
 }
 /* fim secão 4 */
-
+/* seção 5 */
+.quadrado{
+  position: absolute;
+  z-index: 1;
+}
+.objmeto{
+  width: 350px;
+  
+}
+.imgQuadrado{
+  position: absolute;
+  z-index: 2;
+}
+#secao5{
+  position: relative;
+  height: 1000px;
+}
+.meto{
+  left: 30%;
+  top: 78%;
+  transform: translate(-50%, -50%);
+}
+.obj{
+  left: 18%;
+  top: 15%;
+}
+#linhaLateral{
+  position: absolute;
+  left: 10%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  width: 7px;
+  height: 85%;
+  background-color: #0033cc;
+  border-radius: 10px;
+}
+#t1{
+  position: absolute;
+  left: 13%;
+  top: 15%;
+  font-weight: bold;
+  color: rgb(40, 40, 185);
+}
+#t2{
+  position: absolute;
+  left: 13%;
+  top: 60%;
+  font-weight: bold;
+  color: rgb(40, 40, 185);
+}
+/* fim seção 5 */
 /* secao 6 */
 #secao6 {
   display: flex;

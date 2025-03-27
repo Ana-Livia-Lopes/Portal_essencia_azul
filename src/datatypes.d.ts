@@ -1,12 +1,10 @@
-declare class Acolhido {
+declare class AcolhidoBase {
     private id: number
     nome: string
     idade: number
     email: string
     telefone: string[]
     nome_responsaveis: string[]
-    private id_familia: number
-    familia: Familia
     nivel_suporte: 1 | 2 | 3
     escola: {
         nome: string,
@@ -28,8 +26,14 @@ declare class Acolhido {
     terapias_precisa: string[]
 
     observacoes: string
-    private ids_documentos: number[]
+}
 
+declare class Acolhido extends AcolhidoBase {
+    private id_familia: number
+    
+    familia: Familia
+
+    private ids_documentos: number[]
     get documentos(): Documento[]
 }
 
@@ -44,13 +48,6 @@ declare class Familia {
     private id: number
     sobrenome: string
     endereco: string
-
-    // get total_residentes(): (Acolhido | Residente)[] // Todos os residentes, incluindo acolhidos
-    
-    // get acolhidos(): Acolhido[] // Somente acolhidos
-    // get outros_residentes(): Residente[] // Outros residentes não acolhidos
-    // get outros_residentes_autistas(): Residente[] // Somente residentes não acolhidos autistas
-    // get outros_residentes_investigacao(): Residente[] // Somente residentes não acolhidos em investigação
 
     get acolhidos(): Acolhido[]
     get residentes(): Residente[]
@@ -94,7 +91,7 @@ declare class Imagem {
     conteudo: Blob
 }
 
-declare class SolicitacaoAcolhido {}
+declare class SolicitacaoAcolhido extends AcolhidoBase {}
 
 declare class SolicitacaoVoluntario {
     private id: number
@@ -106,17 +103,26 @@ declare class SolicitacaoVoluntario {
     por_que_ser_voluntario: string
 }
 
-declare class RegistroAlteracao {
+declare interface AlteracaoBase {
+    tabela: string
+    id: string
+}
+
+type TipoAlteracao = "adicionar" | "remover" | "editar"
+
+declare type Alteracao<A extends TipoAlteracao> =
+    A extends "adicionar" ? AlteracaoBase & { tupla: object } :
+    A extends "remover" ? AlteracaoBase & { tupla: object } :
+    A extends "editar" ? AlteracaoBase & { campo: string, valor_novo: any, valor_antigo: any } : null
+
+declare class RegistroAlteracao<A extends TipoAlteracao> {
+    constructor(tipo: A)
+
     private id: number
     private id_admin: number
     get admin(): Admin
     data: Date
-    description: string
-    alteracao: {
-        tabela: string
-        campo: string
-        id: number
-        valor_novo: any
-        valor_antigo: any
-    }
+    descricao: string
+    acao: A
+    alteracao: Alteracao<A>
 }
