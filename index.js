@@ -12,6 +12,8 @@ function tryModules(...modules) {
 tryModules("ws", "chokidar", "mysql", "react", "react-dom");
 
 const { ServerManager } = require("./src/tools");
+const path = require("path");
+const fs = require("fs");
 
 try { require("./config.json") } catch {
     const fs = require("fs");
@@ -38,16 +40,17 @@ deployPages(server);
 process.stdin.on("data", data => {
     data = data.toString("utf-8").replace("\r\n", "").trim();
 
-    if (data === "pages") console.table([...server.pages.values()].map(
+    if (data === "pages") return console.table([...server.pages.values()].map(
         p => ({ path: p.path, ["content-type"]: p.contentType, file: p.filelocation })
     ));
-    if (data === "pages reload") deployPages(server);
+    if (data === "pages reload") return deployPages(server);
 
     if (data === "help") {
         console.table([
             { command: "pages", description: "Lista as páginas existentes." },
             { command: "pages reload", description: "Reinstancia as páginas da pages_list.js e dos diretórios automáticos." }
         ]);
+        return;
     }
 });
 

@@ -2,6 +2,8 @@ import http, { IncomingMessage, ServerOptions, ServerResponse } from "http"
 import WebSocket, { WebSocketServer } from "ws"
 import net from "net"
 import Page from "./page"
+import Session from "./session"
+import Component from "./component"
 
 declare class APIManager {
     private map: Map<string, object>
@@ -15,7 +17,8 @@ declare class ServerManager<Req extends typeof IncomingMessage = typeof Incoming
 
     // readonly websocket: WebSocketServer
     readonly pages: Page.Collection
-    readonly sessions: unknown
+    readonly sessions: Session.Collection
+    readonly components: Component.Collection
     APIObjects: object
 
     setAPI(name: string, api: object): void

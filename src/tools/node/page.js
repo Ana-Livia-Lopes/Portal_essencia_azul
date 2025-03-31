@@ -152,7 +152,7 @@ var Page = ( function() {
 
         _valid = true;
 
-        async load({ query, body, params, session, server, content, page, request, response, localhooks } = { }, apis = {}) {
+        async load({ query, body, params, session, server, content, page, request, response, components, localhooks } = { }, apis = {}) {
             if (this.events.before) {
                 try {
                     await this.events.before.forEach(async event => {
@@ -184,13 +184,16 @@ var Page = ( function() {
                 switch (this.pageType) {
                     default:
                     case "hypertext":
-                        const data = await fs.promises.readFile(this.filelocation);
+                        let data = await fs.promises.readFile(this.filelocation);
+                        if (page?.contentType === "text/html") {
+                            data = await components?.load(data.toString("utf-8"));
+                        }
                         content.append(data);
                         return data;
                     case "execute":
                         delete require.cache[require.resolve(this.filelocation)];
                         const execute = require(this.filelocation);
-                        const result = await execute({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
+                        const result = await execute({ query, body, params, session, server, content, page, request, response, components, localhooks }, apis);
                         if (result) content.append(result); 
                         return result;
                 }

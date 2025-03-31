@@ -13,8 +13,11 @@ var Operations = ( function() {
         });
     }
 
+    function login(session, username, password) {}
+
     return {
-        connect
+        connect,
+        login
     };
 } )();
 

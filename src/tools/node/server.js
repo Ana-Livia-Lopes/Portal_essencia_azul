@@ -4,6 +4,7 @@ const Session = require("./session");
 const url = require("url");
 const Cookie = require("../util/cookie.js");
 const ws = require("ws");
+const Component = require( "./component.js" );
 
 var ServerManager = ( function() {
     
@@ -63,7 +64,7 @@ var ServerManager = ( function() {
                     response.setHeader("Content-Type", page.contentType);
                     if (page.statusCode) response.statusCode = page.statusCode;
 
-                    const load = page.load({ query, body, params, content, page, request, response, server: this, session, localhooks }, this.APIObjects);
+                    const load = page.load({ query, body, params, content, page, request, response, server: this, components: this.components, session, localhooks }, this.APIObjects);
 
                     collectingContentPromises.push(load);
                 } else {
@@ -89,6 +90,7 @@ var ServerManager = ( function() {
 
         pages = new Page.Collection();
         sessions = new Session.Collection("HTTP");
+        components = new Component.Collection();
         APIObjects = {};
 
         setAPI(name, object) {

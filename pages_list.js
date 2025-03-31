@@ -5,9 +5,10 @@
 /**
  * @type {{
  *      pages: PageListObject[],
- *      dirs: {
- *          dirlocation: string,
- *          basepath: string
+ *      components: {
+ *          filelocation: string,
+ *          name: string,
+ *          type: "hypertext" | "execute"
  *      }[]
  * }}
  */
@@ -64,6 +65,12 @@ module.exports = {
         {
             filelocation: "cadastrar_adm.html",
             pagelocation: "cadastrar_adm"
+        }
+    ],
+    components: [
+        {
+            name: "header",
+            filelocation: "header.html"
         }
     ]
 }

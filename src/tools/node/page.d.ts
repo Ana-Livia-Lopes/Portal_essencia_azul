@@ -1,6 +1,7 @@
 import { ServerResponse, IncomingMessage, Server } from "http"
 import ServerManager from "./server"
 import Session from "./session"
+import Component from "./component"
 
 type ContentType = "text/html"|"text/plain"|"text/css"|"text/javascript"|"application/json"|"application/xml"|"application/octet-stream"|"image/png"|"image/jpeg"|"image/svg+xml"|"image/gif"|"image/webp"|"image/x-icon"|"image/vnd.microsoft.icon"|"image/vnd.wap.wbmp"|"image/bmp"|"image/tiff"|"image/x-xbitmap"|"image/vnd.djvu"|"image/x-portable-pixmap"|"image/x-portable-anymap"|"image/x-portable-bitmap"|"image/x-portable-graymap"
 type PageType = "hypertext"|"execute"
@@ -16,6 +17,7 @@ interface PageLoadParameters {
     page: Page
     request: IncomingMessage
     response: ServerResponse
+    components: Component.Collection
     localhooks: object
     apis?: ServerAPIObjects
 }
