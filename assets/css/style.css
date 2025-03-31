@@ -117,16 +117,12 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(279px, 1fr));
   place-items: center;
-  height: 80vh;
-  padding-left: 10%;
-  padding-right: 10%;
+  padding: 4% 10%;
 }
 
 :root {
   /* Colors */
   --brand-color: hsl(46, 100%, 50%);
-  --black: hsl(0, 0%, 0%);
-  --white: hsl(0, 0%, 100%);
   /* Fonts */
   --font-title: "Montserrat", sans-serif;
   --font-text: "Lato", sans-serif;
@@ -135,7 +131,7 @@ body {
 .card__title {
   font-size: 2.25rem;
   font-family: var(--font-title);
-  color: var(--white);
+  color: white;
   line-height: 0.3;
 }
 
@@ -143,7 +139,7 @@ body {
   font-family: var(--font-text);
   font-size: 1rem;
   line-height: 1.5;
-  color: var(--white);
+  color: white;
 }
 
 .flow > * + * {
@@ -221,7 +217,7 @@ body {
   background-color: var(--brand-color);
   font-family: var(--font-title);
   font-size: 1.125rem;
-  color: var(--black);
+  color: black;
 }
 
 .card__button:focus {
@@ -365,14 +361,41 @@ body {
   position: relative;
   height: 1000px;
 }
+.textObjmeto{
+  position: absolute;
+  width: 34%;
+  font-size: 20px;
+  text-align: justify;
+}
+.titleObjmeto{
+  position: absolute;
+  font-size: 26px;
+  color: #0033cc;
+}
+.obj{
+  left: 18%;
+  top: 15%;
+}
+.textObj{
+  left: 53%;
+  top: 25%;
+}
+.titleObj{
+  left: 53%;
+  top: 18%;
+}
 .meto{
   left: 30%;
   top: 78%;
   transform: translate(-50%, -50%);
 }
-.obj{
-  left: 18%;
-  top: 15%;
+.textMeto{
+  left: 53%;
+  top: 70%;
+}
+.titleMeto{
+  left: 53%;
+  top: 63%;
 }
 #linhaLateral{
   position: absolute;
@@ -450,6 +473,7 @@ body {
         right: 10%;
         left: 10%;
         top: 55%;
+        font-size: 16px;
     }
     .imagem img {
         display: none;
@@ -464,5 +488,101 @@ body {
         top: 50%;
         width: 4px;
         height: 80%;
+    }
+    #logo{
+      width: 23%;
+    }
+    #secao3 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .card {
+        width: 90%;
+        margin-bottom: 20px;
+        height: 225px;
+    }
+    
+    #secao6 {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        margin-top: 90px;
+    }
+    .card__content {
+      height: 90%;
+
+    }
+    .card__title {
+      margin-bottom: 40px;
+      font-size: 2rem;
+    }
+    .card__description {
+      font-size: 1.1rem;
+    }
+    #secao3 {
+      padding: 9% 10%;
+    }
+    
+    .objmeto{
+      width: 220px;
+    }
+    .obj{
+      left: 30%;
+      top: 13%;
+    }
+    .meto{
+      left: 55%;
+      top: 65%;
+    }
+    .textObjmeto{
+      width: 60%;
+      font-size: 15px;
+    }
+    .titleObjmeto{
+      font-size: 24px;
+    }
+    .textObj{
+      left: 27%;
+      top: 35%;
+    }
+    .titleObj{
+      left: 27%;
+      top: 30%;
+    }
+    .textMeto{
+      left: 27%;
+      top: 80%;
+    }
+    .titleMeto{
+      left: 27%;
+      top: 75%;
+    }
+    #linhaLateral{
+      width: 5px;
+    }
+    #t2{
+      left: 13%;
+      top: 55%;
+    }
+    #secao5{
+      height: 1300px;
+    }
+    #menino{
+      display: none;
+    }
+    .texto2 {
+      margin-left: 0px;
+      
+    }
+    #textoAjuda {
+      font-size: 130%;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #tituloAjuda {
+      font-size: 200%;
     }
 }
