@@ -2,6 +2,7 @@
     font-family: 'Montserrat';
     padding: 0;
 }
+
 #section1 {
     background: url('/img/docBanner1.png') no-repeat center center;
     background-size: cover;
@@ -10,55 +11,96 @@
     padding-top: 2em;
     height: 500px;
 }
+
 #section1 div h1 {
+    width: 70%;
+    margin-right: auto;
+    margin-left: auto;
     color: #FDFBD6;
-    font-size: 35px;
+    font-size: 37px;
     font-weight: 700;
-    margin-top: 180px;
+    margin-top: 160px;
     text-align: center;
     text-shadow: 1px 2px 2px black;
 }
-#section2{
-    margin-bottom: 150px;
+
+#section2 {
+    margin-bottom: 90px;
 }
-#section2 .box{
+
+#section2 .box {
     background-color: #fdfbd6fd;
-    margin: 30px;
-    padding: 18px;
+    margin: 50px;
+    padding: 13px;
     border-radius: 7px;
-    width: 50%;
+    width: 45%;
 }
-#section2 p{
-    margin: 15px;
+
+#section2 p {
+    margin: 12px;
     text-align: justify;
     font-size: 18px;
 }
-#section2 #imgSec2{
-    float: right;
-    margin-right: 120px;
+
+#section2 #imgSec2 {
+    margin-left: 950px;
+    position: absolute;
+    top: 624px;
 }
-#section2 img{
-    width: 360px;
-    height: 367px;
+
+#section2 img {
+    width: 405px;
+    height: 414px;
 }
-#section3 .box2{
+
+#section3 .box2 {
     width: 40%;
     float: right;
     padding: 10px;
-    margin-right: 90px;
+    margin-right: 135px;
 }
-#section3 h2{
-    color:#1535B5;
+
+#section3 h2 {
+    color: #1535B5;
     text-align: center;
-    font-size: 30px;
-    margin-top: 80px;
+    font-size: 32px;
+    margin-top: 110px;
+    margin-bottom: 50px;
 }
-#section3 p{
+
+#section3 p {
     font-size: 20px;
     text-align: justify;
 }
-#section3 img{
-    width: 600px;
-    height: 380px;
-    margin: 30px;
+
+#section3 img {
+    width: 630px;
+    height: 390px;
+    margin: 53px;
+}
+
+#section3 #box3 {
+    width: 68%;
+}
+
+#section3 #barra {
+    position: absolute;
+    left: 5%;
+    top: 218%;
+    transform: translate(-50%, -50%);
+    width: 7px;
+    height: 12%;
+    background-color: #0033cc;
+    border-radius: 10px;
+}
+
+#section3 p {
+    margin-left: 95px;
+    margin-top: 12px;
+}
+
+#section3 a {
+    color: black;
+    font-weight: 700;
+    text-decoration: underline;
 }
