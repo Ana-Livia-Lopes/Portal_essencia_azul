@@ -65,6 +65,10 @@ module.exports = {
         {
             filelocation: "cadastrar_adm.html",
             pagelocation: "cadastrar_adm"
+        },
+        {
+            filelocation: "dev.html",
+            pagelocation: "dev"
         }
     ],
     components: [
@@ -84,6 +88,11 @@ module.exports = {
         {
             name: "date",
             filelocation: "date.js",
+            type: "execute"
+        },
+        {
+            name: "sessionId",
+            filelocation: "sessionId.js",
             type: "execute"
         }
     ]

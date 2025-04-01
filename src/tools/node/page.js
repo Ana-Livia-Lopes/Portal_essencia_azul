@@ -180,6 +180,8 @@ var Page = ( function() {
                 }
             }
 
+            let toReturn;
+
             try {
                 switch (this.pageType) {
                     default:
@@ -189,13 +191,15 @@ var Page = ( function() {
                             data = await components?.load(data.toString("utf-8"), { query, body, params, session, server, content, page, request, response, components, localhooks, apis });
                         }
                         content.append(data);
-                        return data;
+                        toReturn = data;
+                        break;
                     case "execute":
                         delete require.cache[require.resolve(this.filelocation)];
                         const execute = require(this.filelocation);
                         const result = await execute({ query, body, params, session, server, content, page, request, response, components, localhooks }, apis);
                         if (result) content.append(result); 
-                        return result;
+                        toReturn = result;
+                        break;
                 }
             } catch(err) {
                 content.clear();
@@ -205,11 +209,15 @@ var Page = ( function() {
 
             if (this.events.after) {
                 try {
-                    await this.events.after({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
+                    await this.events.after.forEach(async event => {
+                        await event({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
+                    });
                 } catch (err) {
                     console.error(err);
                 }
             }
+
+            return toReturn;
         }
 
         match(url) {
@@ -548,6 +556,8 @@ var Page = ( function() {
 
     Object.freeze(Page.Flags);
     Property.set(Page, "Flags", "freeze", "lock");
+
+    Page.MapDir.watchers = chokidarWatchers;
 
     return Page;
 } )();

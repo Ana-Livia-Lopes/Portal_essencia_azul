@@ -39,7 +39,7 @@ console.log("\x1b[38;2;169;169;169mDigite \x1b[48;2;16;0;48m\x1b[38;2;95;158;160
 const config = require("./config.json");
 const deployPages = require("./pages.js");
 
-const server = new ServerManager();
+const server = new ServerManager({ componentRequests: true });
 deployPages(server);
 
 require("./terminal.js")(server);

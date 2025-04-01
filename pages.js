@@ -4,6 +4,7 @@
 
 const path = require("path");
 const Component = require( "./src/tools/node/component.js" );
+const Page = require("./src/tools/node/page.js");
 
 /**
  * @param {ServerManager} server 
@@ -13,6 +14,9 @@ module.exports = function deployPages(server) {
 
     delete require.cache[require.resolve("./pages_list.js")];
     const { pages, components } = require("./pages_list");
+
+    for (const watcher of Page.MapDir.watchers.values()) watcher.close();
+    Page.MapDir.watchers.clear();
 
     server.openPageDir(path.resolve(__dirname, "./assets/"), "/");
     server.openPageDir(path.resolve(__dirname, "./pages/components"), "/components/");

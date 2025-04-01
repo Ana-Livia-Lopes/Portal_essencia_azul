@@ -2,6 +2,7 @@ import { ServerResponse, IncomingMessage, Server } from "http"
 import ServerManager from "./server"
 import Session from "./session"
 import Component from "./component"
+import { FSWatcher } from "chokidar"
 
 type ContentType = "text/html"|"text/plain"|"text/css"|"text/javascript"|"application/json"|"application/xml"|"application/octet-stream"|"image/png"|"image/jpeg"|"image/svg+xml"|"image/gif"|"image/webp"|"image/x-icon"|"image/vnd.microsoft.icon"|"image/vnd.wap.wbmp"|"image/bmp"|"image/tiff"|"image/x-xbitmap"|"image/vnd.djvu"|"image/x-portable-pixmap"|"image/x-portable-anymap"|"image/x-portable-bitmap"|"image/x-portable-graymap"
 type PageType = "hypertext"|"execute"
@@ -198,6 +199,8 @@ declare namespace Page {
      * @param syncChanges Coloca o diretório em observação e manipula as páginas conforme o diretório é alterado.
      */
     export function MapDir(dirpath: string, pathbase: string, collection: PageCollection, syncChanges?: boolean): void
+
+    MapDir.watchers = new Map<string, FSWatcher>
     /**
      * Mapeia um array com páginas para instanciar.
      * @param array Lista com objetos informando como as páginas serão instanciadas.
