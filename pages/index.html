@@ -1,124 +1,157 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Portal Essência Azul</title>
-        <link rel="stylesheet" href="/css/style.css">
-    </head>
-    <body>
-        <header id="header"></header>
-        <script type="module">
-            import component from "/js/importComponent.js";
-            component( document.getElementById("header"), "/components/header.html" );
-        </script>
-        <section id="secao1">
 
-            <div class="animated-title">
-                <div class="text-top">
-                    <div>
-                        <span>Associação</span>
-                    </div>
-                </div>
-                <div class="text-bottom">
-                    <div>Essência Azul</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Essência Azul</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <component name="header" />
+    <section id="secao1">
+
+        <div class="animated-title">
+            <div class="text-top">
+                <div>
+                    <span>Associação</span>
                 </div>
             </div>
-
-            <p id="sobre">Nós da Essência Azul somos uma ONG que apoia e traz auxílio para pessoas autistas e suas famílias,
-                promovendo inclusão e conscientização.</p>
-            <img id="logo" src="/img/logo.png" alt="logo">
-        </section>
-
-        <!-- galeria -->
-        <h2>Galeria de Fotos</h2>
-        <section id="secao2">
-        </section>
-        <!-- cards -->
-        <section id="secao3">
-            <article class="card">
-                <img class="card__background" src="/img/missao.png" width="1920" height="2193" />
-                <div class="card__content | flow">
-                    <div class="card__content--container | flow">
-                        <h2 class="card__title">Missão</h2>
-                        <p class="card__description">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
-                            labore laudantium deserunt fugiat numquam.
-                        </p>
-                    </div>
-
-                </div>
-            </article>
-            <article class="card">
-                <img class="card__background" src="/img/visao.png" width="1920" height="2193" />
-                <div class="card__content | flow">
-                    <div class="card__content--container | flow">
-                        <h2 class="card__title">Visão</h2>
-                        <p class="card__description">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
-                            labore laudantium deserunt fugiat numquam.
-                        </p>
-                    </div>
-
-                </div>
-            </article>
-            <article class="card">
-                <img class="card__background" src="/img/valores.png" width="1920" height="2193" />
-                <div class="card__content | flow">
-                    <div class="card__content--container | flow">
-                        <h2 class="card__title">Valores</h2>
-                        <p class="card__description">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
-                            labore laudantium deserunt fugiat numquam.
-                        </p>
-                    </div>
-
-                </div>
-            </article>
-        </section>
-        <!-- entenda sobre -->
-        <section id="secao4">
-
-            <div class="texto">
-                <div class="linha"></div>
-                <p id="entenda">Entenda sobre os documentos de identificação</p>
-                <a href="#" class="botao">clique aqui</a>
+            <div class="text-bottom">
+                <div>Essência Azul</div>
             </div>
-            <div class="imagem">
-                <img src="/img/sobreDocumentos.png">
+        </div>
+
+        <p id="sobre">Nós da Essência Azul somos uma ONG que apoia e traz auxílio para pessoas autistas e suas famílias,
+            promovendo inclusão e conscientização.</p>
+        <img id="logo" src="/img/logo.png" alt="logo">
+    </section>
+
+    <!-- galeria -->
+    <h2>Galeria de Fotos</h2>
+    <section id="secao2">
+    </section>
+    <!-- cards -->
+    <section id="secao3">
+        <article class="card">
+            <img class="card__background" src="/img/missao.png" width="1920" height="2193" />
+            <div class="card__content | flow">
+                <div class="card__content--container | flow">
+                    <h2 class="card__title">Missão</h2>
+                    <p class="card__description">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                        labore laudantium deserunt fugiat numquam.
+                    </p>
+                </div>
+
             </div>
-        </section>
-        <!-- objetivo -->
-        <section id="secao5">
-            <div id="linhaLateral"></div>
-            <p id="t1">1</p>
-            <p id="t2">2</p>
-                <img class="quadrado obj objmeto" src="/img/retangulo.png">
-                <img class="imgQuadrado obj objmeto" src="/img/objetivo.png">
-                <p class="titleObjmeto titleObj">Objetivo:</p>
-                <p class="textObjmeto textObj">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                </p>
-                <img class="quadrado meto objmeto" src="/img/retangulo.png">
-                <img class="imgQuadrado meto objmeto" src="/img/metodologia.png">
-                <p class="titleObjmeto titleMeto">Metodologia:</p>
-                <p class="textObjmeto textMeto">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                </p>
-        </section>
-        <!-- ajuda -->
-        <section id="secao6">
-            <div class="texto2">
-                <div class="ajuda"></div>
-                <h2 id="tituloAjuda">Precisa de ajuda?</h2>
-                <p id="textoAjuda">Responda ao formulário e faça parte dessa causa!</p>
-                <a href="#" class="botao2">clique aqui</a>
+        </article>
+        <article class="card">
+            <img class="card__background" src="/img/visao.png" width="1920" height="2193" />
+            <div class="card__content | flow">
+                <div class="card__content--container | flow">
+                    <h2 class="card__title">Visão</h2>
+                    <p class="card__description">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                        labore laudantium deserunt fugiat numquam.
+                    </p>
+                </div>
+
             </div>
-            <img id="menino" src="/img/menino.png">
-        </section>
-        <script type="module">
-            import component from "/js/importComponent.js";
-            component( document.getElementById("footer"), "/components/footer.html" );
-        </script>
-    </body>
+        </article>
+        <article class="card">
+            <img class="card__background" src="/img/valores.png" width="1920" height="2193" />
+            <div class="card__content | flow">
+                <div class="card__content--container | flow">
+                    <h2 class="card__title">Valores</h2>
+                    <p class="card__description">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                        labore laudantium deserunt fugiat numquam.
+                    </p>
+                </div>
+
+            </div>
+        </article>
+    </section>
+    <!-- entenda sobre -->
+    <section id="secao4">
+
+        <div class="texto">
+            <div class="linha"></div>
+            <p id="entenda">Entenda sobre os documentos de identificação</p>
+            <a href="#" class="botao">clique aqui</a>
+        </div>
+        <div class="imagem">
+            <img src="/img/sobreDocumentos.png">
+        </div>
+    </section>
+    <!-- objetivo -->
+    <section id="secao5">
+        <div id="linhaLateral"></div>
+        <p id="t1">1</p>
+        <p id="t2">2</p>
+        <img class="quadrado obj objmeto" src="/img/retangulo.png">
+        <img class="imgQuadrado obj objmeto" src="/img/objetivo.png">
+        <p class="titleObjmeto titleObj">Objetivo:</p>
+        <p class="textObjmeto textObj">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
+            electronic typesetting, remaining essentially unchanged.
+        </p>
+        <img class="quadrado meto objmeto" src="/img/retangulo.png">
+        <img class="imgQuadrado meto objmeto" src="/img/metodologia.png">
+        <p class="titleObjmeto titleMeto">Metodologia:</p>
+        <p class="textObjmeto textMeto">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
+            electronic typesetting, remaining essentially unchanged.
+        </p>
+    </section>
+    <!-- ajuda -->
+    <section id="secao6">
+        <div class="texto2">
+            <div class="ajuda"></div>
+            <h2 id="tituloAjuda">Precisa de ajuda?</h2>
+            <p id="textoAjuda">Responda ao formulário e faça parte dessa causa!</p>
+            <a href="#" class="botao2">clique aqui</a>
+        </div>
+        <img id="menino" src="/img/menino.png">
+    </section>
+    <section id="secao7">
+        <img src="/img/linha.png" id="quebraCabeca">
+        <div id="apoiadores">
+            <div class="button"><span class="arrow">» » »</span></div>
+            <div class="button"><span id="textApoiadores">Apoiadores</span></div>
+            <div class="button"><span class="arrow reverse">« « «</span></div>
+        </div>
+        <div class="cardsApoiadores">
+            <div class="apoiador">
+                <div class="header">
+                    <p id="pontos">...</p>
+                </div>
+                <div class="title">Nome do Apoiador</div>
+                <img src="/img/logo.png" alt="Imagem" class="image">
+            </div>
+            <div class="apoiador">
+                <div class="header">
+                    <p id="pontos">...</p>
+                </div>
+                <div class="title">Nome do Apoiador</div>
+                <img src="/img/logo.png" alt="Imagem" class="image">
+            </div>
+            <div class="apoiador">
+                <div class="header">
+                    <p id="pontos">...</p>
+                </div>
+                <div class="title">Nome do Apoiador</div>
+                <img src="/img/logo.png" alt="Imagem" class="image">
+            </div>
+        </div>
+    </section>
+    <component name="footer" />
+</body>
+
 </html>
