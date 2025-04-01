@@ -26,6 +26,7 @@ const ConsoleStyle = require("./util/consolestyle.js");
 
 const Page = require("./node/page.js");
 const Session = require("./node/session.js");
+const Component = require("./node/component.js");
 const ServerManager = require("./node/server.js");
 
 const Compatibility = require("./client/compatibility.js");
@@ -54,6 +55,7 @@ module.exports = {
     ConsoleStyle,
     Page,
     Session,
+    Component,
     ServerManager,
     Compatibility
 }

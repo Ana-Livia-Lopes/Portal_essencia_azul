@@ -5,7 +5,7 @@ var Component = ( function() {
     const validstr = require("../base/string_valid.js");
     const Property = require("../property.js");
 
-    async function replaceComponents(html = "", components) {
+    async function replaceComponents(html = "", components, pageParameters) {
         let replacedHtml = html;
     
         while (componentRegExp.test(replacedHtml)) {
@@ -27,7 +27,7 @@ var Component = ( function() {
             if (attrObject?.name) {
                 let component = components.get(attrObject.name);
                 if (component) {
-                    let componentHtml = await component.open(attrObject);
+                    let componentHtml = await component.open(attrObject, pageParameters);
                     replacedHtml = replacedHtml.replace(componentRegExp, componentHtml);
                 } else {
                     console.warn(`Component ${attrObject.name} not found`);
@@ -59,14 +59,14 @@ var Component = ( function() {
         filelocation;
         type;
 
-        async open(parameters) {
+        async open(parameters, pageParameters) {
             try {
                 switch (this.type) {
                     case "hypertext":
                         return await fs.promises.readFile(this.filelocation);
                     case "execute":
                         delete require.cache[require.resolve(this.filelocation)];
-                        return await require(this.filelocation)(parameters);
+                        return await require(this.filelocation)(parameters, pageParameters);
                     default:
                         throw new TypeError(`Component ${this.name} type is not supported`);
                 }
@@ -106,11 +106,11 @@ var Component = ( function() {
             }
         }
 
-        async load(html) {
+        async load(html, pageParameters) {
             if (typeof html !== "string") throw new TypeError("html must be a string");
             const components = privateCompCollections.get(this);
 
-            return await replaceComponents(html, components);
+            return await replaceComponents(html, components, pageParameters);
         }
 
         *keys() {

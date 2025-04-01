@@ -31,28 +31,18 @@ try { require("./config.json") } catch {
     }));
 }
 
+console.clear();
+
+console.log("\n\x1b[1m\x1b[38;2;0;51;204mBem vindo ao servidor do Portal Essência Azul\x1b[0m");
+console.log("\x1b[38;2;169;169;169mDigite \x1b[48;2;16;0;48m\x1b[38;2;95;158;160mhelp\x1b[0m\x1b[38;2;169;169;169m para listar os comandos do servidor.\n\n\x1b[0m");
+
 const config = require("./config.json");
 const deployPages = require("./pages.js");
 
 const server = new ServerManager();
 deployPages(server);
 
-process.stdin.on("data", data => {
-    data = data.toString("utf-8").replace("\r\n", "").trim();
-
-    if (data === "pages") return console.table([...server.pages.values()].map(
-        p => ({ path: p.path, ["content-type"]: p.contentType, file: p.filelocation })
-    ));
-    if (data === "pages reload") return deployPages(server);
-
-    if (data === "help") {
-        console.table([
-            { command: "pages", description: "Lista as páginas existentes." },
-            { command: "pages reload", description: "Reinstancia as páginas da pages_list.js e dos diretórios automáticos." }
-        ]);
-        return;
-    }
-});
+require("./terminal.js")(server);
 
 server.listen(config.server.port, config.server.port);
 server.on("listening", () => {

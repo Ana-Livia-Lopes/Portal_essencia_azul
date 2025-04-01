@@ -205,6 +205,8 @@ declare namespace Page {
      * @param pathCorrectionBase Caminho base de localização dos arquivos da lista.
      */
     export function LoadList(array: PageListObject[], collection: PageCollection, pathCorrectionBase: string): void
+    
+    export type ExecutePageFunction = (parameters: PageLoadParameters, apis: object) => string|Buffer
 }
 
 export = Page

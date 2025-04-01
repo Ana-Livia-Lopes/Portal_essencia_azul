@@ -1,3 +1,5 @@
+import { PageLoadParameters } from "./page"
+
 type ComponentType = "hypertext" | "execute"
 
 declare class Component {
@@ -7,7 +9,7 @@ declare class Component {
     type: ComponentType
     filelocation: string
 
-    open(parameters: object): Promise<string>
+    open(parameters: object, pageParameters: PageLoadParameters & { apis: object }): Promise<string>
 }
 
 declare class ComponentCollection {
@@ -35,7 +37,7 @@ declare class ComponentCollection {
      * ```
      * @param html
      */
-    load(html: string): Promise<string>
+    load(html: string, pageParameters: PageLoadParameters & { apis: object }): Promise<string>
 
     keys(): Iterator<string>
 
@@ -48,6 +50,8 @@ declare class ComponentCollection {
 
 declare namespace Component {
     export { ComponentCollection as Collection }
+    
+    export type ExecuteComponentFunction = (parameters: object, pageParameters: PageLoadParameters & { apis: object }) => string
 }
 
 export = Component
