@@ -71,6 +71,16 @@ module.exports = {
         {
             name: "header",
             filelocation: "header.html"
+        },
+        {
+            name: "serverInfo",
+            filelocation: "serverInfo.js",
+            type: "execute"
+        },
+        {
+            name: "date",
+            filelocation: "date.js",
+            type: "execute"
         }
     ]
 }

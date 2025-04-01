@@ -186,7 +186,7 @@ var Page = ( function() {
                     case "hypertext":
                         let data = await fs.promises.readFile(this.filelocation);
                         if (page?.contentType === "text/html") {
-                            data = await components?.load(data.toString("utf-8"));
+                            data = await components?.load(data.toString("utf-8"), { query, body, params, session, server, content, page, request, response, components, localhooks, apis });
                         }
                         content.append(data);
                         return data;
