@@ -36,13 +36,14 @@
             <div id="endereco-email">
                 <h3>Endereço:</h3>
 
+                <p>R. Prof. João Batista Ortiz Monteiro, 345 - Vila Antônio Augusto Luiz, Caçapava - SP, 12287-310</p>
                 <a href="https://www.google.com.br/maps/place/R.+Prof.+Jo%C3%A3o+Batista+Ortiz+Monteiro,
                 +345+-+Vila+Ant%C3%B4nio+Augusto+Luiz,+Ca%C3%A7apava+-+SP,+12287-310/@-23.1114977,-45.710877,
                 19.5z/data=!4m15!1m8!3m7!1s0x94cc517e22d894a5:0x653d53ede958fa5d!2sR.+Prof.+Jo%C3%A3o
                 +Batista+Ortiz+Monteiro,+345+-+Vila+Ant%C3%B4nio+Augusto+Luiz,+Ca%C3%A7apava+-+SP,+12287-310!3b1!8m2!3d
                 -23.1114594!4d-45.7107942!16s%2Fg%2F11fwz5x6kp!3m5!1s0x94cc517e22d894a5:0x653d53ede958fa5d!8m2!
                 3d-23.1114594!4d-45.7107942!16s%2Fg%2F11fwz5x6kp?hl=pt-BR&entry=ttu&g_ep=EgoyMDI1MDMyNC4wIKXMDSoASAFQAw%3D%3D" 
-                target="_blank"><p>R. Prof. João Batista Ortiz Monteiro, 345 - Vila Antônio Augusto Luiz, Caçapava - SP, 12287-310</p></a>
+                target="_blank">Ver localização</a>
 
                 <h3 id="email">Email:</h3>
                 <p>essenciatea@gmail.com</p>
@@ -62,20 +63,22 @@
     }
 
     #puzzle1-footer{
-        width: 230px;
+        width: 15%;
         height:min-content;
         display: block;
         margin-right: auto;
         margin-bottom: auto;
+        overflow: hidden;
     }
 
     #puzzle2-footer{
-        width: 230px;
+        width: 15%;
         height: min-content;
         transform: rotate(180deg);
         display: block;
         margin-left: auto;
         margin-top: auto;
+        overflow: hidden;
     }
 
     #texto{
@@ -89,8 +92,7 @@
     #info{
         display: flex;
         gap: 120px;
-        margin-top: 120px;
-        position: absolute;
+        margin-top: 40px;
     }
 
     h1{
@@ -129,12 +131,24 @@
         width: 300px;
     }
 
+    #endereco-email a{
+        text-decoration: underline;
+    }
+
+    #endereco-email p{
+        margin-bottom: 10px;
+    }
+
     #email{
         margin-top: 15px;
     }
 
     #desenvolvedores{
         width: 300px;
+    }
+
+    #redes-contato{
+        width: max-content;
     }
 
     #redes-contato div{
