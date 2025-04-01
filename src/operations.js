@@ -15,6 +15,8 @@ var Operations = ( function() {
 
     function login(session, username, password) {}
 
+    function isLogged(session) {}
+
     return {
         connect,
         login

@@ -30,7 +30,7 @@ var Component = ( function() {
                     let componentHtml = await component.open(attrObject, pageParameters);
                     replacedHtml = replacedHtml.replace(componentRegExp, componentHtml);
                 } else {
-                    console.warn(`Component ${attrObject.name} not found`);
+                    replacedHtml = replacedHtml.replace(componentRegExp, `<p>Component ${attrObject.name} not found</p>`);
                 }
             }
         }

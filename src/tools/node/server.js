@@ -5,9 +5,15 @@ const url = require("url");
 const Cookie = require("../util/cookie.js");
 const ws = require("ws");
 const Component = require( "./component.js" );
+const path = require("path");
 
 var ServerManager = ( function() {
-    
+    const componentRequestPage = new Page.Special(
+        path.join(__dirname, "./server_assets/component_request_page.js"),
+        "/[name]",
+        "execute",
+        "application/json"
+    );
 
     const ServerManager = class ServerManager extends http.Server {
         constructor(options) {
@@ -51,6 +57,11 @@ var ServerManager = ( function() {
                 }
 
                 let [ page, params ] = this.pages.match(pathname);
+                if (request.headers["x-get-component"] === "true" && options?.componentRequests) {
+                    page = componentRequestPage;
+                    params = componentRequestPage.match(pathname, true);
+                    Object.assign(query, JSON.parse(request.headers["x-get-component-parameters"]));
+                }
 
                 await Promise.all(beforeRequestEndPromises);
 

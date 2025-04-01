@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dev Tests</title>
+    </head>
+    <body>
+        <component name="header" />
+
+        <div>
+            <hr class="w2">
+            <h1>Component Switch</h1>
+            <div style="display: flex; gap: 8px">
+                <button id="switch_1">Server Info</button>
+                <button id="switch_2">Date</button>
+                <button id="switch_3">Session ID</button>
+            </div>
+            <hr class="w1">
+            <div id="switch_output">
+
+            </div>
+            <hr class="w2">
+            <style>
+                hr.w2 {
+                    border-width: 2px;
+                }
+                h2.w1 {
+                    width: 90%;
+                    margin: auto;
+                }
+            </style>
+        </div>
+
+        <script type="module">
+            import ComponentSwitch from "/js/component_switch.js";
+
+            new ComponentSwitch( document.getElementById("switch_output") )
+                .setChangeButton(document.getElementById("switch_1"), "serverInfo")
+                .setChangeButton(document.getElementById("switch_2"), "date")
+                .setChangeButton(document.getElementById("switch_3"), "sessionId")
+                .change("serverInfo")
+        </script>
+    </body>
+</html>
