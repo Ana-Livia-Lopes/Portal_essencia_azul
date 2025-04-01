@@ -73,6 +73,10 @@ module.exports = {
             filelocation: "header.html"
         },
         {
+            name: "footer",
+            filelocation: "footer.html"
+        },
+        {
             name: "serverInfo",
             filelocation: "serverInfo.js",
             type: "execute"
