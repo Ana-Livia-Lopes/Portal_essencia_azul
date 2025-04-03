@@ -2,7 +2,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
         rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <header id="header">
     <nav>
@@ -24,7 +24,7 @@
             </ul>
 
             <div id="formulario">
-                <a id='' href='/formulario'><button>Formulário</button></a>
+                <a id='forms' href='/formulario'><button>Formulário</button></a>
             </div>
 
         </div>
@@ -98,7 +98,7 @@
         list-style: none;
     }
 
-    #formulario button{
+    #formulario button {
         background-color: #1535B5;
         color: white;
         font-family: 'Montserrat';
@@ -112,7 +112,7 @@
         transition: all 0.3s;
     }
 
-    #formulario button:hover{
+    #formulario button:hover {
         background-color: #142e96;
     }
 
@@ -145,12 +145,12 @@
         padding: 0;
     }
 
-    nav ul li{
+    nav ul li {
         display: flex;
         align-items: center;
     }
 
-    .item-nav2{
+    .item-nav2 {
         text-decoration: none;
         color: #132b8b;
         font-weight: 600;
@@ -163,6 +163,26 @@
         font-size: 15px;
         font-weight: 600;
         font-family: 'Montserrat', sans-serif;
+        display: inline-block;
+        padding: 5px 10px;
+        position: relative;
+    }
+
+    .item-nav:after {
+        bottom: 0;
+        content: "";
+        display: block;
+        height: 1.5px;
+        left: 50%;
+        position: absolute;
+        background: #1535b5bd;
+        transition: width 0.3s ease 0s, left 0.3s ease 0s;
+        width: 0;
+    }
+
+    .item-nav:hover:after {
+        width: 90%;
+        left: 6px;
     }
 
     .item-nav {
@@ -171,9 +191,17 @@
 
     .item-nav:hover {
         color: #1535B5;
-        transform: scale(1.2);
+        transform: scale(1.1);
     }
 
+    #forms{
+        transition: all 0.2s;
+    }
+
+    #forms:hover {
+        color: #1535B5;
+        transform: scale(1.1);
+    }
 
     #checkbox {
         display: none;
@@ -205,7 +233,7 @@
             display: none;
         }
 
-        #formulario{
+        #formulario {
             display: none;
         }
 
