@@ -94,6 +94,10 @@ module.exports = {
             name: "sessionId",
             filelocation: "sessionId.js",
             type: "execute"
+        },
+        {
+            name: "script",
+            filelocation: "withScript.html"
         }
     ]
 }

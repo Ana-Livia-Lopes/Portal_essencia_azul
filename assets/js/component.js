@@ -1,3 +1,6 @@
+const loadedScripts = new WeakSet(document.querySelectorAll("script"));
+const HTMLScriptElementPrototypeKeys = Object.keys(HTMLScriptElement.prototype);
+
 export default async function component(name, parameters, { outputElement, ignoreCache = false }) {
     const headers = new Headers();
 
@@ -19,6 +22,17 @@ export default async function component(name, parameters, { outputElement, ignor
     
     if (outputElement && (outputElement instanceof HTMLElement)) {
         outputElement.innerHTML = component;
+        for (const script of document.querySelectorAll("script")) {
+            if (loadedScripts.has(script)) continue;
+            const newScript = document.createElement("script");
+            for (const key of HTMLScriptElementPrototypeKeys) {
+                if (script[key]) newScript[key] = script[key];
+            }
+            document.body.appendChild(newScript);
+            script.parentNode.removeChild(script);
+            loadedScripts.add(newScript);
+            document.body.removeChild(newScript);
+        }
     }
 
     return component;

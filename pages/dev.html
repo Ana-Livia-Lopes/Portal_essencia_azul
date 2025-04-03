@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dev Tests</title>
+        <script src="/js/test.js"></script>
     </head>
     <body>
         <component name="header" />
@@ -15,6 +16,7 @@
                 <button id="switch_1">Server Info</button>
                 <button id="switch_2">Date</button>
                 <button id="switch_3">Session ID</button>
+                <button id="switch_4">With Script</button>
             </div>
             <hr class="w1">
             <div id="switch_output">
@@ -32,13 +34,16 @@
             </style>
         </div>
 
+        <component name="script" />
+
         <script type="module">
             import ComponentSwitch from "/js/component_switch.js";
 
-            new ComponentSwitch( document.getElementById("switch_output") )
+            new ComponentSwitch( document.getElementById("switch_output"), { ignoreCache: true } )
                 .setChangeButton(document.getElementById("switch_1"), "serverInfo")
                 .setChangeButton(document.getElementById("switch_2"), "date")
                 .setChangeButton(document.getElementById("switch_3"), "sessionId")
+                .setChangeButton(document.getElementById("switch_4"), "script")
                 .change("serverInfo")
         </script>
     </body>

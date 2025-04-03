@@ -9,7 +9,7 @@ function tryModules(...modules) {
     }
 }
 
-tryModules("ws", "chokidar", "mysql", "react", "react-dom");
+tryModules("ws", "chokidar", "mysql");
 
 const { ServerManager } = require("./src/tools");
 const path = require("path");
