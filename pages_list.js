@@ -69,6 +69,10 @@ module.exports = {
         {
             filelocation: "dev.html",
             pagelocation: "dev"
+        },
+        {
+            filelocation: "cadastrar_acolhido.html",
+            pagelocation: "cadastrar_acolhido"
         }
     ],
     components: [
