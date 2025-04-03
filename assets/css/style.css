@@ -1,3 +1,7 @@
+*{
+  margin: 0;
+  padding: 0;
+}
 
 /* section 1 */
 /* animação */
@@ -470,8 +474,7 @@ body {
 /* secão 7 */
 #quebraCabeca{
   margin: 100px auto;
-  object-fit: cover; /* Faz com que a imagem cubra o espaço */
-  object-position: left;
+  width: 100%;
 }
 #apoiadores {
   display: flex;
