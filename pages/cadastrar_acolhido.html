@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/cad_acolhido.css">
+    <title>Cadastro</title>
+</head>
+<body>
+    <header id="header"></header>
+    <script type="module">
+        import importComponent from "/js/importComponent.js";
+        importComponent(document.getElementById("header"), "/components/header.html");
+    </script>
+
+    <div class="container">
+        <h2>Cadastrar Acolhido</h2>
+
+        <form>
+            <div class="form-container">
+                <!-- Coluna 1 -->
+                <div class="form-column">
+                    <div class="form-group">
+                        <label for="name">Nome:</label>
+                        <input type="text" id="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Telefone:</label>
+                        <input type="text" id="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Idade:</label>
+                        <input type="number" id="age">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="family">Família:</label>
+                        <input type="text" id="family">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="support-level">Nível de suporte:</label>
+                        <select id="support-level">
+                            <option value="">Selecione...</option>
+                            <option value="1">Nível 1</option>
+                            <option value="2">Nível 2</option>
+                            <option value="3">Nível 3</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="school">Escola:</label>
+                        <input type="text" id="school">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="responsible">Nome dos responsáveis:</label>
+                        <input type="text" id="responsible">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Suporte na escola:</label>
+                        <div class="radio-group">
+                            <input type="radio" name="school-support" value="Sim"> <label>Sim</label>
+                            <input type="radio" name="school-support" value="Não"> <label>Não</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>CipTEA:</label>
+                        <div class="radio-group">
+                            <input type="radio" name="ciptea" value="Sim"> <label>Sim</label>
+                            <input type="radio" name="ciptea" value="Não"> <label>Não</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cordão de identificação:</label>
+                        <div class="radio-group">
+                            <input type="radio" name="cord" value="Sim"> <label>Sim</label>
+                            <input type="radio" name="cord" value="Não"> <label>Não</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cartão DeFis:</label>
+                        <div class="radio-group">
+                            <input type="radio" name="defis" value="Sim"> <label>Sim</label>
+                            <input type="radio" name="defis" value="Não"> <label>Não</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna 2 -->
+                <div class="form-column">
+                    <div class="form-group">
+                        <label for="interest">Áreas de Interesse:</label>
+                        <input type="text" id="interest">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hyperfocus">Hiperfoco:</label>
+                        <input type="text" id="hyperfocus">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="calm">Como o autista se acalma?</label>
+                        <input type="text" id="calm">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dislikes">Atividades que o autista NÃO gosta:</label>
+                        <input type="text" id="dislikes">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="restrictions">Restrições Alimentares:</label>
+                        <input type="text" id="restrictions">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="favorite-food">Comida favorita:</label>
+                        <input type="text" id="favorite-food">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="insurance">Convênio ou SUS: Qual convênio?</label>
+                        <input type="text" id="insurance">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="therapy">Faz terapia?</label>
+                        <input type="text" id="therapy">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="needed-therapy">Qual terapia precisa e não faz?</label>
+                        <input type="text" id="needed-therapy">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="observations">Observações:</label>
+                        <textarea id="observations"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Finalizar Cadastro</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
