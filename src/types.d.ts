@@ -88,7 +88,7 @@ declare namespace DataTypes {
     export class Admin extends DatabaseTuple<BaseDataTypes.Admin> {
         get alteracoes(): Alteracao<TipoAlteracao>[]
 
-        static privateFields: (keyof BaseDataTypes.Admin)[] = [ "senha", "chave" ]
+        static privateFields: (keyof BaseDataTypes.Admin)[]
     }
 
 
@@ -162,14 +162,6 @@ declare namespace DataTypes {
         type: C,
         id: number
     ): Promise<boolean>
-
-    function a() {
-
-        new Admin().read(Acolhido, { fields: [ "a" ], conditions: [
-            { field: "a", relation: "bigger", value },
-            { field: "b" }
-        ] },)
-    }
 }
 
 export = DataTypes
