@@ -1,15 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Catálogo - Portal Essência Azul</title>
-    </head>
-    <body>
-        <header id="header"></header>
-        <script type="module">
-            import importComponent from "/js/importComponent.js";
-            importComponent(document.getElementById("header"), "/components/header.html");
-        </script>
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Essência Azul</title>
+    <link rel="stylesheet" href="/css/catalogo.css">
+</head>
+
+<body>
+    <component name="header" />
+    <section id="quartos" class="seção-plano">
+        <h3 class="titulo-w3-agileits titulo-preto-wthree">Produtos disponíveis</h3>
+        <div class="tabela-preco-principal">
+
+            <article class="coluna card-preco">
+                <div class="bloco-preco agile">
+                    <div class="topo-preco">
+                        <img src="/img/produto1.jpg" alt="Quarto Amigos" class="img-responsiva" />
+                        <h4>Camiseta</h4>
+                    </div>
+                    <div class="fundo-preco">
+                        <div class="seleção-preco">
+                            <h3><span>R$</span>50,00</h3>
+                            <button onclick="toggleCard(this)">Saiba Mais</button>
+                            <div class="card">
+                                <p>Colocar detalhes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="coluna card-preco">
+                <div class="bloco-preco agile">
+                    <div class="topo-preco">
+                        <img src="/img/produto2.png" alt="Quarto Casal" class="img-responsiva" />
+                        <h4>Bottom</h4>
+                    </div>
+                    <div class="fundo-preco">
+                        <div class="seleção-preco">
+                            <h3><span>R$</span>10,00</h3>
+                            <button onclick="toggleCard(this)">Saiba Mais</button>
+                            <div class="card">
+                                <p>Colocar detalhes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="coluna card-preco">
+                <div class="bloco-preco agile">
+                    <div class="topo-preco">
+                        <img src="/img/produto3.jpg" alt="Quarto Família" class="img-responsiva" />
+                        <h4>Cordão</h4>
+                    </div>
+                    <div class="fundo-preco">
+                        <div class="seleção-preco">
+                            <h3><span>R$</span>5,00</h3>
+                            <button onclick="toggleCard(this)">Saiba Mais</button>
+                            <div class="card">
+                                <p>Colocar detalhes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </section>
+    <component name="footer" />
+</body>
+
 </html>
