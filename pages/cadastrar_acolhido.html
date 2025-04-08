@@ -1,53 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/cad_acolhido.css">
-    <title>Cadastro</title>
+    <link rel="stylesheet" href="/css/cad_acolhido.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
+        rel="stylesheet">
+    <title>Cadastrar acolhido</title>
 </head>
-<body>
-    <header id="header"></header>
-    <script type="module">
-        import importComponent from "/js/importComponent.js";
-        importComponent(document.getElementById("header"), "/components/header.html");
-    </script>
 
+<body>
+    <div class="voltar-div">
+        <h3><a class="voltar" href="/gerenciamento"><i class="fa-solid fa-arrow-left" style="color: '#002293;'"></i> Voltar</a></h3>
+    </div>
     <div class="container">
         <h2>Cadastrar Acolhido</h2>
-
         <form>
             <div class="form-container">
-                <!-- Coluna 1 -->
-                <div class="form-column">
-                    <div class="form-group">
+                <div class="coluna">
+                    <div class="label-input">
                         <label for="name">Nome:</label>
                         <input type="text" id="name">
                     </div>
 
-                    <div class="form-group">
+                    <div class="label-input">
                         <label for="phone">Telefone:</label>
                         <input type="text" id="phone">
                     </div>
 
-                    <div class="form-group">
+                    <div class="label-input">
                         <label for="email">E-mail:</label>
                         <input type="email" id="email">
                     </div>
 
-                    <div class="form-group">
+                    <div class="label-input">
                         <label for="age">Idade:</label>
                         <input type="number" id="age">
                     </div>
 
-                    <div class="form-group">
+                    <div class="label-input">
                         <label for="family">Família:</label>
                         <input type="text" id="family">
                     </div>
 
-                    <div class="form-group">
-                        <label for="support-level">Nível de suporte:</label>
-                        <select id="support-level">
+                    <div class="label-input">
+                        <label for="nivel-suporte">Nível de suporte:</label>
+                        <select id="nivel-suporte">
                             <option value="">Selecione...</option>
                             <option value="1">Nível 1</option>
                             <option value="2">Nível 2</option>
@@ -55,99 +56,110 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="school">Escola:</label>
-                        <input type="text" id="school">
+                    <div class="label-input">
+                        <label for="escola">Escola:</label>
+                        <input type="text" id="escola">
                     </div>
 
-                    <div class="form-group">
+                    <div class="label-input">
                         <label for="responsible">Nome dos responsáveis:</label>
                         <input type="text" id="responsible">
                     </div>
 
-                    <div class="form-group">
+                    <div class="label-input">
                         <label>Suporte na escola:</label>
-                        <div class="radio-group">
-                            <input type="radio" name="school-support" value="Sim"> <label>Sim</label>
-                            <input type="radio" name="school-support" value="Não"> <label>Não</label>
+                        <div class="radio">
+                            <input type="radio" id="escola-suporte-sim" name="escola-suporte" value="Sim">
+                            <label for="escola-suporte-sim">Sim</label>
+                    
+                            <input type="radio" id="escola-suporte-nao" name="escola-suporte" value="Não">
+                            <label for="escola-suporte-nao">Não</label>
                         </div>
                     </div>
-
-                    <div class="form-group">
+                    
+                    <div class="label-input">
                         <label>CipTEA:</label>
-                        <div class="radio-group">
-                            <input type="radio" name="ciptea" value="Sim"> <label>Sim</label>
-                            <input type="radio" name="ciptea" value="Não"> <label>Não</label>
+                        <div class="radio">
+                            <input type="radio" id="ciptea-sim" name="ciptea" value="Sim">
+                            <label for="ciptea-sim">Sim</label>
+                    
+                            <input type="radio" id="ciptea-nao" name="ciptea" value="Não">
+                            <label for="ciptea-nao">Não</label>
                         </div>
                     </div>
-
-                    <div class="form-group">
+                    
+                    <div class="label-input">
                         <label>Cordão de identificação:</label>
-                        <div class="radio-group">
-                            <input type="radio" name="cord" value="Sim"> <label>Sim</label>
-                            <input type="radio" name="cord" value="Não"> <label>Não</label>
+                        <div class="radio">
+                            <input type="radio" id="cordao-sim" name="cordao" value="Sim">
+                            <label for="cordao-sim">Sim</label>
+                    
+                            <input type="radio" id="cordao-nao" name="cordao" value="Não">
+                            <label for="cordao-nao">Não</label>
                         </div>
                     </div>
-
-                    <div class="form-group">
+                    
+                    <div class="label-input">
                         <label>Cartão DeFis:</label>
-                        <div class="radio-group">
-                            <input type="radio" name="defis" value="Sim"> <label>Sim</label>
-                            <input type="radio" name="defis" value="Não"> <label>Não</label>
+                        <div class="radio">
+                            <input type="radio" id="defis-sim" name="defis" value="Sim">
+                            <label for="defis-sim">Sim</label>
+                    
+                            <input type="radio" id="defis-nao" name="defis" value="Não">
+                            <label for="defis-nao">Não</label>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
 
-                <!-- Coluna 2 -->
-                <div class="form-column">
-                    <div class="form-group">
-                        <label for="interest">Áreas de Interesse:</label>
-                        <input type="text" id="interest">
+                <div class="coluna">
+                    <div class="label-input">
+                        <label for="interesse">Áreas de Interesse:</label>
+                        <input type="text" id="interesse">
                     </div>
 
-                    <div class="form-group">
-                        <label for="hyperfocus">Hiperfoco:</label>
-                        <input type="text" id="hyperfocus">
+                    <div class="label-input">
+                        <label for="hiperfoco">Hiperfoco:</label>
+                        <input type="text" id="hiperfoco">
                     </div>
 
-                    <div class="form-group">
-                        <label for="calm">Como o autista se acalma?</label>
-                        <input type="text" id="calm">
+                    <div class="label-input">
+                        <label for="comoacalma">Como o autista se acalma?</label>
+                        <input type="text" id="comoacalma">
                     </div>
 
-                    <div class="form-group">
-                        <label for="dislikes">Atividades que o autista NÃO gosta:</label>
-                        <input type="text" id="dislikes">
+                    <div class="label-input">
+                        <label for="naogosta">Atividades que o autista NÃO gosta:</label>
+                        <input type="text" id="naogosta">
                     </div>
 
-                    <div class="form-group">
-                        <label for="restrictions">Restrições Alimentares:</label>
-                        <input type="text" id="restrictions">
+                    <div class="label-input">
+                        <label for="restricoes">Restrições Alimentares:</label>
+                        <input type="text" id="restricoes">
                     </div>
 
-                    <div class="form-group">
-                        <label for="favorite-food">Comida favorita:</label>
-                        <input type="text" id="favorite-food">
+                    <div class="label-input">
+                        <label for="comida-fav">Comida favorita:</label>
+                        <input type="text" id="comida-fav">
                     </div>
 
-                    <div class="form-group">
-                        <label for="insurance">Convênio ou SUS: Qual convênio?</label>
-                        <input type="text" id="insurance">
+                    <div class="label-input">
+                        <label for="convenio">Convênio ou SUS: Qual convênio?</label>
+                        <input type="text" id="convenio">
                     </div>
 
-                    <div class="form-group">
-                        <label for="therapy">Faz terapia?</label>
-                        <input type="text" id="therapy">
+                    <div class="label-input">
+                        <label for="terapia">Faz terapia?</label>
+                        <input type="text" id="terapia">
                     </div>
 
-                    <div class="form-group">
-                        <label for="needed-therapy">Qual terapia precisa e não faz?</label>
-                        <input type="text" id="needed-therapy">
+                    <div class="label-input">
+                        <label for="precisa-terapia">Qual terapia precisa e não faz?</label>
+                        <input type="text" id="precisa-terapia">
                     </div>
 
-                    <div class="form-group">
-                        <label for="observations">Observações:</label>
-                        <textarea id="observations"></textarea>
+                    <div class="label-input">
+                        <label for="observacoes">Observações:</label>
+                        <textarea id="observacoes"></textarea>
                     </div>
                 </div>
             </div>
@@ -157,6 +169,6 @@
             </div>
         </form>
     </div>
-
 </body>
+
 </html>
