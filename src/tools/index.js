@@ -19,6 +19,8 @@ const ExpressionError = require("./errors/expressionerror.js");
 const InterfaceError = require("./errors/interfaceerror.js");
 const LogicalError = require("./errors/logicalerror.js");
 const OptionError = require("./errors/optionerror.js");
+const PermissionError = require("./errors/permissionerror.js")
+const ServerError = require("./errors/servererror.js");
 
 const Cookie = require("./util/cookie.js");
 const Color = require("./util/color.js");
@@ -50,6 +52,8 @@ module.exports = {
     InterfaceError,
     LogicalError,
     OptionError,
+    PermissionError,
+    ServerError,
     Cookie,
     Color,
     ConsoleStyle,

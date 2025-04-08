@@ -2,6 +2,9 @@
  * @typedef {import("./src/tools/node/page.js").PageListObject} PageListObject
  */
 
+const path = require("path");
+const { Page } = require("./src/tools/index.js");
+
 /**
  * @type {{
  *      pages: PageListObject[],
@@ -9,7 +12,8 @@
  *          filelocation: string,
  *          name: string,
  *          type: "hypertext" | "execute"
- *      }[]
+ *      }[],
+ *      errorPage: Page
  * }}
  */
 module.exports = {
@@ -28,7 +32,10 @@ module.exports = {
         },
         {
             filelocation: "gerenciamento.html",
-            pagelocation: "gerenciamento"
+            pagelocation: "gerenciamento",
+            events: {
+                before: [ require("./pages/events/onlyLogin.js") ]
+            }
         },
         {
             filelocation: "formulario.html",
@@ -73,6 +80,11 @@ module.exports = {
         {
             filelocation: "cadastrar_acolhido.html",
             pagelocation: "cadastrar_acolhido"
+        },
+        {
+            filelocation: "erro.js",
+            pagelocation: "erro",
+            pagetype: "execute"
         }
     ],
     components: [
@@ -103,5 +115,8 @@ module.exports = {
             name: "script",
             filelocation: "withScript.html"
         }
-    ]
+    ],
+    errorPage: new Page(path.join(__dirname, "pages/erro.js"), "/error/", "execute", "text/html", { events: { error(_, __, error) {
+        console.log("Error in Error", error);
+    } } })
 }

@@ -65,6 +65,46 @@ var Page = ( function() {
     /** @type {Map<string, chokidar.FSWatcher>} */
     const chokidarWatchers = new Map();
 
+    // Se retornar true, para o load
+    // function callEvent(eventName, page, ...parameters) {
+    //     let stop = false;
+    //     for (const listener of page.events[eventName]) {
+    //         try {
+    //             const result = listener(...parameters);
+    //             if (eventName === "error") stop = result;
+    //         } catch (err) {
+    //             if (eventName === "error") throw err;
+    //             stop = callEvent("error", page, ...parameters, err);
+    //         }
+    //     }
+    //     return stop;
+    // }
+
+    
+
+    const pagesCache = new Map();
+
+    function openExecute(page, cache = true) {
+        if (cache) {
+            if (pagesCache.has(page)) return pagesCache.get(page);
+        }
+        delete require.cache[require.resolve(page.filelocation)];
+        const execute = require(page.filelocation);
+        pagesCache.set(page, execute);
+        return execute;
+    }
+
+    async function openFS(page, cache) {
+        if (cache) {
+            if (pagesCache.has(page)) return pagesCache.get(page);
+        }
+        const data = await fs.promises.readFile(page.filelocation);
+        pagesCache.set(page, data);
+        return data;
+    }
+
+
+
     const Page = class Page {
         constructor(filelocation, pagelocation, pageType = "hypertext", contentType, { statusCode, flags, events } = {}) {
             if (typeof filelocation !== "string") throw new TypeError("File location must be a string");
@@ -106,7 +146,7 @@ var Page = ( function() {
             }
 
             if (events) {
-                if (!(flags instanceof Object)) throw new TypeError("Events must be an object");
+                if (!(events instanceof Object)) throw new TypeError("Events must be an object");
                 let eventsbefore = events.before;
                 let eventsafter = events.after;
                 if (events.before) {
@@ -121,6 +161,14 @@ var Page = ( function() {
                     for (const event of eventsafter) {
                         if (typeof event !== "function") throw new TypeError("events.after event must be a callback or a callback array");
                         this.events.after.push(event);
+                    }
+                }
+                if (events.error) {
+                    let eventserror = events.error;
+                    if (typeof eventserror === "function") eventserror = [eventserror];
+                    for (const event of eventserror) {
+                        if (typeof event !== "function") throw new TypeError("events.error event must be a callback or a callback array");
+                        this.events.error.push(event);
                     }
                 }
             }
@@ -147,46 +195,55 @@ var Page = ( function() {
         flags = [];
         events = {
             before: [],
-            after: []
+            after: [],
+            error: []
         };
 
         _valid = true;
 
         async load({ query, body, params, session, server, content, page, request, response, components, localhooks } = { }, apis = {}) {
-            if (this.events.before) {
-                try {
-                    await this.events.before.forEach(async event => {
-                        await event({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
-                    });
-                } catch (err) {
-                    console.error(err);
-                }
-            }
-
-            if (this.contentType === "text/html") {
-                const clientObjectsJSON = [];
-                if (this.flags.includes(Page.Flags.HTMLClientParams)) {
-                    clientObjectsJSON.push(`window.PARAMS = ${JSON.stringify(params)};\n`);
-                }
-                if (this.flags.includes(Page.Flags.HTMLClientQuery)) {
-                    clientObjectsJSON.push(`window.QUERY = ${JSON.stringify(query)};\n`);
-                }
-                if (clientObjectsJSON.length > 0) {
-                    content.append("<script id=\"server_objects_append_script\">\n", "before");
-                    content.append(clientObjectsJSON.join(""), "before");
-                    content.append("const server_objects_append_script = document.getElementById(\"server_objects_append_script\");\n", "before");
-                    content.append("server_objects_append_script.parentElement.removeChild(server_objects_append_script);\n", "before");
-                    content.append("</script>\n", "before");
-                }
-            }
-
-            let toReturn;
-
             try {
+                
+                // if (this.events.before) {
+                //     try {
+                //         await this.events.before.forEach(async event => {
+                //             await event({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
+                //         });
+                //     } catch (err) {
+                //         console.error(err);
+                //     }
+                // }
+    
+                if (this.events.before) {
+                    for (const before of this.events.before) {
+                        await before({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
+                    }
+                }
+    
+                if (this.contentType === "text/html") {
+                    const clientObjectsJSON = [];
+                    if (this.flags.includes(Page.Flags.HTMLClientParams)) {
+                        clientObjectsJSON.push(`window.PARAMS = ${JSON.stringify(params)};\n`);
+                    }
+                    if (this.flags.includes(Page.Flags.HTMLClientQuery)) {
+                        clientObjectsJSON.push(`window.QUERY = ${JSON.stringify(query)};\n`);
+                    }
+                    if (clientObjectsJSON.length > 0) {
+                        content.append("<script id=\"server_objects_append_script\">\n", "before");
+                        content.append(clientObjectsJSON.join(""), "before");
+                        content.append("const server_objects_append_script = document.getElementById(\"server_objects_append_script\");\n", "before");
+                        content.append("server_objects_append_script.parentElement.removeChild(server_objects_append_script);\n", "before");
+                        content.append("</script>\n", "before");
+                    }
+                }
+    
+                let toReturn;
+    
+                // try {
                 switch (this.pageType) {
                     default:
                     case "hypertext":
-                        let data = await fs.promises.readFile(this.filelocation);
+                        let data = await openFS(page, server?.cacheContent) //fs.promises.readFile(this.filelocation);
                         if (page?.contentType === "text/html") {
                             data = await components?.load(data.toString("utf-8"), { query, body, params, session, server, content, page, request, response, components, localhooks, apis });
                         }
@@ -194,30 +251,47 @@ var Page = ( function() {
                         toReturn = data;
                         break;
                     case "execute":
-                        delete require.cache[require.resolve(this.filelocation)];
-                        const execute = require(this.filelocation);
+                        // delete require.cache[require.resolve(this.filelocation)];
+                        const execute = openExecute(page, server?.cacheContent)//require(this.filelocation);
                         const result = await execute({ query, body, params, session, server, content, page, request, response, components, localhooks }, apis);
                         if (result) content.append(result); 
                         toReturn = result;
                         break;
                 }
-            } catch(err) {
-                content.clear();
-                content.append(`${err}`);
-                console.error(`Error on loading page ${this.path}`, err);
-            }
-
-            if (this.events.after) {
-                try {
-                    await this.events.after.forEach(async event => {
-                        await event({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
-                    });
-                } catch (err) {
-                    console.error(err);
+                // } catch(err) {
+                //     // content.clear();
+                //     content.append(`${err}`);
+                //     console.error(`Error on loading page ${this.path}`, err);
+                // }
+    
+                // if (this.events.after) {
+                //     try {
+                //         await this.events.after.forEach(async event => {
+                //             await event({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
+                //         });
+                //     } catch (err) {
+                //         console.error(err);
+                //     }
+                // }
+    
+                if (this.events.after) {
+                    for (const after of this.events.after) {
+                        await after({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
+                    }
+                }
+    
+                return toReturn;
+            } catch (err) {
+                if (this.events.error) {
+                    for (const errorEvent of this.events.error) {
+                        try {
+                            await errorEvent({ query, body, params, session, server, content, page, request, response, localhooks }, apis, err);
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
                 }
             }
-
-            return toReturn;
         }
 
         match(url) {
@@ -389,6 +463,10 @@ var Page = ( function() {
 
                 chokidarWatchers.set(dirpath, watcher);
             }
+        }
+
+        static clearCache() {
+            pagesCache.clear();
         }
 
         static Content = class PageContent {

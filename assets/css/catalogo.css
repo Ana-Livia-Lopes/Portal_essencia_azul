@@ -14,6 +14,14 @@ body {
 .tabela-preco-principal {
     display: flex;
     justify-content: space-between;
+    width:75%;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.tabela-preco-principal2 {
+    display: flex;
+    justify-content: space-around;
     width: 80%;
     align-items: center;
     margin-left: auto;
@@ -45,7 +53,7 @@ body {
     background: #0f2453;
     font-weight: 300;
     position: absolute;
-    top: 7em;  
+    top: 5.8em;  
     right: 0em;
     margin-top: 98px;
     border-top-left-radius: 10px;
@@ -65,7 +73,6 @@ body {
     padding: 0.2em 0em 0em 0em;
     font-size: 1.4em;
     float: left;
-    margin-left: 20px;
 }
 .seleção-preco h3 span {
     color:#297caf;
@@ -75,53 +82,37 @@ body {
 .fundo-preco {
     background: #fff;
     text-align: center;
-    padding: 1em 0em 1em; 
+    padding: 0.5em 0em 1em; 
 }
 .topo-preco img {
     width: 100%;
-    height: 270px;
+    height: 244px;
+    max-width: 100%;
 }
 .topo-preco2 img {
     width: 100%;
-    height: 270px;
+    height: 222px;
 }
 .seleção-preco {
     padding: 1em 0em;
     text-align: center;
     background: #fff;
+    display: flex;
+    justify-content: space-around;
 }
 .seleção-preco button {
     font-size: 1em; 
     color: #000000;
     display: inline-block;
-    padding: 0.5em 2em;
-    background: #ffce14;
-    border: 2px solid #ecbf11;
-}
-.seleção-preco button:hover {
-    background: #dcb30f;
-}
-#reservar-button{
-    font-size: 2em; 
-    color: #000000;
-    padding: 0.5em 2em;
-    background: #ffce14;
-    text-decoration: none;
-    border: 2px solid #ecbf11;
-    width: 200px;
-    height: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    border-radius: 10px;
-    margin-left: 34%;
-    transition: 1s;
-}
-#reservar-button:hover{
-    background: #dcb30f;
+    padding: 0.5em 0.5em;
+    background: #2a63ff98;
+    border: 2px solid #0044ff57;
+    cursor: pointer;
 }
 .card{
     display: none;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
     margin-top: 30px;
     text-align: justify;
 }
@@ -140,4 +131,130 @@ body {
 .coluna.card-preco {
     width: 30%; 
     padding: 0 10px; 
+}
+#radio{
+    display: flex;
+}
+
+
+.custom-radios {
+    div {
+      display: inline-block;
+      margin-top: 9px;
+    }
+  
+    input[type="radio"] {
+      display: none;
+    }
+  
+    input[type="radio"] + label span {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin: -1px 4px 0 0;
+      vertical-align: middle;
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+      background-repeat: no-repeat;
+      background-position: center;
+      text-align: center;
+      line-height: 18px;
+    }
+  
+    input[type="radio"] + label span img {
+      opacity: 0;
+      transition: all .3s ease;
+      width: 10px;
+      color: #000;
+    }
+  
+    input[type="radio"]#color-1 + label span {
+      background-color:#b2dbe1;
+    }
+  
+    input[type="radio"]#color-2 + label span {
+      background-color: #1c62b8;
+    }
+  
+    input[type="radio"]:checked + label span img {
+        opacity: 1;
+        width: 10px;
+        
+    }
+    input[type="radio"]:checked + label span #radio1 {
+        opacity: 1;
+        filter: brightness(0);
+    }
+    
+}
+#quebraCabeca{
+    margin: 40px auto;
+    width: 100%;
+}
+/* secao 3 */
+
+#secao3 {
+    display: flex;
+    align-items: center;
+    background-color: #d5d5d5;
+    overflow: hidden;
+    margin-bottom: 100px;
+    margin-top: 50px;
+}
+.texto {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.linha {
+    position: absolute;
+    left: 20%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 90%;
+    background-color: #0033cc;
+    border-radius: 10px;
+}
+
+#entenda {
+    font-size: 230%;
+    margin-bottom: 15px;
+    width: 60%;
+    margin-left: 20%;
+}
+
+.botao {
+    background-color: #0033cc;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-left: 20%;
+}
+
+
+.imagem img {
+    margin-right: 85px;
+    width: 100%;
+    height: 360px;
+    display: block;
+}
+
+/* fim secao 3 */
+@media (max-width: 768px){
+    #quebraCabeca {
+        margin: 20px auto;
+        width: 209%;
+      }
+    #secao2{
+        overflow: hidden;
+    }
 }

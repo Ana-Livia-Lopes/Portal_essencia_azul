@@ -11,7 +11,7 @@ function tryModules(...modules) {
 
 tryModules("ws", "chokidar", "mysql", "firebase/app", "firebase/firestore");
 
-const { ServerManager } = require("./src/tools");
+const { ServerManager, Page } = require("./src/tools");
 const path = require("path");
 const fs = require("fs");
 
