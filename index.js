@@ -9,24 +9,17 @@ function tryModules(...modules) {
     }
 }
 
-tryModules("ws", "chokidar", "mysql");
+tryModules("ws", "chokidar", "mysql", "firebase/app", "firebase/firestore");
 
 const { ServerManager } = require("./src/tools");
 const path = require("path");
 const fs = require("fs");
 
 try { require("./config.json") } catch {
-    const fs = require("fs");
     fs.writeFileSync("./config.json", JSON.stringify({
         server: {
             hostname: "localhost",
             port: 8080
-        },
-        database: {
-            hostname: "localhost",
-            username: "root",
-            password: "",
-            database: "db_essencia_azul"
         }
     }));
 }
@@ -38,6 +31,24 @@ console.log("\x1b[38;2;169;169;169mDigite \x1b[48;2;16;0;48m\x1b[38;2;95;158;160
 
 const config = require("./config.json");
 const deployPages = require("./pages.js");
+
+if (typeof config.firebase !== "object" || !config.firebase) {
+    console.log("Por favor, insira as configurações privadas do projeto Firebase em config.json");
+    console.log(
+`\x1b[38;2;95;158;160m{
+    "server": { ... },
+    "firebase": {
+        "apiKey": ...,
+        "authDomain": ...,
+        "projectId": ...,
+        "storageBucket": ...,
+        "messagingSenderId": ...,
+        "appId": ...,
+        "measurementId": ...
+    }
+}\x1b[0m`);
+    process.exit();
+}
 
 const server = new ServerManager({ componentRequests: true });
 deployPages(server);

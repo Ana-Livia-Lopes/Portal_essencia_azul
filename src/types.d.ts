@@ -1,27 +1,50 @@
 declare namespace BaseDataTypes {
-    
-    interface Acolhido {
-        a: string
-        b: any
-        c: []
+    class Acolhido {
+        nome: string
+        idade: number
+        email: string
+        telefone: string[]
+        nome_responsaveis: string[]
+        id_familia: number
+        nivel_suporte: 1 | 2 | 3
+        escola: {
+            nome: string,
+            tem_suporte: boolean
+        } | false
+        identificacao: {
+            cordao: boolean,
+            ciptea: boolean,
+            vaga_exclusiva: boolean
+        }
+        interesses: string[]
+        hiperfoco: string[]
+        como_acalma: string
+        atividades_nao_gosta: string[]
+        restricoes_alimentares: string[]
+        comida_favorita: string
+        convenio: string | false
+        terapias: string[]
+        terapias_precisa: string[]
+
+        observacoes: string
     }
-    interface Residente {}
-    interface Familia {}
+    class Residente {}
+    class Familia {}
+
+    class Apoiador {}
+    class Voluntario {}
     
-    interface Apoiador {}
-    interface Voluntario {}
-    
-    interface Documento {}
-    interface Imagem {}
+    class Documento {}
+    class Imagem {}
 
     type TipoContato = "email"|"telefone"
 
-    interface Contato {
+    class Contato {
         tipo: TipoContato
         valor: string
     }
     
-    interface Solicitacao {
+    abstract class Solicitacao {
         remetente: {
             nome: string
             contato: Contato["valor"]
@@ -29,8 +52,12 @@ declare namespace BaseDataTypes {
             outros_contatos: Contato[]
         }
     }
-    interface SolicitacaoAcolhido extends Solicitacao, Acolhido {}
-    interface SolicitacaoVoluntario extends Solicitacao, Voluntario {}
+    class SolicitacaoAcolhido extends Solicitacao {
+        acolhido: Acolhido
+    }
+    class SolicitacaoVoluntario extends Solicitacao {
+        voluntario: Voluntario
+    }
 
     type NivelAdmin = 1 | 2 | 3
     // São cumulativos (ex: 2 tem acesso a tudo de 1 e 3 tem acesso a tudo de 1 e 2)
@@ -38,7 +65,7 @@ declare namespace BaseDataTypes {
     // 2 tem acesso a páginas de desenvolvimento, pode manter administadores de nivel 1
     // 3 não pode ser removido, pode manter administradores de nivel 1 e 2
 
-    interface Admin {
+    class Admin {
         nome: string
         email: string
         senha: string
@@ -49,21 +76,13 @@ declare namespace BaseDataTypes {
 
 declare namespace DataTypes {
     export { BaseDataTypes }
-    
+
     /**
-     * Esta classe representa apenas uma leitura do banco, editar seus valores aqui não alterarão diretamente o banco de dados.
-     * 
-     * Ações CRUD estarão restritas atrás da classe Admin, que possui sua chave de alteração para validar os métodos de operação no banco.
+     * Valor filler para substituir valores que não devem ser obtidos do banco de dados.
      */
-    export class DatabaseTuple<F extends object> {
-        /**
-         * @param creationKey Chave de autorização de uso de construtor.
-         * @param fields 
-         * @throws {TypeError} Construtor privado
-         */
-        constructor(creationKey: string, fields: F)
-    
-        id: number
+    export class PrivateHiddenData extends null {}
+
+    abstract class DatabaseInfo<F extends object> {
         table: string
         fields: F
 
@@ -77,16 +96,50 @@ declare namespace DataTypes {
          * O método login será o único que permitirá o retorno de campos privados de Admin.
          */
         static privateFields?: string[]
+        static tableName: string
+    }
+    
+    /**
+     * Esta classe representa apenas uma leitura do banco, editar seus valores aqui não alterarão diretamente o banco de dados.
+     * 
+     * Ações CRUD estarão restritas atrás da classe Admin, que possui sua chave de alteração para validar os métodos de operação no banco.
+     */
+    export abstract class DatabaseTuple<F extends object> extends DatabaseInfo<F> {
+        /**
+         * @param creationKey Chave de autorização de uso de construtor.
+         * @param fields 
+         * @throws {TypeError} Construtor privado
+         */
+        constructor(creationKey: string, id: number, fields: F)
+    
+        id: number
+        references: object
+    }
+
+    type AnalyticsAggregateFunction = "min" | "max" | "count" | "sum" | "avg"
+
+    /**
+     * Diferente de uma tupla, os valores serão definidos baseados em uma função agregadora.
+     * 
+     * Não possui ID.
+     */
+    export abstract class DatabaseAnalytics<F extends DatabaseTuple<object>> extends DatabaseInfo<F["fields"]> {
+        aggregator: AnalyticsAggregateFunction
     }
 
 
 
     export class Acolhido extends DatabaseTuple<BaseDataTypes.Acolhido>  {
-        test: string
+        references: {
+            get familia(): Familia,
+            get documentos(): Documento
+        }
     }
 
     export class Admin extends DatabaseTuple<BaseDataTypes.Admin> {
-        get alteracoes(): Alteracao<TipoAlteracao>[]
+        references: {
+            get alteracoes(): Alteracao<TipoAlteracao>[]
+        }
 
         static privateFields: (keyof BaseDataTypes.Admin)[]
     }
@@ -117,51 +170,6 @@ declare namespace DataTypes {
         A extends "adicionar" ? AlteracaoAdicionar :
         A extends "remover" ? AlteracaoRemover :
         A extends "editar" ? AlteracaoEditar : never
-
-        
-    type SearchRuleRelation = "equals" | "bigger"
-
-    interface SearchRule<T extends DatabaseTuple<object>> {
-        field: (keyof T["fields"])
-        relation: SearchRuleRelation
-        value: any
-    }
-
-    interface ReadOptions<T extends DatabaseTuple<object>> {
-        fields?: (keyof T["fields"])[] | "*"
-        conditions?: SearchRule<T>[] | SearchRule<T>
-    }
-
-
-    interface UpdateOptions {
-        readAfter: boolean
-    }
-
-    export function create<T extends object, C extends typeof DatabaseTuple<T>>(
-        key: string,
-        type: C,
-        fields: InstanceType<C>["fields"]
-    ): Promise<InstanceType<C>>
-
-    export function read<T extends object, C extends typeof DatabaseTuple<T>>(
-        key: string,
-        type: C,
-        search: ReadOptions<InstanceType<C>>,
-    ): Promise<InstanceType<C> | null>
-    
-    export function update<T extends object, C extends typeof DatabaseTuple<T>>(
-        key: string,
-        type: C,
-        id: number,
-        fields: InstanceType<C>["fields"],
-        options: UpdateOptions
-    ): Promise<InstanceType<C>> // Leitura atualizada
-    
-    export function remove<T extends object, C extends typeof DatabaseTuple<T>>(
-        key: string,
-        type: C,
-        id: number
-    ): Promise<boolean>
 }
 
 export = DataTypes
