@@ -20,16 +20,26 @@
     margin-bottom: 20px;
 }
 
-.links-pg-div h3 a:hover {
-    color: #0033CC;
-}
-
 .links-pg-div h3 a {
     color: #00A6FF;
     text-decoration: none;
     margin-left: 60px;
     margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
 }
+
+.links-pg-div h3 a i {
+    color: inherit;
+}
+
+.links-pg-div h3 a:hover {
+    color: #0033CC;
+    transform: scale(1.0);
+}
+
 
 .botao {
     background-color: #1535B5;
@@ -82,7 +92,7 @@
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 10px;
-    max-width: 400px; /* Ajuste para manter um alinhamento melhor */
+    max-width: 400px;
 }
 
 #botoes-direita button {
@@ -91,6 +101,11 @@
 }
 
 #botoes-direita button:nth-child(4) {
-    width: 120px; /* Ajuste conforme necessário */
+    width: 120px;
     align-self: center;
+}
+
+i {
+    font-size: 24px;
+    color: #007bff;
 }

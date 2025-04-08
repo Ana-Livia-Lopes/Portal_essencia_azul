@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #eee9e9;
+}
+
+.seção-plano {
+    padding: 60px 0px; 
+}
+
+.tabela-preco-principal {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.titulo-preto-wthree {
+    font-size: 40px;
+    color:#0f2453;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 12px;
+}
+
+/*-- quartos & tarifas --*/
+.topo-preco {
+    text-align: center;
+    position: relative;
+}
+.topo-preco2 {
+    text-align: center;
+    position: relative;
+}
+.topo-preco h4 {
+    font-size: 1.2em; 
+    color: #fff;
+    padding: 0.4em 1em;
+    background: #0f2453;
+    font-weight: 300;
+    position: absolute;
+    top: 7em;  
+    right: 0em;
+    margin-top: 98px;
+    border-top-left-radius: 10px;
+}
+.topo-preco2 h4 {
+    font-size: 1.2em; 
+    color: #fff;
+    padding: 0.4em 1em;
+    background: #0f2453;
+    font-weight: 300;
+    position: absolute;
+    top: 7em;  
+    right: 0em;
+    margin-top: 98px;
+}
+.seleção-preco h3 {
+    padding: 0.2em 0em 0em 0em;
+    font-size: 1.4em;
+    float: left;
+    margin-left: 20px;
+}
+.seleção-preco h3 span {
+    color:#297caf;
+    font-size: 25px; 
+    margin-right: 5px;
+}
+.fundo-preco {
+    background: #fff;
+    text-align: center;
+    padding: 1em 0em 1em; 
+}
+.topo-preco img {
+    width: 100%;
+    height: 270px;
+}
+.topo-preco2 img {
+    width: 100%;
+    height: 270px;
+}
+.seleção-preco {
+    padding: 1em 0em;
+    text-align: center;
+    background: #fff;
+}
+.seleção-preco button {
+    font-size: 1em; 
+    color: #000000;
+    display: inline-block;
+    padding: 0.5em 2em;
+    background: #ffce14;
+    border: 2px solid #ecbf11;
+}
+.seleção-preco button:hover {
+    background: #dcb30f;
+}
+#reservar-button{
+    font-size: 2em; 
+    color: #000000;
+    padding: 0.5em 2em;
+    background: #ffce14;
+    text-decoration: none;
+    border: 2px solid #ecbf11;
+    width: 200px;
+    height: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 10px;
+    margin-left: 34%;
+    transition: 1s;
+}
+#reservar-button:hover{
+    background: #dcb30f;
+}
+.card{
+    display: none;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 30px;
+    text-align: justify;
+}
+.bloco-preco {
+    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.15);
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    margin-bottom: 20px; 
+}
+.bloco-preco:hover {
+    transform: scale(1.05);  
+}
+
+.coluna.card-preco {
+    width: 30%; 
+    padding: 0 10px; 
+}
