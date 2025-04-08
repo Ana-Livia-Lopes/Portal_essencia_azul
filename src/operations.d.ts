@@ -1,5 +1,5 @@
 import Session from "./tools/node/session"
-import { DatabaseTuple, DatabaseAnalytics } from "./types"
+import { DatabaseDocument, DatabaseAnalytics } from "./types"
 
 declare type SearchRuleRelation =
     "equals" | "different" |
@@ -9,13 +9,13 @@ declare type SearchRuleRelation =
     "includes" | "notincludes" |
     "like" | "between" | "in"
 
-declare interface SearchRule<T extends DatabaseTuple<object>> {
+declare interface SearchRule<T extends DatabaseDocument<object>> {
     field: (keyof T["fields"] | "id")
     relation: SearchRuleRelation
     value: any
 }
 
-declare interface ReadOptions<T extends DatabaseTuple<object>> {
+declare interface ReadOptions<T extends DatabaseDocument<object>> {
     fields?: (keyof T["fields"] | "id")[] | "*"
     conditions?: SearchRule<T>[] | SearchRule<T>
     distinct?: boolean,
@@ -25,8 +25,11 @@ declare interface ReadOptions<T extends DatabaseTuple<object>> {
     orderDirection: "asc" | "desc"
 }
 
-declare interface ReadAnalyticsOptions<T extends DatabaseTuple<object>> extends ReadOptions<T> {
-    aggregate: SearchAggregateFunction
+declare type AnalyticsAggregateFunction = "min" | "max" | "count" | "sum" | "avg"
+
+
+declare interface ReadAnalyticsOptions<T extends DatabaseDocument<object>> extends ReadOptions<T> {
+    aggregate: AnalyticsAggregateFunction
     groupBy?: (keyof T["fields"])
     selectGroupBy?: boolean // inclui o campo de groupBy na busca, padrão deverá ser true
 }
@@ -42,25 +45,25 @@ declare namespace Operations {
     export function logout(session: Session): boolean
     export function validateKey(key: string): Promise<string>
 
-    export function create<T extends object, C extends typeof DatabaseTuple<T>>(
+    export function create<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
         type: C,
         fields: InstanceType<C>["fields"]
     ): Promise<InstanceType<C>>
 
-    export function read<T extends object, C extends typeof DatabaseTuple<T>>(
+    export function read<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
         type: C,
         search: ReadOptions<InstanceType<C>>,
     ): Promise<(InstanceType<C> | null) | InstanceType<C>[]> // só retorna único se limite for 1
 
-    export function analytics<T extends object, C extends typeof DatabaseTuple<T>>(
+    export function analytics<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
         type: C,
         search: ReadAnalyticsOptions<InstanceType<C>>
     ): Promise<DatabaseAnalytics<InstanceType<C>>>
 
-    export function update<T extends object, C extends typeof DatabaseTuple<T>>(
+    export function update<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
         type: C,
         id: number,
@@ -68,7 +71,7 @@ declare namespace Operations {
         options: UpdateOptions
     ): Promise<InstanceType<C> | boolean> // Leitura atualizada
 
-    export function remove<T extends object, C extends typeof DatabaseTuple<T>>(
+    export function remove<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
         type: C,
         id: number
@@ -80,29 +83,29 @@ declare class Login {
     email: string
     private key: string
 
-    create<T extends object, C extends typeof DatabaseTuple<T>>(
+    create<T extends object, C extends typeof DatabaseDocument<T>>(
         type: C,
         fields: InstanceType<C>["fields"]
     ): Promise<InstanceType<C>>
 
-    read<T extends object, C extends typeof DatabaseTuple<T>>(
+    read<T extends object, C extends typeof DatabaseDocument<T>>(
         type: C,
         search: ReadOptions<InstanceType<C>>
     ): Promise<(InstanceType<C> | null) | InstanceType<C>[]>
 
-    analytics<T extends object, C extends typeof DatabaseTuple<T>>(
+    analytics<T extends object, C extends typeof DatabaseDocument<T>>(
         type: C,
         search: ReadAnalyticsOptions<InstanceType<C>>
     ): Promise<DatabaseAnalytics<InstanceType<C>>>
 
-    update<T extends object, C extends typeof DatabaseTuple<T>>(
+    update<T extends object, C extends typeof DatabaseDocument<T>>(
         type: C,
         id: number,
         fields: InstanceType<C>["fields"],
         options: UpdateOptions
     ): Promise<InstanceType<C> | boolean>
 
-    remove<T extends object, C extends typeof DatabaseTuple<T>>(
+    remove<T extends object, C extends typeof DatabaseDocument<T>>(
         type: C,
         id: number
     ): Promise<boolean>

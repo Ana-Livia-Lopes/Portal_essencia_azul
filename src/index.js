@@ -6,6 +6,11 @@ var EssenciaAzul = ( function() {
         Acolhido: class Acolhido {}
     }
 
+    function createDatabaseDocumentType(type, collection, {
+        references,
+        privateFields
+    }) {}
+
     function connect() {
         delete require.cache[require.resolve("../config.json")];
         const config = require("../config.json").database;

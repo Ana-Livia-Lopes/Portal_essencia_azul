@@ -25,7 +25,6 @@ var ServerManager = ( function() {
                 const beforeRequestEndPromises = [];
                 const logInfo = {
                     timeStamp: undefined,
-                    pospath: [],
                     sublines: []
                 };
 
@@ -81,7 +80,6 @@ var ServerManager = ( function() {
                 } else {
                     response.writeHead(404, { "content-type": "text/html" });
                     content.append(`<h1>No page found at ${pathname}</h1>`);
-                    logInfo.pospath.push("(No page found)");
                 }
 
                 await Promise.all(collectingContentPromises);
@@ -90,13 +88,14 @@ var ServerManager = ( function() {
 
                 response.end();
 
-                console.log(`Request at: ${pathname}${logInfo.pospath.reduce((prev, curr) => prev + " " + curr, "")}`
+                console.log(`Request at: ${pathname} ${response.statusCode}`
                     + logInfo.sublines.reduce((prev, curr) => prev + "\n\t" + curr, "")
                 );
             }
 
 
             if (options) super(options, requestHandler); else super(requestHandler);
+            this.cacheContent = Boolean(options.cacheContent);
         }
 
         pages = new Page.Collection();

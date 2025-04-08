@@ -2,29 +2,55 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat';
 }
 
 body {
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.voltar-div {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.voltar-div:hover {
+    color:#0033CC;
+    cursor: pointer;
+}
+
+.voltar {
+    color: #002293;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 8px;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.voltar:hover {
+    color: #0033CC;
 }
 
 .container {
-    background: white;
+    background-color: #F2F2F2;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
+    max-width: 850px;
     width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
+    color: #002293;
 }
 
 .form-container {
@@ -32,18 +58,18 @@ h2 {
     gap: 20px;
 }
 
-.form-column {
+.coluna {
     flex: 1;
 }
 
-.form-group {
+.label-input {
     margin-bottom: 12px;
 }
 
 label {
     font-weight: bold;
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 input, select, textarea {
@@ -58,13 +84,43 @@ textarea {
     height: 80px;
 }
 
-.radio-group {
-    display: flex;
-    gap: 10px;
+.label-input {
+    margin-bottom: 20px;
 }
 
-.radio-group label {
-    font-weight: normal;
+.label-input > label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.radio {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.radio input[type="radio"] {
+    display: none;
+}
+
+.radio label {
+    padding: 6px 16px;
+    border: 2px solid #a0a0a0;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    color: #a0a0a0;
+    user-select: none;
+    font-weight: 500;
+}
+
+.radio input[type="radio"]:checked + label {
+    background-color: #1535B5;
+    border: 2px solid #1535B5;
+    color: white;
 }
 
 .button-container {
