@@ -28,14 +28,43 @@ declare namespace BaseDataTypes {
 
         observacoes: string
     }
-    class Residente {}
-    class Familia {}
+    type TipoResidente = "neurotipico" | "autista" | "investigacao"
+    class Residente {
+        nome: string
+        tipo: TipoResidente
+        id_familia: number
+    }
+    class Familia {
+        sobrenome: string
+        endereco: string
 
-    class Apoiador {}
-    class Voluntario {}
+        observacoes: string
+    }
+
+    class Apoiador {
+        nome: string
+        logo: string
+        link: string
+    }
+    class Voluntario {
+        nome: string
+        cpf: string
+        email: string
+        telefone: string
+        como_ajudar: string
+        por_que_ser_voluntario: string
+    }
     
-    class Documento {}
-    class Imagem {}
+    class Documento {
+        id_acolhido: number
+        arquivo: Blob
+    }
+    class Imagem {
+        titulo: string
+        descricao: string
+        grupos: string[]
+        conteudo: Blob
+    }
 
     type TipoContato = "email"|"telefone"
 
@@ -83,7 +112,7 @@ declare namespace DataTypes {
     export class PrivateHiddenData extends null {}
 
     abstract class DatabaseInfo<F extends object> {
-        table: string
+        collection: string
         fields: F
 
         /**
@@ -96,7 +125,7 @@ declare namespace DataTypes {
          * O método login será o único que permitirá o retorno de campos privados de Admin.
          */
         static privateFields?: string[]
-        static tableName: string
+        static collection: string
     }
     
     /**
@@ -104,7 +133,7 @@ declare namespace DataTypes {
      * 
      * Ações CRUD estarão restritas atrás da classe Admin, que possui sua chave de alteração para validar os métodos de operação no banco.
      */
-    export abstract class DatabaseTuple<F extends object> extends DatabaseInfo<F> {
+    export abstract class DatabaseDocument<F extends object> extends DatabaseInfo<F> {
         /**
          * @param creationKey Chave de autorização de uso de construtor.
          * @param fields 
@@ -113,7 +142,7 @@ declare namespace DataTypes {
         constructor(creationKey: string, id: number, fields: F)
     
         id: number
-        references: object
+        references: object // adicionar no prototipo de cada
     }
 
     type AnalyticsAggregateFunction = "min" | "max" | "count" | "sum" | "avg"
@@ -123,20 +152,49 @@ declare namespace DataTypes {
      * 
      * Não possui ID.
      */
-    export abstract class DatabaseAnalytics<F extends DatabaseTuple<object>> extends DatabaseInfo<F["fields"]> {
+    export abstract class DatabaseAnalytics<F extends DatabaseDocument<object>> extends DatabaseInfo<F["fields"]> {
         aggregator: AnalyticsAggregateFunction
     }
 
 
 
-    export class Acolhido extends DatabaseTuple<BaseDataTypes.Acolhido>  {
+    export class Acolhido extends DatabaseDocument<BaseDataTypes.Acolhido> {
         references: {
             get familia(): Familia,
             get documentos(): Documento
         }
     }
+    export class Residente extends DatabaseDocument<BaseDataTypes.Residente> {
+        references: {
+            get familia(): Familia
+        }
+    }
+    export class Familia extends DatabaseDocument<BaseDataTypes.Familia> {
+        references: {
+            get acolhidos(): Acolhido[]
+            get residentes(): Residente[]
+            get autistas(): number
+            get neurotipicos(): number
+            get investigacao(): number
+        }
+    }
 
-    export class Admin extends DatabaseTuple<BaseDataTypes.Admin> {
+    export class Apoiador extends DatabaseDocument<BaseDataTypes.Apoiador> {}
+    export class Voluntario extends DatabaseDocument<BaseDataTypes.Voluntario> {}
+
+    export class Imagem extends DatabaseDocument<BaseDataTypes.Imagem> {}
+    export class Documento extends DatabaseDocument<BaseDataTypes.Documento> {
+        references: {
+            get acolhido(): Acolhido
+        }
+    }
+
+    export class Contato extends DatabaseDocument<BaseDataTypes.Contato> {}
+
+    export class SolicitacaoAcolhido extends DatabaseDocument<BaseDataTypes.SolicitacaoAcolhido> {}
+    export class SolicitacaoVoluntario extends DatabaseDocument<BaseDataTypes.SolicitacaoVoluntario> {}
+    
+    export class Admin extends DatabaseDocument<BaseDataTypes.Admin> {
         references: {
             get alteracoes(): Alteracao<TipoAlteracao>[]
         }

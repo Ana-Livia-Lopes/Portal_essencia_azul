@@ -63,10 +63,9 @@ var Component = ( function() {
             try {
                 switch (this.type) {
                     case "hypertext":
-                        return await fs.promises.readFile(this.filelocation);
+                        return await openFS(this, pageParameters?.server?.cacheContent);
                     case "execute":
-                        delete require.cache[require.resolve(this.filelocation)];
-                        return await require(this.filelocation)(parameters, pageParameters);
+                        return await openExecute(this, pageParameters?.server?.cacheContent)(parameters, pageParameters);
                     default:
                         throw new TypeError(`Component ${this.name} type is not supported`);
                 }
@@ -74,6 +73,26 @@ var Component = ( function() {
                 return `<p>Error (${err?.name}) opening ${this.name} component: ${err?.message}</p>`
             }
         }
+    }
+
+    const componentsCache = new Map();
+
+    async function openFS(component, cache = true) {
+        if (cache) {
+            if (componentsCache.has(component)) return componentsCache.get(component);
+        }
+        if (cache) componentsCache.set(component, component.filelocation);
+        return await fs.promises.readFile(component.filelocation);
+    }
+
+    function openExecute(component, cache) {
+        if (cache) {
+            if (componentsCache.has(component)) return componentsCache.get(component);
+        }
+        delete require.cache[require.resolve(component.filelocation)];
+        const result = require(component.filelocation);
+        if (cache) componentsCache.set(component, result);
+        return result;
     }
 
     /**
