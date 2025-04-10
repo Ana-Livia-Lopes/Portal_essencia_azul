@@ -1,17 +1,92 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Eventos - Portal Essência Azul</title>
-        <link rel="stylesheet" href="/css/eventos.css">
-    </head>
-    <body>
-        <header id="header"></header>
-        <script type="module">
-            import importComponent from "/js/importComponent.js";
-            importComponent(document.getElementById("header"), "/components/header.html");
-        </script>
-        
-    </body>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventos - Portal Essência Azul</title>
+  <link rel="stylesheet" href="/css/eventos.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <header id="header"></header>
+  <script type="module">
+    import importComponent from "/js/importComponent.js";
+    importComponent(document.getElementById("header"), "/components/header.html");
+  </script>
+  <title>Eventos</title>
+  </head>
+
+  <body>
+    <h1>Eventos</h1>
+
+    <div class="eventos">
+      <div class="lista-eventos">
+        <div class="item-evento" onclick="">
+          <div class="data">
+            <b>01</b><br>Abril
+          </div>
+          <div class="conteudo">
+            <strong>NOME DO EVENTO</strong><br>
+            Descrição e informações do evento
+          </div>
+        </div>
+
+        <div class="item-evento" onclick="">
+          <div class="data">
+            <b>29</b><br>Maio
+          </div>
+          <div class="conteudo">
+            <strong>NOME DO EVENTO</strong><br>
+            Descrição e informações do evento
+          </div>
+        </div>
+
+        <div class="item-evento" onclick="">
+          <div class="data">
+            <b>14</b><br>Junho
+          </div>
+          <div class="conteudo">
+            <strong>NOME DO EVENTO</strong><br>
+            Descrição e informações do evento
+          </div>
+        </div>
+
+        <div class="item-evento" onclick="">
+          <div class="data">
+            <b>30</b><br>Agosto
+          </div>
+          <div class="conteudo">
+            <strong>NOME DO EVENTO</strong><br>
+            Descrição e informações do evento
+          </div>
+        </div>
+
+        <div class="item-evento" onclick="">
+          <div class="data">
+            <b>09</b><br>Setembro
+          </div>
+          <div class="conteudo">
+            <strong>NOME DO EVENTO</strong><br>
+            <div>Descrição e informações do evento</div>
+          </div>
+        </div>
+
+        <div class="item-evento" onclick="">
+          <div class="data">
+            <b>17</b><br>Novembro
+          </div>
+          <div class="conteudo">
+            <strong>NOME DO EVENTO</strong><br>
+            <div>Descrição e informações do evento</div>
+          </div>
+        </div>
+      </div>
+      <img class="palestra" src="/img/evento1.png" alt="">
+    </div>
+  </body>
+
 </html>

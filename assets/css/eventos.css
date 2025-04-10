@@ -1,4 +1,81 @@
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Montserrat';
+  color: #1a237e;
+}
+
+h1 {
+  font-size: 42px;
+  line-height: 1.3;
+  font-weight: 700;
+  text-shadow: 1px 2px 2px rgb(183, 183, 183);
+  text-align: center;
+  color: #1a237e;
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
+
+.eventos {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lista-eventos {
+  width: 450px;
+  height: 385px;
+  overflow-y: auto;
+  border: 0.3px solid #e8e8e8;
+  padding: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.234);
+}
+
+.item-evento {
+  display: flex;
+  margin-bottom: 20px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-wrap: wrap;
+
+}
+
+.data {
+  background: #3b4d6d;
+  color: white;
+  text-align: center;
+  justify-content: center;
+  padding: 10px;
+  width: 80px;
+}
+
+.data b {
+  font-size: 35px;
+  font-weight: 850;
+}
+
+.conteudo {
+  padding: 10px;
+  line-height: 30px;
+}
+
+.palestra {
+  width: 460px;
+  background: #f5f5f5;
+  border: 2px solid #1a237e;
+  border-radius: 5px;
+  padding: 0;
+  color: #1a237e;
+  height: 405px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.441);
+}
+
+#quebrar {
+  width: 310px;
+  flex-wrap: wrap;
 }
