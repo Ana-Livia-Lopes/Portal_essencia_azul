@@ -61,9 +61,69 @@ var Page = ( function() {
     }
 
     const privateCollectionMaps = new WeakMap();
+    const LocalProtectedSetKey = Symbol("LocalProtectedSetKey");
+    const ProtectedSet = class LocalProtectedSet extends Set {
+        add(value, key) {
+            if (LocalProtectedSetKey === key) {
+                super.add(value);
+            }
+        }
+        delete(value, key) {
+            if (LocalProtectedSetKey === key) {
+                super.delete(value);
+            }
+        }
+    }
+    Object.freeze(ProtectedSet.prototype);
 
     /** @type {Map<string, chokidar.FSWatcher>} */
     const chokidarWatchers = new Map();
+    
+
+    const pagesCache = new Map();
+
+    function openExecute(page, cache = true) {
+        if (cache) {
+            if (pagesCache.has(page)) return pagesCache.get(page);
+        }
+        delete require.cache[require.resolve(page.filelocation)];
+        const execute = require(page.filelocation);
+        pagesCache.set(page, execute);
+        return execute;
+    }
+
+    async function openFS(page, cache) {
+        if (cache) {
+            if (pagesCache.has(page)) return pagesCache.get(page);
+        }
+        const data = await fs.promises.readFile(page.filelocation);
+        pagesCache.set(page, data);
+        return data;
+    }
+
+    /**
+     * 
+     * @param {Page} page 
+     * @param {*} eventName 
+     * @param {*} callbacks 
+     * @param  {...any} parameters 
+     */
+    async function runEvent(page, eventName, ...parameters) {
+        if (page.events[eventName]) {
+            for (const callback of page.events[eventName]) {
+                await callback(...parameters);
+            }
+        }
+        for (const collection of page._collectionsIn) {
+            if (collection.events[eventName]) {
+                for (const callback of collection.events[eventName]) {
+                    await callback(...parameters);
+                }
+            }
+        }
+    }
+
+
 
     const Page = class Page {
         constructor(filelocation, pagelocation, pageType = "hypertext", contentType, { statusCode, flags, events } = {}) {
@@ -106,7 +166,7 @@ var Page = ( function() {
             }
 
             if (events) {
-                if (!(flags instanceof Object)) throw new TypeError("Events must be an object");
+                if (!(events instanceof Object)) throw new TypeError("Events must be an object");
                 let eventsbefore = events.before;
                 let eventsafter = events.after;
                 if (events.before) {
@@ -121,6 +181,14 @@ var Page = ( function() {
                     for (const event of eventsafter) {
                         if (typeof event !== "function") throw new TypeError("events.after event must be a callback or a callback array");
                         this.events.after.push(event);
+                    }
+                }
+                if (events.error) {
+                    let eventserror = events.error;
+                    if (typeof eventserror === "function") eventserror = [eventserror];
+                    for (const event of eventserror) {
+                        if (typeof event !== "function") throw new TypeError("events.error event must be a callback or a callback array");
+                        this.events.error.push(event);
                     }
                 }
             }
@@ -147,46 +215,52 @@ var Page = ( function() {
         flags = [];
         events = {
             before: [],
-            after: []
+            after: [],
+            error: []
         };
 
         _valid = true;
+        _collectionsIn = new ProtectedSet();
 
         async load({ query, body, params, session, server, content, page, request, response, components, localhooks } = { }, apis = {}) {
-            if (this.events.before) {
-                try {
-                    await this.events.before.forEach(async event => {
-                        await event({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
-                    });
-                } catch (err) {
-                    console.error(err);
-                }
-            }
-
-            if (this.contentType === "text/html") {
-                const clientObjectsJSON = [];
-                if (this.flags.includes(Page.Flags.HTMLClientParams)) {
-                    clientObjectsJSON.push(`window.PARAMS = ${JSON.stringify(params)};\n`);
-                }
-                if (this.flags.includes(Page.Flags.HTMLClientQuery)) {
-                    clientObjectsJSON.push(`window.QUERY = ${JSON.stringify(query)};\n`);
-                }
-                if (clientObjectsJSON.length > 0) {
-                    content.append("<script id=\"server_objects_append_script\">\n", "before");
-                    content.append(clientObjectsJSON.join(""), "before");
-                    content.append("const server_objects_append_script = document.getElementById(\"server_objects_append_script\");\n", "before");
-                    content.append("server_objects_append_script.parentElement.removeChild(server_objects_append_script);\n", "before");
-                    content.append("</script>\n", "before");
-                }
-            }
-
-            let toReturn;
-
             try {
+                
+                // if (this.events.before) {
+                //     try {
+                //         await this.events.before.forEach(async event => {
+                //             await event({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
+                //         });
+                //     } catch (err) {
+                //         console.error(err);
+                //     }
+                // }
+    
+                await runEvent(this, "before", { query, body, params, session, server, content, page, request, response, localhooks }, apis);
+    
+                if (this.contentType === "text/html") {
+                    const clientObjectsJSON = [];
+                    if (this.flags.includes(Page.Flags.HTMLClientParams)) {
+                        clientObjectsJSON.push(`window.PARAMS = ${JSON.stringify(params)};\n`);
+                    }
+                    if (this.flags.includes(Page.Flags.HTMLClientQuery)) {
+                        clientObjectsJSON.push(`window.QUERY = ${JSON.stringify(query)};\n`);
+                    }
+                    if (clientObjectsJSON.length > 0) {
+                        content.append("<script id=\"server_objects_append_script\">\n", "before");
+                        content.append(clientObjectsJSON.join(""), "before");
+                        content.append("const server_objects_append_script = document.getElementById(\"server_objects_append_script\");\n", "before");
+                        content.append("server_objects_append_script.parentElement.removeChild(server_objects_append_script);\n", "before");
+                        content.append("</script>\n", "before");
+                    }
+                }
+    
+                let toReturn;
+    
+                // try {
                 switch (this.pageType) {
                     default:
                     case "hypertext":
-                        let data = await fs.promises.readFile(this.filelocation);
+                        let data = await openFS(page, server?.cacheContent) //fs.promises.readFile(this.filelocation);
                         if (page?.contentType === "text/html") {
                             data = await components?.load(data.toString("utf-8"), { query, body, params, session, server, content, page, request, response, components, localhooks, apis });
                         }
@@ -194,30 +268,35 @@ var Page = ( function() {
                         toReturn = data;
                         break;
                     case "execute":
-                        delete require.cache[require.resolve(this.filelocation)];
-                        const execute = require(this.filelocation);
+                        // delete require.cache[require.resolve(this.filelocation)];
+                        const execute = openExecute(page, server?.cacheContent)//require(this.filelocation);
                         const result = await execute({ query, body, params, session, server, content, page, request, response, components, localhooks }, apis);
                         if (result) content.append(result); 
                         toReturn = result;
                         break;
                 }
-            } catch(err) {
-                content.clear();
-                content.append(`${err}`);
-                console.error(`Error on loading page ${this.path}`, err);
+                // } catch(err) {
+                //     // content.clear();
+                //     content.append(`${err}`);
+                //     console.error(`Error on loading page ${this.path}`, err);
+                // }
+    
+                // if (this.events.after) {
+                //     try {
+                //         await this.events.after.forEach(async event => {
+                //             await event({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
+                //         });
+                //     } catch (err) {
+                //         console.error(err);
+                //     }
+                // }
+    
+                await runEvent(this, "after", { query, body, params, session, server, content, page, request, response, localhooks }, apis);
+    
+                return toReturn;
+            } catch (err) {
+                await runEvent(this, "error", { query, body, params, session, server, content, page, request, response, localhooks }, apis, err);
             }
-
-            if (this.events.after) {
-                try {
-                    await this.events.after.forEach(async event => {
-                        await event({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
-                    });
-                } catch (err) {
-                    console.error(err);
-                }
-            }
-
-            return toReturn;
         }
 
         match(url) {
@@ -277,6 +356,18 @@ var Page = ( function() {
                     return false;
                 }
             }
+        }
+
+        static _silentAddToCollection(page, collection) {
+            if (!(page instanceof Page)) throw new TypeError("Page must be a Page instance");
+            if (!(collection instanceof Page.Collection)) throw new TypeError("Page Collection must be a Page.Collection instance");
+            page._collectionsIn.add(collection, LocalProtectedSetKey);
+        }
+
+        static _silentRemoveFromCollection(page, collection) {
+            if (!(page instanceof Page)) throw new TypeError("Page must be a Page instance");
+            if (!(collection instanceof Page.Collection)) throw new TypeError("Page Collection must be a Page.Collection instance");
+            page._collectionsIn.delete(collection, LocalProtectedSetKey);
         }
 
         static LoadList(array, collection, pathCorrection) {
@@ -391,6 +482,10 @@ var Page = ( function() {
             }
         }
 
+        static clearCache() {
+            pagesCache.clear();
+        }
+
         static Content = class PageContent {
             constructor() {}
 
@@ -460,6 +555,13 @@ var Page = ( function() {
                     special: new TypedSet(Page.Special)
                 });
                 if (pages.length > 0) this.append(pages);
+                Object.freeze(this.events);
+            }
+
+            events = {
+                before: [],
+                after: [],
+                error: []
             }
 
             append(...pages) {
@@ -481,6 +583,7 @@ var Page = ( function() {
                         maps.all.set(page.path, page);
                         if (page.constructor === Page) maps.simple.set(page.path, page);
                         if (page.constructor === Page.Special) maps.special.add(page);
+                        page._collectionsIn.add(this, LocalProtectedSetKey);
 
                     } else {
                         throw new TypeError("Page Collections only accept Page instances");
@@ -496,6 +599,7 @@ var Page = ( function() {
                         maps.all.delete(page.path);
                         maps.simple.delete(page.path);
                         maps.special.delete(page);
+                        page._collectionsIn.delete(this, LocalProtectedSetKey);
                     }
                 }
             }

@@ -11,13 +11,12 @@ declare class APIManager {
     add(api: object)
 }
 
-declare type ServerOptions = http.ServerOptions & { componentRequests?: boolean }
+declare type ServerOptions = http.ServerOptions & { componentRequests?: boolean, cacheContent?: boolean }
 
 declare class ServerManager<Req extends typeof IncomingMessage = typeof IncomingMessage, Res extends typeof ServerResponse = typeof ServerResponse> extends http.Server<Req, Res> {
 
     constructor(options?: ServerOptions)
 
-    // readonly websocket: WebSocketServer
     readonly pages: Page.Collection
     readonly sessions: Session.Collection
     readonly components: Component.Collection
@@ -30,6 +29,8 @@ declare class ServerManager<Req extends typeof IncomingMessage = typeof Incoming
     openPageList(array: Page.PageListObject, path: string): void
 
     openWebSocket(path?: string): WebSocketServer
+
+    cacheContent: boolean
 }
 
 export = ServerManager
