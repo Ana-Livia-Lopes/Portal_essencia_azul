@@ -4,13 +4,60 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/css/voluntarios.css">
+        <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
         <title>Voluntários - Portal Essência Azul</title>
     </head>
     <body>
-        <header id="header"></header>
-        <script type="module">
-            import importComponent from "/js/importComponent.js";
-            importComponent(document.getElementById("header"), "/components/header.html");
-        </script>
+        <component name="header" />
+        <section>
+            <div class="formulario-voluntario">
+                <div class="header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <h1>Seja um voluntário</h1>
+                <h2>Toda ajuda é bem-vinda!</h2>
+                <form action="">
+                    <div>
+                        <label for=""></label>
+                        <input type="text">
+                    </div>
+
+                    <div>
+                        <label for=""></label>
+                        <input type="text">
+                    </div>
+
+                    <div>
+                        <label for=""></label>
+                        <input type="text">
+                    </div>
+
+                    <div>
+                        <label for=""></label>
+                        <input type="text">
+                    </div>
+
+                    <div>
+                        <label for=""></label>
+                        <select name="" id="">
+                            <option value=""></option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for=""></label>
+                        <input type="text">
+                    </div>
+
+                    <div id="textarea">
+                        <label for=""></label>
+                        <textarea name="" id=""></textarea>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <component name="footer" />
     </body>
 </html>
