@@ -6,6 +6,7 @@ const Cookie = require("../util/cookie.js");
 const ws = require("ws");
 const Component = require( "./component.js" );
 const path = require("path");
+const CodedError = require("../errors/codederror.js");
 
 var ServerManager = ( function() {
     const componentRequestPage = new Page.Special(
@@ -13,6 +14,22 @@ var ServerManager = ( function() {
         "/[name]",
         "execute",
         "application/json"
+    );
+
+    const placeholderPage = new Page(
+        path.join(__dirname, "./server_assets/placeholder_page.html"),
+        "/placeholder",
+        "hypertext",
+        "text/html",
+        {
+            events: {
+                before({ request, response }) {
+                    const parsedUrl = url.parse(request.url);
+                    response.statusCode = 404;
+                    throw new CodedError(404, `No page found at ${parsedUrl.pathname}`);
+                }
+            }
+        }
     );
 
     const ServerManager = class ServerManager extends http.Server {
@@ -78,8 +95,10 @@ var ServerManager = ( function() {
 
                     collectingContentPromises.push(load);
                 } else {
-                    response.writeHead(404, { "content-type": "text/html" });
-                    content.append(`<h1>No page found at ${pathname}</h1>`);
+                    // response.writeHead(404, { "content-type": "text/html" });
+                    // content.append(`<h1>No page found at ${pathname}</h1>`);
+                    const load = placeholderPage.load({ query, body, params, content, page: placeholderPage, request, response, server: this, components: this.components, session, localhooks }, this.APIObjects);
+                    collectingContentPromises.push(load);
                 }
 
                 await Promise.all(collectingContentPromises);
@@ -96,6 +115,7 @@ var ServerManager = ( function() {
 
             if (options) super(options, requestHandler); else super(requestHandler);
             this.cacheContent = Boolean(options.cacheContent);
+            Page._silentAddToCollection(placeholderPage, this.pages);
         }
 
         pages = new Page.Collection();

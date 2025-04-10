@@ -176,6 +176,11 @@ module.exports = function terminal(server) {
             }
             return;
         }
+
+        if (data.startsWith("cache")) {
+            console.log(`Definindo cache para: ${!server.cacheContent}`);
+            server.cacheContent = !server.cacheContent;
+        }
     
         if (data.startsWith("close") || data.startsWith("exit")) {
             console.clear();

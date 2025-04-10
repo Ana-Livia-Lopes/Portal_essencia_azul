@@ -3,26 +3,148 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Erro...</title>
+        <title>Erro <__CODE/> - Portal Essência Azul</title>
         <link rel="stylesheet" href="/css/erro.css">
+        <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
         <component name="header" />
         <main>
-            <ERRO/>
+            <section>
+                <div id="main-div-1">
+                    <div style="display: flex; align-items: end; gap: 8px;">
+                        <img src="<__ICONSRC/>" id="error-icon" class="icon">
+                        <p><b>Código do Erro: <__CODE/></b></p>
+                    </div>
+                    <h1 style="text-align: start;">Ops... Houve um erro<__TITLESUF/>.</h1>
+                    <p style="text-align: start;"><__DESCR/></p>
+                    <br>
+                    <p style="text-align: start;"><b>Para saber mais sobre:</b></p>
+                    <ul id="errors-ul">
+                        <li>Entre em <a href="/contato">contato</a> para relatar o erro.</li>
+                        <li><a href>Tente novamente</a>.</li>
+                        <li>Confirme suas permissões na página.</li>
+                    </ul>
+                </div>
+                <br>
+                <hr>
+                <br>
+                <div>
+                    <p style="margin-bottom: 6px; text-align: start;">Resposta do servidor:</p>
+                    <pre><__SERVER_RESP/></pre>
+                </div>
+            </section>
+            <section id="session-more">
+                <div id="logo-div">
+                    <a href="/" id="box-img">
+                        <img src="/img/logo.png" alt="logo" class="icon">
+                        <p>PORTAL <br> ESSÊNCIA AZUL</p>
+                    </a>
+                </div>
+                <p style="margin-top: 1rem;">Deseja visitar outro lugar?</p>
+                <ul style="list-style-type: none;">
+                    <li><a class="item-nav" href="/">Início</a></li>
+                    <li><a class="item-nav" href="/eventos">Eventos</a></li>
+                    <li><a class="item-nav" href="/catalogo">Catálogo</a></li>
+                    <li><a class="item-nav" href="/documentos">Documentos</a></li>
+                    <li><a class="item-nav" href="/voluntarios">Voluntários</a></li>
+                    <li><a class="item-nav" href="/conscientizacao">Conscientização</a></li>
+                    <li><a class="item-nav" href="/contato">Contato</a></li>
+                </ul>
+            </section>
         </main>
         <!-- <component name="footer" /> -->
     </body>
     <style>
+        #outer
+        #main-div-1 {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+        }
+        h1 {
+            font-size: 32px;
+        }
+        #errors-ul {
+            list-style-type: none;
+            padding-top: 8px;
+        }
+        #errors-ul li {
+            text-indent: 2rem;
+            text-align: start;
+        }
         body {
             margin: 0;
             height: 100vh;
             display: flex;
-            /* justify-content: space-between; */
             flex-direction: column;
         }
         main {
-            height: max-content;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            align-items: center;
+            justify-content: center;
+            gap: 5rem;
+            width: 95vw;
+            margin: auto;
+        }
+        section {
+            display: flex;
+            flex-direction: column;
+        }
+        .icon {
+            width: 6rem !important;
+            height: 6rem !important;
+        }
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+                gap: 48px;
+            }
+            pre {
+                max-height: 3rem;
+            }
+            .icon {
+                width: 4rem !important;
+                height: 4rem !important;
+            }
+        }
+        pre {
+            background-color: rgba(0,0,0,0.25);
+            padding: 6px;
+            margin: 0;
+            max-height: 7rem;
+            overflow-y: auto;
+        }
+        #logo-div {
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            padding: 12px 48px;
+            &, & * {
+                width: max-content;
+            }
+        }
+        #session-more {
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            padding-bottom: 1rem;
+        }
+        @media (min-width: 769px) {
+            p {
+                font-size: 20px;
+                margin: 0.2rem;
+            }
+            h1 {
+                font-size: 38px;
+            }
+            #logo-div {
+                padding: 12px 72px;
+            }
+            #session-more {
+                padding-bottom: 2rem;
+            }
+            #session-more ul li {
+                margin: 0.5rem;
+            }
         }
     </style>
 </html>

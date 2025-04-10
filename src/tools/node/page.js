@@ -61,25 +61,23 @@ var Page = ( function() {
     }
 
     const privateCollectionMaps = new WeakMap();
+    const LocalProtectedSetKey = Symbol("LocalProtectedSetKey");
+    const ProtectedSet = class LocalProtectedSet extends Set {
+        add(value, key) {
+            if (LocalProtectedSetKey === key) {
+                super.add(value);
+            }
+        }
+        delete(value, key) {
+            if (LocalProtectedSetKey === key) {
+                super.delete(value);
+            }
+        }
+    }
+    Object.freeze(ProtectedSet.prototype);
 
     /** @type {Map<string, chokidar.FSWatcher>} */
     const chokidarWatchers = new Map();
-
-    // Se retornar true, para o load
-    // function callEvent(eventName, page, ...parameters) {
-    //     let stop = false;
-    //     for (const listener of page.events[eventName]) {
-    //         try {
-    //             const result = listener(...parameters);
-    //             if (eventName === "error") stop = result;
-    //         } catch (err) {
-    //             if (eventName === "error") throw err;
-    //             stop = callEvent("error", page, ...parameters, err);
-    //         }
-    //     }
-    //     return stop;
-    // }
-
     
 
     const pagesCache = new Map();
@@ -101,6 +99,28 @@ var Page = ( function() {
         const data = await fs.promises.readFile(page.filelocation);
         pagesCache.set(page, data);
         return data;
+    }
+
+    /**
+     * 
+     * @param {Page} page 
+     * @param {*} eventName 
+     * @param {*} callbacks 
+     * @param  {...any} parameters 
+     */
+    async function runEvent(page, eventName, ...parameters) {
+        if (page.events[eventName]) {
+            for (const callback of page.events[eventName]) {
+                await callback(...parameters);
+            }
+        }
+        for (const collection of page._collectionsIn) {
+            if (collection.events[eventName]) {
+                for (const callback of collection.events[eventName]) {
+                    await callback(...parameters);
+                }
+            }
+        }
     }
 
 
@@ -200,6 +220,7 @@ var Page = ( function() {
         };
 
         _valid = true;
+        _collectionsIn = new ProtectedSet();
 
         async load({ query, body, params, session, server, content, page, request, response, components, localhooks } = { }, apis = {}) {
             try {
@@ -214,11 +235,7 @@ var Page = ( function() {
                 //     }
                 // }
     
-                if (this.events.before) {
-                    for (const before of this.events.before) {
-                        await before({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
-                    }
-                }
+                await runEvent(this, "before", { query, body, params, session, server, content, page, request, response, localhooks }, apis);
     
                 if (this.contentType === "text/html") {
                     const clientObjectsJSON = [];
@@ -274,23 +291,11 @@ var Page = ( function() {
                 //     }
                 // }
     
-                if (this.events.after) {
-                    for (const after of this.events.after) {
-                        await after({ query, body, params, session, server, content, page, request, response, localhooks }, apis);
-                    }
-                }
+                await runEvent(this, "after", { query, body, params, session, server, content, page, request, response, localhooks }, apis);
     
                 return toReturn;
             } catch (err) {
-                if (this.events.error) {
-                    for (const errorEvent of this.events.error) {
-                        try {
-                            await errorEvent({ query, body, params, session, server, content, page, request, response, localhooks }, apis, err);
-                        } catch (err) {
-                            console.error(err);
-                        }
-                    }
-                }
+                await runEvent(this, "error", { query, body, params, session, server, content, page, request, response, localhooks }, apis, err);
             }
         }
 
@@ -351,6 +356,18 @@ var Page = ( function() {
                     return false;
                 }
             }
+        }
+
+        static _silentAddToCollection(page, collection) {
+            if (!(page instanceof Page)) throw new TypeError("Page must be a Page instance");
+            if (!(collection instanceof Page.Collection)) throw new TypeError("Page Collection must be a Page.Collection instance");
+            page._collectionsIn.add(collection, LocalProtectedSetKey);
+        }
+
+        static _silentRemoveFromCollection(page, collection) {
+            if (!(page instanceof Page)) throw new TypeError("Page must be a Page instance");
+            if (!(collection instanceof Page.Collection)) throw new TypeError("Page Collection must be a Page.Collection instance");
+            page._collectionsIn.delete(collection, LocalProtectedSetKey);
         }
 
         static LoadList(array, collection, pathCorrection) {
@@ -538,6 +555,13 @@ var Page = ( function() {
                     special: new TypedSet(Page.Special)
                 });
                 if (pages.length > 0) this.append(pages);
+                Object.freeze(this.events);
+            }
+
+            events = {
+                before: [],
+                after: [],
+                error: []
             }
 
             append(...pages) {
@@ -559,6 +583,7 @@ var Page = ( function() {
                         maps.all.set(page.path, page);
                         if (page.constructor === Page) maps.simple.set(page.path, page);
                         if (page.constructor === Page.Special) maps.special.add(page);
+                        page._collectionsIn.add(this, LocalProtectedSetKey);
 
                     } else {
                         throw new TypeError("Page Collections only accept Page instances");
@@ -574,6 +599,7 @@ var Page = ( function() {
                         maps.all.delete(page.path);
                         maps.simple.delete(page.path);
                         maps.special.delete(page);
+                        page._collectionsIn.delete(this, LocalProtectedSetKey);
                     }
                 }
             }

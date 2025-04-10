@@ -81,8 +81,9 @@ var Component = ( function() {
         if (cache) {
             if (componentsCache.has(component)) return componentsCache.get(component);
         }
-        if (cache) componentsCache.set(component, component.filelocation);
-        return await fs.promises.readFile(component.filelocation);
+        const content = await fs.promises.readFile(component.filelocation);
+        if (cache) componentsCache.set(component, content);
+        return content;
     }
 
     function openExecute(component, cache) {
