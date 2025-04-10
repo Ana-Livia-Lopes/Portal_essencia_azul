@@ -5,7 +5,7 @@ declare namespace BaseDataTypes {
         email: string
         telefone: string[]
         nome_responsaveis: string[]
-        id_familia: number
+        ref_familia: number
         nivel_suporte: 1 | 2 | 3
         escola: {
             nome: string,
@@ -23,8 +23,10 @@ declare namespace BaseDataTypes {
         restricoes_alimentares: string[]
         comida_favorita: string
         convenio: string | false
-        terapias: string[]
-        terapias_precisa: string[]
+        terapias: {
+            faz: string[]
+            precisa: string[]
+        }
 
         observacoes: string
     }
@@ -32,7 +34,7 @@ declare namespace BaseDataTypes {
     class Residente {
         nome: string
         tipo: TipoResidente
-        id_familia: number
+        ref_familia: number
     }
     class Familia {
         sobrenome: string
@@ -56,14 +58,25 @@ declare namespace BaseDataTypes {
     }
     
     class Documento {
-        id_acolhido: number
-        arquivo: Blob
+        id_arquivo: number
     }
     class Imagem {
         titulo: string
         descricao: string
         grupos: string[]
-        conteudo: Blob
+        id_conteudo: number
+    }
+    class Evento {
+        titulo: string
+        descricao: string
+        data: Date
+        id_conteudo: number
+    }
+    class Produto {
+        nome: string
+        descricao: string
+        preco: number
+        opcoes: Map<string, number> // nome-opcao => id_imagem (banco mysql)
     }
 
     type TipoContato = "email"|"telefone"
