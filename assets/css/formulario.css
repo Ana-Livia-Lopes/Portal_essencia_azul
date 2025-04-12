@@ -96,6 +96,8 @@ input{
     align-self: center;
     font-size: 16px;
     color: rgba(0, 0, 0, 0.781);
+    font-family: 'Montserrat';
+    font-weight: 500;
 }
 
 select{
@@ -106,6 +108,36 @@ select{
     border-radius: 0.2rem;
     align-self: center;
     font-size: 16px;
+    font-family: 'Montserrat';
+    font-weight: 500;
+}
+
+.radio {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.radio input[type="radio"] {
+    display: none;
+}
+
+.radio label {
+    padding: 6px 16px;
+    border: 2px solid #a0a0a0;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    color: #a0a0a0;
+    user-select: none;
+    font-weight: 500;
+}
+
+.radio input[type="radio"]:checked + label {
+    background-color: #1535B5;
+    border: 2px solid #1535B5;
+    color: white;
 }
 
 textarea{
@@ -118,7 +150,8 @@ textarea{
     align-self: center;
     font-size: 16px;
     color: rgba(0, 0, 0, 0.781);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Montserrat';
+    font-weight: 500;
     resize: none;
 }
 
@@ -138,4 +171,28 @@ button{
 
 button:hover{
     background-color: #142e96;
+}
+
+@media (max-width: 768px) {
+    section{
+        width: 90%;
+    }
+    #formularios{
+        width: 100%;
+    }
+    #descricao{
+        width: 80%;
+    }
+    .caixas{
+        width: 80%;
+    }
+    input{
+        width: 100%;
+    }
+    select{
+        width: 100%;
+    }
+    textarea{
+        width: 100%;
+    }
 }

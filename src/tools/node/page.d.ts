@@ -23,9 +23,14 @@ interface PageLoadParameters {
     apis?: ServerAPIObjects
 }
 
+type EventCallback = ( parameters: PageLoadParameters, apis: ServerAPIObjects ) => void
+type ErrorEventCallback = ( parameters: PageLoadParameters, apis: ServerAPIObjects, err: Error ) => void
+type Event<EV = EventCallback> = EV | EV[]
+
 interface PageEvents {
-    before: ( ( parameters: PageLoadParameters, apis: ServerAPIObjects ) => void ) | ( ( parameters: PageLoadParameters, apis: ServerAPIObjects ) => void )[]
-    after: ( ( parameters: PageLoadParameters, apis: ServerAPIObjects ) => void ) | ( ( parameters: PageLoadParameters, apis: ServerAPIObjects ) => void )[]
+    before: Event
+    after: Event
+    error: Event<ErrorEventCallback>
 }
 
 interface PageListObject {
@@ -84,6 +89,7 @@ declare class Page {
     readonly statusCode: number
     readonly pageType: PageType
     readonly flags: symbol[]
+    readonly events: PageEvents
 
     /**
      * Carrega o conteúdo da página de acordo com o que foi definido em `pagetype`.
@@ -210,6 +216,9 @@ declare namespace Page {
     export function LoadList(array: PageListObject[], collection: PageCollection, pathCorrectionBase: string): void
     
     export type ExecutePageFunction = (parameters: PageLoadParameters, apis: object) => string|Buffer
+    export type ExecutePageOnErrorCallback = (parameters: PageLoadParameters, apis: object, error: Error) => string|Buffer
+
+    export function clearCache(): void
 }
 
 export = Page

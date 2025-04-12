@@ -1,0 +1,63 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+section{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formulario-voluntario {
+    
+    background: #add6ffc9;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.251);
+    text-align: center;
+    
+    position: relative;
+    transition: 0.5s all;
+  }
+  .header {
+    display: flex;
+    justify-content: start;
+    background: #7EAEEE;
+    border-radius: 10px 10px 0 0;
+    height: 40px;
+    column-gap: 10px;
+    vertical-align: bottom;
+    padding-left: 16px;
+    align-items: center;
+  }
+  .dot {
+    width: 18px;
+    height: 18px;
+    background: #1535B5;
+    border-radius: 50%;
+  }
+
+  h1{
+    font-family: 'Montserrat';
+    color: #1535B5;
+    font-size: 38px;
+    margin-top: 20px;
+  }
+
+  h2{
+    font-family: 'Montserrat';
+    color: #0e1e5e85;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 5px;
+  }
+
+  form{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #textarea{
+    grid-column: 1 / span 2;
+  }

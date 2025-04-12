@@ -653,6 +653,9 @@ body {
   margin-top: 80px;
 }
 
+.apoiador:hover{
+  transform: scale(1.08);  
+}
 .apoiador {
   width: 250px;
   background: rgb(248, 248, 248);
