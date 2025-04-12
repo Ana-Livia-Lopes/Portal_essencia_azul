@@ -31,7 +31,15 @@
     <!-- galeria -->
     <!-- <h2>Galeria de Fotos</h2> -->
     <section id="secao2">
+        <h2>Eventos anteriores</h2>
+        <div id="galeriaPainel">
+            <img id="esquerdaImg" class="fotoQuadro anteriorFoto" />
+            <img id="centroImg" class="fotoQuadro" />
+            <img id="direitaImg" class="fotoQuadro proximaFoto" />
+        </div>
+
     </section>
+
     <!-- cards -->
     <section id="secao3">
         <article class="card">
@@ -75,11 +83,11 @@
                 <div class="card__content--container | flow">
                     <h2 class="card__title">Valores</h2>
                     <p class="card__description">
-                        No Essência Azul, guiamos nossas ações pela empatia, 
-                        pelo respeito e pelo acolhimento. Acreditamos que 
-                        cada família merece ser ouvida e acompanhada com 
-                        sensibilidade e dedicação. Valorizamos a colaboração 
-                        como forma de fortalecer vínculos e construir, juntos, 
+                        No Essência Azul, guiamos nossas ações pela empatia,
+                        pelo respeito e pelo acolhimento. Acreditamos que
+                        cada família merece ser ouvida e acompanhada com
+                        sensibilidade e dedicação. Valorizamos a colaboração
+                        como forma de fortalecer vínculos e construir, juntos,
                         uma rede de apoio sólida e afetiva.
                     </p>
                 </div>
@@ -180,4 +188,69 @@
     <component name="footer" />
 </body>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    const imagens = [
+      '/img/galeria1.png',
+      '/img/galeria2.png',
+      '/img/galeria3.png',
+      '/img/galeria4.png',
+      '/img/galeria5.png',
+    ];
+    
+    let indiceAtual = 1;
+    
+    const esquerdaImg = document.getElementById('esquerdaImg');
+    const centroImg = document.getElementById('centroImg');
+    const direitaImg = document.getElementById('direitaImg');
+    
+    function atualizarGaleria() {
+      esquerdaImg.classList.add('fade-out');
+      centroImg.classList.add('fade-out');
+      direitaImg.classList.add('fade-out');
+    
+      setTimeout(() => {
+        const anterior = (indiceAtual - 1 + imagens.length) % imagens.length;
+        const proxima = (indiceAtual + 1) % imagens.length;
+    
+        esquerdaImg.src = imagens[anterior];
+        centroImg.src = imagens[indiceAtual];
+        direitaImg.src = imagens[proxima];
+    
+        esquerdaImg.classList.remove('fade-out');
+        centroImg.classList.remove('fade-out');
+        direitaImg.classList.remove('fade-out');
+      }, 200);
+    }
+    
+    esquerdaImg.addEventListener('click', () => {
+      indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
+      atualizarGaleria();
+    });
+    
+    direitaImg.addEventListener('click', () => {
+      indiceAtual = (indiceAtual + 1) % imagens.length;
+      atualizarGaleria();
+    });
+    
+    setInterval(() => {
+      indiceAtual = (indiceAtual + 1) % imagens.length;
+      atualizarGaleria();
+    }, 6000);
+
+    atualizarGaleria();
+    </script>
+    
 </html>

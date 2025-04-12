@@ -1,4 +1,4 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
@@ -6,14 +6,27 @@
 /* section 1 */
 /* animação */
 @import url('https://fonts.googleapis.com/css?family=Roboto:700');
+
 @keyframes showTopText {
-  0% { transform: translate3d(0, 100%, 0); }
-  100% { transform: translate3d(0, 0, 0); }
+  0% {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
+
 @keyframes showBottomText {
-  0% { transform: translate3d(0, -100%, 0); }
-  100% { transform: translate3d(0, 0, 0); }
+  0% {
+    transform: translate3d(0, -100%, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
+
 .animated-title {
   color: rgb(6, 17, 62);
   font-family: Roboto, Arial, sans-serif;
@@ -24,31 +37,38 @@
   transform: translate(-50%, -50%);
   width: 45vmin;
 }
-.text-top, .text-bottom{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.text-top,
+.text-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.animated-title > div {
+
+.animated-title>div {
   height: 50%;
   overflow: hidden;
   position: absolute;
   width: 100%;
 }
-.animated-title > div div {
+
+.animated-title>div div {
   font-size: 6vmin;
   padding: 2vmin 0;
   position: absolute;
 }
-.animated-title > div div span {
+
+.animated-title>div div span {
   display: block;
 }
-.animated-title > div.text-top {
+
+.animated-title>div.text-top {
   border-bottom: 0.5vmin solid rgb(6, 17, 62);
   ;
   top: 0;
 }
-.animated-title > div.text-top div {
+
+.animated-title>div.text-top div {
   animation: showTopText 0.8s;
   animation-delay: 0.1s;
   animation-fill-mode: forwards;
@@ -56,61 +76,138 @@
   transform: translate(0, 100%);
 }
 
-.animated-title > div.text-bottom {
+.animated-title>div.text-bottom {
   bottom: 0;
 }
-.animated-title > div.text-bottom div {
+
+.animated-title>div.text-bottom div {
   animation: showBottomText 0.8s;
   animation-delay: 0.8s;
   animation-fill-mode: forwards;
   top: 0;
   transform: translate(0, -100%);
 }
+
 /* fim animação */
 body {
-    font-family: 'Montserrat';
-    margin: 0;
-    padding: 0;
-    text-align: center;
+  font-family: 'Montserrat';
+  margin: 0;
+  padding: 0;
+  text-align: center;
 }
+
 #secao1 {
-    position: relative;
-    background: #cce5ff;
-    padding: 150px 0 200px 0;
+  position: relative;
+  background: #cce5ff;
+  padding: 150px 0 200px 0;
 
 }
+
 .galeria {
-    padding: 20px;
+  padding: 20px;
 }
-#sobre{
-    color: rgb(6, 17, 62);
-    font-family: var(--font-text);
-    right: 55%;
-    left: 15%;
-    position: absolute;
-    top: 55%;
-    font-size: 20px;
-    font-weight: 100;
+
+#sobre {
+  color: rgb(6, 17, 62);
+  font-family: var(--font-text);
+  right: 55%;
+  left: 15%;
+  position: absolute;
+  top: 55%;
+  font-size: 20px;
+  font-weight: 100;
 
 }
-#sobre:first-of-type, #secao1 h1:first-of-type{    
-    animation: showup 19s forwards;
+
+#sobre:first-of-type,
+#secao1 h1:first-of-type {
+  animation: showup 19s forwards;
 }
+
 @keyframes showup {
-    0% {opacity:0;}
-    8% {opacity:0;}
-    18% {opacity:1;}
+  0% {
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 1;
+  }
 
 }
-#logo{
-    width: 15%;
-    right: 15%;
-    left: 60%;
-    position: absolute;
-    top: 15%;
+
+#logo {
+  width: 15%;
+  right: 15%;
+  left: 60%;
+  position: absolute;
+  top: 15%;
 }
+
 /* fim section 1 */
 /* secão 2 */
+#secao2 {
+  font-family: Arial, sans-serif;
+
+  margin: 0;
+  padding: 40px 0;
+  text-align: center;
+}
+
+#secao2 h2 {
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+#galeriaPainel {
+  position: relative;
+  width: 80%;
+  max-width: 1000px;
+  margin: auto;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 150px; 
+}
+
+.fotoQuadro {
+  position: absolute;
+  height: 400px;
+  width: 600px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s ease;
+}
+
+
+.fotoQuadro.fade-out {
+  opacity: 0;
+}
+
+.anteriorFoto {
+  left: 90%;
+  transform: translateX(-170%) scale(0.85);
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.proximaFoto {
+  left: 10%;
+  transform: translateX(70%) scale(0.85);
+  z-index: 1;
+  opacity: 0.5;
+}
+#centroImg {
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+  z-index: 2;
+  opacity: 1;
+}
 
 /* fim secão 2 */
 /* secão 3 */
@@ -149,7 +246,7 @@ body {
   text-align: left;
 }
 
-.flow > * + * {
+.flow>*+* {
   margin-top: var(--flow-space, 1em);
 }
 
@@ -166,7 +263,7 @@ body {
   box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
 }
 
-.card > * {
+.card>* {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
 }
@@ -185,12 +282,10 @@ body {
   align-self: flex-end;
   height: 75%;
   padding: 0% 0.8rem 1.875rem;
-  background: linear-gradient(
-    180deg,
-    hsla(0, 0%, 0%, 0) 0%,
-    hsla(0, 0%, 0%, 0.3) 10%,
-    hsl(0, 0%, 0%) 100%
-  );
+  background: linear-gradient(180deg,
+      hsla(0, 0%, 0%, 0) 0%,
+      hsla(0, 0%, 0%, 0.3) 10%,
+      hsl(0, 0%, 0%) 100%);
 }
 
 .card__content--container {
@@ -200,7 +295,8 @@ body {
 .card__title {
   position: relative;
   width: fit-content;
-  width: -moz-fit-content; /* Prefijo necesario para Firefox  */
+  width: -moz-fit-content;
+  /* Prefijo necesario para Firefox  */
 }
 
 .card__title::after {
@@ -216,7 +312,8 @@ body {
 .card__button {
   padding: 0.75em 1.6em;
   width: fit-content;
-  width: -moz-fit-content; /* Prefijo necesario para Firefox  */
+  width: -moz-fit-content;
+  /* Prefijo necesario para Firefox  */
   font-variant: small-caps;
   font-weight: bold;
   border-radius: 0.45em;
@@ -251,7 +348,7 @@ body {
     transition: transform 500ms ease-in;
   }
 
-  .card__content--container > :not(.card__title),
+  .card__content--container> :not(.card__title),
   .card__button {
     opacity: 0;
     transition: transform 500ms ease-out, opacity 500ms ease-out;
@@ -278,9 +375,9 @@ body {
     transform: scale(1.3);
   }
 
-  .card:hover .card__content--container > :not(.card__title),
+  .card:hover .card__content--container> :not(.card__title),
   .card:hover .card__button,
-  .card:focus-within .card__content--container > :not(.card__title),
+  .card:focus-within .card__content--container> :not(.card__title),
   .card:focus-within .card__button {
     opacity: 1;
     transition: opacity 500ms ease-in;
@@ -296,121 +393,136 @@ body {
     transition-delay: 500ms;
   }
 }
+
 /* fim secão 3 */
 /* secão 4 */
 #secao4 {
-    display: flex;
-    align-items: center;
-    background-color: #e6e6e6;
-    overflow: hidden;
+  display: flex;
+  align-items: center;
+  background-color: #e6e6e6;
+  overflow: hidden;
 }
 
 .texto {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+
 }
 
 .linha {
-    position: absolute;
-    left: 20%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 5px;
-    height: 90%;
-    background-color: #0033cc;
-    border-radius: 10px;
+  position: absolute;
+  left: 20%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 90%;
+  background-color: #0033cc;
+  border-radius: 10px;
 }
 
 #entenda {
-    font-size: 230%;
-    margin-bottom: 15px;
-    width: 43%;
-    margin-left: 20%;
+  font-size: 230%;
+  margin-bottom: 15px;
+  width: 43%;
+  margin-left: 20%;
 }
 
 .botao {
-    background-color: #0033cc;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    margin-left: 20%;
+  background-color: #0033cc;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-left: 20%;
 }
 
 
 .imagem img {
-    margin-left: 85px;
-    width: 95%;
-    height: 290px;
-    display: block;
+  margin-left: 85px;
+  width: 95%;
+  height: 290px;
+  display: block;
 }
+
 /* fim secão 4 */
 /* seção 5 */
-.quadrado{
+.quadrado {
   position: absolute;
   z-index: 1;
 }
-.objmeto{
+
+.objmeto {
   width: 350px;
-  
+
 }
-.imgQuadrado{
+
+.imgQuadrado {
   position: absolute;
   z-index: 2;
 }
-#secao5{
+
+#secao5 {
   position: relative;
   height: 1000px;
 }
-.textObjmeto{
+
+.textObjmeto {
   position: absolute;
   width: 40.5%;
   font-size: 20px;
   text-align: justify;
 }
-.titleObjmeto{
+
+.titleObjmeto {
   position: absolute;
   font-size: 26px;
   color: #0033cc;
 }
-.obj{
+
+.obj {
   left: 18%;
   top: 15%;
 }
-.textObj{
+
+.textObj {
   left: 50%;
   top: 21%;
   line-height: 35px;
 }
-.titleObj{
+
+.titleObj {
   left: 50%;
   top: 14%;
 }
-.meto{
+
+.meto {
   left: 30%;
   top: 78%;
   transform: translate(-50%, -50%);
 }
-.textMeto{
+
+.textMeto {
   left: 50%;
   top: 62%;
   line-height: 30px;
 }
-.titleMeto{
+
+.titleMeto {
   left: 50%;
   top: 55%;
 }
-.textMeto li{
+
+.textMeto li {
   margin-bottom: 15px;
   list-style: none;
 }
-#linhaLateral{
+
+#linhaLateral {
   position: absolute;
   left: 10%;
   top: 55%;
@@ -420,20 +532,23 @@ body {
   background-color: #0033cc;
   border-radius: 10px;
 }
-#t1{
+
+#t1 {
   position: absolute;
   left: 13%;
   top: 15%;
   font-weight: bold;
   color: rgb(40, 40, 185);
 }
-#t2{
+
+#t2 {
   position: absolute;
   left: 13%;
   top: 60%;
   font-weight: bold;
   color: rgb(40, 40, 185);
 }
+
 /* fim seção 5 */
 /* secao 6 */
 #secao6 {
@@ -458,18 +573,20 @@ body {
   margin-bottom: 35px;
   width: 100%;
 }
+
 #tituloAjuda {
   font-size: 230%;
   margin-top: 0;
   margin-bottom: 0;
 }
 
-#menino{
+#menino {
   width: 330px;
   position: absolute;
   bottom: 0;
   margin-left: 8%;
 }
+
 .botao2 {
   background-color: rgb(0, 41, 177);
   color: #fff;
@@ -478,22 +595,25 @@ body {
   border-radius: 5px;
   font-weight: bold;
 }
+
 /* fim secao 6 */
 /* secão 7 */
-#quebraCabeca{
+#quebraCabeca {
   margin: 100px auto;
   width: 100%;
 }
+
 #apoiadores {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 10vh;
   background-color: white;
-  row-gap: 16px; 
+  row-gap: 16px;
   column-gap: 8px;
   margin-bottom: 20px;
 }
+
 .container {
   display: flex;
   align-items: center;
@@ -506,7 +626,7 @@ body {
   justify-content: center;
   padding: 10px 20px;
   border: 2px solid rgb(0, 41, 177);
-  color:rgb(0, 41, 177);
+  color: rgb(0, 41, 177);
   font-weight: bold;
   font-family: Arial, sans-serif;
   text-transform: uppercase;
@@ -515,10 +635,11 @@ body {
   white-space: pre;
 }
 
-#textApoiadores{
+#textApoiadores {
   font-size: 35px;
   font-family: 'Montserrat';
 }
+
 .arrow {
   font-size: 50px;
 }
@@ -531,6 +652,7 @@ body {
   margin-bottom: 40px;
   margin-top: 80px;
 }
+
 .apoiador {
   width: 250px;
   background: rgb(248, 248, 248);
@@ -539,7 +661,13 @@ body {
   text-align: center;
   height: 300px;
   position: relative;
+  transition: 0.5s all;
+  cursor: pointer;
 }
+.apoiador:hover{
+  transform: scale(1.04);
+}
+
 .header {
   display: flex;
   justify-content: start;
@@ -551,24 +679,28 @@ body {
   padding-top: 16px;
   padding-left: 16px;
 }
+
 .dot {
   width: 12px;
   height: 12px;
   background: black;
   border-radius: 50%;
-  
+
 }
+
 .title {
   font-size: 20px;
   font-weight: bold;
   margin-top: 20px;
   color: rgb(0, 41, 177);
 }
+
 .image {
   width: 120px;
   height: auto;
   margin-top: 30px;
 }
+
 /* linha */
 /* Reset */
 
@@ -582,178 +714,210 @@ body {
   left: 36px;
   top: 100px;
 }
+
 /* fim secao 7 */
 
-@media (max-width: 768px){
-    #sobre{
-        right: 10%;
-        left: 10%;
-        top: 55%;
-        font-size: 16px;
-    }
-    .imagem img {
-        display: none;
-    }
-    #entenda {
-        font-size: 150%;
-        width: 53%;
+@media (max-width: 768px) {
+  #sobre {
+    right: 10%;
+    left: 10%;
+    top: 55%;
+    font-size: 16px;
+  }
 
-    }
-    .linha {
-        left: 15%;
-        top: 50%;
-        width: 4px;
-        height: 80%;
-    }
-    #logo{
-      width: 23%;
-    }
-    #secao3 {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .card {
-        width: 90%;
-        margin-bottom: 20px;
-        height: 330px;
-    }
-    
-    #secao6 {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
-        margin-top: 90px;
-        height: 180px;
-    }
-    .card__content {
-      height: 83%;
-    }
-    .card__title {
-      margin-bottom: 40px;
-      font-size: 2rem;
-    }
-    .card__description {
-      font-size: 15px;
-    }
-    #secao3 {
-      padding: 9% 10%;
-    }
-    .objmeto{
-      width: 220px;
-    }
-    .obj{
-      left: 30%;
-      top: 8%;
-    }
-    .meto{
-      left: 55%;
-      top: 60%;
-    }
-    .textObjmeto{
-      width: 60%;
-      font-size: 15px;
-    }
-    .titleObjmeto{
-      font-size: 24px;
-    }
-    .textObj{
-      left: 27%;
-      top: 30%;
-      line-height: 25px;
-    }
-    .titleObj{
-      left: 27%;
-      top: 25%;
-    }
-    .textMeto{
-      left: 27%;
-      top: 75%;
-      line-height: 25px;
-    }
-    .titleMeto{
-      left: 27%;
-      top: 70%;
-    }
-    .textMeto li{
-      margin-bottom: 5px;
-    }
-    #linhaLateral{
-      width: 5px;
-      height: 92%;
-      top: 53%;
-    }
-    #t2{
-      left: 13%;
-      top: 55%;
-    }
-    #t1{
-      top: 8%;
-    }
-    #secao5{
-      height: 1600px;
-    }
-    #menino{
-      display: none;
-    }
-    .texto2 {
-      margin-left: 0px;
-      
-    }
-    #textoAjuda {
-      font-size: 130%;
-      width: 90%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    #tituloAjuda {
-      font-size: 200%;
-    }
-    #quebraCabeca {
-      margin: 50px auto;
-      width: 209%;
-    }
-    #secao7 {
-      overflow: hidden;
-    }
-    .arrow{
-      display: none;
-    }
-  
-    #textApoiadores {
-      font-size: 20px;
-      text-align: center;
-    }
-    .button{
-      padding: 3px 17px;
-    }
-  
-    .cardsApoiadores {
-      flex-direction: column;
-      gap: 20px;
-      margin: 40px 0;
-    }
-  
-    .apoiador {
-      width: 70%;
-      height: auto;
-      padding-bottom: 20px;
-    }
-  
-    .title {
-      font-size: 18px;
-      margin-top: 16px;
-    }
-  
-    .image {
-      width: 100px;
-      margin-top: 20px;
-    }
-  
-    .hr {
-      width: 44%;
-      top: 66px;
-      height: 2px;
-    }
+  .imagem img {
+    display: none;
+  }
+
+  #entenda {
+    font-size: 150%;
+    width: 53%;
+
+  }
+
+  .linha {
+    left: 15%;
+    top: 50%;
+    width: 4px;
+    height: 80%;
+  }
+
+  #logo {
+    width: 23%;
+  }
+
+  #secao3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+    margin-bottom: 20px;
+    height: 330px;
+  }
+
+  #secao6 {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    margin-top: 90px;
+    height: 180px;
+  }
+
+  .card__content {
+    height: 83%;
+  }
+
+  .card__title {
+    margin-bottom: 40px;
+    font-size: 2rem;
+  }
+
+  .card__description {
+    font-size: 15px;
+  }
+
+  #secao3 {
+    padding: 9% 10%;
+  }
+
+  .objmeto {
+    width: 220px;
+  }
+
+  .obj {
+    left: 30%;
+    top: 8%;
+  }
+
+  .meto {
+    left: 55%;
+    top: 60%;
+  }
+
+  .textObjmeto {
+    width: 60%;
+    font-size: 15px;
+  }
+
+  .titleObjmeto {
+    font-size: 24px;
+  }
+
+  .textObj {
+    left: 27%;
+    top: 30%;
+    line-height: 25px;
+  }
+
+  .titleObj {
+    left: 27%;
+    top: 25%;
+  }
+
+  .textMeto {
+    left: 27%;
+    top: 75%;
+    line-height: 25px;
+  }
+
+  .titleMeto {
+    left: 27%;
+    top: 70%;
+  }
+
+  .textMeto li {
+    margin-bottom: 5px;
+  }
+
+  #linhaLateral {
+    width: 5px;
+    height: 92%;
+    top: 53%;
+  }
+
+  #t2 {
+    left: 13%;
+    top: 55%;
+  }
+
+  #t1 {
+    top: 8%;
+  }
+
+  #secao5 {
+    height: 1600px;
+  }
+
+  #menino {
+    display: none;
+  }
+
+  .texto2 {
+    margin-left: 0px;
+
+  }
+
+  #textoAjuda {
+    font-size: 130%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #tituloAjuda {
+    font-size: 200%;
+  }
+
+  #quebraCabeca {
+    margin: 50px auto;
+    width: 209%;
+  }
+
+  #secao7 {
+    overflow: hidden;
+  }
+
+  .arrow {
+    display: none;
+  }
+
+  #textApoiadores {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .button {
+    padding: 3px 17px;
+  }
+
+  .cardsApoiadores {
+    flex-direction: column;
+    gap: 20px;
+    margin: 40px 0;
+  }
+
+  .apoiador {
+    width: 70%;
+    height: auto;
+    padding-bottom: 20px;
+  }
+
+  .title {
+    font-size: 18px;
+    margin-top: 16px;
+  }
+
+  .image {
+    width: 100px;
+    margin-top: 20px;
+  }
+
+  .hr {
+    width: 44%;
+    top: 66px;
+    height: 2px;
+  }
 }
