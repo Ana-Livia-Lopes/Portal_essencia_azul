@@ -923,4 +923,27 @@ body {
     top: 66px;
     height: 2px;
   }
+  .fotoQuadro {
+    height: 160px;
+    width: 230px;
+  }
+  #galeriaPainel {
+    width: 80%;
+    max-width: 1000px;
+    height: 200px;
+    padding: 0 0px; 
+  }
+  .anteriorFoto {
+    left: 110%;
+    transform: translateX(-170%) scale(0.85);
+    z-index: 1;
+    opacity: 0.5;
+  }
+  
+  .proximaFoto {
+    left: -10%;
+    transform: translateX(70%) scale(0.85);
+    z-index: 1;
+    opacity: 0.5;
+  }
 }
