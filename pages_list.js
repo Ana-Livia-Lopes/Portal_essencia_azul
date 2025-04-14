@@ -82,8 +82,8 @@ module.exports = {
             pagelocation: "cadastrar_acolhido"
         },
         {
-            filelocation: "erro.js",
-            pagelocation: "erro",
+            filelocation: "api/getAcolhidos.js",
+            pagelocation: "api/getAcolhidos",
             pagetype: "execute"
         }
     ],
@@ -110,10 +110,6 @@ module.exports = {
             name: "sessionId",
             filelocation: "sessionId.js",
             type: "execute"
-        },
-        {
-            name: "script",
-            filelocation: "withScript.html"
         }
     ],
     errorPage: new Page(path.join(__dirname, "pages/erro.js"), "/error/", "execute", "text/html", { events: { error(_, __, error) {

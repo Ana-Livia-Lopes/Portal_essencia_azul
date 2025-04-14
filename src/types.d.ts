@@ -1,17 +1,26 @@
 declare namespace BaseDataTypes {
+    type TipoContato = "email"|"telefone"
+    interface Contato {
+        tipo: TipoContato
+        valor: string
+    }
+    interface Responsavel {
+        nome: string
+        relacao: string
+        contatos: Contato[]
+    }
+
     class Acolhido {
         nome: string
         idade: number
-        email: string
-        telefone: string[]
-        nome_responsaveis: string[]
-        ref_familia: number
+        responsaveis: Responsavel[]
+        ref_familia: string
         nivel_suporte: 1 | 2 | 3
         escola: {
             nome: string,
             tem_suporte: boolean
-        } | false
-        identificacao: {
+        } | null
+        identificacoes: {
             cordao: boolean,
             ciptea: boolean,
             vaga_exclusiva: boolean
@@ -22,25 +31,26 @@ declare namespace BaseDataTypes {
         atividades_nao_gosta: string[]
         restricoes_alimentares: string[]
         comida_favorita: string
-        convenio: string | false
+        convenio: string | null
         terapias: {
             faz: string[]
             precisa: string[]
         }
+        ref_documentos: string[]
 
-        observacoes: string
+        observacoes: string | string[]
     }
     type TipoResidente = "neurotipico" | "autista" | "investigacao"
-    class Residente {
+    interface Residente {
         nome: string
         tipo: TipoResidente
-        ref_familia: number
     }
     class Familia {
         sobrenome: string
         endereco: string
+        residentes: Residente[]
 
-        observacoes: string
+        observacoes: string | string[]
     }
 
     class Apoiador {
@@ -76,23 +86,16 @@ declare namespace BaseDataTypes {
         nome: string
         descricao: string
         preco: number
-        opcoes: Map<string, number> // nome-opcao => id_imagem (banco mysql)
+        id_imagem: number
+        opcoes: Map<string, Produto> // nome-opcao => id_imagem (banco mysql)
     }
-
-    type TipoContato = "email"|"telefone"
-
-    class Contato {
-        tipo: TipoContato
-        valor: string
+    interface Remetente {
+        nome: string
+        contatos: Contato[]
     }
     
     abstract class Solicitacao {
-        remetente: {
-            nome: string
-            contato: Contato["valor"]
-            tipo_contato: Contato["tipo"]
-            outros_contatos: Contato[]
-        }
+        remetente: Remetente
     }
     class SolicitacaoAcolhido extends Solicitacao {
         acolhido: Acolhido
@@ -114,7 +117,33 @@ declare namespace BaseDataTypes {
         nivel: NivelAdmin
         chave: string
     }
+
+    type Alteracao<A extends TipoAlteracao = TipoAlteracao> =
+        A extends "adicionar" ? AlteracaoAdicionar :
+        A extends "remover" ? AlteracaoRemover :
+        A extends "editar" ? AlteracaoEditar :
+        ( AlteracaoAdicionar | AlteracaoRemover | AlteracaoEditar )
 }
+
+declare abstract class AlteracaoBase {
+    ref_admin: string
+    colecao: string
+}
+    
+declare class AlteracaoAdicionar extends AlteracaoBase {
+    documento: object
+}
+
+declare class AlteracaoRemover extends AlteracaoBase {
+    documento: object
+}
+
+declare class AlteracaoEditar extends AlteracaoBase {
+    documento_novo: object
+    documento_antigo: object
+}
+
+declare type TipoAlteracao = "adicionar" | "remover" | "editar"
 
 declare namespace DataTypes {
     export { BaseDataTypes }
@@ -155,7 +184,8 @@ declare namespace DataTypes {
         constructor(creationKey: string, id: number, fields: F)
     
         id: number
-        references: object // adicionar no prototipo de cada
+        references: { [key: string]: any }
+        methods: { [key: string]: Function }
     }
 
     type AnalyticsAggregateFunction = "min" | "max" | "count" | "sum" | "avg"
@@ -167,7 +197,7 @@ declare namespace DataTypes {
      */
     export abstract class DatabaseAnalytics<F extends DatabaseDocument<object>> extends DatabaseInfo<F["fields"]> {
         aggregator: AnalyticsAggregateFunction
-    }
+    } // alterar
 
 
 
@@ -177,18 +207,16 @@ declare namespace DataTypes {
             get documentos(): Documento
         }
     }
-    export class Residente extends DatabaseDocument<BaseDataTypes.Residente> {
-        references: {
-            get familia(): Familia
-        }
-    }
     export class Familia extends DatabaseDocument<BaseDataTypes.Familia> {
         references: {
             get acolhidos(): Acolhido[]
-            get residentes(): Residente[]
-            get autistas(): number
-            get neurotipicos(): number
-            get investigacao(): number
+        }
+        methods: {
+            get count(): {
+                autistas: number
+                neurotipicos: number
+                investigacao: number
+            }
         }
     }
 
@@ -201,8 +229,16 @@ declare namespace DataTypes {
             get acolhido(): Acolhido
         }
     }
-
-    export class Contato extends DatabaseDocument<BaseDataTypes.Contato> {}
+    export class Evento extends DatabaseDocument<BaseDataTypes.Evento> {
+        references: {
+            get imagem(): Imagem
+        }
+    }
+    export class Produto extends DatabaseDocument<BaseDataTypes.Produto> {
+        references: {
+            get imagem(): Imagem
+        }
+    }
 
     export class SolicitacaoAcolhido extends DatabaseDocument<BaseDataTypes.SolicitacaoAcolhido> {}
     export class SolicitacaoVoluntario extends DatabaseDocument<BaseDataTypes.SolicitacaoVoluntario> {}
@@ -215,32 +251,7 @@ declare namespace DataTypes {
         static privateFields: (keyof BaseDataTypes.Admin)[]
     }
 
-
-    interface AlteracaoBase {
-        id: number
-        tabela: string
-    }
-    
-    type TipoAlteracao = "adicionar" | "remover" | "editar"
-    
-    interface AlteracaoAdicionar extends AlteracaoBase {
-        tupla: object
-    }
-    
-    interface AlteracaoRemover extends AlteracaoBase {
-        tupla: object
-    }
-    
-    interface AlteracaoEditar extends AlteracaoBase {
-        campo: string
-        valor_novo: any
-        valor_antigo: any
-    }
-
-    export type Alteracao<A extends TipoAlteracao = TipoAlteracao> =
-        A extends "adicionar" ? AlteracaoAdicionar :
-        A extends "remover" ? AlteracaoRemover :
-        A extends "editar" ? AlteracaoEditar : never
+    export class Alteracao extends DatabaseDocument<BaseDataTypes.Alteracao<TipoAlteracao>> {}
 }
 
 export = DataTypes

@@ -2,12 +2,10 @@ import Session from "./tools/node/session"
 import { DatabaseDocument, DatabaseAnalytics } from "./types"
 
 declare type SearchRuleRelation =
-    "equals" | "different" |
-    "bigger" | "biggerequal" |
-    "less" | "lessequal" |
-    "startswith" | "endswith" |
-    "includes" | "notincludes" |
-    "like" | "between" | "in"
+    "=" | "!=" |
+    ">" | ">=" |
+    "<" | "<=" |
+    "in" | "not in"
 
 declare interface SearchRule<T extends DatabaseDocument<object>> {
     field: (keyof T["fields"] | "id")
@@ -16,9 +14,7 @@ declare interface SearchRule<T extends DatabaseDocument<object>> {
 }
 
 declare interface ReadOptions<T extends DatabaseDocument<object>> {
-    fields?: (keyof T["fields"] | "id")[] | "*"
-    conditions?: SearchRule<T>[] | SearchRule<T>
-    distinct?: boolean,
+    conditions?: SearchRule<T>[]
     limit?: number
     limitOffset?: number
     orderBy?: (keyof T["fields"])

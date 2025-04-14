@@ -50,6 +50,21 @@ if (typeof config.firebase !== "object" || !config.firebase) {
     process.exit();
 }
 
+if (typeof config.mysql !== "object" || !config.mysql) {
+    console.log("Por favor, insira as configurações privadas do banco de dados MySQL em config.json");
+    console.log(
+`\x1b[38;2;95;158;160m{
+    "server": { ... },
+    "mysql": {
+        "hostname": ...,
+        "username": ...,
+        "password": ...,
+        "database": ...
+    }
+}\x1b[0m`);
+    process.exit();
+}
+
 const server = new ServerManager({ componentRequests: true });
 deployPages(server);
 

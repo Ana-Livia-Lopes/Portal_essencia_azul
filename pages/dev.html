@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dev Tests</title>
-        <script src="/js/test.js"></script>
     </head>
     <body>
         <component name="header" />
@@ -16,7 +15,6 @@
                 <button id="switch_1">Server Info</button>
                 <button id="switch_2">Date</button>
                 <button id="switch_3">Session ID</button>
-                <button id="switch_4">With Script</button>
             </div>
             <hr class="w1">
             <div id="switch_output">
@@ -34,7 +32,75 @@
             </style>
         </div>
 
-        <component name="script" />
+        <section>
+            <input type="text">
+            <hr>
+            <div style="display: flex; gap: 25px;">
+                <div id="reducer-input" style="display: flex; flex-direction: column; min-width: 25vh;"></div>
+                <pre id="json-output" style="width: 25vh; padding: 8px;"></pre>
+            </div>
+            <script>
+                const privateInputList = [];
+                const mainElement = document.getElementById("reducer-input");
+                const outputElement = document.getElementById("json-output");
+                Object.defineProperty(mainElement, "value", {
+                    get() {
+                        const inputs = [];
+                        for (const element of mainElement.children) {
+                            if (element instanceof HTMLInputElement) inputs.push(element);
+                        }
+                        return inputs;
+                    }
+                })
+
+                function extensibleInputKeyDownEvent(event) {
+                    if (event.key === "Enter") {
+                        const newinput = extensibleInput();
+                        event.target.insertAdjacentElement("afterend", newinput);
+                        newinput.focus();
+                    }
+                    if (event.key === "Backspace") {
+                        let targetIndex = event.target.parentElement.value.indexOf(event.target);
+                        if (targetIndex <= 0) return;
+                        if (event.target.value.length !== 0) return;
+                        event.target.parentElement.value[targetIndex - 1].focus();
+                        if (event.target.value.length === 0) event.target.parentElement.removeChild(event.target);
+                        event.preventDefault();
+                    }
+                }
+
+                function printJSON() {
+                    outputElement.innerHTML = JSON.stringify(mainElement.value.map(i => i.value), null, 2);
+                }
+                
+                function extensibleInput() {
+                    const input = document.createElement("input");
+                    input.addEventListener("keydown", extensibleInputKeyDownEvent);
+                    input.addEventListener("keyup", printJSON);
+                    return input;
+                }
+                mainElement.append(extensibleInput())
+            </script>
+            <style>
+                pre {
+                    background-color: rgb(173, 173, 173);
+                    font-family: monospace;
+                }
+            </style>
+        </section>
+        <hr class="w2">
+        <section>
+            <div id="listinput"></div>
+            <script type="module">
+                import ListInput from "/js/list_input.js";
+                new ListInput(document.getElementById("listinput"));
+            </script>
+            <style>
+                #listinput input {
+                    display: block;
+                }
+            </style>
+        </section>
 
         <script type="module">
             import ComponentSwitch from "/js/component_switch.js";
@@ -43,8 +109,32 @@
                 .setChangeButton(document.getElementById("switch_1"), "serverInfo")
                 .setChangeButton(document.getElementById("switch_2"), "date")
                 .setChangeButton(document.getElementById("switch_3"), "sessionId")
-                .setChangeButton(document.getElementById("switch_4"), "script")
                 .change("serverInfo")
+        </script>
+        <hr class="w2">
+        <section>
+            <h2>Acolhidos</h2>
+            <ul id="output-acolhidos"></ul>
+        </section>
+        <script>
+            (async () => {
+                const req = await fetch("/api/getAcolhidos");
+                const json = await req.json();
+                const outputElement = document.getElementById("output-acolhidos");
+                console.log(json);
+
+                if (json instanceof Array) {
+                    for (const acol of json) {
+                        const li = document.createElement("li");
+                        const pre = document.createElement("pre");
+                        pre.innerHTML = JSON.stringify(acol, undefined, 2);
+                        li.append(pre);
+                        outputElement.append(li);
+                    }
+                } else {
+                    outputElement.append(`Erro: ${json?.message}`);
+                }
+            })();
         </script>
     </body>
 </html>
