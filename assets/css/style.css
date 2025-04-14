@@ -656,6 +656,7 @@ body {
 .apoiador:hover{
   transform: scale(1.08);  
 }
+
 .apoiador {
   width: 250px;
   background: rgb(248, 248, 248);
@@ -876,7 +877,7 @@ body {
 
   #quebraCabeca {
     margin: 50px auto;
-    width: 209%;
+    width: 260%;
   }
 
   #secao7 {
@@ -924,8 +925,8 @@ body {
     height: 2px;
   }
   .fotoQuadro {
-    height: 160px;
-    width: 230px;
+    height: 180px;
+    width: 270px;
   }
   #galeriaPainel {
     width: 80%;
@@ -934,14 +935,14 @@ body {
     padding: 0 0px; 
   }
   .anteriorFoto {
-    left: 110%;
+    left: 130%;
     transform: translateX(-170%) scale(0.85);
     z-index: 1;
     opacity: 0.5;
   }
   
   .proximaFoto {
-    left: -10%;
+    left: -30%;
     transform: translateX(70%) scale(0.85);
     z-index: 1;
     opacity: 0.5;
