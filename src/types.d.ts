@@ -188,8 +188,8 @@ declare namespace DataTypes {
         constructor(creationKey: string, id: number, fields: F)
     
         id: number
-        references: { [key: string]: any }
-        methods: { [key: string]: Function }
+        references: object
+        methods: object
     }
 
     type AnalyticsAggregateFunction = "min" | "max" | "count" | "sum" | "avg"
@@ -257,7 +257,7 @@ declare namespace DataTypes {
     
     export class Admin extends DatabaseDocument<BaseDataTypes.Admin> {
         references: {
-            get alteracoes(): Alteracao<TipoAlteracao>[]
+            get alteracoes(): Alteracao[]
         }
 
         static privateFields: (keyof BaseDataTypes.Admin)[]
