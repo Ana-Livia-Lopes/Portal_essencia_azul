@@ -21,72 +21,149 @@
   </head>
 
   <body>
-    <h1>Eventos</h1>
+    <section id="secao1">
+      <h1>Eventos</h1>
 
-    <div class="eventos">
-      <div class="lista-eventos">
-        <div class="item-evento" onclick="">
-          <div class="data">
-            <b>01</b><br>Abril
+      <div class="eventos">
+        <div class="lista-eventos">
+          <div class="item-evento" onclick="">
+            <div class="data">
+              <b>01</b><br>Abril
+            </div>
+            <div class="conteudo">
+              <strong>NOME DO EVENTO</strong><br>
+              Descrição e informações do evento
+            </div>
           </div>
-          <div class="conteudo">
-            <strong>NOME DO EVENTO</strong><br>
-            Descrição e informações do evento
+
+          <div class="item-evento" onclick="">
+            <div class="data">
+              <b>29</b><br>Maio
+            </div>
+            <div class="conteudo">
+              <strong>NOME DO EVENTO</strong><br>
+              Descrição e informações do evento
+            </div>
+          </div>
+
+          <div class="item-evento" onclick="">
+            <div class="data">
+              <b>14</b><br>Junho
+            </div>
+            <div class="conteudo">
+              <strong>NOME DO EVENTO</strong><br>
+              Descrição e informações do evento
+            </div>
+          </div>
+
+          <div class="item-evento" onclick="">
+            <div class="data">
+              <b>30</b><br>Agosto
+            </div>
+            <div class="conteudo">
+              <strong>NOME DO EVENTO</strong><br>
+              Descrição e informações do evento
+            </div>
+          </div>
+
+          <div class="item-evento" onclick="">
+            <div class="data">
+              <b>09</b><br>Setembro
+            </div>
+            <div class="conteudo">
+              <strong>NOME DO EVENTO</strong><br>
+              <div>Descrição e informações do evento</div>
+            </div>
+          </div>
+
+          <div class="item-evento" onclick="">
+            <div class="data">
+              <b>17</b><br>Novembro
+            </div>
+            <div class="conteudo">
+              <strong>NOME DO EVENTO</strong><br>
+              <div>Descrição e informações do evento</div>
+            </div>
           </div>
         </div>
-
-        <div class="item-evento" onclick="">
-          <div class="data">
-            <b>29</b><br>Maio
-          </div>
-          <div class="conteudo">
-            <strong>NOME DO EVENTO</strong><br>
-            Descrição e informações do evento
-          </div>
-        </div>
-
-        <div class="item-evento" onclick="">
-          <div class="data">
-            <b>14</b><br>Junho
-          </div>
-          <div class="conteudo">
-            <strong>NOME DO EVENTO</strong><br>
-            Descrição e informações do evento
-          </div>
-        </div>
-
-        <div class="item-evento" onclick="">
-          <div class="data">
-            <b>30</b><br>Agosto
-          </div>
-          <div class="conteudo">
-            <strong>NOME DO EVENTO</strong><br>
-            Descrição e informações do evento
-          </div>
-        </div>
-
-        <div class="item-evento" onclick="">
-          <div class="data">
-            <b>09</b><br>Setembro
-          </div>
-          <div class="conteudo">
-            <strong>NOME DO EVENTO</strong><br>
-            <div>Descrição e informações do evento</div>
-          </div>
-        </div>
-
-        <div class="item-evento" onclick="">
-          <div class="data">
-            <b>17</b><br>Novembro
-          </div>
-          <div class="conteudo">
-            <strong>NOME DO EVENTO</strong><br>
-            <div>Descrição e informações do evento</div>
-          </div>
-        </div>
+        <img class="imgEvento" src="/img/evento1.png" alt="">
       </div>
-      <img class="palestra" src="/img/evento1.png" alt="">
-    </div>
+    </section>
+    <section id="secao2">
+      <img src="/img/linha.png" id="quebraCabeca">
+      <h2>Eventos anteriores</h2>
+
+        <div id="galeriaPainel">
+            <img id="esquerdaImg" class="fotoQuadro anteriorFoto" />
+            <img id="centroImg" class="fotoQuadro" />
+            <img id="direitaImg" class="fotoQuadro proximaFoto" />
+        </div>
+
+    </section>
   </body>
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    const imagens = [
+      '/img/galeria1.png',
+      '/img/galeria2.png',
+      '/img/galeria3.png',
+      '/img/galeria4.png',
+      '/img/galeria5.png',
+    ];
+    
+    let indiceAtual = 1;
+    
+    const esquerdaImg = document.getElementById('esquerdaImg');
+    const centroImg = document.getElementById('centroImg');
+    const direitaImg = document.getElementById('direitaImg');
+    
+    function atualizarGaleria() {
+      esquerdaImg.classList.add('fade-out');
+      centroImg.classList.add('fade-out');
+      direitaImg.classList.add('fade-out');
+    
+      setTimeout(() => {
+        const anterior = (indiceAtual - 1 + imagens.length) % imagens.length;
+        const proxima = (indiceAtual + 1) % imagens.length;
+    
+        esquerdaImg.src = imagens[anterior];
+        centroImg.src = imagens[indiceAtual];
+        direitaImg.src = imagens[proxima];
+    
+        esquerdaImg.classList.remove('fade-out');
+        centroImg.classList.remove('fade-out');
+        direitaImg.classList.remove('fade-out');
+      }, 200);
+    }
+    
+    esquerdaImg.addEventListener('click', () => {
+      indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
+      atualizarGaleria();
+    });
+    
+    direitaImg.addEventListener('click', () => {
+      indiceAtual = (indiceAtual + 1) % imagens.length;
+      atualizarGaleria();
+    });
+    
+    setInterval(() => {
+      indiceAtual = (indiceAtual + 1) % imagens.length;
+      atualizarGaleria();
+    }, 10000);
+
+    atualizarGaleria();
+    </script>
+
 
 </html>
