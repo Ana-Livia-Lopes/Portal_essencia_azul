@@ -55,7 +55,7 @@ declare namespace BaseDataTypes {
 
     class Apoiador {
         nome: string
-        logo: string
+        id_logo: string
         link: string
     }
     class Voluntario {
@@ -68,6 +68,8 @@ declare namespace BaseDataTypes {
     }
     
     class Documento {
+        nome: string
+        descricao: string
         id_arquivo: number
     }
     class Imagem {
@@ -80,7 +82,7 @@ declare namespace BaseDataTypes {
         titulo: string
         descricao: string
         data: Date
-        id_conteudo: number
+        id_imagem: number
     }
     class Produto {
         nome: string
@@ -125,20 +127,22 @@ declare namespace BaseDataTypes {
         ( AlteracaoAdicionar | AlteracaoRemover | AlteracaoEditar )
 }
 
-declare abstract class AlteracaoBase {
+declare abstract class AlteracaoBase<A extends string> {
     ref_admin: string
     colecao: string
+    acao: A
+    data: Date
 }
     
-declare class AlteracaoAdicionar extends AlteracaoBase {
+declare class AlteracaoAdicionar extends AlteracaoBase<"adicionar"> {
     documento: object
 }
 
-declare class AlteracaoRemover extends AlteracaoBase {
+declare class AlteracaoRemover extends AlteracaoBase<"remover"> {
     documento: object
 }
 
-declare class AlteracaoEditar extends AlteracaoBase {
+declare class AlteracaoEditar extends AlteracaoBase<"editar"> {
     documento_novo: object
     documento_antigo: object
 }
@@ -220,13 +224,21 @@ declare namespace DataTypes {
         }
     }
 
-    export class Apoiador extends DatabaseDocument<BaseDataTypes.Apoiador> {}
+    export class Apoiador extends DatabaseDocument<BaseDataTypes.Apoiador> {
+        references: {
+            get logo(): Blob
+        }
+    }
     export class Voluntario extends DatabaseDocument<BaseDataTypes.Voluntario> {}
 
-    export class Imagem extends DatabaseDocument<BaseDataTypes.Imagem> {}
+    export class Imagem extends DatabaseDocument<BaseDataTypes.Imagem> {
+        references: {
+            get conteudo(): Blob
+        }
+    }
     export class Documento extends DatabaseDocument<BaseDataTypes.Documento> {
         references: {
-            get acolhido(): Acolhido
+            get arquivo(): Blob
         }
     }
     export class Evento extends DatabaseDocument<BaseDataTypes.Evento> {
@@ -251,7 +263,11 @@ declare namespace DataTypes {
         static privateFields: (keyof BaseDataTypes.Admin)[]
     }
 
-    export class Alteracao extends DatabaseDocument<BaseDataTypes.Alteracao<TipoAlteracao>> {}
+    export class Alteracao extends DatabaseDocument<BaseDataTypes.Alteracao<TipoAlteracao>> {
+        references: {
+            get admin(): Admin
+        }
+    }
 }
 
 export = DataTypes

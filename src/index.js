@@ -1,16 +1,14 @@
 const mysql = require("mysql");
 const { Session, Property } = require("./tools");
 const { db } = require("../firebase.js");
-const { addDoc, collection, Timestamp, DocumentReference, getDoc, doc, where, query, orderBy, limit, startAfter, getDocs } = require("firebase/firestore");
+const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs } = require("firebase/firestore");
 
 var EssenciaAzul = ( function() {
     const BaseDataTypes = {}
     BaseDataTypes.Acolhido = class Acolhido {
         nome;
         idade;
-        email;
-        telefone;
-        nome_responsaveis;
+        responsaveis;
         ref_familia;
         nivel_suporte;
         escola;
@@ -36,7 +34,7 @@ var EssenciaAzul = ( function() {
     }
     BaseDataTypes.Apoiador = class Apoiador {
         nome;
-        logo;
+        id_logo;
         link;
     }
     BaseDataTypes.Voluntario = class Voluntario {
@@ -48,6 +46,8 @@ var EssenciaAzul = ( function() {
         por_que_ser_voluntario;
     }
     BaseDataTypes.Documento = class Documento {
+        nome;
+        descricao;
         id_arquivo;
     }
     BaseDataTypes.Imagem = class Imagem {
@@ -60,7 +60,7 @@ var EssenciaAzul = ( function() {
         titulo;
         descricao;
         data;
-        id_conteudo;
+        id_imagem;
     }
     BaseDataTypes.Produto = class Produto {
         nome;
@@ -69,20 +69,14 @@ var EssenciaAzul = ( function() {
         id_imagem;
         opcoes;
     }
-    BaseDataTypes.Remetente = class Remetente {
-        nome;
-        contato;
-        tipo_contato;
-        outros_contatos;
-    }
-    BaseDataTypes.Solicitacao = class Solicitacao {
+    const Solicitacao = class Solicitacao {
         remetente;
     }
-    BaseDataTypes.SolicitacaoAcolhido = class SolicitacaoAcolhido extends BaseDataTypes.Solicitacao {
+    BaseDataTypes.SolicitacaoAcolhido = class SolicitacaoAcolhido extends Solicitacao {
         acolhido;
     }
-    BaseDataTypes.SolicitacaoVoluntario = class SolicitacaoVoluntario extends BaseDataTypes.Solicitacao {
-        Voluntario;
+    BaseDataTypes.SolicitacaoVoluntario = class SolicitacaoVoluntario extends Solicitacao {
+        voluntario;
     }
     BaseDataTypes.Admin = class Admin {
         nome;
@@ -248,7 +242,7 @@ var EssenciaAzul = ( function() {
             get familia() { },
             get documentos() { }
         },
-        privateFields: [ "ref_familia" ],
+        privateFields: [ "ref_familia", "ref_documentos" ],
         events: {
             create: (doc) => console.log(doc),
             read: (doc) => console.log(doc)
@@ -260,43 +254,88 @@ var EssenciaAzul = ( function() {
             get acolhidos() { return createdByKey.get(this) },
         },
         methods: {
-            countTypes() {
+            count() {
                 return {}
             }
         }
     });
 
-    Types.Apoiador = createDatabaseDocumentType(BaseDataTypes.Apoiador, "apoiadores");
+    Types.Apoiador = createDatabaseDocumentType(BaseDataTypes.Apoiador, "apoiadores", {
+        references: {
+            get logo() {  }
+        },
+        privateFields: [ "id_logo" ]
+    });
     Types.Voluntario = createDatabaseDocumentType(BaseDataTypes.Voluntario, "voluntarios");
+
+    const MySQLTypes = {};
+    const MySQLBaseStructure = class MySQLBaseStructure {
+        id;
+        conteudo;
+    }
     
+    MySQLTypes.Documento = createDatabaseDocumentType(MySQLBaseStructure, "documentos", {
+        database: "mysql",
+        privateFields: [ "id" ]
+    });
+    MySQLTypes.Imagem = createDatabaseDocumentType(MySQLBaseStructure, "imagens", {
+        database: "mysql",
+        privateFields: [ "id" ]
+    });
+
     Types.Documento = createDatabaseDocumentType(BaseDataTypes.Documento, "documentos", {
-        database: "mysql"
+        references: {
+            get arquivo() { }
+        },
+        privateFields: [ "id_arquivo" ]
     });
     Types.Imagem = createDatabaseDocumentType(BaseDataTypes.Imagem, "imagens", {
-        database: "mysql"
+        references: {
+            get conteudo() { }
+        },
+        privateFields: [ "id_conteudo" ]
     });
-    Types.Evento = createDatabaseDocumentType(BaseDataTypes.Evento, "eventos", {});
-    Types.Produto = createDatabaseDocumentType(BaseDataTypes.Produto, "produtos", {});
+    Types.Evento = createDatabaseDocumentType(BaseDataTypes.Evento, "eventos", {
+        references: {
+            get imagem() { }
+        },
+        privateFields: [ "id_imagem" ]
+    });
+    Types.Produto = createDatabaseDocumentType(BaseDataTypes.Produto, "produtos", {
+        references: {
+            get imagem() { }
+        },
+        privateFields: [ "id_imagem" ]
+    });
 
-    Types.SolicitacaoAcolhido = createDatabaseDocumentType(BaseDataTypes.SolicitacaoAcolhido, "solicitacoes_acolhido", {});
-    Types.SolicitacaoVoluntario = createDatabaseDocumentType(BaseDataTypes.SolicitacaoVoluntario, "solicitacoes_voluntario", {});
+    Types.SolicitacaoAcolhido = createDatabaseDocumentType(BaseDataTypes.SolicitacaoAcolhido, "solicitacoes_acolhido");
+    Types.SolicitacaoVoluntario = createDatabaseDocumentType(BaseDataTypes.SolicitacaoVoluntario, "solicitacoes_voluntario");
 
     Types.Admin = createDatabaseDocumentType(BaseDataTypes.Admin, "admins", {
         privateFields: [ "senha", "chave" ],
         events: {
             create(doc) {},
-            remove(doc) {}
+            remove(doc) {},
+            update(doc) {}
+        },
+        references: {
+            get alteracoes() { }
         }
     });
 
-    Types.Alteracao = createDatabaseDocumentType(BaseDataTypes.Alteracao, "alteracoes", {});
+    Types.Alteracao = createDatabaseDocumentType(BaseDataTypes.Alteracao, "alteracoes", {
+        references: {
+            get admin() { }
+        },
+        privateFields: [ "ref_admin" ]
+    });
 
     const {
-        Acolhido, Residente, Familia,
+        Acolhido, Familia,
         Apoiador, Voluntario,
         Documento, Imagem, Evento, Produto,
         SolicitacaoAcolhido, SolicitacaoVoluntario,
-        Admin
+        Admin, Alteracao
     } = Types;
 
     function storageConnect() {
