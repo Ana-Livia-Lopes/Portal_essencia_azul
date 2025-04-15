@@ -180,3 +180,86 @@
     font-size: 34px;
     text-align: center;
 }
+
+.section4 #barra{
+    position: absolute;
+    left: 50%;
+    top: 386%;
+    transform: translate(-50%, -50%);
+    width: 7px;
+    height: 12%;
+    background-color: #0033cc;
+    border-radius: 10px;
+}
+
+.section4 #municipal p {
+    margin: 25px;
+    font-size: 20px;
+    text-align: justify;
+    margin-top: 44px;
+    width: 43%;
+}
+
+.section4 .pCMIA{
+    float: right;
+    position: absolute;
+    left: 50%;
+    top: 376%;
+    margin-top: 0;
+}
+
+.section4 a, .section5 a{
+    color: black;
+}
+
+.section4 #emissao h2, h3{
+    text-align: left;
+    margin: 10px;
+}
+
+.section4 #emissao p, .section5 #cartao-defis p {
+    margin: 15px;
+    font-size: 20px;
+    text-align: justify;
+    width: 50%;
+}
+
+.section4 #emissao h3{
+    font-size: 24px;
+}
+
+.section4 #emissao ol li{
+    width: 50%;
+    line-height: 2;
+    font-size: 20px;
+    margin-left: 30px;
+}
+
+.section4 #emissao img{
+    float: right;
+    width: 460px;
+    height: 310px;
+    margin: 30px;
+}
+
+.section5{
+    margin: 10px;
+    margin-top: 150px;
+}
+
+.section5 h2{
+    margin-left: 12px;
+    color: #1535B5;
+    font-size: 34px;
+    text-align: left;
+}
+
+.section5 #imgCartao{
+    float: right;
+    width: 500px;
+    height: 350px;
+    margin: 30px;
+    position: absolute;
+    top: 475%;
+    left: 60%;
+}

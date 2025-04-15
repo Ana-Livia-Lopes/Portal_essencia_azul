@@ -8,6 +8,8 @@ body {
   color: #1a237e;
 }
 
+/* secao1 */
+
 h1 {
   font-size: 42px;
   line-height: 1.3;
@@ -64,7 +66,7 @@ h1 {
   line-height: 30px;
 }
 
-.palestra {
+.imgEvento {
   width: 460px;
   background: #f5f5f5;
   border: 2px solid #1a237e;
@@ -78,4 +80,132 @@ h1 {
 #quebrar {
   width: 310px;
   flex-wrap: wrap;
+}
+
+/* fim secao1 */
+/* secao 2 */
+
+#quebraCabeca {
+  margin: 100px auto;
+  width: 100%;
+}
+#galeriaPainel {
+  position: relative;
+  width: 80%;
+  max-width: 1000px;
+  margin: auto;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 150px; 
+  margin-bottom: 70px;
+}
+
+.fotoQuadro {
+  position: absolute;
+  height: 400px;
+  width: 600px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s ease;
+}
+
+
+.fotoQuadro.fade-out {
+  opacity: 0;
+}
+
+.anteriorFoto {
+  left: 90%;
+  transform: translateX(-170%) scale(0.85);
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.proximaFoto {
+  left: 10%;
+  transform: translateX(70%) scale(0.85);
+  z-index: 1;
+  opacity: 0.5;
+}
+#centroImg {
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+  z-index: 2;
+  opacity: 1;
+}
+
+#secao2 h2 {
+  color: #2c3e50;
+  margin-bottom: 60px;
+  font-size: 36px;
+  line-height: 1.3;
+  color: #1a237e;
+  text-align: center;
+}
+/* fim secao 2 */
+
+@media (max-width: 768px){
+  h1 {
+    margin-top: 30px;
+  } 
+
+  .lista-eventos {
+    width: 320px;
+    height: 385px;
+    border: 0.3px solid #979797;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.541);
+  }
+  
+  .data {
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .item-evento {
+    background: #e6e6e6;
+  }
+
+  .imgEvento {
+    width: 340px;
+    height: 305px;
+    margin-bottom: 50PX;
+  }
+
+  /* secao 2 */
+
+  #quebraCabeca {
+    margin: 50px auto;
+    width: 260%;
+  }
+
+  #secao2 {
+    overflow: hidden;
+  }
+
+  .fotoQuadro {
+    height: 180px;
+    width: 270px;
+  }
+  #galeriaPainel {
+    width: 80%;
+    max-width: 1000px;
+    height: 200px;
+    padding: 0 0px; 
+  }
+  .anteriorFoto {
+    left: 130%;
+    transform: translateX(-170%) scale(0.85);
+    z-index: 1;
+    opacity: 0.5;
+  }
+  
+  .proximaFoto {
+    left: -30%;
+    transform: translateX(70%) scale(0.85);
+    z-index: 1;
+    opacity: 0.5;
+  }
 }
