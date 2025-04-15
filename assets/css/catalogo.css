@@ -257,4 +257,23 @@ body {
     #secao2{
         overflow: hidden;
     }
+    .imagem img {
+        display: none;
+    }
+    .linha {
+        left: 10%;
+    }
+    #entenda {
+        margin-left: 10%;
+        width: 88%;
+    }
+    .botao {
+        margin-left: 10%;
+    }
+    .coluna.card-preco {
+        width: 100%; 
+    }
+    .tabela-preco-principal {
+        flex-wrap: wrap;
+    }
 }
