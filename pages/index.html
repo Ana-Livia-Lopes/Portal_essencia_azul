@@ -234,21 +234,26 @@
         direitaImg.classList.remove('fade-out');
       }, 200);
     }
+
+    let clicou = false;
     
     esquerdaImg.addEventListener('click', () => {
       indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
       atualizarGaleria();
+      clicou = true;
     });
     
     direitaImg.addEventListener('click', () => {
       indiceAtual = (indiceAtual + 1) % imagens.length;
       atualizarGaleria();
+      clicou = true;
     });
     
     setInterval(() => {
       indiceAtual = (indiceAtual + 1) % imagens.length;
-      atualizarGaleria();
-    }, 10000);
+      if (!clicou) atualizarGaleria();
+      clicou = false
+    }, 4000);
 
     atualizarGaleria();
     </script>

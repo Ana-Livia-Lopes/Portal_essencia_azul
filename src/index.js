@@ -594,6 +594,18 @@ var EssenciaAzul = ( function() {
         if (keylevel === 0) throw new Error("Permissão insuficiente para qualquer operação de administrador");
         // verificação especial se o tipo for admin, já que admin1 pode apenas SE editar.
         if (type === Admin) keylevel = await updateAdminKeyValidation(key, id);
+
+        switch (type._dbtype) {
+            case "mysql":
+                
+                break;
+            
+            case "firestore":
+                const collRef = collection(db, type.collection);
+
+                
+                break;
+        }
     }
 
     async function remove(key, type, id) {}
