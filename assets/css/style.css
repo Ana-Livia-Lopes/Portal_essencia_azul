@@ -150,7 +150,6 @@ body {
 /* fim section 1 */
 /* secão 2 */
 #secao2 {
-  font-family: Arial, sans-serif;
 
   margin: 0;
   padding: 40px 0;
@@ -736,11 +735,15 @@ body {
   #entenda {
     font-size: 150%;
     width: 53%;
+    margin-left: 12%;
+  }
 
+  .botao {
+    margin-left: 15%;
   }
 
   .linha {
-    left: 15%;
+    left: 11%;
     top: 50%;
     width: 4px;
     height: 80%;
