@@ -33,6 +33,61 @@ function listInputEvent(event) {
         }
 
         event.target.parentElement.removeChild(event.target);
+    } else if (event.key === "ArrowLeft") {
+        if (event.target.index === 0) return;
+        if (event.target.selectionStart === event.target.selectionEnd && event.target.selectionStart === 0) {
+            for (const element of event.target.parentElement.children) {
+                if (element instanceof HTMLInputElement && element.index === event.target.index - 1) {
+                    element.focus();
+                    event.preventDefault();
+                    break;
+                }
+            }
+        }
+    } else if (event.key === "ArrowRight") {
+        if (event.target.index === event.target.parentElement.children.length - 1) return;
+        if (event.target.selectionStart === event.target.selectionEnd && event.target.selectionStart === event.target.value.length) {
+            for (const element of event.target.parentElement.children) {
+                if (element instanceof HTMLInputElement && element.index === event.target.index + 1) {
+                    element.focus();
+                    event.preventDefault();
+                    element.setSelectionRange(0, 0);
+                    break;
+                }
+            }
+        }
+    } else if (event.key === "Delete") {
+        if (event.target.index === event.target.parentElement.children.length - 1) return;
+        if (event.target.selectionStart === event.target.selectionEnd && event.target.selectionStart === event.target.value.length) {
+            for (const element of event.target.parentElement.children) {
+                if (element instanceof HTMLInputElement && element.index === event.target.index + 1) {
+                    let originalLength = event.target.value.length
+                    event.target.value += element.value;
+                    event.preventDefault();
+                    element.parentElement.removeChild(element);
+                    event.target.setSelectionRange(originalLength, originalLength);
+                    break;
+                }
+            }
+        }
+    } else if (event.key === "ArrowUp") {
+        if (event.target.index === 0) return;
+        for (const element of event.target.parentElement.children) {
+            if (element instanceof HTMLInputElement && element.index === event.target.index - 1) {
+                element.focus();
+                event.preventDefault();
+                break;
+            }
+        }
+    } else if (event.key === "ArrowDown") {
+        if (event.target.index === event.target.parentElement.children.length - 1) return;
+        for (const element of event.target.parentElement.children) {
+            if (element instanceof HTMLInputElement && element.index === event.target.index + 1) {
+                element.focus();
+                event.preventDefault();
+                break;
+            }
+        }
     } else {
         for (const element of event.target.parentElement.children) {
             if (element instanceof HTMLInputElement) {
@@ -73,8 +128,11 @@ function createListInputTopic() {
     return input;
 }
 
+const CreatedListInputs = new WeakSet();
+
 class ListInput {
     constructor(container, ...initialValues) {
+        if (CreatedListInputs.has(container)) return container;
         if (!(container instanceof HTMLElement)) throw new Error("container must be an HTMLElement");
         const input = createListInputTopic();
         container.append(input);
@@ -98,6 +156,8 @@ class ListInput {
 
         input.dispatchEvent(new Event("input"));
         input.dispatchEvent(new Event("keydown"));
+
+        CreatedListInputs.add(container)
 
         return container;
     }

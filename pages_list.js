@@ -85,6 +85,11 @@ module.exports = {
             filelocation: "api/getAcolhidos.js",
             pagelocation: "api/getAcolhidos",
             pagetype: "execute"
+        },
+        {
+            filelocation: "../assets/img/logo.png",
+            pagelocation: "favicon.ico",
+            contenttype: "image/png"
         }
     ],
     components: [
@@ -110,6 +115,10 @@ module.exports = {
             name: "sessionId",
             filelocation: "sessionId.js",
             type: "execute"
+        },
+        {
+            name: "list_input",
+            filelocation: "list_input.html"
         }
     ],
     errorPage: new Page(path.join(__dirname, "pages/erro.js"), "/error/", "execute", "text/html", { events: { error(_, __, error) {

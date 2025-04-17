@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Essência Azul</title>
     <link rel="stylesheet" href="/css/catalogo.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -17,17 +20,17 @@
             <article class="coluna card-preco">
                 <div class="bloco-preco agile">
                     <div class="topo-preco">
-                        <img src="/img/produto2.jpeg" alt="Quarto Amigos" class="img-responsiva" />
+                        <img src="/img/produto2.jpeg" alt="Quarto Amigos" class="img-responsiva" id="imgCamiseta" />
                         <h4>Camiseta</h4>
                     </div>
                     <div class="fundo-preco">
                         <div class="seleção-preco">
-                            <h3><span>R$</span>35,00</h3>
+                            <h3 id="preco"><span>R$</span>35,00</h3>
                             <div class="custom-radios">
                                 <div>
                                     <input type="radio" id="color-1" name="color" value="color-1" checked>
                                     <label for="color-1">
-                                        <span>
+                                        <span onclick="mudar('/img/produto2.jpeg')">
                                             <img id="radio1"
                                                 src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
                                                 alt="Checked Icon" />
@@ -38,7 +41,7 @@
                                 <div>
                                     <input type="radio" id="color-2" name="color" value="color-2">
                                     <label for="color-2">
-                                        <span>
+                                        <span onclick="mudar('/img/produto1.png')">
                                             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
                                                 alt="Checked Icon" />
                                         </span>
@@ -106,5 +109,22 @@
 
     <component name="footer" />
 </body>
+<script>
+    function mudar(url) {
+        var image = document.getElementById("imgCamiseta");
+        image.src = url;
+        mudar2(url);
+    }
+
+    function mudar2(url) {
+        var preco = document.getElementById("preco");
+        
+        if (url.includes("produto2.jpeg")) {
+            preco.innerHTML = "<span>R$</span>35,00";
+        } else if (url.includes("produto1.png")) {
+            preco.innerHTML = "<span>R$</span>50,00";
+        }
+    }
+</script>
 
 </html>

@@ -97,7 +97,7 @@
     left: 8.5%;
     top: 224%;
     transform: translate(-50%, -50%);
-    width: 7px;
+    width: 9px;
     height: 12%;
     background-color: #0033cc;
     border-radius: 10px;
@@ -184,9 +184,9 @@
 .section4 #barra{
     position: absolute;
     left: 50%;
-    top: 386%;
+    top: 356%;
     transform: translate(-50%, -50%);
-    width: 7px;
+    width: 9px;
     height: 12%;
     background-color: #0033cc;
     border-radius: 10px;
@@ -197,14 +197,22 @@
     font-size: 20px;
     text-align: justify;
     margin-top: 44px;
-    width: 43%;
+    margin-bottom: 60px;
+    width: 40%;
 }
 
 .section4 .pCMIA{
     float: right;
     position: absolute;
     left: 50%;
-    top: 376%;
+    top: 346.3%;
+    margin-top: 0;
+}
+
+.section4 .pCMIA2{
+    position: absolute;
+    right: 50%;
+    top: 346.3%;
     margin-top: 0;
 }
 
@@ -214,38 +222,47 @@
 
 .section4 #emissao h2, h3{
     text-align: left;
-    margin: 10px;
+    margin-top: 170px;
+    margin-left: 125px;
 }
 
 .section4 #emissao p, .section5 #cartao-defis p {
-    margin: 15px;
+    margin-top: 15px;
+    margin-left: 125px;
     font-size: 20px;
     text-align: justify;
-    width: 50%;
+    width: 43%;
 }
 
-.section4 #emissao h3{
+.section4 #emissao h3, .section5 {
+    margin-top: 30px;
     font-size: 24px;
 }
 
-.section4 #emissao ol li{
-    width: 50%;
+.section4 #emissao ol li {
+    width: 44%;
     line-height: 2;
     font-size: 20px;
-    margin-left: 30px;
+    margin-left: 145px;
 }
 
 .section4 #emissao img{
     float: right;
     width: 460px;
     height: 310px;
-    margin: 30px;
+    position: absolute;
+    top: 377%;
+    left: 60%;
 }
 
 .section5{
-    margin: 10px;
-    margin-top: 150px;
+    overflow: hidden;   
 }
+
+#quebraCabeca {
+    margin: 70px auto;
+    width: 100%;
+  }
 
 .section5 h2{
     margin-left: 12px;
@@ -256,10 +273,67 @@
 
 .section5 #imgCartao{
     float: right;
-    width: 500px;
-    height: 350px;
-    margin: 30px;
+    width: 510px;
+    height: 360px;
     position: absolute;
-    top: 475%;
+    top: 467%;
     left: 60%;
+}   
+
+.section5 h2, h3{
+    text-align: left; 
+    margin-top: 25px;
+    margin-left: 125px;
+}
+
+.section5 #solicitar-cartao p, #emissao-defis p{
+    font-size: 20px;
+    margin-left: 125px;
+    width: 45%;
+    margin-top: 10px;
+}
+
+.section5 #solicitar-cartao h5{
+    font-weight: 500;
+    margin-left: 125px;
+    margin-top: 8px;
+}
+
+.section5 .horario{
+    display: flex;
+    margin-top: 15px;
+}
+
+.section5 #emissao-defis ol li {
+    width: 80%;
+    line-height: 2;
+    font-size: 20px;
+    position: relative;
+    left: 9.7%;}
+
+.section5 #emissao-defis a{
+    background-color: #fdfbd6fd;
+    padding: 18px;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 50px;
+    position: relative;
+    top: 40px;
+    bottom: 40px;
+    left: 9%;
+}
+
+.section5 .prazo p{
+    margin-top: 30px;
+    line-height: 1.5;
+}
+
+.section5 .prazo{
+    width: 700px;
+}
+
+.section5 .prazo img{
+    width: 78px;
+    height: 70px;
 }

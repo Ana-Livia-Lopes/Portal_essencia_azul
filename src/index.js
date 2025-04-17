@@ -140,6 +140,8 @@ var EssenciaAzul = ( function() {
         methods = {},
         privateFields = [],
         database = "firestore",
+        /** callbacks ({ action, fields, key, type }) => fields */
+        fieldsFilters = [],
         actionsMinKeyLevel = {
             ["create"]: 1,
             ["read"]: 1,
@@ -198,14 +200,24 @@ var EssenciaAzul = ( function() {
             static name = `${basetype.name}Analytics`;
         }
 
+        fieldsFilters = Object.freeze([ ...fieldsFilters ]);
+        function callFieldsFilters({ action, type, key, fields }) {
+            for (const filter of fieldsFilters) {
+                fields = filter({ action, type, key, fields });
+            }
+            return fields;
+        }
+
         doctype._basetype = basetype;
         doctype.collection = collection;
         doctype._dbtype = database;
         doctype._eventEmitter = emitEvent;
+        doctype._callFieldsFilter = callFieldsFilters;
         Property.set(doctype, "_basetype", "freeze", "hide", "lock");
         Property.set(doctype, "collection", "freeze", "hide", "lock");
         Property.set(doctype, "_dbtype", "freeze", "hide", "lock");
         Property.set(doctype, "_eventEmitter", "freeze", "hide", "lock");
+        Property.set(doctype, "_callFieldsFilter", "freeze", "hide", "lock");
 
         doctype.prototype.collection = collection;
         Property.set(doctype.prototype, "collection", "freeze", "hide", "lock");
@@ -244,9 +256,12 @@ var EssenciaAzul = ( function() {
         },
         privateFields: [ "ref_familia", "ref_documentos" ],
         events: {
-            create: (doc) => console.log(doc),
-            read: (doc) => console.log(doc)
-        }
+            // create: (doc) => console.log(doc),
+            // read: (doc) => console.log(doc)
+        },
+        fieldsFilters: [
+            ({ fields }) => { fields.manipulated = true; return fields; }
+        ]
     });
 
     Types.Familia = createDatabaseDocumentType(BaseDataTypes.Familia, "familias", {
@@ -273,14 +288,15 @@ var EssenciaAzul = ( function() {
         id;
         conteudo;
     }
+    const MySQLPrivateFields = [ "id" ];
     
     MySQLTypes.Documento = createDatabaseDocumentType(MySQLBaseStructure, "documentos", {
         database: "mysql",
-        privateFields: [ "id" ]
+        privateFields: MySQLPrivateFields
     });
     MySQLTypes.Imagem = createDatabaseDocumentType(MySQLBaseStructure, "imagens", {
         database: "mysql",
-        privateFields: [ "id" ]
+        privateFields: MySQLPrivateFields
     });
 
     Types.Documento = createDatabaseDocumentType(BaseDataTypes.Documento, "documentos", {
@@ -320,7 +336,17 @@ var EssenciaAzul = ( function() {
         },
         references: {
             get alteracoes() { }
-        }
+        },
+        fieldsFilters: [
+            ({ fields, key, action }) => {
+                // filtrar a criação de valores de chave antes de update
+                
+                // nao pode definir nivel para nivel igual ao seu, somente menor, PermissionError.
+                // nao pode definir chave, PermissionError.
+
+                // setar chave randomica em create
+            }
+        ]
     });
 
     Types.Alteracao = createDatabaseDocumentType(BaseDataTypes.Alteracao, "alteracoes", {
@@ -418,6 +444,8 @@ var EssenciaAzul = ( function() {
         let keylevel = await validateKey(key);
         if (keylevel <= 0) throw new Error("Permissão insuficiente para qualquer operação de administrador");
 
+        type._callFieldsFilter({ action: "create", type, key, fields });
+
         if (keylevel < type["create.minKeyLevel"]) throw new Error(`Permissão insuficiente para criar documento de ${type._basetype.name}`);
         const dbtype = type._dbtype;
 
@@ -481,7 +509,7 @@ var EssenciaAzul = ( function() {
         let keylevel = await validateKey(key);
         if (keylevel <= 0) throw new Error("Permissão insuficiente para qualquer operação de administrador");
 
-        if (keylevel < type["read.minKeyLevel"]) throw new Error(`Permissão insuficiente para ler documento de ${type._basetype.name}`);
+        if (keylevel < type["read.minKeyLevel"]) throw new Error(`Permissão insuficiente para ler documentos de ${type._basetype.name}`);
 
         const dbtype = type._dbtype;
         let docs = [];
@@ -531,7 +559,7 @@ var EssenciaAzul = ( function() {
                 });
 
                 for (const row of rows) {
-                    const fields = { ...row };
+                    const fields = type._callFieldsFilter({ action: "read", type, key, fields: { ...row } });
                     delete fields.id;
                     let doc = new type(createdByKey.get(this), row.id, fields, privateDBConstructorKey);
                     docs.push(doc);
@@ -572,7 +600,7 @@ var EssenciaAzul = ( function() {
                 }
 
                 (await getDocs(query(collRef, ...constraints))).forEach(doc => {
-                    const fields = mapForTimestampToDate({ ...doc.data() });
+                    const fields = type._callFieldsFilter({ fields: mapForTimestampToDate({ ...doc.data() }), action: "read", type, key });
                     delete fields.id;
                     docs.push(new type(createdByKey.get(this), doc.id, fields, privateDBConstructorKey));
                 });
@@ -596,6 +624,8 @@ var EssenciaAzul = ( function() {
         if (keylevel === 0) throw new Error("Permissão insuficiente para qualquer operação de administrador");
         // verificação especial se o tipo for admin, já que admin1 pode apenas SE editar.
         if (type === Admin) keylevel = await updateAdminKeyValidation(key, id);
+
+        if (keylevel < type["update.minKeyLevel"]) throw new Error(`Permissão insuficiente para atualizar documentos de ${type._basetype.name}`);
 
         switch (type._dbtype) {
             case "mysql":

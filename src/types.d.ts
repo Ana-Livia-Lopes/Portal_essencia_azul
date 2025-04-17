@@ -89,7 +89,7 @@ declare namespace BaseDataTypes {
         descricao: string
         preco: number
         id_imagem: number
-        opcoes: Map<string, Produto> // nome-opcao => id_imagem (banco mysql)
+        opcoes: Map<string, Produto>
     }
     interface Remetente {
         nome: string
