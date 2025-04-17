@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Montserrat';
 }
 
 body {
@@ -266,6 +267,7 @@ body {
     #entenda {
         margin-left: 10%;
         width: 88%;
+        font-size: 25px;
     }
     .botao {
         margin-left: 10%;
@@ -275,5 +277,9 @@ body {
     }
     .tabela-preco-principal {
         flex-wrap: wrap;
+    }
+    .titulo-preto-wthree {
+        font-size: 33px;
+
     }
 }
