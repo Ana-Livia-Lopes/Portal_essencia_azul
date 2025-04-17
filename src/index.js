@@ -338,8 +338,10 @@ var EssenciaAzul = ( function() {
         Admin, Alteracao
     } = Types;
 
+    function registerAction() {}
+
     function storageConnect() {
-        const config = require("../config.json").database;
+        const config = require("../config.json").mysql;
 
         return mysql.createConnection({
             user: config.username,

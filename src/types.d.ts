@@ -259,8 +259,6 @@ declare namespace DataTypes {
         references: {
             get alteracoes(): Alteracao[]
         }
-
-        static privateFields: (keyof BaseDataTypes.Admin)[]
     }
 
     export class Alteracao extends DatabaseDocument<BaseDataTypes.Alteracao<TipoAlteracao>> {
