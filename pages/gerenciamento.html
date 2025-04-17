@@ -21,41 +21,46 @@
 
     <div id="atalhos">
         <div id="botoes-direita">
-            <button class="botao">Voluntários</button>
-            <button class="botao">Administradores</button>
-            <button class="botao">Famílias</button>
-            <button class="botao-esp">Relatórios</button>
-            <button href="#secao1" class="botao-esp">Acolhidos</button>
+            <button class="botao" onclick="scrollParaElemento('secao4')">Voluntários</button>
+            <button class="botao" onclick="scrollParaElemento('secao2')">Administradores</button>
+            <button class="botao" onclick="scrollParaElemento('secao3')">Famílias</button>
+            <button href="#" class="botao-esp">Relatórios</button>
+            <button class="botao" onclick="scrollParaElemento('secao1')">Acolhidos</button>
         </div>
     </div>
+
+    <section class="section-nhm-opcao-selec">
+        <img src="/img/nhm-opcao-selec.png" alt="Ilustração de nenhuma opção de usuário selecionada.">
+        <p>Nenhuma opção selecionada.</p>
+    </section>
 
     <section class="section-acolhidos" id="secao1">
         <div class="lista-info-usuario">
             <input type="text" id="search" placeholder="Pesquise..." />
             <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-            <div class="acolhido-opcao-lista" id="usuariosLista">
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Lucas</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 2</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 3</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 4</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 5</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 6</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 7</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 8</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 9</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 10</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 11</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 12</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 13</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 14</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 15</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Acolhido 16</div>
+            <div class="user-opcao-lista" id="usuariosLista">
+                <div class="opcao-lista"> Lucas</div>
+                <div class="opcao-lista"> Acolhido 2</div>
+                <div class="opcao-lista"> Acolhido 3</div>
+                <div class="opcao-lista"> Acolhido 4</div>
+                <div class="opcao-lista"> Acolhido 5</div>
+                <div class="opcao-lista"> Acolhido 6</div>
+                <div class="opcao-lista"> Acolhido 7</div>
+                <div class="opcao-lista"> Acolhido 8</div>
+                <div class="opcao-lista"> Acolhido 9</div>
+                <div class="opcao-lista"> Acolhido 10</div>
+                <div class="opcao-lista"> Acolhido 11</div>
+                <div class="opcao-lista"> Acolhido 12</div>
+                <div class="opcao-lista"> Acolhido 13</div>
+                <div class="opcao-lista"> Acolhido 14</div>
+                <div class="opcao-lista"> Acolhido 15</div>
+                <div class="opcao-lista"> Acolhido 16</div>
             </div>
         </div>
 
         <div class="form-container">
             <div class="form-cabecalho">
-                <img src="https://via.placeholder.com/50" alt="Foto do acolhido">
+                <img class="user-foto" src="/img/user-default.png" alt="Foto do acolhido">
                 <h2>Lucas</h2>
             </div>
 
@@ -101,7 +106,7 @@
                         <div class="radio">
                             <input type="radio" id="escola-suporte-sim" name="escola-suporte" value="Sim">
                             <label for="escola-suporte-sim">Sim</label>
-                    
+
                             <input type="radio" id="escola-suporte-nao" name="escola-suporte" value="Não">
                             <label for="escola-suporte-nao">Não</label>
                         </div>
@@ -116,7 +121,7 @@
                         <div class="radio">
                             <input type="radio" id="ciptea-sim" name="ciptea" value="Sim">
                             <label for="ciptea-sim">Sim</label>
-                    
+
                             <input type="radio" id="ciptea-nao" name="ciptea" value="Não">
                             <label for="ciptea-nao">Não</label>
                         </div>
@@ -131,7 +136,7 @@
                         <div class="radio">
                             <input type="radio" id="cordao-sim" name="cordao" value="Sim">
                             <label for="cordao-sim">Sim</label>
-                    
+
                             <input type="radio" id="cordao-nao" name="cordao" value="Não">
                             <label for="cordao-nao">Não</label>
                         </div>
@@ -142,7 +147,7 @@
                         <div class="radio">
                             <input type="radio" id="defis-sim" name="defis" value="Sim">
                             <label for="defis-sim">Sim</label>
-                    
+
                             <input type="radio" id="defis-nao" name="defis" value="Não">
                             <label for="defis-nao">Não</label>
                         </div>
@@ -163,19 +168,19 @@
         </div>
     </section>
 
-    <section class="section-admin">
+    <section class="section-admin" id="secao2">
         <div class="lista-info-usuario">
-            <span class="span-selecione">Selecione...</span>
-            <div class="acolhido-opcao-lista" id="usuariosLista">
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Simone</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Carol</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Sol</div>
+            <span class="span-selecione">Selecione:</span>
+            <div class="user-opcao-lista" id="usuariosLista">
+                <div class="opcao-lista"> Simone</div>
+                <div class="opcao-lista"> Carol</div>
+                <div class="opcao-lista"> Sol</div>
             </div>
         </div>
 
         <div class="form-container">
             <div class="form-cabecalho">
-                <img src="https://via.placeholder.com/50" alt="Foto do admin">
+                <img class="user-foto" src="/img/user-default.png" alt="Foto do admin">
                 <h2>Simone</h2>
             </div>
 
@@ -205,15 +210,15 @@
         </div>
     </section>
 
-    <section class="section-familias">
+    <section class="section-familias" id="secao3">
         <div class="lista-info-usuario">
-            <span class="span-selecione">Selecione...</span>
+            <span class="span-selecione">Selecione:</span>
             <div class="acolhido-opcao-lista" id="usuariosLista">
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Família SmartWeb</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Família 2</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Família 3</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Família 4</div>
-                <div class="opcao-lista"><img src="/assets/img/menino.png" alt=""> Família 5</div>
+                <div class="opcao-lista">Família SmartWeb</div>
+                <div class="opcao-lista">Família 2</div>
+                <div class="opcao-lista">Família 3</div>
+                <div class="opcao-lista">Família 4</div>
+                <div class="opcao-lista">Família 5</div>
             </div>
         </div>
 
@@ -221,18 +226,198 @@
             <div class="form-cabecalho">
                 <h2>Família SmartWeb</h2>
             </div>
-            
-            <h3 class="subtitulo-familias">Acolhidos da fámilia</h3>
-            <h3 class="subtitulo-familias">Residentes (outros):</h3>
 
+            <h3 class="subtitulo-familias">Acolhidos da família:</h3>
+            <div class="users-familia">
+                <div class="acolhido-card">
+                    <img src="/img/user-default.png" class="img-user-default" alt="">
+                    <p>Lucas</p>
+                </div>
+                <div class="acolhido-card">
+                    <img src="/img/user-default.png" class="img-user-default" alt="">
+                    <p>Acolhido 2</p>
+                </div>
+                <div class="acolhido-card">
+                    <img src="/img/user-default.png" class="img-user-default" alt="">
+                    <p>Acolhido 3</p>
+                </div>
+                <div class="acolhido-card">
+                    <img src="/img/user-default.png" class="img-user-default" alt="">
+                    <p>Acolhido 4</p>
+                </div>
+            </div>
+
+            <h3 class="subtitulo-familias">Residentes (outros):</h3>
+            <div class="residente-linha">
+                <div class="residente-info">
+                    <div class="foto-nomeResidente">
+                        <img src="/img/user-default.png" class="img-user-default" alt="">
+                        <span>Residente 5</span>
+                    </div>
+                    <select>
+                        <option>Selecione...</option>
+                        <option>Sim</option>
+                        <option>Não</option>
+                        <option>Em investigação</option>
+                        <option>Neurotípico</option>
+                    </select>
+                    <div class="botoes-acoes">
+                        <button class="btn-editar">Editar</button>
+                        <button class="btn-excluir">Excluir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="residente-linha">
+                <div class="residente-info">
+                    <div class="foto-nomeResidente">
+                        <img src="/img/user-default.png" class="img-user-default" alt="">
+                        <span>Residente 6</span>
+                    </div>
+                    <select>
+                        <option>Selecione...</option>
+                        <option>Sim</option>
+                        <option>Não</option>
+                        <option>Em investigação</option>
+                        <option>Neurotípico</option>
+                    </select>
+                    <div class="botoes-acoes">
+                        <button class="btn-editar">Editar</button>
+                        <button class="btn-excluir">Excluir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="div-btn-adicionar">
+                <button class="btn-adicionar">Adicionar residente</button>
+            </div>
+
+            <h3 class="mais-informacoes">Mais informações:</h3>
+            <div class="label-input2">
+                <label>Endereço:</label>
+                <input type="text" />
+            </div>
+
+            <div class="mais-infomracoes-desc">
+                <p>Não acolhidos: <strong>2</strong></p>
+                <p>Residentes em investigação: <strong>1</strong></p>
+                <p>Residentes com laudo: <strong>3</strong></p>
+            </div>
         </div>
     </section>
 
-    <section class="section-voluntarios">
+    <section class="section-voluntarios" id="secao4">
+        <div class="lista-info-usuario">
+            <span class="span-selecione">Selecione:</span>
+            <div class="user-opcao-lista" id="usuariosLista">
+                <div class="opcao-lista"> Voluntário 1</div>
+                <div class="opcao-lista"> Voluntário 2</div>
+                <div class="opcao-lista"> Voluntário 3</div>
+                <div class="opcao-lista"> Voluntário 4</div>
+                <div class="opcao-lista"> Voluntário 5</div>
+            </div>
+        </div>
 
+        <div class="form-container">
+            <div class="form-cabecalho">
+                <h2>Voluntário</h2>
+            </div>
+
+            <form>
+                <div class="form-grid">
+                    <div class="label-input">
+                        <label>Nome completo:</label>
+                        <input type="text">
+                    </div>
+
+                    <div class="label-input">
+                        <label>CPF::</label>
+                        <input type="text">
+                    </div>
+
+                    <div class="label-input">
+                        <label>E-mail:</label>
+                        <input type="email">
+                    </div>
+
+                    <div class="label-input">
+                        <label>Telefone:</label>
+                        <input type="email">
+                    </div>
+
+                    <div class="label-input">
+                        <label>Como quer ajudar::</label>
+                        <input type="email">
+                    </div>
+
+                    <div class="label-input">
+                        <label>Outro tipo de ajuda:</label>
+                        <input type="email">
+                    </div>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="button" class="edit-btn">Aceitar</button>
+                    <button type="button" class="delete-btn">Recusar</button>
+                </div>
+            </form>
+        </div>
     </section>
 
     <component name="footer" />
+
+    <a href="#" class="btn" id="scrollToTopButton"></a>
+
+    <script>
+        function scrollParaElemento(id) {
+            const alvo = document.getElementById(id);
+            if (!alvo) return;
+
+            const distancia = alvo.getBoundingClientRect().top + window.scrollY;
+            const duracao = 1800;
+            const inicio = window.scrollY;
+            const comeco = performance.now();
+
+            function animarScroll(agora) {
+                const tempoPassado = agora - comeco;
+                const progresso = Math.min(tempoPassado / duracao, 1);
+                const ease = 0.5 - Math.cos(progresso * Math.PI) / 2;
+
+                window.scrollTo(0, inicio + (distancia - inicio) * ease);
+
+                if (progresso < 1) {
+                    requestAnimationFrame(animarScroll);
+                }
+            }
+
+            requestAnimationFrame(animarScroll);
+        }
+
+        const scrollToTopButton = document.getElementById('scrollToTopButton');
+
+        function smoothScrollToTop() {
+            const scrollStep = -window.scrollY / 40;
+            const scrollInterval = setInterval(() => {
+                if (window.scrollY !== 0) {
+                    window.scrollBy(0, scrollStep);
+                } else {
+                    clearInterval(scrollInterval);
+                }
+            }, 15);
+        }
+
+        scrollToTopButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            smoothScrollToTop();
+        });
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                scrollToTopButton.classList.add('show');
+            } else {
+                scrollToTopButton.classList.remove('show');
+            }
+        });
+    </script>
 </body>
 
 </html>

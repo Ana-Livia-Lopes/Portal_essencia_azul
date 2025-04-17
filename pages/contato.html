@@ -1,16 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/css/contato.css">
-        <title>Contato - Portal Essência Azul</title>
-    </head>
-    <body>
-        <header id="header"></header>
-        <script type="module">
-            import importComponent from "/js/importComponent.js";
-            importComponent(document.getElementById("header"), "/components/header.html");
-        </script>
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/contato.css">
+    <title>Contato - Portal Essência Azul</title>
+</head>
+
+<body>
+    <header id="header"></header>
+    <script type="module">
+        import importComponent from "/js/importComponent.js";
+        importComponent(document.getElementById("header"), "/components/header.html");
+    </script>
+
+    <div class="contato-container">
+        <div class="header">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div class="div-padding-form">
+            <div class="formulario-contato">
+                <div class="div-centralizar1">
+                    <h2>Envie um comentário ou dúvida</h2>
+                    <hr class="vertical-line" />
+                    <div class="form">
+                        <form>
+                            <input type="text" placeholder="Digite seu nome" />
+                            <textarea placeholder="Digite sua pergunta ou observação"></textarea>
+                            <button type="submit">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-contato">
+                <h3>Para mais informações:</h3>
+                <div class="info-linhas">
+                    <div>
+                        <p><i class="fa-brands fa-square-instagram"></i>@essencia.azul</p>
+                        <p><i class="fa-brands fa-facebook"></i>Essência azul</p>
+                        <p><i class="fa-brands fa-square-whatsapp"></i>(12) 99651-1830 / (12) 99126-3198</p>
+                    </div>
+                    <div>
+                        <p><i class="fa-solid fa-envelope"></i>essenciatea@gmail.com</p>
+                        <p><i class="fa-solid fa-location-dot"></i>R. Prof. João Batista Ortiz Monteiro, 345 - Vila
+                            Antônio Augusto Luiz, Caçapava - SP,<br>12287-310</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
