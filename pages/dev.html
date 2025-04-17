@@ -31,80 +31,19 @@
                 }
             </style>
         </div>
-
+        <style>
+            pre {
+                background-color: rgb(173, 173, 173);
+                font-family: monospace;
+            }
+        </style>
         <section>
-            <input type="text">
-            <hr>
-            <div style="display: flex; gap: 25px;">
-                <div id="reducer-input" style="display: flex; flex-direction: column; min-width: 25vh;"></div>
-                <pre id="json-output" style="width: 25vh; padding: 8px;"></pre>
-            </div>
-            <script>
-                const privateInputList = [];
-                const mainElement = document.getElementById("reducer-input");
-                const outputElement = document.getElementById("json-output");
-                Object.defineProperty(mainElement, "value", {
-                    get() {
-                        const inputs = [];
-                        for (const element of mainElement.children) {
-                            if (element instanceof HTMLInputElement) inputs.push(element);
-                        }
-                        return inputs;
-                    }
-                })
-
-                function extensibleInputKeyDownEvent(event) {
-                    if (event.key === "Enter") {
-                        const newinput = extensibleInput();
-                        event.target.insertAdjacentElement("afterend", newinput);
-                        newinput.focus();
-                    }
-                    if (event.key === "Backspace") {
-                        let targetIndex = event.target.parentElement.value.indexOf(event.target);
-                        if (targetIndex <= 0) return;
-                        if (event.target.value.length !== 0) return;
-                        event.target.parentElement.value[targetIndex - 1].focus();
-                        if (event.target.value.length === 0) event.target.parentElement.removeChild(event.target);
-                        event.preventDefault();
-                    }
-                }
-
-                function printJSON() {
-                    outputElement.innerHTML = JSON.stringify(mainElement.value.map(i => i.value), null, 2);
-                }
-                
-                function extensibleInput() {
-                    const input = document.createElement("input");
-                    input.addEventListener("keydown", extensibleInputKeyDownEvent);
-                    input.addEventListener("keyup", printJSON);
-                    return input;
-                }
-                mainElement.append(extensibleInput())
-            </script>
-            <style>
-                pre {
-                    background-color: rgb(173, 173, 173);
-                    font-family: monospace;
-                }
-            </style>
-        </section>
-        <hr class="w2">
-        <section>
-            <div id="listinput"></div>
-            <script type="module">
-                import ListInput from "/js/list_input.js";
-                new ListInput(document.getElementById("listinput"));
-            </script>
-            <div id="listinput2"></div>
-            <script type="module">
-                import ListInput from "/js/list_input.js";
-                new ListInput(document.getElementById("listinput2"), "eu", "amo", "roblox");
-            </script>
-            <style>
-                #listinput input {
-                    display: block;
-                }
-            </style>
+            <h2>List Input</h2>
+            <component name="list_input" />
+            <component name="list_input" />
+            <component name="list_input" />
+            <component name="list_input" />
+            <link rel="stylesheet" href="/css/components.css">
         </section>
 
         <script type="module">
@@ -116,6 +55,38 @@
                 .setChangeButton(document.getElementById("switch_3"), "sessionId")
                 .change("serverInfo")
         </script>
+        <hr class="w2">
+        <section>
+            <h2>Object input</h2>
+            <div id="objinput">
+                <input type="text" id="io1">
+                <input type="number" id="io2">
+                <div id="io3"></div>
+                <div id="io4">
+                    <input type="text" id="io4a">
+                    <input type="number" id="io4b">
+                </div>
+            </div>
+            <script type="module">
+                import ObjectInput from "/js/object_input.js";
+                import ListInput from "/js/list_input.js";
+
+                new ListInput(document.getElementById("io3"))
+
+                new ObjectInput(document.getElementById("io4"), {
+                    subtext: document.getElementById("io4a"),
+                    subnum: document.getElementById("io4b")
+                })
+
+                new ObjectInput(document.getElementById("objinput"), {
+                    text: document.getElementById("io1"),
+                    num: document.getElementById("io2"),
+                    list: document.getElementById("io3"),
+                    obj: document.getElementById("io4")
+                });
+            </script>
+            <hr class="w2">
+        </section>
         <hr class="w2">
         <section>
             <h2>Acolhidos</h2>
@@ -141,5 +112,11 @@
                 }
             })();
         </script>
+        <component name="footer" />
+        <style>
+            body {
+                margin: 0;
+            }
+        </style>
     </body>
 </html>
