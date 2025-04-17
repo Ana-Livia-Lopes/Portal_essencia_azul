@@ -1,63 +1,273 @@
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-section{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+section {
+  height: 105vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .formulario-voluntario {
-    
-    background: #add6ffc9;
-    border-radius: 8px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.251);
-    text-align: center;
-    
-    position: relative;
-    transition: 0.5s all;
-  }
-  .header {
-    display: flex;
-    justify-content: start;
-    background: #7EAEEE;
-    border-radius: 10px 10px 0 0;
-    height: 40px;
-    column-gap: 10px;
-    vertical-align: bottom;
-    padding-left: 16px;
-    align-items: center;
-  }
-  .dot {
-    width: 18px;
-    height: 18px;
-    background: #1535B5;
-    border-radius: 50%;
-  }
+  background: #add6ffc9;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.251);
+  text-align: center;
+  width: 60%;
+  position: relative;
+  transition: 0.5s all;
+}
 
-  h1{
-    font-family: 'Montserrat';
-    color: #1535B5;
-    font-size: 38px;
-    margin-top: 20px;
-  }
+.header {
+  display: flex;
+  justify-content: start;
+  background: #7EAEEE;
+  border-radius: 10px 10px 0 0;
+  height: 38px;
+  column-gap: 10px;
+  vertical-align: bottom;
+  padding-left: 16px;
+  align-items: center;
+}
 
-  h2{
-    font-family: 'Montserrat';
-    color: #0e1e5e85;
-    font-size: 20px;
-    font-weight: 600;
-    margin-top: 5px;
-  }
+.dot {
+  width: 16px;
+  height: 16px;
+  background: #1535B5;
+  border-radius: 50%;
+}
 
+
+.formulario-voluntario h1 {
+  font-family: 'Montserrat';
+  color: rgb(21, 53, 181);
+  font-size: 38px;
+  margin-top: 20px;
+}
+
+
+.formulario-voluntario h2 {
+  font-family: 'Montserrat';
+  color: #0e1e5e85;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 5px;
+  margin-bottom: 25px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 0px 10px;
+}
+
+.inserir-info {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  text-align: left;
+  padding-left: 48px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #0e1e5e85;
+}
+
+#textarea {
+  grid-column: 1 / span 2;
+}
+
+input {
+  width: 68.5%;
+  height: 40px;
+  margin-bottom: 20px;
+  border: solid 2px #97baddc9;
+  border-radius: 0.3rem;
+  background-size: 17px;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding-left: 37px;
+  padding-right: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: 'Montserrat';
+  align-self: center;
+  outline: none;
+  transition: all 0.3s;
+}
+
+input:focus {
+  border: solid 2px #1535b5d6;
+}
+
+#nome {
+  background-image: url('../img/user-solid.svg');
+}
+
+#cpf {
+  background-image: url('../img/address-card-solid.svg');
+  background-size: 20px;
+}
+
+#email {
+  background-image: url('../img/envelope-solid.svg');
+  background-size: 18px;
+}
+
+#tel {
+  background-image: url('../img/phone-solid.svg');
+  background-size: 18px;
+}
+
+#ajuda {
+  color: grey;
+  background-image:
+    url('../img/circle-info-solid.svg'),
+    url("data:image/svg+xml,%3Csvg fill='rgba(0,0,0,0.5)' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.516 7.548l4.478 4.479 4.479-4.479-1.063-1.063-3.416 3.415-3.415-3.415z'/%3E%3C/svg%3E");
+
+  background-size: 21px, 25px;
+  background-repeat: no-repeat;
+  background-position: 10px center, calc(100% - 10px) center;
+
+  padding-left: 37px;
+  padding-right: 35px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+#outro {
+  background-image: url('../img/circle-question-solid.svg');
+  background-size: 20px;
+  background-color: white;
+  border: solid 2px #97baddc9;
+}
+
+#outro:disabled {
+  background-image: url('../img/circle-question-solid-disabled.svg');
+  background-color: rgb(207, 207, 207);
+  border: solid 2px rgb(183, 183, 183);
+}
+
+select {
+  width: 80%;
+  height: 43px;
+  border: solid 2px #97baddc9;
+  border-radius: 0.3rem;
+  align-self: center;
+  font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.3s;
+}
+
+select:focus {
+  border: solid 2px #1535b5d6;
+}
+
+#selecionar {
+  display: none;
+}
+
+textarea {
+  resize: none;
+  width: 87.7%;
+  margin-bottom: 10px;
+  height: 160px;
+  border: solid 2px #97baddc9;
+  border-radius: 0.3rem;
+  align-self: center;
+  font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px;
+  outline: none;
+  transition: all 0.3s;
+}
+
+textarea:focus {
+  border: solid 2px #1535b5d6;
+}
+
+#link-button {
+  grid-column: 1 / span 2;
+  text-decoration: none ;
+  width: 90px;
+  height: 40px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  align-self: center;
+}
+
+#enviar-voluntario {
+  background-color: #1535B5;
+  color: white;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 16px;
+  width: 90px;
+  height: 40px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  align-self: center;
+  transition: all 0.3s;
+}
+
+#enviar-voluntario:hover{
+  background-color: #142e96;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  section{
+    height: 100%;
+  }
+  .formulario-voluntario{
+    width: 100%;
+    height: 100%;
+    background-color: #c9e4ffc9;
+    box-shadow: none;
+  }
+  .header{
+    display: none;
+  }
+  .dot{
+    display: none;
+  }
+  .formulario-voluntario h1{
+    font-size: 33px;
+  }
+  .formulario-voluntario h2{
+    margin-bottom: 25px;
+    font-size: 24px;
+  }
   form{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
   }
-
-  #textarea{
-    grid-column: 1 / span 2;
+  label{
+    padding-left: 25px;
   }
+  input{
+    width: 78%;
+  }
+  select{
+    width: 88%;
+    margin-bottom: 20px;
+  }
+  textarea{
+    width: 82%;
+  }
+  #enviar-voluntario{
+    margin-bottom: 20px;
+  }
+}

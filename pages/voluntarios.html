@@ -1,63 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/css/voluntarios.css">
-        <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
-        <title>Voluntários - Portal Essência Azul</title>
-    </head>
-    <body>
-        <component name="header" />
-        <section>
-            <div class="formulario-voluntario">
-                <div class="header">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-                <h1>Seja um voluntário</h1>
-                <h2>Toda ajuda é bem-vinda!</h2>
-                <form action="">
-                    <div>
-                        <label for=""></label>
-                        <input type="text">
-                    </div>
 
-                    <div>
-                        <label for=""></label>
-                        <input type="text">
-                    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/voluntarios.css">
+    <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
 
-                    <div>
-                        <label for=""></label>
-                        <input type="text">
-                    </div>
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/bindings/inputmask.binding.min.js"></script>
 
-                    <div>
-                        <label for=""></label>
-                        <input type="text">
-                    </div>
+    <title>Voluntários - Portal Essência Azul</title>
+</head>
 
-                    <div>
-                        <label for=""></label>
-                        <select name="" id="">
-                            <option value=""></option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for=""></label>
-                        <input type="text">
-                    </div>
-
-                    <div id="textarea">
-                        <label for=""></label>
-                        <textarea name="" id=""></textarea>
-                    </div>
-                </form>
+<body>
+    <component name="header" />
+    <section>
+        <div class="formulario-voluntario">
+            <div class="header">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
-        </section>
-        <component name="footer" />
-    </body>
+            <h1>Seja um voluntário</h1>
+            <h2>Toda ajuda é bem-vinda!</h2>
+            <form action="">
+                <div class="inserir-info">
+                    <label for="">Nome completo</label>
+                    <input id="nome" autocomplete="off" type="text" placeholder="Seu nome aqui">
+                </div>
+
+                <div class="inserir-info">
+                    <label for="">CPF</label>
+                    <input id="cpf" autocomplete="off" type="text" placeholder="000.000.000-00">
+                </div>
+
+                <div class="inserir-info">
+                    <label for="">Email</label>
+                    <input id="email" autocomplete="off" type="email" placeholder="nome@email.com">
+                </div>
+
+                <div class="inserir-info">
+                    <label for="">Telefone</label>
+                    <input id="tel" autocomplete="off" type="text" placeholder="(00) 00000-0000">
+                </div>
+
+                <div class="inserir-info">
+                    <label for="">Como quer ajudar?</label>
+                    <select id="ajuda" name="">
+                        <option id="selecionar" value="" disabled selected>Selecionar</option>
+                        <option value="adm">Administração</option>
+                        <option value="teste">Teste</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+
+                <div class="inserir-info">
+                    <label for="">Outro tipo de ajuda</label>
+                    <input id="outro" autocomplete="off" type="text" placeholder="Escreva aqui">
+                </div>
+
+                <div id="textarea" class="inserir-info">
+                    <label for="">Por que quer ser voluntário?</label>
+                    <textarea name="" id="" placeholder="Escreva aqui"></textarea>
+                </div>
+
+                <a href="/inicio" id="link-button"><button type="button" id="enviar-voluntario">Enviar</button></a>
+            </form>
+        </div>
+    </section>
+    <component name="footer" />
+</body>
+
+<script>
+    const selectAjuda = document.getElementById("ajuda");
+    const inputOutro = document.getElementById("outro");
+
+    selectAjuda.addEventListener("change", function () {
+        if (selectAjuda.value === "") {
+            selectAjuda.style.color = "grey";
+        } else {
+            selectAjuda.style.color = "black";
+        }
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+        Inputmask("999.999.999-99").mask("#cpf");
+        Inputmask("(99) 99999-9999").mask("#tel");
+
+        if (selectAjuda.value === "") {
+            selectAjuda.style.color = "grey";
+        } else {
+            selectAjuda.style.color = "black";
+        }
+    });
+
+    inputOutro.disabled = true;
+
+    selectAjuda.addEventListener("change", function () {
+        if (selectAjuda.value === "outro") {
+            inputOutro.disabled = false;
+        } else {
+            inputOutro.disabled = true;
+            inputOutro.value = "";
+        }
+    });
+</script>
+
 </html>

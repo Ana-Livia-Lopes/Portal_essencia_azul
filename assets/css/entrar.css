@@ -1,9 +1,9 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
 
-body{
+body {
     background-image: url('../img/ess_azul_bckg.png');
     background-position: center;
     background-repeat: no-repeat;
@@ -15,34 +15,34 @@ body{
     align-items: center;
 }
 
-.box-entrar{
+.box-entrar {
     background-color: white;
     padding: 20px;
     width: 440px;
-    border-radius: 0.3rem;
+    border-radius: 0.4rem;
     display: flex;
     flex-direction: column;
 }
 
-#logo-topo{
+#logo-topo {
     display: flex;
     align-items: center;
     gap: 12px;
     width: 190px;
 }
 
-#logo-topo img{
+#logo-topo img {
     width: 50px;
 }
 
-#logo-topo p{
+#logo-topo p {
     font-family: 'Montserrat';
     font-size: 13.5px;
     font-weight: 800;
     color: #1535b5ce;
 }
 
-#campos{
+#campos {
     display: flex;
     flex-direction: column;
     align-self: center;
@@ -51,43 +51,50 @@ body{
     font-family: 'Montserrat';
 }
 
-#campos h1{
+#campos h1 {
     font-size: 26px;
     font-weight: 600;
     margin-bottom: 25px;
 }
 
-form{
+form {
     display: flex;
     flex-direction: column;
 }
 
-label{
+label {
     margin-bottom: 10px;
     font-weight: 500;
     color: #000000a0;
 }
 
-input{
+input {
     width: 380px;
-    height: 55px;
+    height: 52px;
     background-color: #ECECEC;
-    border: none;
-    border-radius: 0.1rem;
+    border: solid 2px rgb(196, 196, 196);
+    border-radius: 0.2rem;
     margin-bottom: 25px;
     padding-left: 10px;
-    font-size: 16px;
+    padding-right: 10px;
+    font-size: 15px;
     font-weight: 500;
     font-family: 'Montserrat';
     color: #000000c9;
+    outline: none;
+    transition: all 0.3s;
 }
 
-#link-button{
+input:focus {
+    border: solid 2px #1283e6d6;
+}
+
+#link-button {
     align-self: center;
     text-decoration: none;
 }
 
-button{
+button {
     background-color: #1535B5;
     color: white;
     font-family: 'Montserrat';
@@ -105,7 +112,12 @@ button{
     cursor: pointer;
 }
 
-#esq-senha{
+button:hover {
+    background-color: #142e96;
+    color: white;
+}
+
+#esq-senha {
     text-decoration: none;
     text-decoration: underline !important;
     color: #00AEFF;
@@ -113,7 +125,7 @@ button{
     margin-bottom: 15px;
 }
 
-#voltar{
+#voltar {
     display: flex;
     align-items: center;
     gap: 6px;
