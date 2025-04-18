@@ -24,7 +24,19 @@
             </ul>
 
             <div id="formulario">
-                <a id='forms' href='/formulario'><button>Formulário</button></a>
+                <button>Faça parte!</button>
+            </div>
+
+            <div class="nuvem-info" id="id-nuvem">
+                <h2 class="nuvem-info-titulo">Solicitar cadastro</h2>
+                <p class="nuvem-info-texto">
+                    Ajude-nos a conhecer melhor os membros da nossa comunidade! 
+                    Preencha um breve formulário para conseguirmos oferecer um 
+                    suporte personalizado e mais eficaz às pessoas acolhidas 
+                    pela Essência Azul. Suas informações serão tratadas com 
+                    cuidado e confidencialidade.
+                </p>
+                <a href="/formulario"><button class="resp-form">Responder formulário</button></a>
             </div>
 
         </div>
@@ -44,6 +56,36 @@
         </ul>
     </nav>
 </header>
+
+<script>
+    const formularioBotao = document.getElementById('formulario');
+    const nuvem = document.getElementById('id-nuvem');
+
+    formularioBotao.addEventListener('mouseover', () => {
+        nuvem.classList.add('hovered');
+        clearTimeout(nuvem.timeoutId);
+    });
+
+    formularioBotao.addEventListener('mouseout', () => {
+        nuvem.timeoutId = setTimeout(() => {
+            if (!nuvem.matches(':hover')) {
+                nuvem.classList.remove('hovered');
+            }
+        }, 150);
+    });
+
+    nuvem.addEventListener('mouseover', () => {
+        clearTimeout(nuvem.timeoutId);
+    });
+
+    nuvem.addEventListener('mouseout', () => {
+        nuvem.timeoutId = setTimeout(() => {
+            if (!formularioBotao.matches(':hover')) {
+                nuvem.classList.remove('hovered');
+            }
+        }, 150);
+    });
+</script>
 
 <style>
     #header {
@@ -108,11 +150,73 @@
         border-radius: 0.4rem;
         width: 120px;
         height: 40px;
-        cursor: pointer;
+        cursor: default;
         transition: all 0.3s;
     }
 
     #formulario button:hover {
+        background-color: #142e96;
+    }
+
+    .nuvem-info {
+        position: absolute;
+        left: 78%;
+        top: 90%;
+        width: 250px;
+        background-color: rgb(87, 87, 87);
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 17px;
+        border-radius: 0.3rem;
+        display: none;
+        transition: all 0.3s;
+    }
+
+    .hovered {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nuvem-info .nuvem-info-texto::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 78%;
+        margin-left: -5px;
+        border-width: 7px;
+        border-style: solid;
+        border-color: transparent transparent rgb(87, 87, 87) transparent;
+    }
+
+    .nuvem-info-titulo {
+        font-family: 'Montserrat';
+        color: white;
+        margin-bottom: 14px;
+    }
+
+    .nuvem-info-texto {
+        font-family: 'Montserrat';
+        color: white;
+        text-align: justify;
+        font-size: 15px;
+        margin-bottom: 14px;
+    }
+
+    .nuvem-info button {
+        background-color: #1535B5;
+        color: white;
+        font-family: 'Montserrat';
+        font-weight: 600;
+        font-size: 15px;
+        border: none;
+        border-radius: 0.4rem;
+        height: 40px;
+        cursor: pointer;
+        transition: all 0.3s;
+        padding: 10px;
+    }
+
+    .nuvem-info button:hover {
         background-color: #142e96;
     }
 
@@ -194,13 +298,12 @@
         transform: scale(1.1);
     }
 
-    #forms{
+    #forms {
         transition: all 0.2s;
     }
 
     #forms:hover {
         color: #1535B5;
-        transform: scale(1.1);
     }
 
     #checkbox {
