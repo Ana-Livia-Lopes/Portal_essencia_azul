@@ -301,7 +301,14 @@
 
 .section5 .horario{
     display: flex;
-    margin-top: 15px;
+
+}
+
+.section5 .horario #contato{
+    margin-left: 215px;
+}
+.section5 .horario #ctt{
+    margin-right: 520px;
 }
 
 .section5 #emissao-defis ol li {
