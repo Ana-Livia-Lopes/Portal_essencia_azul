@@ -30,10 +30,9 @@
             <div class="nuvem-info" id="id-nuvem">
                 <h2 class="nuvem-info-titulo">Solicitar cadastro</h2>
                 <p class="nuvem-info-texto">
-                    Ajude-nos a conhecer melhor os membros da nossa comunidade! 
-                    Preencha um breve formulário para conseguirmos oferecer um 
-                    suporte personalizado e mais eficaz às pessoas acolhidas 
-                    pela Essência Azul. Suas informações serão tratadas com 
+                    Preencha um breve formulário para conseguirmos oferecer um
+                    suporte personalizado e mais eficaz às pessoas acolhidas
+                    pela Essência Azul. Suas informações serão tratadas com
                     cuidado e confidencialidade.
                 </p>
                 <a href="/formulario"><button class="resp-form">Responder formulário</button></a>
@@ -43,7 +42,10 @@
 
         <!-- Nav responsiva -->
         <input type="checkbox" id="checkbox">
-        <label for="checkbox" id="botao"><i class="fa-solid fa-bars"></i></label>
+        <label for="checkbox" id="botao">
+            <i id="abrir-menu" class="fa-solid fa-bars"></i>
+            <i id="fechar-menu" class="fa-solid fa-x"></i>
+        </label>
         <ul id="nav2">
             <li><a class="item-nav2" href="/">Início</a></li>
             <li><a class="item-nav2" href="/eventos">Eventos</a></li>
@@ -52,7 +54,20 @@
             <li><a class="item-nav2" href="/voluntarios">Voluntários</a></li>
             <li><a class="item-nav2" href="/conscientizacao">Conscientização</a></li>
             <li><a class="item-nav2" href="/contato">Contato</a></li>
-            <li><a class="item-nav2" href="/formulario">Formulário</a></li>
+            <li id="li-form"><a class="item-nav2" id="formulario-nav2">Faça parte!
+                    <i id="chevron-down" class="fa-solid fa-chevron-down"></i>
+                    <i id="chevron-up" class="fa-solid fa-chevron-up"></i>
+                </a></li>
+            <li id="li-form-aberto">
+                <h2 class="titulo-form-aberto">Solicitar cadastro</h2>
+                <p class="p-form-aberto">
+                    Preencha um breve formulário para conseguirmos oferecer um
+                    suporte personalizado e mais eficaz às pessoas acolhidas
+                    pela Essência Azul. Suas informações serão tratadas com
+                    cuidado e confidencialidade.
+                </p>
+                <a href="/formulario"><button class="resp-form-nav2">Responder formulário</button></a>
+            </li>
         </ul>
     </nav>
 </header>
@@ -85,9 +100,49 @@
             }
         }, 150);
     });
+
+    const formularioLi = document.getElementById('li-form');
+    const formularioLiAberto = document.getElementById('li-form-aberto');
+
+    formularioLi.addEventListener('click', () => {
+        formularioLiAberto.classList.toggle('hovered');
+    });
+
+    const chevronUp = document.getElementById('chevron-up');
+    const chevronDown = document.getElementById('chevron-down');
+
+    formularioLi.addEventListener('click', () => {
+        chevronUp.classList.toggle('mostrar');
+        chevronDown.classList.toggle('esconder');
+    });
+
+    const abrirMenu = document.getElementById('abrir-menu');
+    const fecharMenu = document.getElementById('fechar-menu');
+    const menu = document.getElementById('botao');
+
+    menu.addEventListener('click', () => {
+        fecharMenu.classList.toggle('mostrar');
+        abrirMenu.classList.toggle('esconder');
+    });
 </script>
 
 <style>
+    #abrir-menu {
+        display: flex;
+    }
+
+    #abrir-menu.esconder {
+        display: none;
+    }
+
+    #fechar-menu {
+        display: none;
+    }
+
+    #fechar-menu.mostrar {
+        display: flex;
+    }
+
     #header {
         background-color: rgb(255, 255, 255);
         color: #0e3960;
@@ -245,7 +300,6 @@
     header nav ul {
         list-style: none;
         display: flex;
-        margin: 0;
         padding: 0;
     }
 
@@ -259,6 +313,10 @@
         color: #132b8b;
         font-weight: 600;
         margin-bottom: 5px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
     }
 
     .item-nav {
@@ -316,21 +374,120 @@
         color: #00304D;
         cursor: pointer;
         float: right;
-        margin-right: 10%;
+        margin-right: 6%;
     }
 
     #nav2 {
         display: none;
         position: absolute;
-        background-color: rgba(256, 256, 256, 0.597);
-        top: 70px;
-        left: 50%;
-        width: 50%;
+        background-color: #F2F2F2;
+        top: 71px;
         z-index: 1;
-        border: solid 5px rgb(249, 249, 249);
         font-family: 'Montserrat';
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
     }
 
+    #nav2 li {
+        height: 50px;
+        border-bottom: solid 1px rgba(0, 0, 0, 0.212);
+        width: 100%;
+        font-size: 18px;
+    }
+
+    #nav2 li a {
+        padding-left: 5%;
+        color: #223c85;
+        font-weight: 500;
+        display: flex;
+        gap: 63%;
+    }
+
+    #chevron-up {
+        display: none;
+    }
+
+    #chevron-up.mostrar {
+        display: flex;
+    }
+
+    #chevron-down {
+        display: flex;
+    }
+
+    #chevron-down.esconder {
+        display: none;
+    }
+
+    #li-form {
+        border-bottom: none !important;
+    }
+
+    #li-form-aberto {
+        display: none;
+        background-color: rgb(87, 87, 87);
+        margin-top: -2px;
+        height: max-content !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+    }
+
+    #li-form-aberto.hovered {
+        display: flex;
+    }
+
+    .titulo-form-aberto {
+        font-family: 'Montserrat';
+        color: white;
+        margin-top: 4%;
+        margin-bottom: 14px;
+    }
+
+    .p-form-aberto {
+        font-family: 'Montserrat';
+        color: white;
+        text-align: justify;
+        font-size: 18px;
+        width: 85%;
+        margin-bottom: 5%;
+    }
+
+    #li-form-aberto a {
+        text-decoration: none;
+    }
+
+    #li-form-aberto button {
+        background-color: #1535B5;
+        color: white;
+        font-family: 'Montserrat';
+        font-weight: 600;
+        font-size: 18px;
+        border: none;
+        border-radius: 0.4rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        padding: 10px;
+        margin-bottom: 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: max-content;
+    }
+
+    #li-form-aberto button:hover {
+        background-color: #142e96;
+    }
+
+    #formulario-nav2 {
+        background-color: #1535B5;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        color: white !important;
+        font-weight: 600 !important;
+    }
 
     @media (max-width: 768px) {
         #nav1 {
@@ -341,9 +498,15 @@
             display: none;
         }
 
-        header nav {
+        nav {
             display: flex;
             align-items: center;
+        }
+
+        #nav2 {
+            max-height: 90vh;
+            overflow-y: auto;
+            overscroll-behavior: contain;
         }
 
         #botao {
