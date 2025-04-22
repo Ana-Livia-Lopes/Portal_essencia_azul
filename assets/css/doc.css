@@ -301,7 +301,14 @@
 
 .section5 .horario{
     display: flex;
-    margin-top: 15px;
+
+}
+
+.section5 .horario #contato{
+    margin-left: 215px;
+}
+.section5 .horario #ctt{
+    margin-right: 520px;
 }
 
 .section5 #emissao-defis ol li {
@@ -330,10 +337,171 @@
 }
 
 .section5 .prazo{
-    width: 700px;
+    position: absolute;
+    width: 1500px;
+    margin: 40px;
+    margin-left: 280px;
 }
 
 .section5 .prazo img{
+    position: absolute;
+    left: 2%;
     width: 78px;
     height: 70px;
+}
+
+@media screen and (max-width: 1024px) {
+    .section1 div h1 {
+        width: 90%;
+        font-size: 32px;
+    }
+
+    .section2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .section2 #imgSec2 {
+        position: static;
+        margin: 20px 0;
+    }
+
+    .section2 .box {
+        width: 85%;
+        margin: 15px auto;
+        left: 0;
+    }
+
+    .section2 img {
+        width: 90%;
+        height: auto;
+        right: 0;
+    }
+
+    .section3 #content3 {
+        display: flex;
+        flex-direction: column-reverse;
+        margin: 30px 20px;
+    }
+
+    .section3 .box2 {
+        width: 100%;
+        float: none;
+        padding: 10px;
+    }
+
+    .section3 img {
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .section3 #box3 {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    #box3 p {
+        margin-left: 0;
+    }
+
+    .section3 #barra {
+        display: none;
+    }
+
+    .section3 #lista {
+        margin: 30px;
+    }
+
+    .section3 #lista p,
+    .section3 #lista ol {
+        margin-left: 0;
+    }
+
+    .section3 #lista img {
+        display: none;
+    }
+
+    .section3 #card {
+        width: 90%;
+        margin: 30px auto;
+    }
+
+    .section4,
+    .section5 {
+        padding: 0 20px;
+    }
+
+    .section4 img,
+    .section5 img {
+        width: 100%;
+        height: auto;
+    }
+
+    #emissao,
+    #emissao-defis {
+        margin-top: 30px;
+    }
+
+    .horario {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .section1 {
+        padding-top: 7em;
+        height: auto;
+    }
+
+    .section1 div h1 {
+        font-size: 24px;
+        width: 90%;
+        padding-bottom: 20px;
+    }
+
+    .section3 h2, .section3 h3,
+    .section4 h2, .section5 h2 {
+        font-size: 24px;
+    }
+
+    .section3 p,
+    .section3 ol li {
+        font-size: 16px;
+    }
+
+    .section2 p {
+        font-size: 16px;
+    }
+
+    .section3 #lista ol {
+        padding-left: 20px;
+    }
+
+    .section3 #card {
+        padding: 15px;
+    }
+
+    .horario h5,
+    .horario p {
+        font-size: 14px;
+    }
+
+    .section5 #imgCartao,
+    .section5 #quebraCabeca {
+        width: 100%;
+        height: auto;
+    }
+}
+@media screen and (max-width: 600px) {
+    .section3 p {
+        text-align: left;
+        line-height: 1.6;
+        word-spacing: normal;
+        width: 90%;
+        margin: 0 auto;
+    }
 }

@@ -1,15 +1,75 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Cadastrar Administrador - Portal Essência Azul</title>
-    </head>
-    <body>
-        <header id="header"></header>
-        <script type="module">
-            import importComponent from "/js/importComponent.js";
-            importComponent(document.getElementById("header"), "/components/header.html");
-        </script>
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/cad_adm.css">
+    <title>Cadastrar Administrador - Portal Essência Azul</title>
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+    <div class='box-cadastrar'>
+        <div id='logo-topo'>
+            <img src="./img/logo.png" alt="">
+            <p>PORTAL ESSÊNCIA AZUL</p>
+        </div>
+        <div id='campos'>
+            <h1>Cadastrar administrador</h1>
+            <form action="">
+                <div>
+                    <label for="campo1">Nome</label>
+                    <input id="campo1" type="text">
+                </div>
+
+                <div>
+                    <label for="campo2">E-mail</label>
+                    <input id="campo2" type="email">
+                </div>
+
+                <div>
+                    <label for="campo3">Senha</label>
+                    <input id="campo3" type="password">
+                </div>
+
+                <a href="/gerenciamento" id="link-button"><button type="button">Cadastrar</button></a>
+            </form>
+            <a onclick="window.history.go(-1)" id='voltar'><i class="fa-solid fa-chevron-left"></i>
+                <p>Voltar</p>
+            </a>
+        </div>
+    </div>
+</body>
+
+<script>
+    const inputs = document.getElementsByTagName("input");
+
+    Array.from(inputs).forEach((input) => {
+        const label = document.querySelector(`label[for="${input.id}"]`);
+
+        input.addEventListener('focus', () => {
+            if (label) {
+                label.classList.add('mover');
+            }
+        });
+
+        input.addEventListener('blur', () => {
+            if (label) {
+                if (input.value) {
+                    label.classList.add('mover');
+                } else {
+                    label.classList.remove('mover');
+                }
+            }
+        });
+    });
+</script>
+
 </html>

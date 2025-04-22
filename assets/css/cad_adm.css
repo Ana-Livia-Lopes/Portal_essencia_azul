@@ -3,11 +3,6 @@
     padding: 0;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-}
-
 body {
     background-image: url('../img/ess_azul_bckg.png');
     background-position: center;
@@ -20,7 +15,7 @@ body {
     align-items: center;
 }
 
-.box-entrar {
+.box-cadastrar {
     background-color: white;
     padding: 20px;
     width: 440px;
@@ -100,7 +95,7 @@ input {
     transition: all 0.3s;
 }
 
-#campo2 {
+#campo3 {
     letter-spacing: 3px;
 }
 
@@ -119,7 +114,7 @@ button {
     font-family: 'Montserrat';
     font-weight: 600;
     font-size: 16px;
-    width: 90px;
+    width: 110px;
     height: 40px;
     display: flex;
     align-self: center;
@@ -134,14 +129,6 @@ button {
 button:hover {
     background-color: #142e96;
     color: white;
-}
-
-#esq-senha {
-    text-decoration: none;
-    text-decoration: underline !important;
-    color: #00AEFF;
-    font-weight: 500;
-    margin-bottom: 15px;
 }
 
 #voltar {
