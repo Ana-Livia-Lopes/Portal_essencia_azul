@@ -19,7 +19,6 @@ module.exports = function deployPages(server) {
     Page.MapDir.watchers.clear();
 
     server.openPageDir(path.resolve(__dirname, "./assets/"), "/");
-    server.openPageDir(path.resolve(__dirname, "./pages/components"), "/components/");
     server.openPageList(pages, path.resolve(__dirname, "./pages/"));
     const onError = require("./pages/events/onError.js");
     server.pages.events.error.push(onError);
