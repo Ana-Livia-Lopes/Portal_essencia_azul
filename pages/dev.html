@@ -4,6 +4,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dev Tests</title>
+        <style>
+            * {
+                margin: 0;
+            }
+        </style>
     </head>
     <body>
         <component name="header" />
@@ -39,10 +44,27 @@
         </style>
         <section>
             <h2>List Input</h2>
+            <div class="list-input" id="observed-list-input"></div>
             <component name="list_input" />
-            <component name="list_input" />
-            <component name="list_input" />
-            <component name="list_input" />
+            <pre id="list-input-output"></pre>
+            <script>
+                const output = document.getElementById("list-input-output");
+                const list = document.getElementById("observed-list-input");
+                function updateOutput() {
+                    output.innerHTML = JSON.stringify(list.value, null, 4);
+                }
+                const observer = new MutationObserver(mutations => {
+                    for (const mutation of mutations) {
+                        for (const added of mutation.addedNodes) {
+                            if (added instanceof HTMLInputElement) {
+                                added.addEventListener("keydown", updateOutput);
+                                added.addEventListener("keyup", updateOutput);
+                            }
+                        }
+                    }
+                });
+                observer.observe(list, { childList: true });
+            </script>
             <link rel="stylesheet" href="/css/components.css">
         </section>
 

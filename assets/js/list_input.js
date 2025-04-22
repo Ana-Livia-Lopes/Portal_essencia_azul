@@ -14,7 +14,7 @@ function listInputEvent(event) {
         }
     } else if (event.key === "Backspace") {
         if (event.target.index === 0) return;
-        if (event.target.selectionStart === 0) event.preventDefault(); else return;
+        if (event.target.selectionStart === 0 && event.target.selectionEnd === 0) event.preventDefault(); else return;
         for (const element of event.target.parentElement.children) {
             if (element instanceof HTMLInputElement && element.index === event.target.index - 1) {
                 element.focus();
@@ -63,9 +63,16 @@ function listInputEvent(event) {
                 if (element instanceof HTMLInputElement && element.index === event.target.index + 1) {
                     let originalLength = event.target.value.length
                     event.target.value += element.value;
+                    event.target.parentElement.value[event.target.index] = event.target.value;
                     event.preventDefault();
                     element.parentElement.removeChild(element);
                     event.target.setSelectionRange(originalLength, originalLength);
+
+                    let oldLength = event.target.parentElement.value.length;
+                    for (let i = event.target.index + 1; i < oldLength; i++) {
+                        event.target.parentElement.value[i] = event.target.parentElement.value[i + 1];
+                    }
+                    event.target.parentElement.value.pop();
                     break;
                 }
             }
