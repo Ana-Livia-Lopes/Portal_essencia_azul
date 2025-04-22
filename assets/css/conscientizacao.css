@@ -182,6 +182,105 @@ span.material-symbols-outlined {
     margin-left: 82px;
 }
 
+.section4 #flechas {
+    padding:2rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+  }
+
+  .olcards,
+  .olcards * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .olcards {
+    list-style: none;
+    counter-reset: cardCount;
+    display: flex;
+    flex-direction: column;
+    --cardsGap: 1rem;
+    gap: var(--cardsGap);
+   
+  }
+  .olcards li {
+    counter-increment: cardCount;
+    display: flex;
+    color: white;
+    --labelOffset: 1rem;
+    --arrowClipSize: 1.5rem;
+    margin-top: var(--labelOffset);
+  }
+  
+  .olcards li::before {
+    content: counter(cardCount, decimal-leading-zero);
+    background: white;
+    color: #1535b5af;
+    font-size: 2em;
+    font-weight: 800;
+    transform: translateY(calc(-1 * var(--labelOffset)));
+    margin-right: calc(-1 * var(--labelOffset));
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 0.5em;
+  }
+  
+  .olcards li .content {
+    background-color: #D9D9D9;
+    --inlinePadding: 1em;
+    --boxPadding: 0.5em;
+    display: grid;
+    padding: var(--boxPadding) calc(var(--inlinePadding) + var(--arrowClipSize))
+      var(--boxPadding) calc(var(--inlinePadding) + var(--labelOffset));
+    grid-template-areas:
+      "icon title"
+      "icon text";
+    gap: 0.25em 1em;
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--arrowClipSize)) 0,
+      100% 50%,
+      calc(100% - var(--arrowClipSize)) 100%,
+      calc(100% - var(--arrowClipSize)) calc(100% + var(--cardsGap)),
+      0 calc(100% + var(--cardsGap))
+    );
+    position: relative;
+  }
+  .olcards li .content::before {
+    content: "";
+    position: absolute;
+    width: var(--labelOffset);
+    height: var(--labelOffset);
+    background: #1535b5af;;
+    left: 0;
+    bottom: 0;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    filter: brightness(0.75);
+  }
+  .olcards li .content::after {
+    content: "";
+    position: absolute;
+    height: var(--cardsGap);
+    width: var(--cardsGap);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.25), transparent 50%);
+    left: 0;
+    top: 100%;
+  }
+  .olcards li .content .title {
+    grid-area: title;
+    font-size: 1.25em;
+    font-weight: 600;
+    color: #1535b5af;
+  }
+  .olcards li .content .text {
+    grid-area: text;
+    color: black;
+  }
+
 .section4 {
     margin-bottom: 200px;
 }
@@ -209,7 +308,7 @@ span.material-symbols-outlined {
     margin-right: auto;
 }
 
-.section4 #barra {
+.section4 #barra4 {
     position: absolute;
     left: 15%;
     top: 357%;
@@ -220,59 +319,107 @@ span.material-symbols-outlined {
     border-radius: 4px;
 }
 
-.section5 #info {
+.section5 #info5 {
     display: flex;
-    margin: 0;
 }
 
 .section5 #alone {
     background-color: #D9D9D9;
-    padding: 20px;
-    height: 310px;
-    width: 48%;
+    width: 50%;
+    box-sizing: border-box;
+    height: auto;
+}
+
+.section5 #imgAlone {
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.section5 #imgAlone img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
 }
 
 .section5 #alone h2 {
-    font-size: 34px;
-    padding-left: 50px;
-    margin: 20px 0;
+    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.274);
+    font-size: 38px;
+    margin: 40px 0 15px 85px;
 }
 
-.section5 #alone p {
-    font-size: 19px;
-    padding-left: 50px;
-    margin-bottom: 20px;
-    width: 80%;
-}
-
-.section5 #barra {
-    width: 600px;
-    height: 3%;
+.section5 #barra2 {
+    width: 550px;
+    height: 6px;
     background-color: #0033cc;
-    border-radius: 4px;
+    border-radius: 0 4px 4px 0;
     padding: 0;
     margin-bottom: 30px;
 }
 
-.section5 #alone a{
+.section5 #alone a {
     background-color: #0033cc;
     text-decoration: none;
     color: white;
     font-weight: 700;
-    padding: 12px;
+    padding: 13px;
     font-size: 18px;
     border-radius: 7px;
-    margin: 30px 45px;
+    margin: 60px 0 15px 85px;
 }
 
-.section5 #info img {
-    height: 350px;
-    width: 740px;
-    margin: 0;
+.section5 #alone p {
+    margin: 0 10px 25px 85px;
+    font-size:19.5px;
+    text-align: justify;
+    width: 76%;
 }
-
-.section5 .juntos h2{
+.section5 .juntos h2 {
     text-align: center;
     font-size: 34px;
     margin-top: 120px;
+}
+
+.section5 .juntos img {
+    width: 100%;
+    height: auto;
+    border-radius: 7px;
+    display: block;
+}
+
+.section5 #imgs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.section5 .card {
+    position: relative;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section5 .card a {
+    position: absolute;
+    bottom: 1px;
+    width: 356px;
+    height: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1535b5be;
+    color: white;
+    padding: 5px;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    font-size: 26px;
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center
 }
