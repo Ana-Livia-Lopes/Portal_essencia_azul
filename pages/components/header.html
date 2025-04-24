@@ -46,31 +46,31 @@
             <i id="abrir-menu" class="fa-solid fa-bars"></i>
             <i id="fechar-menu" class="fa-solid fa-x"></i>
         </label>
-        <ul id="nav2">
-            <li><a class="item-nav2" href="/">Início</a></li>
-            <li><a class="item-nav2" href="/eventos">Eventos</a></li>
-            <li><a class="item-nav2" href="/catalogo">Catálogo</a></li>
-            <li><a class="item-nav2" href="/documentos">Documentos</a></li>
-            <li><a class="item-nav2" href="/voluntarios">Voluntários</a></li>
-            <li><a class="item-nav2" href="/conscientizacao">Conscientização</a></li>
-            <li><a class="item-nav2" href="/contato">Contato</a></li>
-            <li id="li-form"><a class="item-nav2" id="formulario-nav2">Faça parte!
-                    <i id="chevron-down" class="fa-solid fa-chevron-down"></i>
-                    <i id="chevron-up" class="fa-solid fa-chevron-up"></i>
-                </a></li>
-            <li id="li-form-aberto">
-                <h2 class="titulo-form-aberto">Solicitar cadastro</h2>
-                <p class="p-form-aberto">
-                    Preencha um breve formulário para conseguirmos oferecer um
-                    suporte personalizado e mais eficaz às pessoas acolhidas
-                    pela Essência Azul. Suas informações serão tratadas com
-                    cuidado e confidencialidade.
-                </p>
-                <a href="/formulario"><button class="resp-form-nav2">Responder formulário</button></a>
-            </li>
-        </ul>
     </nav>
 </header>
+
+<ul id="nav2">
+    <li><a class="item-nav2" href="/">Início</a></li>
+    <li><a class="item-nav2" href="/eventos">Eventos</a></li>
+    <li><a class="item-nav2" href="/catalogo">Catálogo</a></li>
+    <li><a class="item-nav2" href="/documentos">Documentos</a></li>
+    <li><a class="item-nav2" href="/voluntarios">Voluntários</a></li>
+    <li><a class="item-nav2" href="/conscientizacao">Conscientização</a></li>
+    <li><a class="item-nav2" href="/contato">Contato</a></li>
+    <li id="li-form"><a class="item-nav2" id="formulario-nav2">Faça parte!
+            <i id="chevron-down" class="fa-solid fa-chevron-down"></i>
+        </a></li>
+    <li id="li-form-aberto">
+        <h2 class="titulo-form-aberto">Solicitar cadastro</h2>
+        <p class="p-form-aberto">
+            Preencha um breve formulário para conseguirmos oferecer um
+            suporte personalizado e mais eficaz às pessoas acolhidas
+            pela Essência Azul. Suas informações serão tratadas com
+            cuidado e confidencialidade.
+        </p>
+        <a href="/formulario"><button class="resp-form-nav2">Responder formulário</button></a>
+    </li>
+</ul>
 
 <script>
     const formularioBotao = document.getElementById('formulario');
@@ -108,21 +108,21 @@
         formularioLiAberto.classList.toggle('hovered');
     });
 
-    const chevronUp = document.getElementById('chevron-up');
     const chevronDown = document.getElementById('chevron-down');
 
     formularioLi.addEventListener('click', () => {
-        chevronUp.classList.toggle('mostrar');
-        chevronDown.classList.toggle('esconder');
+        chevronDown.classList.toggle('girar');
     });
 
     const abrirMenu = document.getElementById('abrir-menu');
     const fecharMenu = document.getElementById('fechar-menu');
     const menu = document.getElementById('botao');
+    const nav2 = document.getElementById('nav2'); // Obtém a referência para a nav
 
     menu.addEventListener('click', () => {
         fecharMenu.classList.toggle('mostrar');
         abrirMenu.classList.toggle('esconder');
+        nav2.classList.toggle('mostrar-menu'); // Adiciona/remove a classe para a animação
     });
 </script>
 
@@ -193,6 +193,7 @@
         display: flex;
         align-items: center;
         list-style: none;
+        position: relative;
     }
 
     #formulario button {
@@ -215,8 +216,9 @@
 
     .nuvem-info {
         position: absolute;
-        left: 78%;
-        top: 90%;
+        top: 92%;
+        right: 0;
+        margin-right: 15px;
         width: 250px;
         background-color: rgb(87, 87, 87);
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -378,22 +380,37 @@
     }
 
     #nav2 {
-        display: none;
-        position: absolute;
+        position: fixed;
+        overflow-x: hidden;
+        top: 73px;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         background-color: #F2F2F2;
-        top: 71px;
-        z-index: 1;
-        font-family: 'Montserrat';
         width: 100%;
-        max-width: 100vw;
-        box-sizing: border-box;
+        font-family: 'Montserrat';
+        transform: translateY(-105%);
+        pointer-events: none;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    #nav2.mostrar-menu {
+        transform: translateY(0%);
+        pointer-events: auto;
     }
 
     #nav2 li {
         height: 50px;
-        border-bottom: solid 1px rgba(0, 0, 0, 0.212);
+        border-bottom: none;
         width: 100%;
         font-size: 18px;
+    }
+
+    #nav2.mostrar-menu li {
+        border-bottom: solid 1px rgba(0, 0, 0, 0.212);
     }
 
     #nav2 li a {
@@ -404,24 +421,17 @@
         gap: 63%;
     }
 
-    #chevron-up {
-        display: none;
-    }
-
-    #chevron-up.mostrar {
-        display: flex;
-    }
-
     #chevron-down {
         display: flex;
+        transition: transform 0.3s;
     }
 
-    #chevron-down.esconder {
-        display: none;
+    #chevron-down.girar {
+        transform: rotate(180deg);
     }
 
-    #li-form {
-        border-bottom: none !important;
+    #nav2.mostrar-menu li {
+        border-bottom: solid 1px rgba(0, 0, 0, 0.212);
     }
 
     #li-form-aberto {
@@ -501,6 +511,7 @@
         nav {
             display: flex;
             align-items: center;
+            z-index: 50;
         }
 
         #nav2 {
@@ -514,10 +525,9 @@
             float: right;
         }
 
-        #checkbox:checked+#botao+#nav2 {
+        /* #checkbox:checked+#botao+#nav2 {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+            transform: translateY(0%);
+        } */
     }
 </style>
