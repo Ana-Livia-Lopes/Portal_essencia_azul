@@ -87,6 +87,11 @@ module.exports = {
             pagetype: "execute"
         },
         {
+            filelocation: "api/createAcolhido.js",
+            pagelocation: "api/createAcolhido",
+            pagetype: "execute"
+        },
+        {
             filelocation: "../assets/img/logo.png",
             pagelocation: "favicon.ico",
             contenttype: "image/png"
