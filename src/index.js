@@ -398,7 +398,7 @@ var EssenciaAzul = ( function() {
             if (value instanceof Date) {
                 outputObject[key] = Timestamp.fromDate(value);
             } else {
-                if (typeof value === "object") {
+                if (typeof value === "object" && value !== null) {
                     if (Array.isArray(value)) {
                         outputObject[key] = value.map(arrayMapForDateToTimestamp);
                     } else {
@@ -426,7 +426,7 @@ var EssenciaAzul = ( function() {
             if (value instanceof Timestamp) {
                 outputObject[key] = value.toDate();
             } else {
-                if (typeof value === "object" && value) {
+                if (typeof value === "object" && value !== null) {
                     if (Array.isArray(value)) {
                         outputObject[key] = value.map(arrayMapForTimestampToDate);
                     } else {
