@@ -1,7 +1,7 @@
 const mysql = require("mysql");
-const { Session, Property } = require("./tools");
+const { Session, Property, CodedError } = require("./tools");
 const { db } = require("../firebase.js");
-const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs } = require("firebase/firestore");
+const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc } = require("firebase/firestore");
 
 var EssenciaAzul = ( function() {
     const BaseDataTypes = {}
@@ -379,6 +379,7 @@ var EssenciaAzul = ( function() {
 
     async function validateKey(key) {
         // valida se a chave está correta e existe no banco de dados.
+        // simples => 1, direcao => 2
         if (validKeysCache.has(key)) return validKeysCache.get(key);
         return 3;
     }
@@ -409,6 +410,7 @@ var EssenciaAzul = ( function() {
                 }
             }
         }
+        return outputObject;
     }
 
     function arrayMapForTimestampToDate(item) {
@@ -502,6 +504,7 @@ var EssenciaAzul = ( function() {
     }
 
     const validOrderDirections = [ "ASC", "DESC" ];
+    const validLowerOrderDirections = [ "asc", "desc" ];
 
 
 
@@ -587,7 +590,7 @@ var EssenciaAzul = ( function() {
                 if (search?.orderBy) {
                     console.log("orderBy");
                     let orderDirection = search.orderDirection?.toLowerCase() ?? "asc";
-                    if (!validOrderDirections.includes(orderDirection)) throw new TypeError("Direção de ordenação inválida, use ASC ou DESC");
+                    if (!validLowerOrderDirections.includes(orderDirection)) throw new TypeError("Direção de ordenação inválida, use ASC ou DESC");
                     constraints.push(orderBy(search.orderBy, orderDirection));
                 }
                 if (search?.limit) {
@@ -629,14 +632,61 @@ var EssenciaAzul = ( function() {
 
         switch (type._dbtype) {
             case "mysql":
-                
-                break;
+                const storage = storageConnect();
+                const sql = `UPDATE ${type.collection} SET ${Object.entries(fields).map(([ key ]) => `${key} = ?`).join(", ")} WHERE id = ?`;
+                let values = { ...fields };
+                delete values.id;
+                values = Object.values(values).map(value => {
+                    if (value instanceof Date) {
+                        return value.toISOString().slice(0, 19).replace("T", " ");
+                    } else {
+                        return value;
+                    }
+                });
+                values.push(id);
+                await new Promise((resolve, reject) => {
+                    storage.query(sql, values, (err, results) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(results);
+                        }
+                    });
+                });
+                const rowSnap = await new Promise((resolve, reject) => {
+                    storage.query(`SELECT * FROM ${type.collection} WHERE id = ?`, [ id ], (err, results) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(results[0]);
+                        }
+                    });
+                });
+                storage.end();
+                delete rowSnap.id;
+                const rowData = type._callFieldsFilter({ action: "update", type, key, fields: { ...rowSnap } });
+                delete rowData.id;
+                const updatedRow = new type(createdByKey.get(this), id, rowData, privateDBConstructorKey);
+                type._eventEmitter("update", updatedRow, emitEventSymbol);
+                return updatedRow;
             
             case "firestore":
                 const collRef = collection(db, type.collection);
 
-                
-                break;
+                const docRef = doc(collRef, id);
+                const docSnap = await getDoc(docRef);
+                if (!docSnap.exists()) throw new CodedError(404, "Documento não encontrado");
+                const docData = docSnap.data();
+                const updatedFields = mapForDateToTimestamp(fields);
+                const updatedDoc = { ...docData, ...updatedFields };
+                const filteredFields = type._callFieldsFilter({ action: "update", type, key, fields: updatedDoc });
+                delete filteredFields.id;
+                await updateDoc(docRef, filteredFields);
+                const newDocSnap = await getDoc(docRef);
+                const newDocData = newDocSnap.data();
+                const newDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(newDocData), privateDBConstructorKey);
+                type._eventEmitter("update", newDoc, emitEventSymbol);
+                return newDoc;
         }
     }
 

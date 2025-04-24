@@ -82,14 +82,10 @@ module.exports = {
             pagelocation: "cadastrar_acolhido"
         },
         {
-            filelocation: "api/getAcolhidos.js",
-            pagelocation: "api/getAcolhidos",
-            pagetype: "execute"
-        },
-        {
-            filelocation: "api/createAcolhido.js",
-            pagelocation: "api/createAcolhido",
-            pagetype: "execute"
+            filelocation: "api/acolhido.js",
+            pagelocation: [ "api/acolhido", "api/acolhido/[id]" ],
+            pagetype: "execute",
+            urltype: "special"
         },
         {
             filelocation: "../assets/img/logo.png",
