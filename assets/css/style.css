@@ -29,13 +29,13 @@
 
 .animated-title {
   color: rgb(6, 17, 62);
-  font-family: Roboto, Arial, sans-serif;
   height: 90vmin;
   left: 30%;
   position: absolute;
   top: 30%;
   transform: translate(-50%, -50%);
   width: 45vmin;
+  font-weight: 600;
 }
 
 .text-top,
@@ -98,9 +98,10 @@ body {
 
 #secao1 {
   position: relative;
-  background: #cce5ff;
-  padding: 150px 0 200px 0;
-
+  padding: 150px 100px 200px 0;
+  background: url('/img/FundoAzul5.png') no-repeat center center;
+  background-size: cover;
+  height: 140px;
 }
 
 .galeria {
@@ -109,14 +110,11 @@ body {
 
 #sobre {
   color: rgb(6, 17, 62);
-  font-family: var(--font-text);
   right: 55%;
   left: 15%;
   position: absolute;
   top: 55%;
   font-size: 20px;
-  font-weight: 100;
-
 }
 
 #sobre:first-of-type,
@@ -140,25 +138,26 @@ body {
 }
 
 #logo {
-  width: 15%;
+  width: 20%;
   right: 15%;
   left: 60%;
   position: absolute;
-  top: 15%;
+  top: 10%;
 }
 
 /* fim section 1 */
 /* secão 2 */
 #secao2 {
-
   margin: 0;
-  padding: 40px 0;
+  padding-bottom: 40px;
   text-align: center;
 }
 
 #secao2 h2 {
   color: #2c3e50;
   margin-bottom: 30px;
+  margin-top: 90px;
+  font-size: 40px;
 }
 
 #galeriaPainel {
@@ -231,15 +230,13 @@ body {
 
 .card__title {
   font-size: 2.25rem;
-  font-family: var(--font-title);
   color: white;
   line-height: 0.3;
   margin-bottom: 40px;
 }
 
 .card__description {
-  font-family: var(--font-text);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
   color: white;
   text-align: left;
@@ -318,7 +315,6 @@ body {
   border-radius: 0.45em;
   border: none;
   background-color: var(--brand-color);
-  font-family: var(--font-title);
   font-size: 1.125rem;
   color: black;
 }
@@ -400,6 +396,7 @@ body {
   align-items: center;
   background-color: #e6e6e6;
   overflow: hidden;
+  margin-top: 40px;
 }
 
 .texto {
@@ -427,7 +424,7 @@ body {
   font-size: 230%;
   margin-bottom: 15px;
   width: 43%;
-  margin-left: 20%;
+  margin-left: 10%;
 }
 
 .botao {
@@ -437,14 +434,14 @@ body {
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: bold;
-  margin-left: 20%;
+  margin-left: 10%;
 }
 
 
 .imagem img {
-  margin-left: 85px;
-  width: 95%;
-  height: 290px;
+  margin-left: 0;
+  width: 100%;
+  height: 375px;
   display: block;
 }
 
@@ -481,6 +478,7 @@ body {
   position: absolute;
   font-size: 26px;
   color: #0033cc;
+  font-weight: 550;
 }
 
 .obj {
@@ -576,7 +574,8 @@ body {
 #tituloAjuda {
   font-size: 230%;
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 18px;
+  font-weight: 500;
 }
 
 #menino {
@@ -627,7 +626,6 @@ body {
   border: 2px solid rgb(0, 41, 177);
   color: rgb(0, 41, 177);
   font-weight: bold;
-  font-family: Arial, sans-serif;
   text-transform: uppercase;
   transform: skewX(-15deg);
   height: 50px;
@@ -721,10 +719,19 @@ body {
 /* fim secao 7 */
 
 @media (max-width: 768px) {
+  .animated-title {
+    top: 25%;
+  }
+
+  #secao2 h2 {
+    margin-top: 0px;
+    font-size: 30px;
+  }
+
   #sobre {
     right: 10%;
     left: 10%;
-    top: 55%;
+    top: 43%;
     font-size: 16px;
   }
 
@@ -750,7 +757,9 @@ body {
   }
 
   #logo {
-    width: 23%;
+    width: 26%;
+    top: 15%;
+    left: 63%;
   }
 
   #secao3 {
@@ -928,8 +937,8 @@ body {
     height: 2px;
   }
   .fotoQuadro {
-    height: 180px;
-    width: 270px;
+    height: 200px;
+    width: 300px;
   }
   #galeriaPainel {
     width: 80%;
@@ -938,16 +947,10 @@ body {
     padding: 0 0px; 
   }
   .anteriorFoto {
-    left: 130%;
-    transform: translateX(-170%) scale(0.85);
-    z-index: 1;
-    opacity: 0.5;
+    display: none;
   }
   
   .proximaFoto {
-    left: -30%;
-    transform: translateX(70%) scale(0.85);
-    z-index: 1;
-    opacity: 0.5;
+    display: none;
   }
 }
