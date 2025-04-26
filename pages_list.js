@@ -103,6 +103,10 @@ module.exports = {
             filelocation: "footer.html"
         },
         {
+            name: "acessibilidade",
+            filelocation: "acessibilidade.html"
+        },
+        {
             name: "serverInfo",
             filelocation: "serverInfo.js",
             type: "execute"
