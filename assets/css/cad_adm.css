@@ -79,7 +79,7 @@ label {
     margin-bottom: 10px;
     font-weight: 500;
     color: #000000a0;
-    padding: 18px;
+    padding: 18px 26px;
     position: absolute;
     transition: all 0.2s;
     pointer-events: none;
