@@ -504,7 +504,6 @@ h3 {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
-        margin-left: 20px;
     }
 
     .section5 .horario #contato,
@@ -538,13 +537,13 @@ h3 {
     .section1 {
         padding-top: 3em;
         padding-bottom: 50px;
-        height: auto;
+        height: 200px;
     }
 
     .section1 div h1 {
         font-size: 22px;
         width: 90%;
-        margin-top: 0;
+        margin-top: 15px;
     }
 
     .section2 .box {
@@ -573,7 +572,11 @@ h3 {
         font-size: 16px;
         width: 90%;
         margin: 0 auto;
-        text-align: left;
+    }
+
+    .section5 #solicitar-cartao #loc-end{
+        margin: 10px auto;
+
     }
 
     .section4 #barra {
@@ -648,7 +651,28 @@ h3 {
 
     .section5 .horario h5,
     .section5 .horario p {
-        font-size: 14px;
+        font-size: 15px;
+    }
+
+    .section5 .horario {
+        flex-direction: column;
+    }
+
+    .section5 #solicitar-cartao h5{
+        margin-left: 17px;
+    }
+
+    .section5 .horario #contato {
+        position: absolute;
+        top: 658%;
+        margin-top: 10px;
+        margin-left: 18px;
+    }
+
+    .section5 .horario #ctt{
+        margin-top: 35px;
+        margin-left: 15px;
+        margin-right: 0;
     }
 
 .section5 #solicitar-cartao h2{
