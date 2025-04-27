@@ -433,3 +433,111 @@ span.material-symbols-outlined {
     justify-content: center;
     align-items: center
 }
+
+@media (max-width: 768px) {
+    .section1 {
+        height: 250px;
+        padding-top: 4em;
+    }
+
+    .section1 div h1 {
+        font-size: 24px;
+    }
+
+    .section2 h2 {
+        font-size: 24px;
+    }
+
+    .quadrado {
+        flex-direction: column;
+        width: 90%;
+        margin: 10px 0;
+    }
+
+    .q1 {
+        height: 180px;
+    }
+
+    span.material-symbols-outlined,
+    .fa-solid {
+        font-size: 40px;
+    }
+
+    .content h4 {
+        font-size: 18px;
+    }
+
+    .container .card p {
+        font-size: 14px;
+    }
+
+    .section3 .graus img, .section4 #barra4, .section5 #imgAlone img  {
+        display: none;
+    }
+
+    .section3 .graus h2 {
+        font-size: 26px;
+    }
+
+    .section3 .graus p {
+        font-size: 14px;
+    }
+
+    #flechas {
+        padding: 1rem;
+    }
+
+    .olcards li::before {
+        font-size: 1.5em;
+    }
+
+    .olcards li .content .title {
+        font-size: 1em;
+    }
+
+    #info5 {
+        padding: 1rem;
+    }
+
+    .juntos #imgs .card img {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .section1 div h1 {
+        font-size: 20px;
+    }
+
+    .section2 h2 {
+        font-size: 20px;
+    }
+
+    .content h4 {
+        font-size: 16px;
+    }
+
+    .container .card p {
+        font-size: 13px;
+    }
+
+    .section3 .graus img {
+        display: none;
+    }
+
+    .section3 .graus h2 {
+        font-size: 22px;
+    }
+
+    .section3 .graus p {
+        font-size: 13px;
+    }
+
+    .olcards li::before {
+        font-size: 1.2em;
+    }
+
+    .olcards li .content .title {
+        font-size: 0.9em;
+    }
+}

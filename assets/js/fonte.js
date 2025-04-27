@@ -2,16 +2,26 @@ function mostrarBotoes() {
     const botoes = document.getElementById('botoesFonte');
     botoes.style.display = botoes.style.display === 'flex' ? 'none' : 'flex';
 }
+    var tamanhosOriginais = [];
 
-function alterarFonte(acao) {
-    var corpo = document.querySelector('.conteudo-site');
-    var tamanhoAtual = parseFloat(window.getComputedStyle(corpo, null).getPropertyValue('font-size'));
+    window.addEventListener('DOMContentLoaded', function() {
+        var elementos = document.querySelectorAll('.conteudo-site');
+        elementos.forEach(function(elemento, index) {
+            tamanhosOriginais[index] = parseFloat(window.getComputedStyle(elemento, null).getPropertyValue('font-size'));
+        });
+    });
 
-    if (acao === 'a') {
-        corpo.style.fontSize = (tamanhoAtual + 2) + "px";
-    } else if (acao === 'd') {
-        corpo.style.fontSize = (tamanhoAtual - 2) + "px";
-    } else if (acao === 'n') {
-        corpo.style.fontSize = "16px";
+    function alterarFonte(acao) {
+        var elementos = document.querySelectorAll('.conteudo-site');
+        elementos.forEach(function(elemento, index) {
+            var tamanhoAtual = parseFloat(window.getComputedStyle(elemento, null).getPropertyValue('font-size'));
+
+            if (acao === 'a') {
+                elemento.style.fontSize = (tamanhoAtual + 2) + "px";
+            } else if (acao === 'd') {
+                elemento.style.fontSize = (tamanhoAtual - 2) + "px";
+            } else if (acao === 'n') {
+                elemento.style.fontSize = tamanhosOriginais[index] + "px"; // volta para o original de cada elemento
+            }
+        });
     }
-}
