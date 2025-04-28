@@ -13,19 +13,20 @@
 
 <body>
     <component name="header" />
+    <component name="acessibilidade" />
     <section id="quartos" class="seção-plano">
-        <h3 class="titulo-w3-agileits titulo-preto-wthree">Produtos disponíveis</h3>
+        <h3 class="titulo-w3-agileits titulo-preto-wthree conteudo-site">Produtos disponíveis</h3>
         <div class="tabela-preco-principal">
 
             <article class="coluna card-preco">
                 <div class="bloco-preco agile">
                     <div class="topo-preco">
                         <img src="/img/produto2.jpeg" alt="Quarto Amigos" class="img-responsiva" id="imgCamiseta" />
-                        <h4>Camiseta</h4>
+                        <h4 class="conteudo-site">Camiseta</h4>
                     </div>
                     <div class="fundo-preco">
                         <div class="seleção-preco">
-                            <h3 id="preco"><span>R$</span>35,00</h3>
+                            <h3 id="preco" class="conteudo-site"><span>R$</span>35,00</h3>
                             <div class="custom-radios">
                                 <div>
                                     <input type="radio" id="color-1" name="color" value="color-1" checked>
@@ -49,7 +50,7 @@
                                 </div>
 
                             </div>
-                            <button onclick="scrollParaSecao()">Saiba Mais</button>
+                            <button onclick="scrollParaSecao()" class="conteudo-site">Saiba Mais</button>
                         </div>
                     </div>
                 </div>
@@ -58,12 +59,12 @@
                 <div class="bloco-preco agile">
                     <div class="topo-preco">
                         <img src="/img/produto3.jpg" alt="Quarto Casal" class="img-responsiva" />
-                        <h4>Cordão</h4>
+                        <h4 class="conteudo-site">Cordão</h4>
                     </div>
                     <div class="fundo-preco">
                         <div class="seleção-preco">
-                            <h3><span>R$</span>10,00</h3>
-                            <button onclick="scrollParaSecao()">Saiba Mais</button>
+                            <h3 class="conteudo-site"><span>R$</span>10,00</h3>
+                            <button onclick="scrollParaSecao()" class="conteudo-site">Saiba Mais</button>
                         </div>
                     </div>
                 </div>
@@ -73,12 +74,12 @@
                 <div class="bloco-preco agile">
                     <div class="topo-preco">
                         <img src="/img/produto4.jpeg" alt="Quarto Família" class="img-responsiva" />
-                        <h4>Cordão</h4>
+                        <h4 class="conteudo-site">Cordão</h4>
                     </div>
                     <div class="fundo-preco">
                         <div class="seleção-preco">
-                            <h3><span>R$</span>10,00</h3>
-                            <button onclick="scrollParaSecao()">Saiba Mais</button>
+                            <h3 class="conteudo-site"><span>R$</span>10,00</h3>
+                            <button onclick="scrollParaSecao()" class="conteudo-site">Saiba Mais</button>
                         </div>
                     </div>
                 </div>
@@ -91,9 +92,6 @@
             secao.scrollIntoView({ behavior: "smooth" });
         }
     </script>
-    <section id="secao2">
-        <img src="/img/linha.png" id="quebraCabeca">
-    </section>
 
     <section id="secao3">
         <div class="imagem">
@@ -101,9 +99,9 @@
         </div>
         <div class="texto">
             <div class="linha"></div>
-            <p id="entenda">Gostou do catálogo?</p>
-            <p id="entenda">Produtos disponíveis em nosso endereço</p>
-            <a href="/contato" class="botao">clique aqui</a>
+            <p id="entenda" class="conteudo-site">Gostou do catálogo?</p>
+            <p id="entenda" class="conteudo-site">Produtos disponíveis em nosso endereço</p>
+            <a href="/contato" class="botao conteudo-site">Clique aqui</a>
         </div>
     </section>
 

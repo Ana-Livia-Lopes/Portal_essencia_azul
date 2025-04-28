@@ -11,9 +11,9 @@
             <i class="fa-solid fa-eye"></i>
         </div>
 
-        <div class="botoes-fonte" id="botoesFonte">
+        <div class="botoes-fonte-acessibilidade" id="botoesFonte">
             <button onclick="alterarFonte('a')">+</button>
-            <button id="padrao" onclick="alterarFonte('n')">Padrão</button>
+            <button id="padrao-acessibilidade" onclick="alterarFonte('n')">Padrão</button>
             <button onclick="alterarFonte('d')">-</button>
         </div>
 
@@ -54,7 +54,7 @@
             } else if (acao === 'd') {
                 elemento.style.fontSize = (tamanhoAtual - 2) + "px";
             } else if (acao === 'n') {
-                elemento.style.fontSize = tamanhosOriginais[index] + "px"; // volta para o original de cada elemento
+                elemento.style.fontSize = tamanhosOriginais[index] + "px"; 
             }
         });
     }
@@ -88,19 +88,19 @@
     cursor: pointer;
 }
 
-#acess .fa-solid {
+#acess .fa-eye {
     text-shadow: 1px 1px 1px rgb(114, 113, 113);
     font-size: 18px;
     color: white;
 }
 
-.botoes-fonte {
+.botoes-fonte-acessibilidade {
     display: none;
     flex-direction: row-reverse;
     gap: 5px;
 }
 
-.botoes-fonte button {
+.botoes-fonte-acessibilidade button {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     width: 47px;
     height: 30px;
@@ -111,7 +111,7 @@
     color: white;
     border-radius: 5px;
 }
- #padrao{
+ #padrao-acessibilidade{
     font-size: 12px;
 }
 
