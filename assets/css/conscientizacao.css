@@ -188,16 +188,16 @@ span.material-symbols-outlined {
     display: flex;
     justify-content: center;
 
-  }
-  
-  .olcards,
-  .olcards * {
+}
+
+.olcards,
+.olcards * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  
-  .olcards {
+}
+
+.olcards {
     list-style: none;
     counter-reset: cardCount;
     display: flex;
@@ -206,54 +206,52 @@ span.material-symbols-outlined {
     gap: var(--cardsGap);
     width: 100%;
     max-width: 877px;
-  }
-  
-  .olcards li {
+}
+
+.olcards li {
     counter-increment: cardCount;
     display: flex;
     color: white;
     --labelOffset: 1rem;
     --arrowClipSize: 5rem;
     margin-top: var(--labelOffset);
-  }
-  
-  .olcards li::before {
+}
+
+.olcards li::before {
     content: counter(cardCount, decimal-leading-zero);
     background: #f6f6f6;
     color: #1535b5af;
-    font-size: 3em; 
+    font-size: 3em;
     font-weight: 800;
     transform: translateY(calc(-1 * var(--labelOffset)));
     margin-right: calc(-1 * var(--labelOffset));
     z-index: 1;
     text-align: left;
-    padding: 0.4em; 
-  }
-  
-  .olcards li .content {
+    padding: 0.4em;
+}
+
+.olcards li .content {
     background-color: #D9D9D9;
     --inlinePadding: 1em;
-    --boxPadding: 1em; 
+    --boxPadding: 1em;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
     padding: var(--boxPadding) calc(var(--inlinePadding) + var(--arrowClipSize)) var(--boxPadding) calc(var(--inlinePadding) + var(--labelOffset));
     gap: 0.5rem;
-    text-align: left;    
-    clip-path: polygon(
-      0 0,
-      calc(100% - var(--arrowClipSize)) 0,
-      100% 50%,
-      calc(100% - var(--arrowClipSize)) 100%,
-      calc(100% - var(--arrowClipSize)) calc(100% + var(--cardsGap)),
-      0 calc(100% + var(--cardsGap))
-    );
+    text-align: left;
+    clip-path: polygon(0 0,
+            calc(100% - var(--arrowClipSize)) 0,
+            100% 50%,
+            calc(100% - var(--arrowClipSize)) 100%,
+            calc(100% - var(--arrowClipSize)) calc(100% + var(--cardsGap)),
+            0 calc(100% + var(--cardsGap)));
     position: relative;
-        width: 100%;
-  }
-  
-  .olcards li .content::before {
+    width: 100%;
+}
+
+.olcards li .content::before {
     content: "";
     position: absolute;
     width: var(--labelOffset);
@@ -263,9 +261,9 @@ span.material-symbols-outlined {
     bottom: 0;
     clip-path: polygon(0 0, 100% 0, 0 100%);
     filter: brightness(0.75);
-  }
-  
-  .olcards li .content::after {
+}
+
+.olcards li .content::after {
     content: "";
     position: absolute;
     height: var(--cardsGap);
@@ -273,26 +271,26 @@ span.material-symbols-outlined {
     background: linear-gradient(to right, rgba(0, 0, 0, 0.25), transparent 50%);
     left: 0;
     top: 100%;
-  }
-  
-  .olcards li .content .title {
+}
+
+.olcards li .content .title {
     grid-area: title;
     font-size: 1.6em;
     text-align: left;
     font-weight: 600;
     align-self: flex-start;
     color: #1535b5af;
-  }
-  
-  .olcards li .content .text {
+}
+
+.olcards li .content .text {
     text-align: left;
     align-self: flex-start;
     grid-area: text;
     color: black;
-    font-size: 1.2em; 
+    font-size: 1.2em;
     line-height: 1.1em;
-  }
-  
+}
+
 
 .section4 h2 {
     font-size: 34px;
@@ -432,4 +430,230 @@ span.material-symbols-outlined {
     display: flex;
     justify-content: center;
     align-items: center
+}
+
+@media (max-width: 768px) {
+    .section1 {
+        height: 250px;
+        padding-top: 4em;
+    }
+
+    .section1 div h1 {
+        font-size: 24px;
+    }
+
+    .section2 h2 {
+        font-size: 26px;
+        margin-bottom: 0;
+    }
+
+
+    .quadrado {
+        flex-direction: column;
+        width: 70%;
+        margin: 0 50px;
+    }
+
+    .q1 {
+        height: 180px;
+    }
+
+
+    .q2 {
+        padding: 10px;
+    }
+
+    span.material-symbols-outlined,
+    .fa-solid {
+        font-size: 40px;
+    }
+
+    .content h4 {
+        font-size: 18px;
+    }
+
+    .container .card p {
+        font-size: 14px;
+    }
+
+    .section3 .graus img,
+    .section4 #barra4,
+    .section5 #imgAlone{
+        display: none;
+    }
+
+    .section3 .graus p {
+        font-size: 16px;
+        width: 100%;
+    }
+
+
+    #flechas {
+        padding: 1em;
+        width: 350px;
+    }
+
+    .olcards li::before {
+        font-size: 1.5em;
+        position: relative;
+        right: 121px;
+        height: 20%;
+    }
+
+    .olcards li .content .title {
+        font-size: 1em;
+    }
+
+    .olcards li .content .text {
+        font-size: 13px;
+    }
+
+
+    .olcards li .content {
+        padding: 30px;
+        align-items: center;
+        position: relative;
+        width: 100%;
+        right: 120px;
+    }
+
+    .olcards li .content::before {
+        top: 17.8%;
+        left: 0;
+        bottom: 0;
+    }
+
+    .olcards li .content::after {
+        top: 100%;
+    }
+
+    #info5 {
+        padding: 0;
+    }
+
+
+    .section5 #alone {
+        background-color: #1535B5;
+        width: 100%;
+        height: 300px;
+        margin-bottom: 50px;
+        padding: 0;
+    }
+    
+    
+    .section5 #alone h2 {
+        color: #f6f6f6;
+        font-size: 26px;
+        margin: 30px 20px;
+        text-align: center;
+    }
+    
+    .section5 #barra2 {
+        display: none;
+    }
+    
+    .section5 #alone a {
+        background-color: #ffffff;
+        color: #34476d;
+        margin-top: 30px;
+        padding: 10px;
+        position: relative;
+        top: 10%;
+        margin: 0 27px;
+
+    }
+    
+    .section5 #alone p {
+        color: #f6f6f6;
+        margin: 10px 25px;
+        font-size: 16px;
+        width: 90%;
+    }
+
+    .section5 .card a{
+        width: 327px;
+    }
+    
+    .juntos #imgs {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .section1 div h1 {
+        font-size: 20px;
+    }
+    
+    .section2 h2 {
+        font-size: 20px;
+    }
+    
+    .content h4 {
+        font-size: 16px;
+    }
+
+    .container .card p {
+        font-size: 14px;
+    }
+
+    #quebraCabeca {
+        display: none;
+    }
+
+    .section3 .graus img {
+        display: none;
+    }
+
+    .section3 .graus h2 {
+        font-size: 26px;
+        margin: 5px 10px;
+    }
+
+    .section3 .graus h3 {
+        font-size: 20px;
+        margin: 5px 10px;
+    }
+
+    .section3 .graus p {
+        margin: 15px 10px;
+        font-size: 15px;
+    }
+
+    .section3 .graus .niveis {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .section3 .niveis #n3 {
+        position: absolute;
+        top: 361%;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
+    .section3 .niveis #n3p {
+        margin-top: 45px;
+        margin-left: 10px;
+    }
+
+    .section4 h2 , .section5 .juntos h2{
+        font-size: 24px;
+        margin: 0 10px 20px 10px;
+    }
+
+    .section4 h4 {
+        margin: 10px;
+        font-size: 16px;
+    }
+
+    .olcards li::before {
+        font-size: 1.2em;
+    }
+
+    .olcards li .content .title {
+        font-size: 0.9em;
+    }
 }

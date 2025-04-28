@@ -16,33 +16,36 @@
 </head>
 
 <body>
+    <component name="acessibilidade" />
+
     <div class='box-cadastrar'>
         <div id='logo-topo'>
             <img src="./img/logo.png" alt="">
             <p>PORTAL ESSÊNCIA AZUL</p>
         </div>
         <div id='campos'>
-            <h1>Cadastrar administrador</h1>
+            <h1 class="conteudo-site">Cadastrar administrador</h1>
+            <p id="info-cad-responsivo" class="conteudo-site">Formulário de cadastro de administradores</p>
             <form action="">
-                <div>
+                <div class="conteudo-site">
                     <label for="campo1">Nome</label>
                     <input id="campo1" type="text">
                 </div>
 
-                <div>
+                <div class="conteudo-site">
                     <label for="campo2">E-mail</label>
                     <input id="campo2" type="email">
                 </div>
 
-                <div>
+                <div class="conteudo-site">
                     <label for="campo3">Senha</label>
                     <input id="campo3" type="password">
                 </div>
 
-                <a href="/gerenciamento" id="link-button"><button type="button">Cadastrar</button></a>
+                <a class="conteudo-site" href="/gerenciamento" id="link-button"><button class="conteudo-site" type="button">Cadastrar</button></a>
             </form>
-            <a onclick="window.history.go(-1)" id='voltar'><i class="fa-solid fa-chevron-left"></i>
-                <p>Voltar</p>
+            <a class="conteudo-site" onclick="window.history.go(-1)" id='voltar'><i class="fa-solid fa-chevron-left"></i>
+                <p class="conteudo-site">Voltar</p>
             </a>
         </div>
     </div>

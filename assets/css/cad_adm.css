@@ -49,6 +49,7 @@ body {
     align-items: center;
     margin-top: 18px;
     font-family: 'Montserrat';
+    width: 100%;
 }
 
 #campos h1 {
@@ -57,7 +58,19 @@ body {
     margin-bottom: 25px;
 }
 
+#info-cad-responsivo {
+    display: none;
+}
+
 form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+form div {
+    width: 90%;
     display: flex;
     flex-direction: column;
 }
@@ -66,7 +79,7 @@ label {
     margin-bottom: 10px;
     font-weight: 500;
     color: #000000a0;
-    padding: 18px;
+    padding: 18px 26px;
     position: absolute;
     transition: all 0.2s;
     pointer-events: none;
@@ -78,7 +91,7 @@ label {
 }
 
 input {
-    width: 348px;
+    width: 88%;
     height: 43px;
     background-color: #f3f3f3;
     border: solid 2px rgb(214, 214, 214);
@@ -92,6 +105,7 @@ input {
     font-family: 'Montserrat';
     color: #000000c9;
     outline: none;
+    align-self: center;
     transition: all 0.3s;
 }
 
@@ -106,6 +120,7 @@ input:focus {
 #link-button {
     align-self: center;
     text-decoration: none;
+    width: 86%;
 }
 
 button {
@@ -114,7 +129,7 @@ button {
     font-family: 'Montserrat';
     font-weight: 600;
     font-size: 16px;
-    width: 110px;
+    width: 100%;
     height: 40px;
     display: flex;
     align-self: center;
@@ -140,4 +155,47 @@ button:hover {
     color: #0000008b;
     font-weight: 600;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .box-cadastrar {
+        width: 85%;
+    }
+    #campos h1 {
+        font-size: 0;
+        margin-bottom: 7px;
+    }
+    #campos h1::after {
+        font-size: 35px;
+        content: "Cadastrar";
+    }
+    #info-cad-responsivo {
+        display: flex;
+        margin-bottom: 25px;
+        font-weight: 600;
+        color: #000000a2;
+        width: 70%;
+        text-align: center;
+    }
+    label {
+        padding: 22px 10px;
+        font-size: 20px;
+    }
+    .mover {
+        font-size: 15px;
+        padding: 18px 10px;
+    }
+    input {
+        width: 95%;
+        height: 52px;
+        font-size: 20px;
+    }
+    #link-button {
+        width: 94%;
+    }
+    button {
+        height: 100%;
+        padding: 10px 0px;
+        font-size: 18px;
+    }
 }

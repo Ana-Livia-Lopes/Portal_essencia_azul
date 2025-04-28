@@ -11,6 +11,8 @@
 
 <body>
     <component name="header" />
+    <component name="acessibilidade" />
+
     <section>
         <form action="" id="formularios">
             <div id="descricao">
@@ -18,8 +20,8 @@
                     <img src="./img/logo.png" alt="">
                     <p>PORTAL ESSÊNCIA AZUL</p>
                 </div>
-                <h1>Solicitar cadastro</h1>
-                <p>
+                <h1 class="conteudo-site">Solicitar cadastro</h1>
+                <p class="conteudo-site">
                     Prezados pais, responsáveis e membros da nossa comunidade,
                     <br><br>
                     A Associação Essência Azul tem o compromisso de oferecer suporte e
@@ -53,144 +55,144 @@
                 </p>
             </div>
             <div class="caixas">
-                <h2>Nome dos pais/responsáveis</h2>
+                <h2 class="conteudo-site">Nome dos pais/responsáveis</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">E-mail de contato</h2>
                 <input type="text" placeholder="Escreva aqui">
             </div>
             <div class="caixas">
-                <h2>E-mail de contato</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Endereço</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Endereço</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Telefone de contato</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Telefone de contato</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Nome do autista</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Nome do autista</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Quantas pessoas moram na sua residência?</h2>
+                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Quantas pessoas moram na sua residência?</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Quantas pessoas tem laudo de autismo?</h2>
+                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Quantas pessoas tem laudo de autismo?</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Quantas pessoas estão em investigação?</h2>
+                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Quantas pessoas estão em investigação?</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Idade do autista</h2>
+                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Idade do autista</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui">
-            </div>
-            <div class="caixas">
-                <h2>Nível de suporte</h2>
+                <h2 class="conteudo-site">Nível de suporte</h2>
                 <select name="" id="">
-                    <option value="">Selecionar</option>
-                    <option value="">Nível 1</option>
-                    <option value="">Nível 2</option>
-                    <option value="">Nível 3</option>
+                    <option value="" class="conteudo-site">Selecionar</option>
+                    <option value="" class="conteudo-site">Nível 1</option>
+                    <option value="" class="conteudo-site">Nível 2</option>
+                    <option value="" class="conteudo-site">Nível 3</option>
                 </select>
             </div>
             <div class="caixas">
-                <h2>Escola onde estuda ou não estuda</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Escola onde estuda ou não estuda</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Tem carteirinha de identificação do autismo?</h2>
+                <h2 class="conteudo-site">Tem carteirinha de identificação do autismo?</h2>
                 <div class="div-maior-input-radio">
                     <div class="radio">
                         <input type="radio" id="cart-sim" name="cart" value="Sim">
-                        <label for="cart-sim">Sim</label>
+                        <label for="cart-sim" class="conteudo-site">Sim</label>
 
                         <input type="radio" id="cart-nao" name="cart" value="Não">
-                        <label for="cart-nao">Não</label>
+                        <label for="cart-nao" class="conteudo-site">Não</label>
                     </div>
                 </div>
             </div>
             <div class="caixas">
-                <h2>Usa o cordão de girassol ou quebra-cabeça?</h2>
+                <h2 class="conteudo-site">Usa o cordão de girassol ou quebra-cabeça?</h2>
                 <div class="div-maior-input-radio">
                     <div class="radio">
                         <input type="radio" id="cord-sim" name="cord" value="Sim">
-                        <label for="cord-sim">Sim</label>
+                        <label for="cord-sim" class="conteudo-site">Sim</label>
 
                         <input type="radio" id="cord-nao" name="cord" value="Não">
-                        <label for="cord-nao">Não</label>
+                        <label for="cord-nao" class="conteudo-site">Não</label>
                     </div>
                 </div>
             </div>
             <div class="caixas">
-                <h2>Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?</h2>
+                <h2 class="conteudo-site">Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?</h2>
                 <div class="div-maior-input-radio">
                     <div class="radio">
                         <input type="radio" id="vaga-sim" name="vaga" value="Sim">
-                        <label for="vaga-sim">Sim</label>
+                        <label for="vaga-sim" class="conteudo-site">Sim</label>
 
                         <input type="radio" id="vaga-nao" name="vaga" value="Não">
-                        <label for="vaga-nao">Não</label>
+                        <label for="vaga-nao" class="conteudo-site">Não</label>
                     </div>
                 </div>
             </div>
             <div class="caixas">
-                <h2>Se criança, tem profissional de apoio na escola?</h2>
+                <h2 class="conteudo-site">Se criança, tem profissional de apoio na escola?</h2>
                 <div class="div-maior-input-radio">
                     <div class="radio">
                         <input type="radio" id="prof-sim" name="prof" value="Sim">
-                        <label for="prof-sim">Sim</label>
+                        <label for="prof-sim" class="conteudo-site">Sim</label>
 
                         <input type="radio" id="prof-nao" name="prof" value="Não">
-                        <label for="prof-nao">Não</label>
+                        <label for="prof-nao" class="conteudo-site">Não</label>
                     </div>
                 </div>
             </div>
             <div class="caixas">
-                <h2>Áreas de Interesse (interesses da criança/pessoa autista, o que gosta de fazer?)</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Áreas de Interesse (interesses da criança/pessoa autista, o que gosta de fazer?)</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Hiperfoco (descreva em que o autista demonstra hiperfoco)</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Hiperfoco (descreva em que o autista demonstra hiperfoco)</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Como o autista se acalma? (técnicas ou atividades que acalmam a criança/pessoa autista)</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Como o autista se acalma? (técnicas ou atividades que acalmam a criança/pessoa autista)</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Atividades que o autista NÃO gosta de fazer (atividades que a criança evita ou não gosta)</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Atividades que o autista NÃO gosta de fazer (atividades que a criança evita ou não gosta)</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Restrições alimentares (se a criança/pessoa tem restrições alimentares, descreva)</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Restrições alimentares (se a criança/pessoa tem restrições alimentares, descreva)</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Comida favorita</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Comida favorita</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Qual o convênio? (convênio ou SUS)</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Qual o convênio? (convênio ou SUS)</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Quais terapias está fazendo? (Lista de terapias ou tratamentos que a criança/pessoa está fazendo)
+                <h2 class="conteudo-site">Quais terapias está fazendo? (Lista de terapias ou tratamentos que a criança/pessoa está fazendo)
                 </h2>
-                <input type="text" placeholder="Escreva aqui">
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Quais terapias necessita e NÃO está fazendo?</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Quais terapias necessita e NÃO está fazendo?</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2>Deixe aqui qualquer observação a mais que você gostaria de fazer e considera importante</h2>
-                <Textarea placeholder="Escreva aqui"></Textarea>
+                <h2 class="conteudo-site">Deixe aqui qualquer observação a mais que você gostaria de fazer e considera importante</h2>
+                <Textarea placeholder="Escreva aqui" class="conteudo-site"></Textarea>
             </div>
-            <button>Solicitar cadastro</button>
+            <button class="conteudo-site">Solicitar cadastro</button>
         </form>
     </section>
     <component name="footer" />

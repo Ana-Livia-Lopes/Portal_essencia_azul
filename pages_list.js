@@ -82,6 +82,14 @@ module.exports = {
             pagelocation: "cadastrar_acolhido"
         },
         {
+            filelocation: "relatorios.html",
+            pagelocation: "relatorios"
+        },
+        {
+            filelocation: "solic_receb.html",
+            pagelocation: "solic_receb"
+        },
+        {
             filelocation: "api/acolhido.js",
             pagelocation: [ "api/acolhido", "api/acolhido/[id]" ],
             pagetype: "execute",
@@ -101,6 +109,10 @@ module.exports = {
         {
             name: "footer",
             filelocation: "footer.html"
+        },
+        {
+            name: "acessibilidade",
+            filelocation: "acessibilidade.html"
         },
         {
             name: "serverInfo",

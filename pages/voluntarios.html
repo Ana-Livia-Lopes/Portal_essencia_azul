@@ -15,6 +15,8 @@
 
 <body>
     <component name="header" />
+    <component name="acessibilidade" />
+
     <section>
         <div class="formulario-voluntario">
             <div class="header">
@@ -22,50 +24,50 @@
                 <div class="dot"></div>
                 <div class="dot"></div>
             </div>
-            <h1>Seja um voluntário</h1>
-            <h2>Toda ajuda é bem-vinda!</h2>
+            <h1 class="conteudo-site">Seja um voluntário</h1>
+            <h2 class="conteudo-site">Toda ajuda é bem-vinda!</h2>
             <form action="">
                 <div class="inserir-info">
-                    <label for="">Nome completo</label>
-                    <input id="nome" autocomplete="off" type="text" placeholder="Seu nome aqui">
+                    <label for="" class="conteudo-site">Nome completo</label>
+                    <input class="conteudo-site" id="nome" autocomplete="off" type="text" placeholder="Seu nome aqui">
                 </div>
 
                 <div class="inserir-info">
-                    <label for="">CPF</label>
-                    <input id="cpf" autocomplete="off" type="text" placeholder="000.000.000-00">
+                    <label for="" class="conteudo-site">CPF</label>
+                    <input class="conteudo-site" id="cpf" autocomplete="off" type="text" placeholder="000.000.000-00">
                 </div>
 
                 <div class="inserir-info">
-                    <label for="">Email</label>
-                    <input id="email" autocomplete="off" type="email" placeholder="nome@email.com">
+                    <label for="" class="conteudo-site">Email</label>
+                    <input class="conteudo-site" id="email" autocomplete="off" type="email" placeholder="nome@email.com">
                 </div>
 
                 <div class="inserir-info">
-                    <label for="">Telefone</label>
-                    <input id="tel" autocomplete="off" type="text" placeholder="(00) 00000-0000">
+                    <label for="" class="conteudo-site">Telefone</label>
+                    <input class="conteudo-site" id="tel" autocomplete="off" type="text" placeholder="(00) 00000-0000">
                 </div>
 
                 <div class="inserir-info">
-                    <label for="">Como quer ajudar?</label>
+                    <label for="" class="conteudo-site">Como quer ajudar?</label>
                     <select id="ajuda" name="">
-                        <option id="selecionar" value="" disabled selected>Selecionar</option>
-                        <option value="adm">Administração</option>
-                        <option value="teste">Teste</option>
-                        <option value="outro">Outro</option>
+                        <option class="conteudo-site" id="selecionar" value="" disabled selected>Selecionar</option>
+                        <option value="adm" class="conteudo-site">Administração</option>
+                        <option value="teste" class="conteudo-site">Teste</option>
+                        <option value="outro" class="conteudo-site">Outro</option>
                     </select>
                 </div>
 
                 <div class="inserir-info">
-                    <label for="">Outro tipo de ajuda</label>
-                    <input id="outro" autocomplete="off" type="text" placeholder="Escreva aqui">
+                    <label for="" class="conteudo-site">Outro tipo de ajuda</label>
+                    <input class="conteudo-site" id="outro" autocomplete="off" type="text" placeholder="Escreva aqui">
                 </div>
 
                 <div id="textarea" class="inserir-info">
-                    <label for="">Por que quer ser voluntário?</label>
-                    <textarea name="" id="" placeholder="Escreva aqui"></textarea>
+                    <label for="" class="conteudo-site">Por que quer ser voluntário?</label>
+                    <textarea class="conteudo-site" name="" id="" placeholder="Escreva aqui"></textarea>
                 </div>
 
-                <a href="/inicio" id="link-button"><button type="button" id="enviar-voluntario">Enviar</button></a>
+                <a href="/inicio" id="link-button"><button class="conteudo-site" type="button" id="enviar-voluntario">Enviar</button></a>
             </form>
         </div>
     </section>

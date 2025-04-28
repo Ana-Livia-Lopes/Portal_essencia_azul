@@ -15,72 +15,74 @@
 
 <body>
     <component name="header" />
+    <component name="acessibilidade" />
+
     <title>Eventos</title>
     </head>
 
     <body>
         <section id="secao1">
-            <h1>Eventos</h1>
+            <h1 class="conteudo-site">Eventos</h1>
 
             <div class="eventos">
                 <div class="lista-eventos" id="listaEventos">
                     <div class="item-evento" onclick="">
                         <div class="data">
-                            <b>01</b><br>Abril
+                            <b class="conteudo-site">01</b><br>Abril
                         </div>
                         <div class="conteudo">
-                            <strong>NOME DO EVENTO</strong><br>
-                            Descrição e informações do evento
+                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                            <div class="conteudo-site">Descrição e informações do evento</div>
                         </div>
                     </div>
 
                     <div class="item-evento" onclick="">
                         <div class="data">
-                            <b>29</b><br>Maio
+                            <b class="conteudo-site">29</b><br>Maio
                         </div>
                         <div class="conteudo">
-                            <strong>NOME DO EVENTO</strong><br>
-                            Descrição e informações do evento
+                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                            <div class="conteudo-site">Descrição e informações do evento</div>
                         </div>
                     </div>
 
                     <div class="item-evento" onclick="">
                         <div class="data">
-                            <b>14</b><br>Junho
+                            <b class="conteudo-site">14</b><br>Junho
                         </div>
                         <div class="conteudo">
-                            <strong>NOME DO EVENTO</strong><br>
-                            Descrição e informações do evento
+                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                            <div class="conteudo-site">Descrição e informações do evento</div>
                         </div>
                     </div>
 
                     <div class="item-evento" onclick="">
                         <div class="data">
-                            <b>30</b><br>Agosto
+                            <b class="conteudo-site">30</b><br>Agosto
                         </div>
                         <div class="conteudo">
-                            <strong>NOME DO EVENTO</strong><br>
-                            Descrição e informações do evento
+                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                            <div class="conteudo-site">Descrição e informações do evento</div>
                         </div>
                     </div>
 
                     <div class="item-evento" onclick="">
                         <div class="data">
-                            <b>09</b><br>Setembro
+                            <b class="conteudo-site">09</b><br>Setembro
                         </div>
                         <div class="conteudo">
-                            <strong>NOME DO EVENTO</strong><br>
-                            <div>Descrição e informações do evento</div>
+                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                            <div class="conteudo-site">Descrição e informações do evento</div>
                         </div>
                     </div>
 
                     <div class="item-evento" onclick="">
                         <div class="data">
-                            <b>17</b><br>Novembro
+                            <b class="conteudo-site">17</b><br>Novembro
                         </div>
                         <div class="conteudo">
-                            <strong>NOME DO EVENTO</strong><br>
-                            <div>Descrição e informações do evento</div>
+                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                            <div class="conteudo-site">Descrição e informações do evento</div>
                         </div>
                     </div>
                 </div>
@@ -89,7 +91,7 @@
         </section>
         <section id="secao2">
             <img src="/img/linha.png" id="quebraCabeca">
-            <h2>Eventos anteriores</h2>
+            <h2 class="conteudo-site">Eventos anteriores</h2>
 
             <div id="galeriaPainel">
                 <img id="esquerdaImg" class="fotoQuadro anteriorFoto" />
@@ -164,7 +166,7 @@
           indiceAtual = (indiceAtual + 1) % imagens.length;
           if (!clicou) atualizarGaleria();
           clicou = false
-        }, 5000);
+        }, 4000);
     
         atualizarGaleria();
     </script>
