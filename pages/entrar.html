@@ -16,32 +16,33 @@
 </head>
 
 <body>
+    <component name="acessibilidade" />
     <div class='box-entrar'>
         <div id='logo-topo'>
             <img src="./img/logo.png" alt="">
             <p>PORTAL ESSÊNCIA AZUL</p>
         </div>
         <div id='campos'>
-            <h1>Entrar como administrador</h1>
-            <p id="info-login-responsivo">Formulário de login para administradores</p>
+            <h1 class="conteudo-site">Entrar como administrador</h1>
+            <p id="info-login-responsivo" class="conteudo-site">Formulário de login para administradores</p>
             <form action="">
                 <div>
-                    <label for="campo1">E-mail</label>
-                    <input id="campo1" type="email">
+                    <label for="campo1" class="conteudo-site">E-mail</label>
+                    <input id="campo1" type="email" class="conteudo-site">
                 </div>
 
                 <div>
-                    <label for="campo2">Senha</label>
-                    <input id="campo2" type="password">
+                    <label for="campo2" class="conteudo-site">Senha</label>
+                    <input id="campo2" type="password" class="conteudo-site">
                 </div>
 
-                <a href="/inicio" id="link-button"><button type="button">Entrar</button></a>
+                <a href="/inicio" id="link-button"><button type="button" class="conteudo-site">Entrar</button></a>
             </form>
             <a href="" id='esq-senha'>
-                <p>Esqueceu sua senha?</p>
+                <p class="conteudo-site">Esqueceu sua senha?</p>
             </a>
-            <a onclick="window.history.go(-1)" id='voltar'><i class="fa-solid fa-chevron-left"></i>
-                <p>Voltar</p>
+            <a class="conteudo-site" onclick="window.history.go(-1)" id='voltar'><i class="fa-solid fa-chevron-left"></i>
+                <p class="conteudo-site">Voltar</p>
             </a>
         </div>
     </div>
