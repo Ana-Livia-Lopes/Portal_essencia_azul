@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.voltar-div {
+    align-self: flex-start;
+    margin-bottom: 20px;
+}
+
+.voltar {
+    text-decoration: none;
+    color: #002293;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s;
+}
+
+.voltar:hover {
+    color: #0033cc;
+}
+
+.container {
+    background-color: #f2f2f2;
+    width: 100%;
+    max-width: 800px;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #002293;
+    font-size: 2rem;
+}
+
+.table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-header {
+    display: flex;
+    background-color: #d9d9d9;
+    font-weight: bold;
+    padding: 15px 10px;
+}
+
+.header-item {
+    flex: 1;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.table-row {
+    display: flex;
+    align-items: center;
+    background-color: #e9e9e9;
+    margin-top: 5px;
+    padding: 15px 10px;
+    border-radius: 5px;
+}
+
+.table-cell {
+    flex: 1;
+    text-align: left;
+    padding-left: 10px;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.pessoa {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pessoa img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .table-header {
+        display: none;
+    }
+
+    .table-row {
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: #f0f0f0;
+    }
+
+    .table-cell {
+        width: 100%;
+        padding: 8px 0;
+        font-size: 1rem;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .table-cell:last-child {
+        border-bottom: none;
+    }
+
+    .pessoa img {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .voltar {
+        font-size: 16px;
+    }
+}

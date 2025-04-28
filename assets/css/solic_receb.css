@@ -1,0 +1,175 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+header {
+  background: white;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.voltar-div {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.voltar-div:hover {
+  color: #0033CC;
+  cursor: pointer;
+}
+
+.voltar {
+  color: #002293;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 8px;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.voltar:hover {
+  color: #0033CC;
+}
+
+h1 {
+  color: #1535B5;
+  font-size: 30px;
+}
+
+.formulario-solicitacao {
+  display: flex;
+  justify-content: center;
+}
+
+.form-wrapper {
+  background: #eaf6fc;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.titulo-filtro {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #002293;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+.campo.full {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background-color: white;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.botoes {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.aceitar {
+  background-color: #1535B5;
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.recusar {
+  background-color: #870C0C;
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .voltar-div {
+    position: relative;
+    margin-bottom: 40px;
+    text-align: left;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  .form-wrapper {
+    padding: 10px;
+  }
+
+  .titulo-filtro {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .botoes {
+    flex-direction: column;
+  }
+
+  .voltar {
+    font-size: 16px;
+  }
+}

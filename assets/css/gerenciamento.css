@@ -480,3 +480,145 @@ section {
 .section-nhm-opcao-selec p {
   margin-top: 20px;
 }
+
+/* Responsividade geral */
+@media (max-width: 1200px) {
+  .form-grid {
+      grid-template-columns: 1fr;
+  }
+
+  #atalhos {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+  }
+
+  #botoes-direita {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+  }
+  .section-acolhidos {
+    display: block;
+    padding: 10px;
+  }
+  .section-admin {
+    display: block;
+    padding: 10px;
+  }
+  .section-familias {
+    display: block;
+    padding: 10px;
+  }
+  .section-voluntarios {
+    display: block;
+    padding: 10px;
+  }
+  .section-nhm-opcao-selec {
+    padding: 15px;
+  } 
+  .section-nhm-opcao-selec img {
+    width: 350px;
+    height: 300px;
+  }
+  .btn {
+    bottom: 20px;
+    right: 30px;
+  }
+  .users-familia {
+    margin-left: 0px;
+  }
+}
+
+/* Ajustes para tablets */
+@media (max-width: 768px) {
+  .form-container {
+      padding: 20px;
+  }
+
+  .user-opcao-lista {
+      max-height: 300px;
+      overflow-y: auto;
+  }
+  .lista-info-usuario {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+  }
+  .form-cabecalho {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .form-cabecalho img.user-foto {
+      width: 120px;
+      height: 120px;
+  }
+
+  .form-buttons {
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  .upload-section {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .upload-section button {
+      margin-top: 10px;
+  }
+  .btn {
+    bottom: 20px;
+    right: 30px;
+  }
+}
+
+/* Ajustes para celulares */
+@media (max-width: 480px) {
+  h1#titulo1 {
+      font-size: 24px;
+      text-align: center;
+  }
+
+  .links-pg-div h3 {
+      font-size: 18px;
+      text-align: center;
+  }
+
+  #atalhos button,
+  #atalhos .botao-esp {
+      width: 100%;
+  }
+
+  .form-grid .label-input {
+      width: 100%;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  .user-opcao-lista {
+      display: flex;
+      flex-direction: column;
+  }
+  .lista-info-usuario {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+  }
+  .form-container {
+      width: 100%;
+      box-sizing: border-box;
+  }
+  .btn {
+    bottom: 20px;
+    right: 30px;
+  }
+}
