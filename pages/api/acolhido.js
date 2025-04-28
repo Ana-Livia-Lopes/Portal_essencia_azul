@@ -6,12 +6,12 @@ const { Acolhido, create, read, update, remove } = require("../../src");
 module.exports = async function execute({ request, response }) {
     switch (request.method) {
         case "GET":
-            return JSON.stringify(await read("CHAVE", Acolhido, { orderBy: "nome", orderDirection: "DESC" }));
+            return JSON.stringify(await read("CHAVE", Acolhido, ));
         case "POST":
             // create()
             break;
         case "PUT":
-            // read + update
+            return JSON.stringify(await update("CHAVE", Acolhido, "FPj8BsSGhEBcRUbI0wOh", { so_isso_vei: false }, { editType: "set" }));
         case "PATCH":
             // return JSON.stringify(await update("CHAVE", Acolhido, "FPj8BsSGhEBcRUbI0wOh", { 
             //     comida_favorita: "Batata frita"
