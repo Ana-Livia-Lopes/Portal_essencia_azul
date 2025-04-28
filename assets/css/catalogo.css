@@ -29,12 +29,13 @@ body {
     margin-right: auto;
 }
 
-.titulo-preto-wthree {
+.titulo {
     font-size: 40px;
     color:#1535B5;
     text-align: center;
     margin-bottom: 50px;
     margin-top: 12px;
+    text-shadow: 1px 2px 2px rgb(183, 183, 183);
 }
 
 /*-- quartos & tarifas --*/
@@ -224,10 +225,17 @@ body {
 }
 
 #entenda {
+    font-size: 200%;
+    margin-bottom: 15px;
+    width: 60%;
+    margin-left: 20%;
+}
+#entendaTitulo {
     font-size: 230%;
     margin-bottom: 15px;
     width: 60%;
     margin-left: 20%;
+    font-weight: 500;
 }
 
 .botao {
