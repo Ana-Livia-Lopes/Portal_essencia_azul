@@ -192,6 +192,7 @@ body {
   transform: translateX(-170%) scale(0.85);
   z-index: 1;
   opacity: 0.5;
+  cursor: pointer;
 }
 
 .proximaFoto {
@@ -199,6 +200,7 @@ body {
   transform: translateX(70%) scale(0.85);
   z-index: 1;
   opacity: 0.5;
+  cursor: pointer;
 }
 #centroImg {
   left: 50%;
@@ -560,7 +562,13 @@ body {
 }
 
 .texto2 {
-  margin-left: 500px;
+  position: absolute;
+
+  top: 50%;
+  
+  left: 58%;
+  
+  transform: translate(-50%, -50%);
 }
 
 
@@ -872,8 +880,9 @@ body {
   }
 
   .texto2 {
-    margin-left: 0px;
-
+    position: relative; 
+    margin-right: 15%;
+    width: 100%;
   }
 
   #textoAjuda {

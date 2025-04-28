@@ -21,7 +21,7 @@
                 <div class="bloco-preco agile">
                     <div class="topo-preco">
                         <img src="/img/produto2.jpeg" alt="Quarto Amigos" class="img-responsiva" id="imgCamiseta" />
-                        <h4>Camiseta</h4>
+                        <h4 id="infantilAdulto">Camiseta infantil</h4>
                     </div>
                     <div class="fundo-preco">
                         <div class="seleção-preco">
@@ -123,6 +123,17 @@
             preco.innerHTML = "<span>R$</span>35,00";
         } else if (url.includes("produto1.png")) {
             preco.innerHTML = "<span>R$</span>50,00";
+        }
+        mudar3(url);
+    }
+
+    function mudar3(url) {
+        var preco = document.getElementById("infantilAdulto");
+        
+        if (url.includes("produto2.jpeg")) {
+            infantilAdulto.innerHTML = "Camiseta Infantil";
+        } else if (url.includes("produto1.png")) {
+            infantilAdulto.innerHTML = "Camiseta Adulta";
         }
     }
 </script>
