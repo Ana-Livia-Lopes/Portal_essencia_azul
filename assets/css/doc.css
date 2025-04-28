@@ -367,6 +367,107 @@ h3 {
 .section5 {
     margin-bottom: 80px;
 }
+@media screen and (min-width: 1025px) {
+    .section2 #imgSec2 {
+        margin-left: 0;
+        left: 58%;
+        top: 120%;
+        position: absolute;
+    }
+
+    .section2 img {
+        right: -5%;
+        position: relative;
+    }
+
+    .section3 img {
+        position: relative;
+        top: -300px;
+        width: 610px;
+        height: 370px;
+    }
+
+    .section3 #box3 #barra {
+        left: 10%;
+        top: 274.5%;
+        transform: translate(0, 0);
+    }
+
+    #box3 p {
+        position: absolute;
+        top: 272%;
+        margin-left: 180px;
+        width: 900px;
+    }
+
+    .section3 #lista img {
+        left: 23%;
+        top: 361.5%;
+    }
+
+    .section3 #lista {
+        margin: 0 40px 0 100px;
+    }
+
+    .section4 #barra {
+        left: 50%;
+        top: 449.5%;
+        transform: translateX(-50%);
+        height: 100px;
+    }
+
+    .section4 .pCMIA {
+        left: 51%;
+        top: 444%;
+    }
+
+    .section4 .pCMIA2 {
+        right: 49%;
+        top: 444%;
+    }
+
+.section4 #emissao h2{
+    margin-top: 200px;
+}
+
+    .section4 #emissao img {
+        top: 485%;
+        left: 58%;
+    }
+
+    .section5 #imgCartao {
+        top: 605%;
+        left: 59%;
+    }
+
+    .section5 .prazo img {
+        top: 743%;
+        left: 22%;
+    }
+
+    .section5 .prazo p {
+        margin-left: 380px;
+    }
+
+    .section5 .horario #contato {
+        margin-left: 90px;
+    }
+
+    .section5 .horario #ctt {
+        left: 10px;
+        margin-right: 500px;
+    }
+
+    .section5 #emissao-defis ol li {
+        left: 11%;
+    }
+
+    .section5 #emissao-defis a {
+        left: 10%;
+    }
+}
+
+
 
 @media screen and (max-width: 1024px) {
     .section1 div h1 {
