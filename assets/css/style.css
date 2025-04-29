@@ -350,7 +350,7 @@ body {
 }
 
 @media (any-hover: hover) and (any-pointer: fine) {
-  
+
   .card__content {
     transform: translateY(78%);
     transition: transform 200ms ease-out;
@@ -985,5 +985,9 @@ body {
   
   .proximaFoto {
     display: none;
+  }
+  .seta{
+    display: none;
+    opacity: 0;
   }
 }
