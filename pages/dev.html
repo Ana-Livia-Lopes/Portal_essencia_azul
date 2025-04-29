@@ -121,11 +121,15 @@
             <h2>Acolhidos</h2>
             <ul id="output-acolhidos"></ul>
         </section>
+        <section>
+            <h2>Admins</h2>
+            <ul id="output-admins"></ul>
+        </section>
         <script>
-            (async () => {
-                const req = await fetch("/api/acolhido", { method: "GET" });
+            const read = (async (url, outputId) => {
+                const req = await fetch(url, { method: "GET" });
                 const json = await req.json();
-                const outputElement = document.getElementById("output-acolhidos");
+                const outputElement = document.getElementById(outputId);
                 console.log(json);
 
                 if (json instanceof Array) {
@@ -139,7 +143,10 @@
                 } else {
                     outputElement.append(`Erro: ${json?.message}`);
                 }
-            })();
+            });
+
+            read("/api/acolhido", "output-acolhidos");
+            read("/api/admin", "output-admins");
         </script>
         <component name="footer" />
         <style>

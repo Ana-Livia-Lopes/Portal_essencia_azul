@@ -102,8 +102,11 @@
     align-items: center;
 }
 
-.section3 #barra {
-    position: relative;
+.section3 #box3 #barra {
+    position: absolute;
+    left: 8.5%;
+    top: 224%;
+   margin-left: 100px; 
     flex-direction: row;
     transform: translate(-50%, -50%);
     width: 9px;
@@ -207,8 +210,16 @@
     margin-bottom: 60px;
     width: 40%;
 }
+.section4 #muni-geral {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-.section4 .pCMIA{
+.section4 .p-CMIA{
+    flex-direction: row;
+}
+/* .section4 .pCMIA{
     position: absolute;
     left: 50%;
     top: 348.4%;
@@ -220,7 +231,7 @@
     right: 50%;
     top: 348.1%;
     margin-top: 0;
-}
+} */
 
 .section4 a, .section5 a{
     color: black;

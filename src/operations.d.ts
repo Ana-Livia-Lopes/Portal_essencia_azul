@@ -14,6 +14,7 @@ declare interface SearchRule<T extends DatabaseDocument<object>> {
 }
 
 declare interface ReadOptions<T extends DatabaseDocument<object>> {
+    id?: string | number
     conditions?: SearchRule<T>[]
     limit?: number
     limitOffset?: number
@@ -52,7 +53,7 @@ declare namespace Operations {
         key: string,
         type: C,
         search: ReadOptions<InstanceType<C>>,
-    ): Promise<(InstanceType<C> | null) | InstanceType<C>[]> // só retorna único se limite for 1
+    ): Promise<InstanceType<C>[]> // só retorna único se limite for 1
 
     export function analytics<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
@@ -66,13 +67,13 @@ declare namespace Operations {
         id: number,
         fields: InstanceType<C>["fields"],
         options: UpdateOptions
-    ): Promise<InstanceType<C> | boolean> // Leitura atualizada
+    ): Promise<InstanceType<C>>
 
     export function remove<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
         type: C,
         id: number
-    ): Promise<boolean>
+    ): Promise<InstanceType<C>>
 }
 
 declare class Login {
@@ -88,7 +89,7 @@ declare class Login {
     read<T extends object, C extends typeof DatabaseDocument<T>>(
         type: C,
         search: ReadOptions<InstanceType<C>>
-    ): Promise<(InstanceType<C> | null) | InstanceType<C>[]>
+    ): Promise<InstanceType<C>[]>
 
     analytics<T extends object, C extends typeof DatabaseDocument<T>>(
         type: C,
@@ -100,12 +101,12 @@ declare class Login {
         id: number,
         fields: InstanceType<C>["fields"],
         options: UpdateOptions
-    ): Promise<InstanceType<C> | boolean>
+    ): Promise<InstanceType<C>>
 
     remove<T extends object, C extends typeof DatabaseDocument<T>>(
         type: C,
         id: number
-    ): Promise<boolean>
+    ): Promise<InstanceType<C>>
 }
 
 export = Operations;
