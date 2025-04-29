@@ -529,6 +529,10 @@ section {
   .users-familia {
     margin-left: 0px;
   }
+  .section-familias .form-container {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 /* Ajustes para tablets */
@@ -572,6 +576,28 @@ section {
   .btn {
     bottom: 20px;
     right: 30px;
+  }
+  .residente-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .foto-nomeResidente {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+  }
+
+  .residente-info select {
+    width: 100%;
+  }
+
+  .botoes-acoes {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
   }
 }
 
