@@ -32,13 +32,12 @@
 
 .section2 .box {
     background-color: #fdfbd6fd;
-    margin: 55px;
+    margin: 30px 100px;
     padding: 13px;
     border-radius: 7px;
-    width: 43%;
-    position: relative;
-    left: 3%;
+    width: 65%;
 }
+
 
 .section2 p {
     margin: 12px;
@@ -46,18 +45,27 @@
     font-size: 18px;
 }
 
-.section2 #imgSec2 {
-    margin-left: 950px;
-    position: absolute;
-    top: 750px;
+.section2 #box-global{
+    flex-direction: column;
+    margin: 0;
+}
+
+.section2 #section2-cart{
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+.section2 #imgSec2{
+    width: 70%;
 }
 
 .section2 img {
     width: 405px;
     height: 414px;
-    position: relative;
-    right: 5%;
 }
+
+
 .section3 #content3{
     margin-left: 100px;
     margin-right: 100px;
@@ -89,13 +97,14 @@
 }
 
 .section3 #box3 {
-    width: 68%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .section3 #barra {
-    position: absolute;
-    left: 8.5%;
-    top: 224%;
+    position: relative;
+    flex-direction: row;
     transform: translate(-50%, -50%);
     width: 9px;
     height: 12%;
@@ -104,9 +113,7 @@
 }
 
 #box3 p{
-    margin-left: 150px;
-    margin-top: 30px;
-    margin-bottom: 35px;
+    width: 66%;
 }
 .section3 a {
     color: black;
@@ -255,7 +262,7 @@
 }
 
 .section5{
-    overflow: hidden;   
+    overflow: hidden;  
 }
 
 #quebraCabeca {
@@ -277,10 +284,10 @@
     position: absolute;
     top: 469%;
     left: 57%;
-}   
+}  
 
 .section5 h2, h3{
-    text-align: left; 
+    text-align: left;
     margin-top: 25px;
     margin-bottom: 10px;
     margin-left: 125px;
@@ -592,9 +599,9 @@
         top: 200px;
         left: 10%;
     }
-    
+   
     .section4 #municipal p {
-        width: 82%; 
+        width: 82%;
         font-size: 16px;
         text-align: justify;
     }
