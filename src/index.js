@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 const { Session, Property, CodedError } = require("./tools");
 const { db } = require("../firebase.js");
-const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc } = require("firebase/firestore");
+const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc, setDoc } = require("firebase/firestore");
 
 var EssenciaAzul = ( function() {
     const BaseDataTypes = {}
@@ -588,7 +588,6 @@ var EssenciaAzul = ( function() {
                     }
                 }
                 if (search?.orderBy) {
-                    console.log("orderBy");
                     let orderDirection = search.orderDirection?.toLowerCase() ?? "asc";
                     if (!validLowerOrderDirections.includes(orderDirection)) throw new TypeError("Direção de ordenação inválida, use ASC ou DESC");
                     constraints.push(orderBy(search.orderBy, orderDirection));
@@ -676,12 +675,27 @@ var EssenciaAzul = ( function() {
                 const docRef = doc(collRef, id);
                 const docSnap = await getDoc(docRef);
                 if (!docSnap.exists()) throw new CodedError(404, "Documento não encontrado");
-                const docData = docSnap.data();
-                const updatedFields = mapForDateToTimestamp(fields);
-                const updatedDoc = { ...docData, ...updatedFields };
-                const filteredFields = type._callFieldsFilter({ action: "update", type, key, fields: updatedDoc });
-                delete filteredFields.id;
-                await updateDoc(docRef, filteredFields);
+
+                switch (options?.editType) {
+                    case "set":
+                        console.log("set");
+                        const newDoc = mapForDateToTimestamp(fields);
+                        const filteredSetData = type._callFieldsFilter({ action: "update", type, key, fields: newDoc });
+                        delete filteredSetData.id;
+                        await setDoc(docRef, filteredSetData);
+                        break;
+                    default:
+                    case "update":
+                        console.log("update");
+                        const docData = docSnap.data();
+                        const updatedFields = mapForDateToTimestamp(fields);
+                        const updatedDoc = { ...docData, ...updatedFields };
+                        const filteredPatchData = type._callFieldsFilter({ action: "update", type, key, fields: updatedDoc });
+                        delete filteredPatchData.id;
+                        await updateDoc(docRef, filteredPatchData);
+                        break;
+                }
+
                 const newDocSnap = await getDoc(docRef);
                 const newDocData = newDocSnap.data();
                 const newDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(newDocData), privateDBConstructorKey);

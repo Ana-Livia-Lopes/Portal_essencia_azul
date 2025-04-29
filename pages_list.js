@@ -132,6 +132,26 @@ module.exports = {
         {
             name: "list_input",
             filelocation: "list_input.html"
+        },
+        {
+            name: "gerenciamento-voluntarios",
+            filelocation: "gerenciamento/voluntarios.html"
+        },
+        {
+            name: "gerenciamento-administradores",
+            filelocation: "gerenciamento/administradores.html"
+        },
+        {
+            name: "gerenciamento-familias",
+            filelocation: "gerenciamento/familias.html"
+        },
+        {
+            name: "gerenciamento-relatorios",
+            filelocation: "gerenciamento/relatorios.html"
+        },
+        {
+            name: "gerenciamento-acolhidos",
+            filelocation: "gerenciamento/acolhidos.html"
         }
     ],
     errorPage: new Page(path.join(__dirname, "pages/erro.js"), "/error/", "execute", "text/html", { events: { error(_, __, error) {

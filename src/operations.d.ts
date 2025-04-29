@@ -32,7 +32,8 @@ declare interface ReadAnalyticsOptions<T extends DatabaseDocument<object>> exten
 
 
 declare interface UpdateOptions {
-    readAfter: boolean
+    // Para MySQL, sempre update
+    editType: "set" | "update"
 }
 
 declare namespace Operations {

@@ -206,7 +206,9 @@ declare namespace Page {
      */
     export function MapDir(dirpath: string, pathbase: string, collection: PageCollection, syncChanges?: boolean): void
 
-    MapDir.watchers = new Map<string, FSWatcher>
+    export namespace MapDir {
+        export const watchers: Map<string, FSWatcher>
+    }
     /**
      * Mapeia um array com páginas para instanciar.
      * @param array Lista com objetos informando como as páginas serão instanciadas.
