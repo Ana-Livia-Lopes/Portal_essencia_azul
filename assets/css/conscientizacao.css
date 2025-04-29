@@ -47,7 +47,6 @@ section h3 {
     align-items: center;
     justify-content: space-around;
     margin: 30px 10%;
-    flex-wrap: wrap;
 }
 
 .container .card p {
@@ -146,7 +145,7 @@ span.material-symbols-outlined {
     width: 630px;
     height: 422px;
     position: absolute;
-    top: 189%;
+    top: 220%;
     left: 52%;
 }
 
@@ -299,7 +298,6 @@ span.material-symbols-outlined {
 
 .section4 h4 {
     margin-top: 50px;
-    margin-bottom: 10px;
     color: #333;
     font-size: 20px;
     text-align: center;
@@ -315,10 +313,17 @@ span.material-symbols-outlined {
     margin-right: auto;
 }
 
+.section4 #video-passos{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    display: flex;
+}
+
 .section4 #barra4 {
     position: absolute;
-    left: 15%;
-    top: 341%;
+    left: 20%;
+    top: 407%;
     transform: translate(-50%, -50%);
     width: 4px;
     height: 75%;
@@ -447,6 +452,9 @@ span.material-symbols-outlined {
         margin-bottom: 0;
     }
 
+    .container{
+        flex-wrap: wrap;
+    }
 
     .quadrado {
         flex-direction: column;
@@ -485,6 +493,11 @@ span.material-symbols-outlined {
     .section3 .graus p {
         font-size: 16px;
         width: 100%;
+    }
+
+    .section4 #video-passos{
+        width: 300px;
+        height: 165px;
     }
 
 
