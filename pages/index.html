@@ -14,7 +14,7 @@
 <body>
     <component name="header" />
     <component name="acessibilidade" />
-    
+
     <section id="secao1">
 
         <div class="animated-title">
@@ -28,7 +28,8 @@
             </div>
         </div>
 
-        <p id="sobre" class="conteudo-site">Nós da Essência Azul somos uma ONG que apoia e traz auxílio para pessoas autistas e suas famílias,
+        <p id="sobre" class="conteudo-site">Nós da Essência Azul somos uma ONG que apoia e traz auxílio para pessoas
+            autistas e suas famílias,
             promovendo inclusão e conscientização.</p>
         <img id="logo" src="/img/logo.png" alt="logo">
     </section>
@@ -36,6 +37,8 @@
     <!-- galeria -->
     <!-- <h2>Galeria de Fotos</h2> -->
     <section id="secao2">
+        <div id="setaEsquerda"><i class="seta fa-solid fa-chevron-left"></i></div>
+        <div id="setaDireita"><i class="seta fa-solid fa-chevron-right"></i></div>
         <h2 class="conteudo-site">Galeria de fotos</h2>
         <div id="galeriaPainel">
             <img id="esquerdaImg" class="fotoQuadro anteriorFoto" />
@@ -117,7 +120,7 @@
         <div id="linhaLateral"></div>
         <p id="t1" class="conteudo-site">1</p>
         <p id="t2" class="conteudo-site">2</p>
-        <img class="quadrado obj objmeto" class="conteudo-site"  src="/img/retangulo.png">
+        <img class="quadrado obj objmeto" class="conteudo-site" src="/img/retangulo.png">
         <img class="imgQuadrado obj objmeto" src="/img/objetivo.png">
         <p class="titleObjmeto titleObj conteudo-site">Objetivo:</p>
         <p class="textObjmeto textObj conteudo-site">
@@ -146,7 +149,7 @@
             <div class="ajuda"></div>
             <h2 id="tituloAjuda" class="conteudo-site">Precisa de ajuda?</h2>
             <p id="textoAjuda" class="conteudo-site">Responda ao formulário e faça parte dessa causa!</p>
-            <a href="#" class="botao2 conteudo-site">Clique aqui</a>
+            <a href="#" class="botao2 conteudo-site">Faça parte</a>
         </div>
         <img id="menino" src="/img/menino.png">
     </section>
@@ -208,59 +211,73 @@
 
 <script>
     const imagens = [
-      '/img/galeria1.png',
-      '/img/galeria2.png',
-      '/img/galeria3.png',
-      '/img/galeria4.png',
-      '/img/galeria5.png',
+        '/img/galeria1.png',
+        '/img/galeria2.png',
+        '/img/galeria3.png',
+        '/img/galeria4.png',
+        '/img/galeria5.png',
     ];
-    
+
     let indiceAtual = 1;
-    
+
     const esquerdaImg = document.getElementById('esquerdaImg');
     const centroImg = document.getElementById('centroImg');
     const direitaImg = document.getElementById('direitaImg');
-    
+    const setaEsquerda = document.getElementById('setaEsquerda');
+    const setaDireita = document.getElementById('setaDireita');
+
     function atualizarGaleria() {
-      esquerdaImg.classList.add('fade-out');
-      centroImg.classList.add('fade-out');
-      direitaImg.classList.add('fade-out');
-    
-      setTimeout(() => {
-        const anterior = (indiceAtual - 1 + imagens.length) % imagens.length;
-        const proxima = (indiceAtual + 1) % imagens.length;
-    
-        esquerdaImg.src = imagens[anterior];
-        centroImg.src = imagens[indiceAtual];
-        direitaImg.src = imagens[proxima];
-    
-        esquerdaImg.classList.remove('fade-out');
-        centroImg.classList.remove('fade-out');
-        direitaImg.classList.remove('fade-out');
-      }, 200);
+        esquerdaImg.classList.add('fade-out');
+        centroImg.classList.add('fade-out');
+        direitaImg.classList.add('fade-out');
+
+        setTimeout(() => {
+            const anterior = (indiceAtual - 1 + imagens.length) % imagens.length;
+            const proxima = (indiceAtual + 1) % imagens.length;
+
+            esquerdaImg.src = imagens[anterior];
+            centroImg.src = imagens[indiceAtual];
+            direitaImg.src = imagens[proxima];
+
+            esquerdaImg.classList.remove('fade-out');
+            centroImg.classList.remove('fade-out');
+            direitaImg.classList.remove('fade-out');
+        }, 200);
     }
 
     let clicou = false;
-    
+
     esquerdaImg.addEventListener('click', () => {
-      indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
-      atualizarGaleria();
-      clicou = true;
+        indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
+        atualizarGaleria();
+        clicou = true;
     });
-    
+
     direitaImg.addEventListener('click', () => {
-      indiceAtual = (indiceAtual + 1) % imagens.length;
-      atualizarGaleria();
-      clicou = true;
+        indiceAtual = (indiceAtual + 1) % imagens.length;
+        atualizarGaleria();
+        clicou = true;
     });
-    
+
+    setaEsquerda.addEventListener('click', () => {
+        indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
+        atualizarGaleria();
+        clicou = true;
+    });
+
+    setaDireita.addEventListener('click', () => {
+        indiceAtual = (indiceAtual + 1) % imagens.length;
+        atualizarGaleria();
+        clicou = true;
+    });
+
     setInterval(() => {
-      indiceAtual = (indiceAtual + 1) % imagens.length;
-      if (!clicou) atualizarGaleria();
-      clicou = false
+        indiceAtual = (indiceAtual + 1) % imagens.length;
+        if (!clicou) atualizarGaleria();
+        clicou = false
     }, 4500);
 
     atualizarGaleria();
-    </script>
-    
+</script>
+
 </html>

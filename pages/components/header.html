@@ -117,12 +117,12 @@
     const abrirMenu = document.getElementById('abrir-menu');
     const fecharMenu = document.getElementById('fechar-menu');
     const menu = document.getElementById('botao');
-    const nav2 = document.getElementById('nav2'); // Obtém a referência para a nav
+    const nav2 = document.getElementById('nav2');
 
     menu.addEventListener('click', () => {
         fecharMenu.classList.toggle('mostrar');
         abrirMenu.classList.toggle('esconder');
-        nav2.classList.toggle('mostrar-menu'); // Adiciona/remove a classe para a animação
+        nav2.classList.toggle('mostrar-menu');
     });
 </script>
 
@@ -380,26 +380,7 @@
     }
 
     #nav2 {
-        position: fixed;
-        overflow-x: hidden;
-        top: 73px;
-        left: 0;
-        right: 0;
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #F2F2F2;
-        width: 100%;
-        font-family: 'Montserrat';
-        transform: translateY(-105%);
-        pointer-events: none;
-        transition: transform 0.3s ease-in-out;
-    }
-
-    #nav2.mostrar-menu {
-        transform: translateY(0%);
-        pointer-events: auto;
+        display: none;
     }
 
     #nav2 li {
@@ -418,7 +399,7 @@
         color: #223c85;
         font-weight: 500;
         display: flex;
-        gap: 63%;
+        gap: 55%;
     }
 
     #chevron-down {
@@ -515,19 +496,32 @@
         }
 
         #nav2 {
-            max-height: 90vh;
-            overflow-y: auto;
-            overscroll-behavior: contain;
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            position: fixed;
+            top: 73px;
+            left: 0;
+            width: 100vw;
+            overflow: hidden;
+            background-color: white;
+            transform: translateY(-105%);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 40;
+            font-family: 'Montserrat';
+        }
+
+        #nav2.mostrar-menu {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
         }
 
         #botao {
             display: block;
             float: right;
         }
-
-        /* #checkbox:checked+#botao+#nav2 {
-            display: flex;
-            transform: translateY(0%);
-        } */
     }
 </style>

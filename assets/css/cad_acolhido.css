@@ -38,7 +38,7 @@ body {
 }
 
 .container {
-    background-color: #eaf6fc;
+    background-color: #8ec1e437;
     padding: 20px;
     border-radius: 10px;
     max-width: 850px;
@@ -67,7 +67,6 @@ h2 {
 }
 
 label {
-    font-weight: bold;
     display: block;
     margin-bottom: 10px;
 }
@@ -91,7 +90,6 @@ textarea {
 .label-input > label {
     display: block;
     margin-bottom: 10px;
-    font-weight: bold;
     font-size: 1rem;
 }
 
@@ -136,6 +134,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: bold;
 }
 
 button:hover {
