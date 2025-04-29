@@ -367,7 +367,6 @@
 }
 
 
-
 @media screen and (max-width: 1024px) {
     .section1 div h1 {
         width: 90%;
@@ -664,7 +663,7 @@
 
     .section5 .horario #contato {
         position: absolute;
-        top: 658%;
+        top: 483%;
         margin-top: 10px;
         margin-left: 18px;
     }
@@ -683,7 +682,7 @@
     .section5 #imgCartao {
         width: 310px;
         height: 250px;
-        top: 570%;
+        top: 425%;
         left: 10%;
     }
 
