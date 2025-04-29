@@ -145,7 +145,7 @@ span.material-symbols-outlined {
     width: 630px;
     height: 422px;
     position: absolute;
-    top: 220%;
+    top: 190%;
     left: 52%;
 }
 
@@ -323,10 +323,10 @@ span.material-symbols-outlined {
 .section4 #barra4 {
     position: absolute;
     left: 20%;
-    top: 407%;
+    top: 342%;
     transform: translate(-50%, -50%);
     width: 4px;
-    height: 75%;
+    height: 70%;
     background-color: #0033cc;
     border-radius: 4px;
 }

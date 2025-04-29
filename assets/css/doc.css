@@ -47,9 +47,9 @@
 }
 
 .section2 #imgSec2 {
+    margin-left: 950px;
     position: absolute;
-    top: 120%;
-    left: 63%;
+    top: 750px;
 }
 
 .section2 img {
@@ -58,12 +58,10 @@
     position: relative;
     right: 5%;
 }
-
-.section3 #content3 {
-    margin-left: 70px;
-    margin-right: 70px;
+.section3 #content3{
+    margin-left: 100px;
+    margin-right: 100px;
 }
-
 .section3 .box2 {
     width: 47%;
     float: right;
@@ -86,20 +84,18 @@
 }
 
 .section3 img {
-    position: relative;
-    margin: 0;
-    width: 620px;
-    height: 380px;
+    width: 630px;
+    height: 390px;
 }
 
 .section3 #box3 {
-    width: 80%;
+    width: 68%;
 }
 
 .section3 #barra {
     position: absolute;
     left: 8.5%;
-    top: 265%;
+    top: 224%;
     transform: translate(-50%, -50%);
     width: 9px;
     height: 12%;
@@ -107,49 +103,48 @@
     border-radius: 10px;
 }
 
-#box3 p {
+#box3 p{
     margin-left: 150px;
     margin-top: 30px;
     margin-bottom: 35px;
 }
-
 .section3 a {
     color: black;
     font-weight: 700;
     text-decoration: underline;
 }
 
-.section3 h3 {
-    color: #1535B5;
+.section3 h3{
+    color:#1535B5;
     font-size: 32px;
     margin: 10px;
 }
 
-.section3 ol li {
+.section3 ol li{
     line-height: 2;
     font-size: 20px;
     margin-left: 30px;
 }
 
-.section3 #lista {
-    margin: 0 40px 0 70px;
+.section3 #lista{
+    margin: 80px;
 }
 
-.section3 #lista p {
+.section3 #lista p{
     margin-top: 30px;
-    margin-left: 310px;
+    margin-left: 318px;
     line-height: 1.5;
 }
 
-.section3 #lista img {
+.section3 #lista img{
     position: absolute;
     left: 20%;
-    top: 324%;
+    top: 280%;
     width: 78px;
     height: 70px;
 }
 
-.section3 #card {
+.section3 #card{
     background-color: #D9D9D9;
     padding: 20px;
     margin: 70px;
@@ -161,13 +156,13 @@
     box-shadow: #1535B5 -9px 9px;
 }
 
-.section3 #card strong {
+.section3 #card strong{
     text-align: left;
-    color: #1535B5;
+    color:#1535B5;
     font-size: 24px;
 }
 
-.section3 #card ul li {
+.section3 #card ul li{
     list-style-type: square;
     line-height: 2;
     font-size: 20px;
@@ -175,24 +170,24 @@
     margin-left: 35px;
 }
 
-.section3 #card ul li a {
+.section3 #card ul li a{
     text-decoration: none;
     font-weight: 600;
 }
 
-.section4 h2 {
+.section4 h2{
     color: #1535B5;
     font-size: 34px;
     text-align: center;
 }
 
-.section4 #barra {
+.section4 #barra{
     position: absolute;
-    left: 51%;
-    top: 420%;
+    left: 50%;
+    top: 358%;
     transform: translate(-50%, -50%);
     width: 9px;
-    height: 100px;
+    height: 12%;
     background-color: #0033cc;
     border-radius: 10px;
 }
@@ -206,34 +201,31 @@
     width: 40%;
 }
 
-.section4 .pCMIA {
+.section4 .pCMIA{
     position: absolute;
-    left: 52%;
-    top: 407%;
+    left: 50%;
+    top: 348.4%;
     margin-top: 0;
 }
 
-.section4 .pCMIA2 {
+.section4 .pCMIA2{
     position: absolute;
-    right: 49%;
-    top: 407%;
+    right: 50%;
+    top: 348.1%;
     margin-top: 0;
 }
 
-.section4 a,
-.section5 a {
+.section4 a, .section5 a{
     color: black;
 }
 
-.section4 #emissao h2,
-h3 {
+.section4 #emissao h2, h3{
     text-align: left;
     margin-top: 170px;
     margin-left: 125px;
 }
 
-.section4 #emissao p,
-.section5 #cartao-defis p {
+.section4 #emissao p, .section5 #cartao-defis p {
     margin-top: 15px;
     margin-left: 125px;
     font-size: 20px;
@@ -241,8 +233,7 @@ h3 {
     width: 43%;
 }
 
-.section4 #emissao h3,
-.section5 {
+.section4 #emissao h3, .section5 {
     margin-top: 30px;
     font-size: 24px;
 }
@@ -254,83 +245,77 @@ h3 {
     margin-left: 145px;
 }
 
-.section4 #emissao h2{
-    margin-top: 220px;
-}
-
-.section4 #emissao img {
+.section4 #emissao img{
     float: right;
     width: 460px;
     height: 310px;
     position: absolute;
-    top: 445%;
+    top: 375%;
     left: 60%;
 }
 
-.section5 {
-    overflow: hidden;
+.section5{
+    overflow: hidden;   
 }
 
 #quebraCabeca {
     margin: 70px auto;
     width: 100%;
-}
+  }
 
-.section5 h2 {
+.section5 h2{
     margin-left: 12px;
     color: #1535B5;
     font-size: 34px;
     text-align: left;
 }
 
-.section5 #imgCartao {
+.section5 #imgCartao{
     float: right;
     width: 510px;
     height: 360px;
     position: absolute;
-    top: 565%;
+    top: 469%;
     left: 57%;
-}
+}   
 
-.section5 h2,
-h3 {
-    text-align: left;
+.section5 h2, h3{
+    text-align: left; 
     margin-top: 25px;
     margin-bottom: 10px;
     margin-left: 125px;
 }
 
-.section5 #solicitar-cartao p {
+.section5 #solicitar-cartao p{
     font-size: 20px;
     margin-left: 125px;
     width: 45%;
     margin-top: 10px;
 }
 
-.section5 #emissao-defis p {
+.section5 #emissao-defis p{
     font-size: 20px;
 }
 
-.section5 #solicitar-cartao h5 {
+.section5 #solicitar-cartao h5{
     font-weight: 500;
     margin-left: 125px;
     margin-top: 8px;
 }
 
-.section5 #solicitar-cartao #loc-end {
+.section5 #solicitar-cartao #loc-end{
     margin-bottom: 25px;
 }
 
-.section5 .horario {
+.section5 .horario{
     display: flex;
 }
 
-.section5 .horario #contato {
-    margin-left: 245px;
+.section5 .horario #contato{
+    margin-left: 210px;
 }
-
-.section5 .horario #ctt {
-    margin-right: 330px;
+.section5 .horario #ctt{
+    margin-right: 546px;
 }
 
 .section5 #emissao-defis ol li {
@@ -338,10 +323,10 @@ h3 {
     line-height: 2;
     font-size: 20px;
     position: relative;
-    left: 11%;
+    left: 9.7%;
 }
 
-.section5 #emissao-defis a {
+.section5 #emissao-defis a{
     background-color: #fdfbd6fd;
     padding: 18px;
     font-size: 20px;
@@ -354,17 +339,17 @@ h3 {
     left: 8%;
 }
 
-.section5 .prazo p {
+.section5 .prazo p{
     margin-top: 30px;
     line-height: 1.5;
     position: relative;
     margin-top: 88px;
-    margin-left: 370px;
+    margin-left: 400px;
 }
 
-.section5 .prazo img {
+.section5 .prazo img{
     position: absolute;
-    top: 704%;
+    top: 588%;  
     left: 20%;
     width: 78px;
     height: 70px;
@@ -373,6 +358,7 @@ h3 {
 .section5 {
     margin-bottom: 80px;
 }
+
 
 
 @media screen and (max-width: 1024px) {
