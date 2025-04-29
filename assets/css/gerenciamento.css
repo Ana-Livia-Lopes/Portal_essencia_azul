@@ -16,11 +16,8 @@ section {
 }
 
 #img-preview-graficos {
-  width: 80%;
-  height: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
+  width: 30%;
+  height: 10%;
 }
 
 #titulopreview {
@@ -28,6 +25,11 @@ section {
   font-size: 40px;
   text-align: center;
   margin-top: 100px
+}
+
+.div-graficos {
+  display: flex;
+  justify-content: space-around;
 }
 
 .links-pg-div {
@@ -507,6 +509,13 @@ section {
   .form-grid {
       grid-template-columns: 1fr;
   }
+  .div-graficos {
+    flex-direction: column;
+  }
+  #img-preview-graficos {
+    width: 200px;
+    height: 200px;
+  }
   #titulopreview {
     font-size: 20px;
   }
@@ -577,6 +586,15 @@ section {
   .user-opcao-lista {
       max-height: 300px;
       overflow-y: auto;
+  }
+  .div-graficos {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #img-preview-graficos {
+    width: 80%;
+    height: 40%;
   }
   .lista-info-usuario {
     margin-left: auto;
