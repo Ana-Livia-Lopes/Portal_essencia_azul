@@ -3,6 +3,9 @@
   padding: 0;
   font-family: 'Montserrat';
 }
+section {
+  margin-bottom: 200px;
+}
 
 #titulo1 {
   color: #1535B5;
@@ -10,6 +13,21 @@
   font-weight: 600;
   text-align: center;
   margin-top: 50px;
+}
+
+#img-preview-graficos {
+  width: 80%;
+  height: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+
+#titulopreview {
+  color: #1535B5;
+  font-size: 40px;
+  text-align: center;
+  margin-top: 100px
 }
 
 .links-pg-div {
@@ -111,9 +129,6 @@
   color: #007bff;
 }
 
-section {
-  margin-bottom: 200px;
-}
 
 .section-acolhidos {
   justify-content: space-around;
@@ -486,7 +501,13 @@ section {
   .form-grid {
       grid-template-columns: 1fr;
   }
-
+  #titulopreview {
+    font-size: 20px;
+  }
+  #img-preview-graficos {
+    width: 420px;
+    height: 300px;
+  }
   #atalhos {
       display: flex;
       justify-content: center;
@@ -498,6 +519,10 @@ section {
       flex-direction: column;
       align-items: center;
       gap: 10px;
+      width: 200px;
+  }
+  #botoes-direita .botao-esp {
+    width: 200px;
   }
   .section-acolhidos {
     display: block;
@@ -540,7 +565,9 @@ section {
   .form-container {
       padding: 20px;
   }
-
+  #botoes-direita .botao-esp {
+    width: 200px;
+  }
   .user-opcao-lista {
       max-height: 300px;
       overflow-y: auto;
@@ -615,7 +642,7 @@ section {
 
   #atalhos button,
   #atalhos .botao-esp {
-      width: 100%;
+      width: 200px;
   }
 
   .form-grid .label-input {
