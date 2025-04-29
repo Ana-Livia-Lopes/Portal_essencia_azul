@@ -17,159 +17,192 @@
     <component name="header" />
     <component name="acessibilidade" />
 
-    <title>Eventos</title>
-    </head>
+    <section id="secao1">
+        <h1 class="conteudo-site">Eventos</h1>
 
-    <body>
-        <section id="secao1">
-            <h1 class="conteudo-site">Eventos</h1>
-
-            <div class="eventos">
-                <div class="lista-eventos" id="listaEventos">
-                    <div class="item-evento" onclick="">
-                        <div class="data">
-                            <b class="conteudo-site">01</b><br>Abril
-                        </div>
-                        <div class="conteudo">
-                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                            <div class="conteudo-site">Descrição e informações do evento</div>
-                        </div>
+        <div class="eventos">
+            <div class="lista-eventos" id="listaEventos">
+                <div class="item-evento">
+                    <div class="data">
+                        <b class="conteudo-site">01</b><br>Abril
                     </div>
-
-                    <div class="item-evento" onclick="">
-                        <div class="data">
-                            <b class="conteudo-site">29</b><br>Maio
-                        </div>
-                        <div class="conteudo">
-                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                            <div class="conteudo-site">Descrição e informações do evento</div>
-                        </div>
-                    </div>
-
-                    <div class="item-evento" onclick="">
-                        <div class="data">
-                            <b class="conteudo-site">14</b><br>Junho
-                        </div>
-                        <div class="conteudo">
-                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                            <div class="conteudo-site">Descrição e informações do evento</div>
-                        </div>
-                    </div>
-
-                    <div class="item-evento" onclick="">
-                        <div class="data">
-                            <b class="conteudo-site">30</b><br>Agosto
-                        </div>
-                        <div class="conteudo">
-                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                            <div class="conteudo-site">Descrição e informações do evento</div>
-                        </div>
-                    </div>
-
-                    <div class="item-evento" onclick="">
-                        <div class="data">
-                            <b class="conteudo-site">09</b><br>Setembro
-                        </div>
-                        <div class="conteudo">
-                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                            <div class="conteudo-site">Descrição e informações do evento</div>
-                        </div>
-                    </div>
-
-                    <div class="item-evento" onclick="">
-                        <div class="data">
-                            <b class="conteudo-site">17</b><br>Novembro
-                        </div>
-                        <div class="conteudo">
-                            <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                            <div class="conteudo-site">Descrição e informações do evento</div>
-                        </div>
+                    <div class="conteudo">
+                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                        <div class="conteudo-site">Descrição e informações do evento</div>
                     </div>
                 </div>
-                <img class="imgEvento" id="imgEvento" src="/img/evento1.png" alt="">
+
+                <div class="item-evento">
+                    <div class="data">
+                        <b class="conteudo-site">29</b><br>Maio
+                    </div>
+                    <div class="conteudo">
+                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                        <div class="conteudo-site">Descrição e informações do evento</div>
+                    </div>
+                </div>
+
+                <div class="item-evento">
+                    <div class="data">
+                        <b class="conteudo-site">14</b><br>Junho
+                    </div>
+                    <div class="conteudo">
+                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                        <div class="conteudo-site">Descrição e informações do evento</div>
+                    </div>
+                </div>
+
+                <div class="item-evento">
+                    <div class="data">
+                        <b class="conteudo-site">30</b><br>Agosto
+                    </div>
+                    <div class="conteudo">
+                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                        <div class="conteudo-site">Descrição e informações do evento</div>
+                    </div>
+                </div>
+
+                <div class="item-evento">
+                    <div class="data">
+                        <b class="conteudo-site">09</b><br>Setembro
+                    </div>
+                    <div class="conteudo">
+                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                        <div class="conteudo-site">Descrição e informações do evento</div>
+                    </div>
+                </div>
+
+                <div class="item-evento">
+                    <div class="data">
+                        <b class="conteudo-site">17</b><br>Novembro
+                    </div>
+                    <div class="conteudo">
+                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
+                        <div class="conteudo-site">Descrição e informações do evento</div>
+                    </div>
+                </div>
             </div>
-        </section>
-        <section id="secao2">
-            <img src="/img/linha.png" id="quebraCabeca">
-            <h2 class="conteudo-site">Eventos anteriores</h2>
+            <img class="imgEvento" id="imgEvento" src="/img/evento1.png" alt="">
+        </div>
+    </section>
 
-            <div id="galeriaPainel">
-                <img id="esquerdaImg" class="fotoQuadro anteriorFoto" />
-                <img id="centroImg" class="fotoQuadro" />
-                <img id="direitaImg" class="fotoQuadro proximaFoto" />
-            </div>
+    <section id="secao2">
+        <button onclick="editarEventos()" class="botao-editar">Adcionar Eventos</button>
 
-        </section>
-        <component name="footer" />
-    </body>
+        <img src="/img/linha.png" id="quebraCabeca">
+        <h2 class="conteudo-site">Eventos anteriores</h2>
 
+        <div id="galeriaPainel">
+            <img id="esquerdaImg" class="fotoQuadro anteriorFoto" />
+            <img id="centroImg" class="fotoQuadro" />
+            <img id="direitaImg" class="fotoQuadro proximaFoto" />
+        </div>
+    </section>
 
-
-
-
-
-
-
-
-
-
+    <component name="footer" />
 
     <script>
         const imagens = [
-          '/img/galeria1.png',
-          '/img/galeria2.png',
-          '/img/galeria3.png',
-          '/img/galeria4.png',
-          '/img/galeria5.png',
+            '/img/galeria1.png',
+            '/img/galeria2.png',
+            '/img/galeria3.png',
+            '/img/galeria4.png',
+            '/img/galeria5.png',
         ];
-        
+
         let indiceAtual = 1;
-        
+
         const esquerdaImg = document.getElementById('esquerdaImg');
         const centroImg = document.getElementById('centroImg');
         const direitaImg = document.getElementById('direitaImg');
-        
-        function atualizarGaleria() {
-          esquerdaImg.classList.add('fade-out');
-          centroImg.classList.add('fade-out');
-          direitaImg.classList.add('fade-out');
-        
-          setTimeout(() => {
-            const anterior = (indiceAtual - 1 + imagens.length) % imagens.length;
-            const proxima = (indiceAtual + 1) % imagens.length;
-        
-            esquerdaImg.src = imagens[anterior];
-            centroImg.src = imagens[indiceAtual];
-            direitaImg.src = imagens[proxima];
-        
-            esquerdaImg.classList.remove('fade-out');
-            centroImg.classList.remove('fade-out');
-            direitaImg.classList.remove('fade-out');
-          }, 200);
-        }
-    
-        let clicou = false;
-        
-        esquerdaImg.addEventListener('click', () => {
-          indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
-          atualizarGaleria();
-          clicou = true;
-        });
-        
-        direitaImg.addEventListener('click', () => {
-          indiceAtual = (indiceAtual + 1) % imagens.length;
-          atualizarGaleria();
-          clicou = true;
-        });
-        
-        setInterval(() => {
-          indiceAtual = (indiceAtual + 1) % imagens.length;
-          if (!clicou) atualizarGaleria();
-          clicou = false
-        }, 4000);
-    
-        atualizarGaleria();
-    </script>
 
+        function atualizarGaleria() {
+            esquerdaImg.classList.add('fade-out');
+            centroImg.classList.add('fade-out');
+            direitaImg.classList.add('fade-out');
+
+            setTimeout(() => {
+                const anterior = (indiceAtual - 1 + imagens.length) % imagens.length;
+                const proxima = (indiceAtual + 1) % imagens.length;
+
+                esquerdaImg.src = imagens[anterior];
+                centroImg.src = imagens[indiceAtual];
+                direitaImg.src = imagens[proxima];
+
+                esquerdaImg.classList.remove('fade-out');
+                centroImg.classList.remove('fade-out');
+                direitaImg.classList.remove('fade-out');
+            }, 200);
+        }
+
+        let clicou = false;
+
+        esquerdaImg.addEventListener('click', () => {
+            indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
+            atualizarGaleria();
+            clicou = true;
+        });
+
+        direitaImg.addEventListener('click', () => {
+            indiceAtual = (indiceAtual + 1) % imagens.length;
+            atualizarGaleria();
+            clicou = true;
+        });
+
+        setInterval(() => {
+            indiceAtual = (indiceAtual + 1) % imagens.length;
+            if (!clicou) atualizarGaleria();
+            clicou = false
+        }, 4000);
+
+        atualizarGaleria();
+
+        // Função para editar eventos via SweetAlert
+        function editarEventos() {
+            Swal.fire({
+                title: 'Editar Evento',
+                html: `
+        <div class="modal-container">
+            <label for="dataEvento" class="modal-label">Data do Evento</label>
+            <input type="date" id="dataEvento" class="modal-input">
+
+            <label for="nomeEvento" class="modal-label">Nome do Evento</label>
+            <input type="text" id="nomeEvento" class="modal-input">
+
+            <label for="descricaoEvento" class="modal-label">Descrição</label>
+            <textarea id="descricaoEvento" class="modal-textarea"></textarea>
+
+            <label for="arquivoInput" class="modal-label">Imagem do Evento</label>
+            <input type="file" id="arquivoInput" class="modal-file">
+        </div>
+    `,
+                confirmButtonText: 'Salvar',
+                cancelButtonText: 'Cancelar',
+                showCancelButton: true,
+                focusConfirm: false,
+                customClass: {
+                    popup: 'custom-popup'
+                },
+                preConfirm: () => {
+                    const nome = document.getElementById('nomeEvento').value.trim();
+                    const descricao = document.getElementById('descricaoEvento').value.trim();
+                    const data = document.getElementById('dataEvento').value;
+                    const arquivo = document.getElementById('arquivoInput').files[0];
+
+                    if (!nome || !descricao || !data) {
+                        Swal.showValidationMessage('Preencha todos os campos!');
+                        return false;
+                    }
+
+                    return { nome, descricao, data, arquivo };
+                }
+            }).then(result => {
+                if (result.isConfirmed) {
+                    Swal.fire('Salvo!', 'O evento foi atualizado.', 'success');
+                }
+            });
+        }
+    </script>
+</body>
 
 </html>

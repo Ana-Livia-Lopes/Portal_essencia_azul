@@ -151,6 +151,7 @@ body {
   margin: 0;
   padding-bottom: 40px;
   text-align: center;
+  position: relative;
 }
 
 #secao2 h2 {
@@ -171,7 +172,29 @@ body {
   justify-content: center;
   padding: 0 150px; 
 }
-
+.seta{
+  position: absolute;
+  top: 250px;
+  z-index: 9;
+  font-size: 25px;
+  background-color: hsla(0, 0%, 38%, 0.752);
+  width: 25px;
+  height: 25px;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+.seta:hover{
+  transform: scale(1.1);
+}
+.fa-chevron-right{
+  right: 28.5%;
+}
+.fa-chevron-left{
+  left: 28.5%;
+}
 .fotoQuadro {
   position: absolute;
   height: 400px;
@@ -327,6 +350,7 @@ body {
 }
 
 @media (any-hover: hover) and (any-pointer: fine) {
+
   .card__content {
     transform: translateY(78%);
     transition: transform 200ms ease-out;
@@ -961,5 +985,9 @@ body {
   
   .proximaFoto {
     display: none;
+  }
+  .seta{
+    display: none;
+    opacity: 0;
   }
 }
