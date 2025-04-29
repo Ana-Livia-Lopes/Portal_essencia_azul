@@ -24,20 +24,34 @@
 
     <div id="atalhos">
         <div id="botoes-direita">
-            <button class="botao conteudo-site" onclick="scrollParaElemento('secao4')">Voluntários</button>
-            <button class="botao conteudo-site" onclick="scrollParaElemento('secao2')">Administradores</button>
-            <button class="botao conteudo-site" onclick="scrollParaElemento('secao3')">Famílias</button>
-            <button class="botao-esp conteudo-site" onclick="irParaRelatorios()">Relatórios</button>
-            <button class="botao conteudo-site" onclick="scrollParaElemento('secao1')">Acolhidos</button>
+            <button class="botao conteudo-site" onclick="//scrollParaElemento('secao4')" id="option-switch-voluntarios">Voluntários</button>
+            <button class="botao conteudo-site" onclick="//scrollParaElemento('secao2')" id="option-switch-administradores">Administradores</button>
+            <button class="botao conteudo-site" onclick="//scrollParaElemento('secao3')" id="option-switch-familias">Famílias</button>
+            <button class="botao-esp conteudo-site" onclick="irParaRelatorios()" id="option-switch-relatorios">Relatórios</button>
+            <button class="botao conteudo-site" onclick="//scrollParaElemento('secao1')" id="option-switch-acolhidos">Acolhidos</button>
         </div>
     </div>
 
-    <section class="section-nhm-opcao-selec">
-        <img src="/img/nhm-opcao-selec.png" alt="Ilustração de nenhuma opção de usuário selecionada.">
-        <p class="conteudo-site">Nenhuma opção selecionada.</p>
-    </section>
+    <script type="module">
+        import ComponentSwitch from "/js/component_switch.js";
 
-    <section class="section-acolhidos" id="secao1">
+        new ComponentSwitch(document.getElementById("option-switch"), { ignoreCache: true })
+            .setChangeButton(document.getElementById("option-switch-voluntarios"), "gerenciamento-voluntarios")
+            .setChangeButton(document.getElementById("option-switch-administradores"), "gerenciamento-administradores")
+            .setChangeButton(document.getElementById("option-switch-familias"), "gerenciamento-familias")
+            // .setChangeButton(document.getElementById("option-switch-relatorios"), "gerenciamento-relatorios")
+            .setChangeButton(document.getElementById("option-switch-acolhidos"), "gerenciamento-acolhidos")
+            
+    </script>
+
+    <div id="option-switch">
+        <section class="section-nhm-opcao-selec">
+            <img src="/img/nhm-opcao-selec.png" alt="Ilustração de nenhuma opção de usuário selecionada.">
+            <p class="conteudo-site">Nenhuma opção selecionada.</p>
+        </section>
+    </div>
+
+    <!-- <section class="section-acolhidos" id="secao1">
         <div class="lista-info-usuario">
             <input type="text" id="search" placeholder="Pesquise..." class="conteudo-site" />
             <span class="search-icon"><i class="fa-solid fa-magnifying-glass" class="conteudo-site"></i></span>
@@ -173,9 +187,9 @@
                 </div>
             </form>
         </div>
-    </section>
+    </section> -->
 
-    <section class="section-admin" id="secao2">
+    <!-- <section class="section-admin" id="secao2">
         <div class="lista-info-usuario">
             <span class="span-selecione conteudo-site">Selecione:</span>
             <div class="user-opcao-lista" id="usuariosLista">
@@ -215,9 +229,9 @@
                 </div>
             </form>
         </div>
-    </section>
+    </section> -->
 
-    <section class="section-familias" id="secao3">
+    <!-- <section class="section-familias" id="secao3">
         <div class="lista-info-usuario">
             <span class="span-selecione conteudo-site">Selecione:</span>
             <div class="acolhido-opcao-lista" id="usuariosLista">
@@ -310,9 +324,9 @@
                 <p class="conteudo-site">Residentes com laudo: <strong>3</strong></p>
             </div>
         </div>
-    </section>
+    </section> -->
 
-    <section class="section-voluntarios" id="secao4">
+    <!-- <section class="section-voluntarios" id="secao4">
         <div class="lista-info-usuario">
             <span class="span-selecione conteudo-site">Selecione:</span>
             <div class="user-opcao-lista" id="usuariosLista">
@@ -368,7 +382,7 @@
                 </div>
             </form>
         </div>
-    </section>
+    </section> -->
 
     <component name="footer" />
 
