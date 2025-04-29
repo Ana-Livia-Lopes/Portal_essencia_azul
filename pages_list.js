@@ -96,6 +96,27 @@ module.exports = {
             urltype: "special"
         },
         {
+            filelocation: "api/admin.js",
+            pagelocation: [ "api/admin", "api/admin/[id]" ],
+            pagetype: "execute",
+            urltype: "special"
+        },
+        {
+            filelocation: "api/login.js",
+            pagelocation: "api/login",
+            pagetype: "execute"
+        },
+        {
+            filelocation: "api/logout.js",
+            pagelocation: "api/logout",
+            pagetype: "execute"
+        },
+        {
+            filelocation: "api/session.js",
+            pagelocation: "api/session",
+            pagetype: "execute"
+        },
+        {
             filelocation: "../assets/img/logo.png",
             pagelocation: "favicon.ico",
             contenttype: "image/png"

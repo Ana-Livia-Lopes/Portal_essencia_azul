@@ -1,7 +1,8 @@
 const mysql = require("mysql");
 const { Session, Property, CodedError } = require("./tools");
 const { db } = require("../firebase.js");
-const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc, setDoc } = require("firebase/firestore");
+const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc, setDoc, deleteDoc } = require("firebase/firestore");
+const crypto = require("crypto");
 
 var EssenciaAzul = ( function() {
     const BaseDataTypes = {}
@@ -94,6 +95,11 @@ var EssenciaAzul = ( function() {
         documento_novo;
         documento_antigo;
     }
+
+    /**
+     * @type {WeakMap<Login, string>}
+     */
+    const privateKeys = new WeakMap();
 
     const privateDBConstructorKey = Symbol("Database.PrivateConstructorKey");
 
@@ -201,9 +207,10 @@ var EssenciaAzul = ( function() {
         }
 
         fieldsFilters = Object.freeze([ ...fieldsFilters ]);
-        function callFieldsFilters({ action, type, key, fields }) {
+        // id não é passado em create.
+        async function callFieldsFilters({ action, type, key, fields, id } = {}) {
             for (const filter of fieldsFilters) {
-                fields = filter({ action, type, key, fields });
+                fields = await filter({ action, type, key, fields, id });
             }
             return fields;
         }
@@ -240,12 +247,6 @@ var EssenciaAzul = ( function() {
 
         return doctype;
     }
-    // tem que verificar na inicialização e ser alterado conforme admins são alterados.
-    // validateKey() procura aqui, se n achar, busca no banco.
-    // remove() vai tirar a chave dessa lista.
-    // Map { key => level }
-    /** @type {Map<string, number>} */
-    const validKeysCache = new Map();
 
     const Types = {};
 
@@ -338,13 +339,17 @@ var EssenciaAzul = ( function() {
             get alteracoes() { }
         },
         fieldsFilters: [
-            ({ fields, key, action }) => {
-                // filtrar a criação de valores de chave antes de update
-                
-                // nao pode definir nivel para nivel igual ao seu, somente menor, PermissionError.
-                // nao pode definir chave, PermissionError.
-
-                // setar chave randomica em create
+            async ({ fields, key, type, action, id }) => {
+                delete fields.chave;
+                switch (action) {
+                    case "create":
+                        fields.chave = crypto.randomBytes(8).toString("hex");
+                        break;
+                    default:
+                        fields.chave = (await getDoc(doc(db, "admins", id))).data().chave;
+                        break;
+                }
+                return fields;
             }
         ]
     });
@@ -379,9 +384,22 @@ var EssenciaAzul = ( function() {
 
     async function validateKey(key) {
         // valida se a chave está correta e existe no banco de dados.
-        // simples => 1, direcao => 2
-        if (validKeysCache.has(key)) return validKeysCache.get(key);
-        return 3;
+        // simples => 1, direcao => 2, dev => 3
+
+        if (typeof key === "object") key = privateKeys.get(key);
+
+        const doc = (await getDocs(query(collection(db, "admins"), where("chave", "==", key)))).docs[0];
+
+        if (!doc) return 0;
+        const docData = doc.data();
+        const nivel = docData.nivel;
+        
+        switch (nivel) {
+            case "simples": return 1;
+            case "direcao": return 2;
+            case "dev": return 3;
+            default: return 0;
+        }
     }
 
     function arrayMapForDateToTimestamp(item) {
@@ -446,7 +464,7 @@ var EssenciaAzul = ( function() {
         let keylevel = await validateKey(key);
         if (keylevel <= 0) throw new Error("Permissão insuficiente para qualquer operação de administrador");
 
-        type._callFieldsFilter({ action: "create", type, key, fields });
+        await type._callFieldsFilter({ action: "create", type, key, fields });
 
         if (keylevel < type["create.minKeyLevel"]) throw new Error(`Permissão insuficiente para criar documento de ${type._basetype.name}`);
         const dbtype = type._dbtype;
@@ -562,7 +580,7 @@ var EssenciaAzul = ( function() {
                 });
 
                 for (const row of rows) {
-                    const fields = type._callFieldsFilter({ action: "read", type, key, fields: { ...row } });
+                    const fields = await type._callFieldsFilter({ action: "read", type, key, fields: { ...row }, id: row.id });
                     delete fields.id;
                     let doc = new type(createdByKey.get(this), row.id, fields, privateDBConstructorKey);
                     docs.push(doc);
@@ -573,6 +591,16 @@ var EssenciaAzul = ( function() {
                 break;
             case "firestore":
                 const collRef = collection(db, type.collection);
+
+                if (search?.id) {
+                    const docRef = doc(collRef, search.id);
+                    const docSnap = await getDoc(docRef);
+                    if (!docSnap.exists()) throw new CodedError(404, "Documento não encontrado");
+                    const fields = await type._callFieldsFilter({ action: "read", type, key, fields: { ...docSnap.data() }, id: docSnap.id });
+                    delete fields.id;
+                    docs.push(new type(createdByKey.get(this), docSnap.id, fields, privateDBConstructorKey));
+                    return docs;
+                }
 
                 const constraints = [];
 
@@ -601,11 +629,11 @@ var EssenciaAzul = ( function() {
                     constraints.push(startAfter(search.limitOffset));
                 }
 
-                (await getDocs(query(collRef, ...constraints))).forEach(doc => {
-                    const fields = type._callFieldsFilter({ fields: mapForTimestampToDate({ ...doc.data() }), action: "read", type, key });
+                for (const doc of (await getDocs(query(collRef, ...constraints))).docs) {
+                    const fields = await type._callFieldsFilter({ fields: mapForTimestampToDate({ ...doc.data() }), action: "read", type, key, id: doc.id });
                     delete fields.id;
                     docs.push(new type(createdByKey.get(this), doc.id, fields, privateDBConstructorKey));
-                });
+                }
 
                 break;
         }
@@ -617,7 +645,7 @@ var EssenciaAzul = ( function() {
 
     async function analytics(key, type, search) {}
 
-    async function updateAdminKeyValidation(key, id) {
+    async function updateAdminKeyRelevel(key, id) {
         // faz um read no id e verifica se o id do admin é menor que o da chave atual.
     }
 
@@ -625,7 +653,7 @@ var EssenciaAzul = ( function() {
         let keylevel = await validateKey(key);
         if (keylevel === 0) throw new Error("Permissão insuficiente para qualquer operação de administrador");
         // verificação especial se o tipo for admin, já que admin1 pode apenas SE editar.
-        if (type === Admin) keylevel = await updateAdminKeyValidation(key, id);
+        if (type === Admin) keylevel = await updateAdminKeyRelevel(key, id);
 
         if (keylevel < type["update.minKeyLevel"]) throw new Error(`Permissão insuficiente para atualizar documentos de ${type._basetype.name}`);
 
@@ -663,7 +691,7 @@ var EssenciaAzul = ( function() {
                 });
                 storage.end();
                 delete rowSnap.id;
-                const rowData = type._callFieldsFilter({ action: "update", type, key, fields: { ...rowSnap } });
+                const rowData = await type._callFieldsFilter({ action: "update", type, key, fields: { ...rowSnap }, id });
                 delete rowData.id;
                 const updatedRow = new type(createdByKey.get(this), id, rowData, privateDBConstructorKey);
                 type._eventEmitter("update", updatedRow, emitEventSymbol);
@@ -678,19 +706,17 @@ var EssenciaAzul = ( function() {
 
                 switch (options?.editType) {
                     case "set":
-                        console.log("set");
                         const newDoc = mapForDateToTimestamp(fields);
-                        const filteredSetData = type._callFieldsFilter({ action: "update", type, key, fields: newDoc });
+                        const filteredSetData = await type._callFieldsFilter({ action: "update", type, key, fields: newDoc, id });
                         delete filteredSetData.id;
                         await setDoc(docRef, filteredSetData);
                         break;
                     default:
                     case "update":
-                        console.log("update");
                         const docData = docSnap.data();
                         const updatedFields = mapForDateToTimestamp(fields);
                         const updatedDoc = { ...docData, ...updatedFields };
-                        const filteredPatchData = type._callFieldsFilter({ action: "update", type, key, fields: updatedDoc });
+                        const filteredPatchData = await type._callFieldsFilter({ action: "update", type, key, fields: updatedDoc, id });
                         delete filteredPatchData.id;
                         await updateDoc(docRef, filteredPatchData);
                         break;
@@ -704,31 +730,53 @@ var EssenciaAzul = ( function() {
         }
     }
 
-    async function remove(key, type, id) {}
+    async function remove(key, type, id) {
+        let keylevel = await validateKey(key);
+        if (keylevel === 0) throw new Error("Permissão insuficiente para qualquer operação de administrador");
 
-    /**
-     * @type {WeakMap<Login, string>}
-     */
-    const privateKeys = new WeakMap();
+        if (keylevel < type["remove.minKeyLevel"]) throw new Error(`Permissão insuficiente para remover documentos de ${type._basetype.name}`);
+
+        switch (type._dbtype) {
+            case "mysql":
+                
+                break;
+            case "firestore":
+                const collRef = collection(db, type.collection);
+                const docRef = doc(collRef, id);
+                const docSnap = await getDoc(docRef);
+                if (!docSnap.exists()) throw new CodedError(404, "Documento não encontrado");
+                const docData = docSnap.data();
+                const filteredRemoveData = await type._callFieldsFilter({ action: "remove", type, key, fields: docData, id });
+                delete filteredRemoveData.id;
+                const deletedDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(filteredRemoveData), privateDBConstructorKey);
+                await deleteDoc(docRef);
+                return deletedDoc;
+        }
+
+        type._eventEmitter("remove", doc, emitEventSymbol);
+    }
 
     const privateLoginConstructorIndicator = Symbol("Login.PrivateConstructorIndicator");
 
     class Login {
-        constructor(session, email, password, constructorKey) {
-            if (constructorKey !== privateLoginConstructorIndicator) throw new Error("Construtor privado");
-
-            let key;// obtém o login no banco de dados.
+        constructor(session, name, email, key, constructorKey) {
+            if (constructorKey !== privateLoginConstructorIndicator) throw new Error("Private constructor");
+            session.set("login", this);
 
             privateKeys.set(this, key);
 
+            this.session = session;
+            this.email = email;
+            this.name = name;
+
             Property.set(this, "session", "freeze", "lock");
             Property.set(this, "email", "freeze", "lock");
-            Property.set(this, "password", "freeze", "lock");
+            Property.set(this, "name", "freeze", "lock");
         }
 
         session;
         email;
-        password;
+        name;
 
         create(type, fields) {
             return create(privateKeys.get(this), type, fields);
@@ -756,10 +804,14 @@ var EssenciaAzul = ( function() {
         let hasLogin = session.get("login");
         if (hasLogin && hasLogin instanceof Login) return hasLogin;
 
-        /**
-         * @todo testar no banco de dados.
-         */
-        let login = new Login(session, email, password, privateLoginConstructorIndicator);
+        const adminDoc = (await getDocs(query(collection(db, "admins"), where("email", "==", email), where("senha", "==", password)))).docs[0];
+
+        if (!adminDoc) throw new Error("Credenciais incorretas");
+        
+        const adminDocData = adminDoc.data();
+        const key = adminDocData.chave;
+
+        let login = new Login(session, adminDocData.nome, email, key, privateLoginConstructorIndicator);
         return login;
     }
 
