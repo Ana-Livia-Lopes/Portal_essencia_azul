@@ -63,17 +63,17 @@
 <style>
 
 .container-acessibilidade {
-    box-sizing: border-box;
-    font-family: 'Montserrat';
+    position: fixed;
+    top: clamp(255px, 20vh, 255px); 
+    right: clamp(10px, 2vw, 30px);
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    position: fixed;
-    top: 307px;
-    right: 10px;
     gap: 5px;
     z-index: 999;
 }
+
+
 
 #acess {
     margin-left: 4px;
@@ -117,9 +117,11 @@
 }
 
 @media (max-width: 768px) {
-    [vw] {
-        position: relative;
+    .container-acessibilidade {
+        top: 360px;
+        right: 10px;
     }
 }
+
 
 </style>
