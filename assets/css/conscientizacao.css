@@ -144,10 +144,9 @@ span.material-symbols-outlined {
 .section3 .graus img {
     width: 630px;
     height: 422px;
-    position: absolute;
-    top: 190%;
+    margin-top: 0px;
+    float: right;
     border-radius: 6px;
-    left: 52%;
 }
 
 .section3 .graus #definicao-graus {
