@@ -313,23 +313,27 @@ span.material-symbols-outlined {
     margin-right: auto;
 }
 
+.section4 #barra-video {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 .section4 #video-passos{
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 30px;
+    margin-top: 20px;
     display: flex;
     border-radius: 6px;
+    margin-right: 270px;
 }
 
 .section4 #barra4 {
-    position: absolute;
-    left: 20%;
-    top: 340%;
-    transform: translate(-50%, -50%);
     width: 4px;
-    height: 60%;
+    height: 420px;
     background-color: #0033cc;
+    color: #0033cc;
     border-radius: 4px;
+    margin-left: 250px;
+    margin-top: 26px;
 }
 
 .section5 #info5 {
@@ -499,6 +503,8 @@ span.material-symbols-outlined {
     .section4 #video-passos{
         width: 300px;
         height: 165px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
 
