@@ -173,9 +173,8 @@ span.material-symbols-outlined {
     display: flex;
 }
 
-.section3 .niveis #n3 {
-    margin-top: 10px;
-    margin-left: 469px;
+.section3 #celular{
+    display: none;
 }
 
 .section3 .niveis #n3p {
@@ -491,8 +490,18 @@ span.material-symbols-outlined {
 
     .section3 .graus img,
     .section4 #barra4,
-    .section5 #imgAlone{
+    .section5 #imgAlone, 
+    .section3 #computador{
         display: none;
+    }
+
+    .section3 #celular{
+        display: block;
+    }
+
+    .section3 #celular #n3{
+        position: absolute;
+        top: 2375px;
     }
 
     .section3 .graus p {
@@ -516,7 +525,7 @@ span.material-symbols-outlined {
     .olcards li::before {
         font-size: 1.5em;
         position: relative;
-        right: 121px;
+        right: 106px;
         height: 20%;
     }
 
@@ -534,7 +543,7 @@ span.material-symbols-outlined {
         align-items: center;
         position: relative;
         width: 100%;
-        right: 120px;
+        right: 105px;
     }
 
     .olcards li .content::before {
