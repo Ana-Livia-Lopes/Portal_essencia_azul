@@ -501,7 +501,7 @@ span.material-symbols-outlined {
 
     .section3 #celular #n3{
         position: absolute;
-        top: 2375px;
+        top: 2330px;
     }
 
     .section3 .graus p {
@@ -517,43 +517,50 @@ span.material-symbols-outlined {
     }
 
 
-    #flechas {
-        padding: 1em;
-        width: 350px;
+    .section4 #flechas {
+        padding: 1rem;
+        width: 92.5%;
+        justify-content: center;
+    }
+
+    .olcards {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+
+    .olcards li {
+        flex-direction: column;
     }
 
     .olcards li::before {
-        font-size: 1.5em;
-        position: relative;
-        right: 106px;
-        height: 20%;
+        font-size: 6em;
+        right: 0;
+        margin-right: 0;
+        position: static;
+        transform: none;
+        padding: 0.2em 0.4em;
+        align-self: flex-start;
+    }
+
+    .olcards li .content {
+        padding: 1rem;
+        width: 90%;
+        right: 0;
+        clip-path: none;
+    }
+
+    .olcards li .content::before,
+    .olcards li .content::after {
+        display: none;
     }
 
     .olcards li .content .title {
-        font-size: 1em;
+        font-size: 80px;
     }
 
     .olcards li .content .text {
-        font-size: 13px;
-    }
-
-
-    .olcards li .content {
-        padding: 30px;
-        align-items: center;
-        position: relative;
-        width: 100%;
-        right: 105px;
-    }
-
-    .olcards li .content::before {
-        top: 17.8%;
-        left: 0;
-        bottom: 0;
-    }
-
-    .olcards li .content::after {
-        top: 100%;
+        font-size: 0.95em;
+        line-height: 1.4em;
     }
 
     #info5 {
@@ -600,7 +607,7 @@ span.material-symbols-outlined {
     }
 
     .section5 .card a{
-        width: 327px;
+        width: 96%;
     }
     
     .juntos #imgs {
@@ -657,8 +664,6 @@ span.material-symbols-outlined {
     }
 
     .section3 .niveis #n3 {
-        position: absolute;
-        top: 361%;
         margin-top: 10px;
         margin-left: 10px;
     }
