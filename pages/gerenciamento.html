@@ -12,7 +12,6 @@
 
 <body>
     <component name="header" />
-    <component name="acessibilidade" />
 
     <h1 id="titulo1" class="conteudo-site">Gerenciamento</h1>
 
@@ -20,31 +19,73 @@
 
         <div class="navegacao-lateral">
             <div class="links-pg-div">
-                <h3><a href="/cadastrar_adm"><i id="icon-link" class="fas fa-plus conteudo-site"></i> Cadastrar
-                        administrador</a></h3>
-                <h3><a href="/cadastrar_acolhido"><i id="icon-link" class="fas fa-plus conteudo-site"></i> Cadastrar
-                        acolhido</a></h3>
-                <h3><a href="/solic_receb"><i class="fas fa-user conteudo-site"></i> Solicitações de cadastro</a></h3>
+                <div id="agrupamento-links">
+                    <h3><a href="/cadastrar_adm"><i id="icon-link" class="fas fa-plus conteudo-site"></i> Cadastrar
+                            administrador</a></h3>
+                    <h3><a href="/cadastrar_acolhido"><i id="icon-link" class="fas fa-plus conteudo-site"></i> Cadastrar
+                            acolhido</a></h3>
+                    <h3><a href="/solic_receb"><i class="fas fa-user conteudo-site"></i> Solicitações de cadastro</a>
+                    </h3>
+                </div>
             </div>
-    
+
             <div id="atalhos">
+                <h2>Usuários</h2>
                 <div id="botoes-direita">
-                    <button class="botao conteudo-site" onclick="//scrollParaElemento('secao4')"
+                    <button class="botao conteudo-site" onclick="scrollParaElemento('secao4')"
                         id="option-switch-voluntarios">Voluntários</button>
-                    <button class="botao conteudo-site" onclick="//scrollParaElemento('secao2')"
+                    <button class="botao conteudo-site" onclick="scrollParaElemento('secao2')"
                         id="option-switch-administradores">Administradores</button>
-                    <button class="botao conteudo-site" onclick="//scrollParaElemento('secao3')"
+                    <button class="botao conteudo-site" onclick="scrollParaElemento('secao3')"
                         id="option-switch-familias">Famílias</button>
-                    <button class="botao-esp" onclick="irParaRelatorios()" id="option-switch-relatorios">Relatórios</button>
-                    <button class="botao conteudo-site" onclick="//scrollParaElemento('secao1')"
+                    <button class="botao conteudo-site" onclick="scrollParaElemento('secao1')"
                         id="option-switch-acolhidos">Acolhidos</button>
+                    <button class="botao-esp" onclick="irParaRelatorios()"
+                        id="option-switch-relatorios">Relatórios</button>
                 </div>
             </div>
         </div>
 
         <div class="graficos">
-            <div id="div-grafico-indefinido">
+            <div id="div-grafico-meses">
+                <canvas id="graficoMeses" width="200" height="200"></canvas>
+            </div>
+            <div id="div-grafico-familias">
                 <canvas id="graficoDonut" width="200" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class="grupo-estatisticas-acolhidos">
+            <div class="estatisticas-acolhidos">
+                <div class="titulo">Possui carteirinha de identificação</div>
+                <div class="numero" id="num1"></div>
+                <div class="progress-container">
+                    <div class="progress-bar bar1" id="bar1"></div>
+                </div>
+            </div>
+
+            <div class="estatisticas-acolhidos">
+                <div class="titulo">Possui cordão de girassol ou quebra-cabeça</div>
+                <div class="numero" id="num2"></div>
+                <div class="progress-container">
+                    <div class="progress-bar bar2 animated" id="bar2"></div>
+                </div>
+            </div>
+
+            <div class="estatisticas-acolhidos">
+                <div class="titulo">Possui cartão de vaga de estacionamento</div>
+                <div class="numero" id="num3"></div>
+                <div class="progress-container">
+                    <div class="progress-bar bar3" id="bar3"></div>
+                </div>
+            </div>
+
+            <div class="estatisticas-acolhidos">
+                <div class="titulo">Possui apoio escolar (criança)</div>
+                <div class="numero" id="num4"></div>
+                <div class="progress-container">
+                    <div class="progress-bar bar4" id="bar4"></div>
+                </div>
             </div>
         </div>
 
@@ -64,16 +105,49 @@
 
     <!-- Gráficos -->
     <script>
-        const ctx = document.getElementById('graficoDonut').getContext('2d');
-        const graficoDonut = new Chart(ctx, {
+        const ctxBar = document.getElementById('graficoMeses').getContext('2d');
+        const grafico = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+                datasets: [{
+                    label: 'Acessos por mês',
+                    data: [120, 150, 180, 90, 200, 170],
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Acessos mensais do site'
+                    },
+                    legend: {
+                        position: 'bottom'
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true // Começa do zero
+                    }
+                }
+            }
+        });
+
+        const ctxDonut = document.getElementById('graficoDonut').getContext('2d');
+        const graficoDonut = new Chart(ctxDonut, {
             type: 'doughnut',
             data: {
-                labels: ['Possui', 'Não possui'],
+                labels: ['Neurotípico', 'Autista', 'Em investigação'],
                 datasets: [{
-                    data: [52, 67],
+                    data: [53, 35, 12],
                     backgroundColor: [
                         '#1535B5',
                         '#fff550',
+                        '#70b0db'
                     ],
                 }]
             },
@@ -83,7 +157,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Tem carteirinha de identificação?'
+                        text: 'Perfil neurológico das famílias acolhidas'
                     },
                     legend: {
                         position: 'bottom'
@@ -93,12 +167,26 @@
                             label: function (context) {
                                 let label = context.label || '';
                                 let value = context.raw || 0;
-                                return `${label}: ${value} acolhidos`;
+                                return `${label}: ${value} pessoas`;
                             }
                         }
                     }
                 }
             }
+        });
+    </script>
+
+    <script>
+        const dados = [
+            { id: 1, sim: 75 },
+            { id: 2, sim: 40 },
+            { id: 3, sim: 60 },
+            { id: 4, sim: 30 },
+        ];
+
+        dados.forEach((item) => {
+            document.getElementById(`num${item.id}`).textContent = `${item.sim} de 100 acolhidos`;
+            document.getElementById(`bar${item.id}`).style.width = `${item.sim}%`;
         });
     </script>
 
@@ -448,27 +536,31 @@
 
     <script>
         function scrollParaElemento(id) {
-            const alvo = document.getElementById(id);
-            if (!alvo) return;
+            var delayMilisegundos = 50;
+            setTimeout(function() {
 
-            const distancia = alvo.getBoundingClientRect().top + window.scrollY;
-            const duracao = 1800;
-            const inicio = window.scrollY;
-            const comeco = performance.now();
-
-            function animarScroll(agora) {
-                const tempoPassado = agora - comeco;
-                const progresso = Math.min(tempoPassado / duracao, 1);
-                const ease = 0.5 - Math.cos(progresso * Math.PI) / 2;
-
-                window.scrollTo(0, inicio + (distancia - inicio) * ease);
-
-                if (progresso < 1) {
-                    requestAnimationFrame(animarScroll);
+                const alvo = document.getElementById(id);
+                if (!alvo) return;
+    
+                const distancia = alvo.getBoundingClientRect().top + window.scrollY;
+                const duracao = 800;
+                const inicio = window.scrollY;
+                const comeco = performance.now();
+    
+                function animarScroll(agora) {
+                    const tempoPassado = agora - comeco;
+                    const progresso = Math.min(tempoPassado / duracao, 1);
+                    const ease = 0.5 - Math.cos(progresso * Math.PI) / 2;
+    
+                    window.scrollTo(0, inicio + (distancia - inicio) * ease);
+    
+                    if (progresso < 1) {
+                        requestAnimationFrame(animarScroll);
+                    }
                 }
-            }
-
-            requestAnimationFrame(animarScroll);
+    
+                requestAnimationFrame(animarScroll);
+            }, delayMilisegundos);
         }
 
         const scrollToTopButton = document.getElementById('scrollToTopButton');

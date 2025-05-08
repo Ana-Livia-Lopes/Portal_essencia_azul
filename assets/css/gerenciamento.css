@@ -3,6 +3,11 @@
   padding: 0;
   font-family: 'Montserrat';
 }
+
+body {
+  background-color: #f0f2f5;
+}
+
 section {
   margin-bottom: 200px;
 }
@@ -16,31 +21,40 @@ section {
 }
 
 .estatisticas {
-  width: 100%;
+  width: max-content;
   padding: 20px;
   display: flex;
+  justify-self: center;
+  margin-bottom: 30px;
 }
 
 .navegacao-lateral {
-  width: 20%;
+  width: 25%;
 }
 
 .links-pg-div {
-  border: solid 2px black;
   width: 100%;
   height: fit-content;
   margin-bottom: 15px;
+  padding-top: 20px;
+  padding-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+#agrupamento-links {
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
-  padding-bottom: 7px;
 }
 
 .links-pg-div h3 {
   margin-bottom: 20px;
   font-size: 17px;
   width: fit-content;
-  margin-left: 20px;
 }
 
 .links-pg-div h3 a {
@@ -70,7 +84,7 @@ section {
   border-radius: 5px;
   font-weight: bold;
   border: none;
-  font-size: 14px;
+  font-size: 15px;
   transition: all 0.3s;
   cursor: pointer;
 }
@@ -81,13 +95,25 @@ section {
 
 #atalhos {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  border: solid 2px black;
   width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  padding-top: 15px;
+  padding-bottom: 20px;
+}
+
+#atalhos h2 {
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #626262;
 }
 
 .botao-esp {
-  background-color: #1535B5;
+  background-color: #00A6FF;
   color: #fff;
   padding: 13px 15px;
   border-radius: 5px;
@@ -96,23 +122,25 @@ section {
   font-size: 14px;
   transition: all 0.3s;
   cursor: pointer;
-  width: 80px;
-}
-
-.botao-esp:hover {
-  background-color: #142e96;
 }
 
 #botoes-direita {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  padding: 20px;
 }
 
 #botoes-direita button {
-  width: 100%;
+  width: 90%;
+  background-color: #00A6FF;
+  color: #ffffff;
+}
+
+#botoes-direita button:hover {
+  background-color: #0040d5;
 }
 
 #icon-link {
@@ -121,13 +149,104 @@ section {
 }
 
 .graficos {
-  
+  margin-left: 14px;
+  display: flex;
+  gap: 15px;
+}
+
+#div-grafico-meses {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+#div-grafico-familias {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+#graficoMeses {
+  width: 400px !important;
+  height: 400px !important;
 }
 
 #graficoDonut {
   width: 400px !important;
   height: 400px !important;
 }
+
+.grupo-estatisticas-acolhidos {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: max-content;
+  margin-left: 14px;
+}
+
+.estatisticas-acolhidos {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  max-width: 280px;
+  max-height: min-content;
+  flex: 1 1 300px;
+}
+
+.titulo {
+  font-weight: bold;
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-family: 'Montserrat';
+}
+
+.numero {
+  color: #555;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-family: 'Montserrat';
+}
+
+.progress-container {
+  width: 100%;
+  height: 12px;
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 20px;
+  transition: all 0.5s;
+}
+
+@keyframes avancarProgresso {
+  0% {
+    transform: translateX(-105%)
+  }
+  100% {
+    transform: translateX(0%)
+  }
+}
+
+.progress-container>.progress-bar {
+  animation: avancarProgresso 0.8s;
+}
+
+.bar1 { background-color: #1535B5; }
+.bar2 { background-color: #2196F3; }
+.bar3 { background-color: #ffe100; }
+.bar4 { background-color: #70b0db; }
 
 .section-acolhidos {
   justify-content: space-around;
