@@ -192,19 +192,6 @@ declare namespace DataTypes {
         methods: object
     }
 
-    type AnalyticsAggregateFunction = "min" | "max" | "count" | "sum" | "avg"
-
-    /**
-     * Diferente de uma tupla, os valores serão definidos baseados em uma função agregadora.
-     * 
-     * Não possui ID.
-     */
-    export abstract class DatabaseAnalytics<F extends DatabaseDocument<object>> extends DatabaseInfo<F["fields"]> {
-        aggregator: AnalyticsAggregateFunction
-    } // alterar
-
-
-
     export class Acolhido extends DatabaseDocument<BaseDataTypes.Acolhido> {
         references: {
             get familia(): Familia,
@@ -243,12 +230,12 @@ declare namespace DataTypes {
     }
     export class Evento extends DatabaseDocument<BaseDataTypes.Evento> {
         references: {
-            get imagem(): Imagem
+            get imagem(): Blob
         }
     }
     export class Produto extends DatabaseDocument<BaseDataTypes.Produto> {
         references: {
-            get imagem(): Imagem
+            get imagem(): Blob
         }
     }
 

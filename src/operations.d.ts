@@ -1,5 +1,5 @@
 import Session from "./tools/node/session"
-import { DatabaseDocument, DatabaseAnalytics } from "./types"
+import { DatabaseDocument } from "./types"
 
 declare type SearchRuleRelation =
     "=" | "!=" |
@@ -20,15 +20,6 @@ declare interface ReadOptions<T extends DatabaseDocument<object>> {
     limitOffset?: number
     orderBy?: (keyof T["fields"])
     orderDirection: "asc" | "desc"
-}
-
-declare type AnalyticsAggregateFunction = "min" | "max" | "count" | "sum" | "avg"
-
-
-declare interface ReadAnalyticsOptions<T extends DatabaseDocument<object>> extends ReadOptions<T> {
-    aggregate: AnalyticsAggregateFunction
-    groupBy?: (keyof T["fields"])
-    selectGroupBy?: boolean // inclui o campo de groupBy na busca, padrão deverá ser true
 }
 
 
@@ -54,12 +45,6 @@ declare namespace Operations {
         type: C,
         search: ReadOptions<InstanceType<C>>,
     ): Promise<InstanceType<C>[]> // só retorna único se limite for 1
-
-    export function analytics<T extends object, C extends typeof DatabaseDocument<T>>(
-        key: string,
-        type: C,
-        search: ReadAnalyticsOptions<InstanceType<C>>
-    ): Promise<DatabaseAnalytics<InstanceType<C>>>
 
     export function update<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
@@ -90,11 +75,6 @@ declare class Login {
         type: C,
         search: ReadOptions<InstanceType<C>>
     ): Promise<InstanceType<C>[]>
-
-    analytics<T extends object, C extends typeof DatabaseDocument<T>>(
-        type: C,
-        search: ReadAnalyticsOptions<InstanceType<C>>
-    ): Promise<DatabaseAnalytics<InstanceType<C>>>
 
     update<T extends object, C extends typeof DatabaseDocument<T>>(
         type: C,

@@ -127,12 +127,7 @@ var EssenciaAzul = ( function() {
         methods = {};
     }
 
-    class DatabaseAnalytics extends DatabaseInfo {
-        aggregator;
-    }
-
     const privateDocTypes = new WeakMap();
-    const privateAnalyiticTypes = new WeakMap();
 
     const availableDatabases = [ "firestore", "mysql" ];
 
@@ -158,7 +153,6 @@ var EssenciaAzul = ( function() {
     } = {}) {
         if (!availableDatabases.includes(database)) throw new Error("Banco de dados não suportado");
         let doctype;
-        let analytictype;
 
         privateFields = Object.freeze([...privateFields]);
         const referencesEntriesDescriptors = Object.entries(Object.getOwnPropertyDescriptors(references));
@@ -202,10 +196,6 @@ var EssenciaAzul = ( function() {
             static name = `${basetype.name}Document`;
         }
 
-        analytictype = class extends DatabaseAnalytics {
-            static name = `${basetype.name}Analytics`;
-        }
-
         fieldsFilters = Object.freeze([ ...fieldsFilters ]);
         // id não é passado em create.
         async function callFieldsFilters({ action, type, key, fields, id } = {}) {
@@ -229,9 +219,6 @@ var EssenciaAzul = ( function() {
         doctype.prototype.collection = collection;
         Property.set(doctype.prototype, "collection", "freeze", "hide", "lock");
 
-        doctype._analytictype = analytictype;
-        Property.set(doctype, "_analytictype", "freeze", "hide", "lock");
-
         doctype["create.minKeyLevel"] = actionsMinKeyLevel.create ?? 1;
         doctype["read.minKeyLevel"] = actionsMinKeyLevel.read ?? 1;
         doctype["update.minKeyLevel"] = actionsMinKeyLevel.update ?? 1;
@@ -243,7 +230,6 @@ var EssenciaAzul = ( function() {
         Property.set(doctype, "remove.minKeyLevel", "freeze", "hide", "lock");
 
         privateDocTypes.set(basetype, doctype);
-        privateAnalyiticTypes.set(basetype, analytictype);
 
         return doctype;
     }
@@ -387,6 +373,8 @@ var EssenciaAzul = ( function() {
         // simples => 1, direcao => 2, dev => 3
 
         if (typeof key === "object") key = privateKeys.get(key);
+
+        if (!key) throw new Error("Chave não encontrada");
 
         const doc = (await getDocs(query(collection(db, "admins"), where("chave", "==", key)))).docs[0];
 
@@ -643,8 +631,6 @@ var EssenciaAzul = ( function() {
         return docs;
     }
 
-    async function analytics(key, type, search) {}
-
     async function updateAdminKeyRelevel(key, id) {
         // faz um read no id e verifica se o id do admin é menor que o da chave atual.
     }
@@ -818,10 +804,6 @@ var EssenciaAzul = ( function() {
             return read(privateKeys.get(this), type, search);
         }
 
-        analytics(type, search) {
-            return analytics(privateKeys.get(this), type, search);
-        }
-
         update(type, id, fields, options) {
             return update(privateKeys.get(this), type, id, fields, options);
         }
@@ -871,7 +853,6 @@ var EssenciaAzul = ( function() {
         validateKey,
         create,
         read,
-        analytics,
         update,
         remove,
         BaseDataTypes,
