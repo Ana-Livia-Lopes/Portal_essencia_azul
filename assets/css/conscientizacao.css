@@ -173,9 +173,8 @@ span.material-symbols-outlined {
     display: flex;
 }
 
-.section3 .niveis #n3 {
-    margin-top: 10px;
-    margin-left: 469px;
+.section3 #celular{
+    display: none;
 }
 
 .section3 .niveis #n3p {
@@ -313,23 +312,27 @@ span.material-symbols-outlined {
     margin-right: auto;
 }
 
+.section4 #barra-video {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 .section4 #video-passos{
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 30px;
+    margin-top: 20px;
     display: flex;
     border-radius: 6px;
+    margin-right: 270px;
 }
 
 .section4 #barra4 {
-    position: absolute;
-    left: 20%;
-    top: 340%;
-    transform: translate(-50%, -50%);
     width: 4px;
-    height: 60%;
+    height: 420px;
     background-color: #0033cc;
+    color: #0033cc;
     border-radius: 4px;
+    margin-left: 250px;
+    margin-top: 26px;
 }
 
 .section5 #info5 {
@@ -487,8 +490,18 @@ span.material-symbols-outlined {
 
     .section3 .graus img,
     .section4 #barra4,
-    .section5 #imgAlone{
+    .section5 #imgAlone, 
+    .section3 #computador{
         display: none;
+    }
+
+    .section3 #celular{
+        display: block;
+    }
+
+    .section3 #celular #n3{
+        position: absolute;
+        top: 2375px;
     }
 
     .section3 .graus p {
@@ -499,6 +512,8 @@ span.material-symbols-outlined {
     .section4 #video-passos{
         width: 300px;
         height: 165px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
 
@@ -510,7 +525,7 @@ span.material-symbols-outlined {
     .olcards li::before {
         font-size: 1.5em;
         position: relative;
-        right: 121px;
+        right: 106px;
         height: 20%;
     }
 
@@ -528,7 +543,7 @@ span.material-symbols-outlined {
         align-items: center;
         position: relative;
         width: 100%;
-        right: 120px;
+        right: 105px;
     }
 
     .olcards li .content::before {

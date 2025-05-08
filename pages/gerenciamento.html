@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/gerenciamento.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Gerenciamento - Portal Essência Azul</title>
 </head>
 
@@ -14,30 +15,39 @@
     <component name="acessibilidade" />
 
     <h1 id="titulo1" class="conteudo-site">Gerenciamento</h1>
-    <div class="links-pg-div">
-        <h3><a href="/cadastrar_adm"><i id="icon-link" class="fas fa-plus conteudo-site"></i> Cadastrar
-                administrador</a></h3>
-        <h3><a href="/cadastrar_acolhido"><i id="icon-link" class="fas fa-plus conteudo-site"></i> Cadastrar
-                acolhido</a></h3>
-        <h3><a href="/solic_receb"><i class="fas fa-user conteudo-site"></i> Solicitações de cadastro</a></h3>
-    </div>
 
-    <div class="estatisticas-users">
-        <h1 id="titulopreview" class="conteudo-site">Estatísticas de Usuários</h1>
-        <div class="div-graficos">
-            <img src="/img/1.png" id="img-preview-graficos" alt="">
-            <img src="/img/2.png" id="img-preview-graficos" alt="">
-        </div>
-    </div>
+    <div class="estatisticas">
 
-    <div id="atalhos">
-        <div id="botoes-direita">
-            <button class="botao conteudo-site" onclick="//scrollParaElemento('secao4')" id="option-switch-voluntarios">Voluntários</button>
-            <button class="botao conteudo-site" onclick="//scrollParaElemento('secao2')" id="option-switch-administradores">Administradores</button>
-            <button class="botao conteudo-site" onclick="//scrollParaElemento('secao3')" id="option-switch-familias">Famílias</button>
-            <button class="botao-esp" onclick="irParaRelatorios()" id="option-switch-relatorios">Relatórios</button>
-            <button class="botao conteudo-site" onclick="//scrollParaElemento('secao1')" id="option-switch-acolhidos">Acolhidos</button>
+        <div class="navegacao-lateral">
+            <div class="links-pg-div">
+                <h3><a href="/cadastrar_adm"><i id="icon-link" class="fas fa-plus conteudo-site"></i> Cadastrar
+                        administrador</a></h3>
+                <h3><a href="/cadastrar_acolhido"><i id="icon-link" class="fas fa-plus conteudo-site"></i> Cadastrar
+                        acolhido</a></h3>
+                <h3><a href="/solic_receb"><i class="fas fa-user conteudo-site"></i> Solicitações de cadastro</a></h3>
+            </div>
+    
+            <div id="atalhos">
+                <div id="botoes-direita">
+                    <button class="botao conteudo-site" onclick="//scrollParaElemento('secao4')"
+                        id="option-switch-voluntarios">Voluntários</button>
+                    <button class="botao conteudo-site" onclick="//scrollParaElemento('secao2')"
+                        id="option-switch-administradores">Administradores</button>
+                    <button class="botao conteudo-site" onclick="//scrollParaElemento('secao3')"
+                        id="option-switch-familias">Famílias</button>
+                    <button class="botao-esp" onclick="irParaRelatorios()" id="option-switch-relatorios">Relatórios</button>
+                    <button class="botao conteudo-site" onclick="//scrollParaElemento('secao1')"
+                        id="option-switch-acolhidos">Acolhidos</button>
+                </div>
+            </div>
         </div>
+
+        <div class="graficos">
+            <div id="div-grafico-indefinido">
+                <canvas id="graficoDonut" width="200" height="200"></canvas>
+            </div>
+        </div>
+
     </div>
 
     <script type="module">
@@ -49,7 +59,47 @@
             .setChangeButton(document.getElementById("option-switch-familias"), "gerenciamento-familias")
             // .setChangeButton(document.getElementById("option-switch-relatorios"), "gerenciamento-relatorios")
             .setChangeButton(document.getElementById("option-switch-acolhidos"), "gerenciamento-acolhidos")
-            
+
+    </script>
+
+    <!-- Gráficos -->
+    <script>
+        const ctx = document.getElementById('graficoDonut').getContext('2d');
+        const graficoDonut = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Possui', 'Não possui'],
+                datasets: [{
+                    data: [52, 67],
+                    backgroundColor: [
+                        '#1535B5',
+                        '#fff550',
+                    ],
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '60%', // controla o "furo" do donut
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Tem carteirinha de identificação?'
+                    },
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.label || '';
+                                let value = context.raw || 0;
+                                return `${label}: ${value} acolhidos`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
     </script>
 
     <div id="option-switch">
