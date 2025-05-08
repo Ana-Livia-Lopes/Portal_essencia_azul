@@ -119,7 +119,7 @@ var ServerManager = ( function() {
         }
 
         pages = new Page.Collection();
-        sessions = new Session.Collection("HTTP");
+        sessions = new Session.Collection("PORTAL_ESSENCIA_AZUL");
         components = new Component.Collection();
         APIObjects = {};
 

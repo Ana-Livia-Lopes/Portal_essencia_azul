@@ -86,7 +86,7 @@ var Session = ( function() {
             get maxAge() { return privateCollectionConfigs.get(this).maxAge }
             get cleaningInterval() { return privateCollectionConfigs.get(this).cleaningInterval }
 
-            get cookieKeyName() { return encodeURIComponent(`${this.id}_${this.name}_SESSION_ID`) }
+            get cookieKeyName() { return encodeURIComponent(`${this.name}_SESSION_ID`) }
 
             insert(session) {
                 if (!this.checkType(session, "value")) throw new TypeError("you can only add Session instances to a SessionCollection");

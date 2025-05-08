@@ -78,6 +78,10 @@ module.exports = {
             pagelocation: "dev"
         },
         {
+            filelocation: "dev_docs.html",
+            pagelocation: "dev/docs",
+        },
+        {
             filelocation: "cadastrar_acolhido.html",
             pagelocation: "cadastrar_acolhido"
         },

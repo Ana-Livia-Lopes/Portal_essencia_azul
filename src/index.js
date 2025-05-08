@@ -738,8 +738,41 @@ var EssenciaAzul = ( function() {
 
         switch (type._dbtype) {
             case "mysql":
-                
-                break;
+                const storage = storageConnect();
+
+                const rowSnap = await new Promise((resolve, reject) => {
+                    storage.query(`SELECT * FROM ${type.collection} WHERE id = ?`, [ id ], (err, results) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(results[0]);
+                        }
+                    });
+                });
+
+                if (!rowSnap) throw new CodedError(404, "Documento não encontrado");
+
+                const sql = `DELETE FROM ${type.collection} WHERE id = ?`;
+                const values = [ id ];
+                await new Promise((resolve, reject) => {
+                    storage.query(sql, values, (err, results) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(results);
+                        }
+                    });
+                });
+
+                storage.end();
+
+                delete rowSnap.id;
+                const rowData = await type._callFieldsFilter({ action: "remove",
+                    type, key, fields: { ...rowSnap }, id });
+                delete rowData.id;
+                const deletedRow = new type(createdByKey.get(this), id, rowData, privateDBConstructorKey);
+                type._eventEmitter("remove", deletedRow, emitEventSymbol);
+                return deletedRow;
             case "firestore":
                 const collRef = collection(db, type.collection);
                 const docRef = doc(collRef, id);
@@ -750,10 +783,9 @@ var EssenciaAzul = ( function() {
                 delete filteredRemoveData.id;
                 const deletedDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(filteredRemoveData), privateDBConstructorKey);
                 await deleteDoc(docRef);
+                type._eventEmitter("remove", deletedDoc, emitEventSymbol);
                 return deletedDoc;
         }
-
-        type._eventEmitter("remove", doc, emitEventSymbol);
     }
 
     const privateLoginConstructorIndicator = Symbol("Login.PrivateConstructorIndicator");
