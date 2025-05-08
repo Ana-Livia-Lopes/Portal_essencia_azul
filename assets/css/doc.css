@@ -664,8 +664,7 @@ h3 {
     }
     
     .section5 #celular #contato {
-        position: absolute;
-        top: 4420px;
+        display: none;
     }
 
     .section3 h2 {
