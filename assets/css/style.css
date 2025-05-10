@@ -161,7 +161,7 @@ body {
   font-size: 40px;
 }
 
-#galeriaPainel {
+#galeriaPainel, .galeriaPainel {
   position: relative;
   width: 80%;
   max-width: 1000px;
@@ -174,7 +174,8 @@ body {
 }
 .seta{
   position: absolute;
-  top: 250px;
+  /* top: 250px; */
+  top: 50%;
   z-index: 9;
   font-size: 25px;
   background-color: hsla(0, 0%, 38%, 0.752);
@@ -225,7 +226,7 @@ body {
   opacity: 0.5;
   cursor: pointer;
 }
-#centroImg {
+#centroImg, .atualFoto {
   left: 50%;
   transform: translateX(-50%) scale(1);
   z-index: 2;
@@ -973,7 +974,7 @@ body {
     height: 200px;
     width: 300px;
   }
-  #galeriaPainel {
+  #galeriaPainel .galeriaPainel{
     width: 80%;
     max-width: 1000px;
     height: 200px;

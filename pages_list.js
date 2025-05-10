@@ -177,6 +177,10 @@ module.exports = {
         {
             name: "gerenciamento-acolhidos",
             filelocation: "gerenciamento/acolhidos.html"
+        },
+        {
+            name: "carrossel",
+            filelocation: "carrossel.html"
         }
     ],
     errorPage: new Page(path.join(__dirname, "pages/erro.js"), "/error/", "execute", "text/html", { events: { error(_, __, error) {

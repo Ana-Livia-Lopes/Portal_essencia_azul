@@ -16,6 +16,7 @@
                     .catch(e => console.log(e));
             }
         </script>
+        <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
         <component name="header" />
@@ -125,6 +126,8 @@
             <h2>Admins</h2>
             <ul id="output-admins"></ul>
         </section>
+        <hr class="w2">
+        <component name="carrossel"/>
         <script>
             const read = (async (url, outputId) => {
                 const req = await fetch(url, { method: "GET" });
