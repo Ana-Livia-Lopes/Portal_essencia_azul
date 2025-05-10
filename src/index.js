@@ -1,5 +1,6 @@
 const mysql = require("mysql");
-const { Session, Property, CodedError } = require("./tools");
+const { Session, NotFoundError } = require("./server/")
+const { Property } = require("./util");
 const { db } = require("../firebase.js");
 const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc, setDoc, deleteDoc } = require("firebase/firestore");
 const crypto = require("crypto");
@@ -271,17 +272,22 @@ var EssenciaAzul = ( function() {
     Types.Voluntario = createDatabaseDocumentType(BaseDataTypes.Voluntario, "voluntarios");
 
     const MySQLTypes = {};
-    const MySQLBaseStructure = class MySQLBaseStructure {
+    const MySQLBaseStructure = class MySQLDocumentStructure {
         id;
         conteudo;
     }
+    const MySQLImageStructure = class MySQLImageStructure extends MySQLBaseStructure {
+        id;
+        conteudo;
+        content_type;
+    }
     const MySQLPrivateFields = [ "id" ];
     
-    MySQLTypes.Documento = createDatabaseDocumentType(MySQLBaseStructure, "documentos", {
+    MySQLTypes.Documento = createDatabaseDocumentType(MySQLDocumentStructure, "documentos", {
         database: "mysql",
-        privateFields: MySQLPrivateFields
+        privateFields: MySQLPrivateFields,
     });
-    MySQLTypes.Imagem = createDatabaseDocumentType(MySQLBaseStructure, "imagens", {
+    MySQLTypes.Imagem = createDatabaseDocumentType(MySQLImageStructure, "imagens", {
         database: "mysql",
         privateFields: MySQLPrivateFields
     });
@@ -583,7 +589,7 @@ var EssenciaAzul = ( function() {
                 if (search?.id) {
                     const docRef = doc(collRef, search.id);
                     const docSnap = await getDoc(docRef);
-                    if (!docSnap.exists()) throw new CodedError(404, "Documento não encontrado");
+                    if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
                     const fields = await type._callFieldsFilter({ action: "read", type, key, fields: { ...docSnap.data() }, id: docSnap.id });
                     delete fields.id;
                     docs.push(new type(createdByKey.get(this), docSnap.id, fields, privateDBConstructorKey));
@@ -688,7 +694,7 @@ var EssenciaAzul = ( function() {
 
                 const docRef = doc(collRef, id);
                 const docSnap = await getDoc(docRef);
-                if (!docSnap.exists()) throw new CodedError(404, "Documento não encontrado");
+                if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
 
                 switch (options?.editType) {
                     case "set":
@@ -736,7 +742,7 @@ var EssenciaAzul = ( function() {
                     });
                 });
 
-                if (!rowSnap) throw new CodedError(404, "Documento não encontrado");
+                if (!rowSnap) throw new NotFoundError(undefined, "Documento não encontrado");
 
                 const sql = `DELETE FROM ${type.collection} WHERE id = ?`;
                 const values = [ id ];
@@ -763,7 +769,7 @@ var EssenciaAzul = ( function() {
                 const collRef = collection(db, type.collection);
                 const docRef = doc(collRef, id);
                 const docSnap = await getDoc(docRef);
-                if (!docSnap.exists()) throw new CodedError(404, "Documento não encontrado");
+                if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
                 const docData = docSnap.data();
                 const filteredRemoveData = await type._callFieldsFilter({ action: "remove", type, key, fields: docData, id });
                 delete filteredRemoveData.id;

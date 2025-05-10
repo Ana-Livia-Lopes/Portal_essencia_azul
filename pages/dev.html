@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
-        <component name="header" />
+        <component-header/>
 
         <div>
             <hr class="w2">
@@ -53,7 +53,7 @@
         <section>
             <h2>List Input</h2>
             <div class="list-input" id="observed-list-input"></div>
-            <component name="list_input" />
+            <component-list_input />
             <pre id="list-input-output"></pre>
             <script>
                 const output = document.getElementById("list-input-output");
@@ -127,7 +127,7 @@
             <ul id="output-admins"></ul>
         </section>
         <hr class="w2">
-        <component name="carrossel"/>
+        <component-carrossel/>
         <script>
             const read = (async (url, outputId) => {
                 const req = await fetch(url, { method: "GET" });
@@ -151,7 +151,7 @@
             read("/api/acolhido", "output-acolhidos");
             read("/api/admin", "output-admins");
         </script>
-        <component name="footer" />
+        <component-footer/>
         <style>
             body {
                 margin: 0;

@@ -1,4 +1,4 @@
-import Session from "./tools/node/session"
+import { Session } from "./server/"
 import { DatabaseDocument } from "./types"
 
 declare type SearchRuleRelation =
