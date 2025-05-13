@@ -1,8 +1,10 @@
 const mysql = require("mysql");
-const { Session, Property, CodedError } = require("./tools");
+const { Session, NotFoundError, PermissionError } = require("./server/")
+const { Property } = require("./util");
 const { db } = require("../firebase.js");
 const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc, setDoc, deleteDoc } = require("firebase/firestore");
 const crypto = require("crypto");
+const { ClientError } = require("./server/errors.js");
 
 var EssenciaAzul = ( function() {
     const BaseDataTypes = {}
@@ -127,12 +129,7 @@ var EssenciaAzul = ( function() {
         methods = {};
     }
 
-    class DatabaseAnalytics extends DatabaseInfo {
-        aggregator;
-    }
-
     const privateDocTypes = new WeakMap();
-    const privateAnalyiticTypes = new WeakMap();
 
     const availableDatabases = [ "firestore", "mysql" ];
 
@@ -158,7 +155,6 @@ var EssenciaAzul = ( function() {
     } = {}) {
         if (!availableDatabases.includes(database)) throw new Error("Banco de dados não suportado");
         let doctype;
-        let analytictype;
 
         privateFields = Object.freeze([...privateFields]);
         const referencesEntriesDescriptors = Object.entries(Object.getOwnPropertyDescriptors(references));
@@ -202,10 +198,6 @@ var EssenciaAzul = ( function() {
             static name = `${basetype.name}Document`;
         }
 
-        analytictype = class extends DatabaseAnalytics {
-            static name = `${basetype.name}Analytics`;
-        }
-
         fieldsFilters = Object.freeze([ ...fieldsFilters ]);
         // id não é passado em create.
         async function callFieldsFilters({ action, type, key, fields, id } = {}) {
@@ -229,9 +221,6 @@ var EssenciaAzul = ( function() {
         doctype.prototype.collection = collection;
         Property.set(doctype.prototype, "collection", "freeze", "hide", "lock");
 
-        doctype._analytictype = analytictype;
-        Property.set(doctype, "_analytictype", "freeze", "hide", "lock");
-
         doctype["create.minKeyLevel"] = actionsMinKeyLevel.create ?? 1;
         doctype["read.minKeyLevel"] = actionsMinKeyLevel.read ?? 1;
         doctype["update.minKeyLevel"] = actionsMinKeyLevel.update ?? 1;
@@ -243,7 +232,6 @@ var EssenciaAzul = ( function() {
         Property.set(doctype, "remove.minKeyLevel", "freeze", "hide", "lock");
 
         privateDocTypes.set(basetype, doctype);
-        privateAnalyiticTypes.set(basetype, analytictype);
 
         return doctype;
     }
@@ -285,17 +273,22 @@ var EssenciaAzul = ( function() {
     Types.Voluntario = createDatabaseDocumentType(BaseDataTypes.Voluntario, "voluntarios");
 
     const MySQLTypes = {};
-    const MySQLBaseStructure = class MySQLBaseStructure {
+    const MySQLDocumentStructure = class MySQLDocumentStructure {
         id;
         conteudo;
     }
+    const MySQLImageStructure = class MySQLImageStructure {
+        id;
+        conteudo;
+        content_type;
+    }
     const MySQLPrivateFields = [ "id" ];
     
-    MySQLTypes.Documento = createDatabaseDocumentType(MySQLBaseStructure, "documentos", {
+    MySQLTypes.Documento = createDatabaseDocumentType(MySQLDocumentStructure, "documentos", {
         database: "mysql",
-        privateFields: MySQLPrivateFields
+        privateFields: MySQLPrivateFields,
     });
-    MySQLTypes.Imagem = createDatabaseDocumentType(MySQLBaseStructure, "imagens", {
+    MySQLTypes.Imagem = createDatabaseDocumentType(MySQLImageStructure, "imagens", {
         database: "mysql",
         privateFields: MySQLPrivateFields
     });
@@ -388,6 +381,8 @@ var EssenciaAzul = ( function() {
 
         if (typeof key === "object") key = privateKeys.get(key);
 
+        if (!key) throw new Error("Chave não encontrada");
+
         const doc = (await getDocs(query(collection(db, "admins"), where("chave", "==", key)))).docs[0];
 
         if (!doc) return 0;
@@ -462,11 +457,11 @@ var EssenciaAzul = ( function() {
 
     async function create(key, type, fields) {
         let keylevel = await validateKey(key);
-        if (keylevel <= 0) throw new Error("Permissão insuficiente para qualquer operação de administrador");
+        if (keylevel <= 0) throw new PermissionError("Permissão insuficiente para qualquer operação de administrador");
 
         await type._callFieldsFilter({ action: "create", type, key, fields });
 
-        if (keylevel < type["create.minKeyLevel"]) throw new Error(`Permissão insuficiente para criar documento de ${type._basetype.name}`);
+        if (keylevel < type["create.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para criar documento de ${type._basetype.name}`);
         const dbtype = type._dbtype;
 
         let doc;
@@ -528,9 +523,9 @@ var EssenciaAzul = ( function() {
 
     async function read(key, type, search) {
         let keylevel = await validateKey(key);
-        if (keylevel <= 0) throw new Error("Permissão insuficiente para qualquer operação de administrador");
+        if (keylevel <= 0) throw new PermissionError(undefined, "Permissão insuficiente para qualquer operação de administrador");
 
-        if (keylevel < type["read.minKeyLevel"]) throw new Error(`Permissão insuficiente para ler documentos de ${type._basetype.name}`);
+        if (keylevel < type["read.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para ler documentos de ${type._basetype.name}`);
 
         const dbtype = type._dbtype;
         let docs = [];
@@ -555,14 +550,14 @@ var EssenciaAzul = ( function() {
                 }
                 if (search?.orderBy) {
                     let orderDirection = search.orderDirection?.toUpperCase() ?? "ASC";
-                    if (!validOrderDirections.includes(orderDirection)) throw new TypeError("Direção de ordenação inválida, use ASC ou DESC");
+                    if (!validOrderDirections.includes(orderDirection)) throw new ClientError(undefined, "Direção de ordenação inválida, use ASC ou DESC");
                     sql += ` ORDER BY ? ${orderDirection}`;
                     queryParameters.push(search.orderBy);
                 }
                 if (search?.limit) {
-                    if (typeof search?.limit !== "number") throw new TypeError("O limite deve ser um número");
+                    if (typeof search?.limit !== "number") throw new ClientError(undefined, "O limite deve ser um número");
                     if (search?.limitOffset) {
-                        if (typeof search?.limitOffset !== "number") throw new TypeError("O limite de offset deve ser um número");
+                        if (typeof search?.limitOffset !== "number") throw new ClientError(undefined, "O limite de offset deve ser um número");
                         sql += ` LIMIT ${search.limitOffset}, ${search.limit}`;
                     } else {
                         sql += ` LIMIT ${search.limit}`;
@@ -595,7 +590,7 @@ var EssenciaAzul = ( function() {
                 if (search?.id) {
                     const docRef = doc(collRef, search.id);
                     const docSnap = await getDoc(docRef);
-                    if (!docSnap.exists()) throw new CodedError(404, "Documento não encontrado");
+                    if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
                     const fields = await type._callFieldsFilter({ action: "read", type, key, fields: { ...docSnap.data() }, id: docSnap.id });
                     delete fields.id;
                     docs.push(new type(createdByKey.get(this), docSnap.id, fields, privateDBConstructorKey));
@@ -617,7 +612,7 @@ var EssenciaAzul = ( function() {
                 }
                 if (search?.orderBy) {
                     let orderDirection = search.orderDirection?.toLowerCase() ?? "asc";
-                    if (!validLowerOrderDirections.includes(orderDirection)) throw new TypeError("Direção de ordenação inválida, use ASC ou DESC");
+                    if (!validLowerOrderDirections.includes(orderDirection)) throw new ClientError(undefined, "Direção de ordenação inválida, use ASC ou DESC");
                     constraints.push(orderBy(search.orderBy, orderDirection));
                 }
                 if (search?.limit) {
@@ -643,19 +638,17 @@ var EssenciaAzul = ( function() {
         return docs;
     }
 
-    async function analytics(key, type, search) {}
-
     async function updateAdminKeyRelevel(key, id) {
         // faz um read no id e verifica se o id do admin é menor que o da chave atual.
     }
 
     async function update(key, type, id, fields, options) {
         let keylevel = await validateKey(key);
-        if (keylevel === 0) throw new Error("Permissão insuficiente para qualquer operação de administrador");
+        if (keylevel === 0) throw new PermissionError(undefined, "Permissão insuficiente para qualquer operação de administrador");
         // verificação especial se o tipo for admin, já que admin1 pode apenas SE editar.
         if (type === Admin) keylevel = await updateAdminKeyRelevel(key, id);
 
-        if (keylevel < type["update.minKeyLevel"]) throw new Error(`Permissão insuficiente para atualizar documentos de ${type._basetype.name}`);
+        if (keylevel < type["update.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para atualizar documentos de ${type._basetype.name}`);
 
         switch (type._dbtype) {
             case "mysql":
@@ -702,7 +695,7 @@ var EssenciaAzul = ( function() {
 
                 const docRef = doc(collRef, id);
                 const docSnap = await getDoc(docRef);
-                if (!docSnap.exists()) throw new CodedError(404, "Documento não encontrado");
+                if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
 
                 switch (options?.editType) {
                     case "set":
@@ -732,9 +725,9 @@ var EssenciaAzul = ( function() {
 
     async function remove(key, type, id) {
         let keylevel = await validateKey(key);
-        if (keylevel === 0) throw new Error("Permissão insuficiente para qualquer operação de administrador");
+        if (keylevel === 0) throw new PermissionError(undefined, "Permissão insuficiente para qualquer operação de administrador");
 
-        if (keylevel < type["remove.minKeyLevel"]) throw new Error(`Permissão insuficiente para remover documentos de ${type._basetype.name}`);
+        if (keylevel < type["remove.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para remover documentos de ${type._basetype.name}`);
 
         switch (type._dbtype) {
             case "mysql":
@@ -750,7 +743,7 @@ var EssenciaAzul = ( function() {
                     });
                 });
 
-                if (!rowSnap) throw new CodedError(404, "Documento não encontrado");
+                if (!rowSnap) throw new NotFoundError(undefined, "Documento não encontrado");
 
                 const sql = `DELETE FROM ${type.collection} WHERE id = ?`;
                 const values = [ id ];
@@ -777,7 +770,7 @@ var EssenciaAzul = ( function() {
                 const collRef = collection(db, type.collection);
                 const docRef = doc(collRef, id);
                 const docSnap = await getDoc(docRef);
-                if (!docSnap.exists()) throw new CodedError(404, "Documento não encontrado");
+                if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
                 const docData = docSnap.data();
                 const filteredRemoveData = await type._callFieldsFilter({ action: "remove", type, key, fields: docData, id });
                 delete filteredRemoveData.id;
@@ -791,7 +784,7 @@ var EssenciaAzul = ( function() {
     const privateLoginConstructorIndicator = Symbol("Login.PrivateConstructorIndicator");
 
     class Login {
-        constructor(session, name, email, key, constructorKey) {
+        constructor(session, name, email, nivel, key, constructorKey) {
             if (constructorKey !== privateLoginConstructorIndicator) throw new Error("Private constructor");
             session.set("login", this);
 
@@ -800,10 +793,12 @@ var EssenciaAzul = ( function() {
             this.session = session;
             this.email = email;
             this.name = name;
+            this.nivel = nivel;
 
             Property.set(this, "session", "freeze", "lock");
             Property.set(this, "email", "freeze", "lock");
             Property.set(this, "name", "freeze", "lock");
+            Property.set(this, "nivel", "freeze", "lock");
         }
 
         session;
@@ -818,10 +813,6 @@ var EssenciaAzul = ( function() {
             return read(privateKeys.get(this), type, search);
         }
 
-        analytics(type, search) {
-            return analytics(privateKeys.get(this), type, search);
-        }
-
         update(type, id, fields, options) {
             return update(privateKeys.get(this), type, id, fields, options);
         }
@@ -832,28 +823,28 @@ var EssenciaAzul = ( function() {
     }
 
     async function login(session, email, password) {
-        if (!(session instanceof Session)) throw new Error("É necessário uma sessão no navegador para realizar login");
+        if (!(session instanceof Session.Constructor)) throw new ClientError(undefined, "É necessário uma sessão no navegador para realizar login");
         let hasLogin = session.get("login");
         if (hasLogin && hasLogin instanceof Login) return hasLogin;
 
         const adminDoc = (await getDocs(query(collection(db, "admins"), where("email", "==", email), where("senha", "==", password)))).docs[0];
 
-        if (!adminDoc) throw new Error("Credenciais incorretas");
+        if (!adminDoc) throw new ClientError(undefined, "Credenciais incorretas");
         
         const adminDocData = adminDoc.data();
         const key = adminDocData.chave;
 
-        let login = new Login(session, adminDocData.nome, email, key, privateLoginConstructorIndicator);
+        let login = new Login(session, adminDocData.nome, email, adminDocData.nivel, key, privateLoginConstructorIndicator);
         return login;
     }
 
     function isLogged(session) {
-        if (!(session instanceof Session)) throw new Error("É necessário uma sessão no navegador para procurar por login");
-        if (session.get("login") instanceof Session) return true; else return false;
+        if (!(session instanceof Session.Constructor)) throw new ClientError(undefined, "É necessário uma sessão no navegador para procurar por login");
+        if (session.get("login") instanceof Session.Constructor) return true; else return false;
     }
     
     function logout(session) {
-        if (!(session instanceof Session)) throw new Error("É necessário uma sessão no navegador para realizar logout");
+        if (!(session instanceof Session.Constructor)) throw new ClientError(undefined, "É necessário uma sessão no navegador para realizar logout");
         let hasLogin = session.get("login");
         if (hasLogin && hasLogin instanceof Login) {
             session.delete("login");
@@ -863,22 +854,51 @@ var EssenciaAzul = ( function() {
         }
     }
 
+    const validLevelNamesAndNumbers = Object.freeze({
+        simples: 1,
+        direcao: 2,
+        dev: 3   
+    });
+    
+    const validLevelNames = Object.freeze(Object.keys(validLevelNamesAndNumbers));
+    const validLevelNumbers = Object.freeze(Object.values(validLevelNamesAndNumbers));
+
+    async function register(session, email, password, name, level) {
+        if (!(session instanceof Session.Constructor)) throw new ClientError(undefined, "É necessário uma sessão para registrar um administrador");
+        if (level && !validLevelNames.includes(level) && !validLevelNumbers.includes(level)) throw new ClientError(undefined, "Nível inválido, use comum, direcao ou dev");
+        if (level && typeof level === "number") {
+            level = validLevelNames[validLevelNumbers.indexOf(level)];
+        }
+        if (!level) level = "simples";
+
+        let hasLogin = session.get("login");
+        if (hasLogin && hasLogin instanceof Login) {
+            if (validLevelNamesAndNumbers[level] ?? 0 >= validLevelNamesAndNumbers[hasLogin.nivel] ?? 0) throw new PermissionError(undefined, "Permissão insuficiente para registrar um administrador com nível maior ou igual ao seu");
+
+            const newAdmin = await create(hasLogin, Admin, { email, senha: password, nome: name, nivel: level });
+            const newAdminData = await getDoc(doc(db, "admins", newAdmin.id));
+            const newAdminDoc = newAdminData.data();
+            const newAdminKey = newAdminDoc.chave;
+            return new Login(session, newAdminDoc.nome, email, newAdminDoc.nivel, newAdminKey, privateLoginConstructorIndicator);
+        } else {
+            throw new ClientError(undefined, "É necessário estar em uma sessão autorizada para registrar um administrador");
+        }
+    }
+
 
     return {
         login,
         logout,
         isLogged,
+        register,
         validateKey,
         create,
         read,
-        analytics,
         update,
         remove,
         BaseDataTypes,
         ...Types
     };
 } )();
-
-require("./tools/namespace.js")(EssenciaAzul, "EssenciaAzul");
 
 module.exports = EssenciaAzul;

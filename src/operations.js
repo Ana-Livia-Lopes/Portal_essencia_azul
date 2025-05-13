@@ -117,6 +117,4 @@ var Operations = ( function() {
     };
 } )();
 
-require("./tools/namespace.js")(Operations, "Operations");
-
 module.exports = Operations;

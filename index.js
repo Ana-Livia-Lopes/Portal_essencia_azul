@@ -1,76 +1,147 @@
-function tryModules(...modules) {
-    for (const mod of modules) {
-        try {
-            require(mod);
-        } catch {
-            console.error(`Erro ao importar "${mod}". Utilize \x1b[48;2;16;0;48m\x1b[38;2;95;158;160mnpm install\x1b[0m para instalar as dependências do projeto.`);
-            process.exit();
-        }
+const chalk = require("chalk");
+const { Server, Page, Cache, Component, Watcher, Event } = require("./src/server/");
+const path = require( "path" );
+const { hostname, port, devMode } = require("./config.json").server;
+const Command = require("./cli.js");
+
+const server = new Server();
+console.clear();
+
+const grey = chalk.rgb(169, 169, 169);
+const command = chalk.rgb(95, 158, 160).bgRgb(16, 0, 48);
+
+console.log(`\n${chalk.blueBright("Bem-vindo(a) ao Portal Essência Azul")}`);
+console.log(`${grey("Digite")} ${command("help")} ${grey("para listar os comandos do servidor.")}\n`);
+
+server.on("listening", () => {
+    console.log(`HTTP Server listening at ${chalk.blueBright("http://" + hostname + ":" + port + "/")}`);
+});
+
+server.pages.events.error = [ require("./onError.js") ];
+
+function loadContent() {
+    if (!Cache.enabled) delete require.cache[require.resolve("./config.json")];
+    const { pages, components, events } = require("./config.json").server;
+
+    for (const watcher of server.watchers) watcher.close();
+
+    server.pages.clear();
+    server.components.clear();
+    Event.clear();
+
+    for (const [ dir, handlerConfigs ] of Object.entries(pages)) {
+        server.watchPages(path.join(__dirname, dir), handlerConfigs);
+    }
+    for (const [ dir, handlerConfigs ] of Object.entries(components)) {
+        server.watchComponents(path.join(__dirname, dir), handlerConfigs);
+    }
+    for (const [ dir, handlerConfigs ] of Object.entries(events)) {
+        server.watchEvents(path.join(__dirname, dir), handlerConfigs);
     }
 }
 
-tryModules("ws", "chokidar", "mysql", "firebase/app", "firebase/firestore");
+Cache.enabled = !devMode;
 
-const { ServerManager, Page } = require("./src/tools");
-const path = require("path");
-const fs = require("fs");
+server.listen(port, hostname);
 
-try { require("./config.json") } catch {
-    fs.writeFileSync("./config.json", JSON.stringify({
-        server: {
-            hostname: "localhost",
-            port: 8080
-        }
+loadContent();
+
+function getPagesForTable() {
+    return [...server.pages.entries()].map(([rawPath, page]) => ({
+        path: rawPath, type: page._type, file: path.relative(__dirname, page.file), contentType: page.contentType, events: page.events
     }));
 }
 
-console.clear();
-
-console.log("\n\x1b[1m\x1b[38;2;0;51;204mBem vindo ao servidor do Portal Essência Azul\x1b[0m");
-console.log("\x1b[38;2;169;169;169mDigite \x1b[48;2;16;0;48m\x1b[38;2;95;158;160mhelp\x1b[0m\x1b[38;2;169;169;169m para listar os comandos do servidor.\n\n\x1b[0m");
-
-const config = require("./config.json");
-const deployPages = require("./pages.js");
-
-if (typeof config.firebase !== "object" || !config.firebase) {
-    console.log("Por favor, insira as configurações privadas do projeto Firebase em config.json");
-    console.log(
-`\x1b[38;2;95;158;160m{
-    "server": { ... },
-    "firebase": {
-        "apiKey": ...,
-        "authDomain": ...,
-        "projectId": ...,
-        "storageBucket": ...,
-        "messagingSenderId": ...,
-        "appId": ...,
-        "measurementId": ...
-    }
-}\x1b[0m`);
-    process.exit();
+function getComponentsForTable() {
+    return [...server.components.values()].map(component => ({
+        name: component.name, type: component._type, file: path.relative(__dirname, component.file)
+    }));
 }
 
-if (typeof config.mysql !== "object" || !config.mysql) {
-    console.log("Por favor, insira as configurações privadas do banco de dados MySQL em config.json");
-    console.log(
-`\x1b[38;2;95;158;160m{
-    "server": { ... },
-    "mysql": {
-        "hostname": ...,
-        "username": ...,
-        "password": ...,
-        "database": ...
-    }
-}\x1b[0m`);
-    process.exit();
-}
+const commands = [
+    new Command("count", () => {
+        console.log(`Pages: ${server.pages.size}`);
+        console.log(`Components: ${server.components.size}`);
+    }),
+    new Command("pages", () => {
+        console.table(getPagesForTable());
+    }, [
+        new Command("screens", () => {
+            console.table(getPagesForTable().filter(page => page.type === "screen"));
+        }),
+        new Command("rest", () => {
+            console.table(getPagesForTable().filter(page => page.type === "rest"));
+        }),
+        new Command("assets", () => {
+            console.table(getPagesForTable().filter(page => page.type === "asset"));
+        }),
+        new Command("executable", () => {
+            console.table(getPagesForTable().filter(page => page.type === "executable"));
+        }),
+        new Command("search", (...args) => {
+            const pages = getPagesForTable()
+            if (!args[0]) return console.table(pages);
+            const flags = Command.getFlags(...args);
+            if (!args[0].startsWith("--")) flags.path = args[0];
+            let filteredPages = pages.filter(page => {
+                return (!flags.path || page.path.includes(flags.path)) &&
+                       (!flags.file || page.file.includes(flags.file)) &&
+                       (!flags.fileExt || page.file.endsWith(flags.fileExt)) &&
+                       (!flags.type || page.type === flags.type);
+            });
+            if ("count" in flags) return console.log(filteredPages.length);
+            console.table(filteredPages);
+        })
+    ]),
+    new Command("components", () => {
+        console.table(getComponentsForTable());
+    }, [
+        new Command("search", (...args) => {
+            const components = getComponentsForTable()
+            if (!args[0]) return console.table(components);
+            const flags = Command.getFlags(...args);
+            if (!args[0].startsWith("--")) flags.name = args[0];
+            let filteredComponents = components.filter(component => {
+                return (!flags.name || component.name.includes(flags.name)) &&
+                       (!flags.file || component.file.includes(flags.file)) &&
+                       (!flags.fileExt || component.file.endsWith(flags.fileExt)) &&
+                       (!flags.type || component.type === flags.type);
+            });
+            if ("count" in flags) return console.log(filteredComponents.length);
+            console.table(filteredComponents);
+        })
+    ]),
+    new Command("event", (...args) => {
+        try {
+            return console.log(Event.get(args[0]));
+        } catch(err) {
+            return console.log("No event found")
+        }
+    }),
+    new Command("reload", () => {
+        loadContent();
+    }),
+    new Command("cache", () => {
+        Cache.enabled = !Cache.enabled;
+        console.log(`Cache ${Cache.enabled ? "enabled" : "disabled"}`);
+    }),
+    new Command("memory", () => {
+        const memoryUsage = process.memoryUsage();
 
-const server = new ServerManager({ componentRequests: true });
-deployPages(server);
+        console.log("Memory Usage:");
+        console.log(`RSS: ${(memoryUsage.rss / 1024 / 1024).toFixed(2)} MB`); // Resident Set Size
+        console.log(`Heap Total: ${(memoryUsage.heapTotal / 1024 / 1024).toFixed(2)} MB`);
+        console.log(`Heap Used: ${(memoryUsage.heapUsed / 1024 / 1024).toFixed(2)} MB`);
+        console.log(`External: ${(memoryUsage.external / 1024 / 1024).toFixed(2)} MB`);
+        console.log(`Array Buffers: ${(memoryUsage.arrayBuffers / 1024 / 1024).toFixed(2)} MB`);
+    }),
+    new Command("close", () => {
+        console.log("Closing server..."); 
+        process.exit(0);
+    }),
+]
 
-require("./terminal.js")(server);
+const cli = new Command.Collection();
+for (const command of commands) cli.add(command);
 
-server.listen(config.server.port, config.server.port);
-server.on("listening", () => {
-    console.log(`Server listening at: http://${config.server.hostname}:${config.server.port}/`);
-});
+cli.listen();

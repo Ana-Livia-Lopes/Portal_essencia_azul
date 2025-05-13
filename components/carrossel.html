@@ -1,0 +1,171 @@
+<div style="position: relative;">
+    <div class="galeriaPainel" id="galeriaPainel">
+    
+    </div>
+</div>
+<script>
+    const imagens = [
+        '/img/galeria1.png',
+        '/img/galeria2.png',
+        '/img/galeria3.png',
+        '/img/galeria4.png',
+        '/img/galeria5.png',
+    ];
+
+    class Carrossel {
+        constructor(container, imagens = [], timerInterval) {
+            if (!(imagens instanceof Array)) throw new Error('As imagens devem ser um array');
+            if (!(container instanceof HTMLElement)) throw new Error('O container deve ser um elemento HTML');
+
+            for (const imagem of imagens) {
+                if (typeof imagem === "string") {
+                    const imagemElemento = document.createElement("img");
+                    imagemElemento.src = imagem;
+                    imagemElemento.classList.add("fotoQuadro");
+                    this.imagens.push(imagemElemento);
+                }
+            }
+            this.container = container;
+            this.container.carrossel = true;
+
+            if (this.imagens.length < 3) throw new Error('O carrossel deve ter pelo menos 3 imagens');
+
+            if (timerInterval) {
+                if (!Number.isSafeInteger(timerInterval)) throw new Error('O intervalo deve ser um número inteiro seguro');
+                if (timerInterval < 1000) throw new Error('O intervalo deve ser maior que 1000ms');
+                let bindedNext = this._next.bind(this, false);
+                setInterval(() => {
+                    if (this.userChanged) {
+                        this.userChanged = false;
+                        return;
+                    }
+                    bindedNext();
+                }, timerInterval);
+            }
+
+            this.imagens[0].classList.add("atualFoto");
+            this.imagens[1].classList.add("proximaFoto");
+            this.imagens[this.imagens.length - 1].classList.add("anteriorFoto");
+
+            this.container.appendChild(this.imagens[this.imagens.length - 1]);
+            this.container.appendChild(this.imagens[0]);
+            this.container.appendChild(this.imagens[1]);
+
+            let nextButton = document.createElement("div");
+            let nextButtonIcon = document.createElement("i");
+            nextButton.append(nextButtonIcon);
+            nextButtonIcon.classList.add("seta", "fa-solid", "fa-chevron-right");
+            nextButtonIcon.addEventListener("click", this.next);
+            let backButton = document.createElement("div");
+            let backButtonIcon = document.createElement("i");
+            backButton.append(backButtonIcon);
+            backButtonIcon.classList.add("seta", "fa-solid", "fa-chevron-left");
+            backButtonIcon.addEventListener("click", this.back);
+            this.container.insertAdjacentElement("beforebegin", backButton);
+            this.container.insertAdjacentElement("afterend", nextButton);
+        }
+
+        imagens = [];
+        container;
+        index = 0;
+        userChanged = false;
+
+        _next(userChanged = false) {
+            const proximaIndex = (this.index + 1) % this.imagens.length;
+            const anteriorIndex = (this.index - 1 + this.imagens.length) % this.imagens.length;
+
+            const atual = this.imagens[this.index];
+            const proxima = this.imagens[proximaIndex];
+            const anterior = this.imagens[anteriorIndex];
+
+            this.index = (this.index + 1) % this.imagens.length;
+            
+            const novaAtual = proxima;
+            const novaProxima = this.imagens[(proximaIndex + 1) % this.imagens.length];
+            const novaAnterior = atual;
+
+            atual.classList.add("fade-out");
+            proxima.classList.add("fade-out");
+            anterior.classList.add("fade-out");
+            novaAtual.classList.add("fade-in");
+            novaProxima.classList.add("fade-in");
+            novaAnterior.classList.add("fade-in");
+
+            setTimeout(() => {
+                atual.classList.remove("fade-out", "atualFoto", "fade-in");
+                proxima.classList.remove("fade-out", "proximaFoto", "fade-in");
+                anterior.classList.remove("fade-out", "anteriorFoto", "fade-in");
+
+                novaAtual.classList.add("atualFoto");
+                novaProxima.classList.add("proximaFoto");
+                novaAnterior.classList.add("anteriorFoto");
+                novaAtual.classList.remove("fade-in");
+                novaProxima.classList.remove("fade-in");
+                novaAnterior.classList.remove("fade-in");
+
+                this.container.removeChild(anterior);
+                this.container.removeChild(atual);
+                this.container.removeChild(proxima);
+
+                this.container.appendChild(novaAnterior);
+                this.container.appendChild(novaAtual);
+                this.container.appendChild(novaProxima);
+            }, 200);
+
+            this.userChanged = Boolean(userChanged);
+        }
+
+        _back(userChanged = false) {
+            const proximaIndex = (this.index + 1) % this.imagens.length;
+            const anteriorIndex = (this.index - 1 + this.imagens.length) % this.imagens.length;
+
+            const atual = this.imagens[this.index];
+            const proxima = this.imagens[proximaIndex];
+            const anterior = this.imagens[anteriorIndex];
+
+            this.index = (this.index - 1 + this.imagens.length) % this.imagens.length;
+            
+            const novaAtual = anterior;
+            const novaProxima = atual;
+            const novaAnterior = this.imagens[(anteriorIndex - 1 + this.imagens.length) % this.imagens.length];
+
+            atual.classList.add("fade-out");
+            proxima.classList.add("fade-out");
+            anterior.classList.add("fade-out");
+            novaAtual.classList.add("fade-in");
+            novaProxima.classList.add("fade-in");
+            novaAnterior.classList.add("fade-in");
+
+            setTimeout(() => {
+                atual.classList.remove("fade-out", "atualFoto", "fade-in");
+                proxima.classList.remove("fade-out", "proximaFoto", "fade-in");
+                anterior.classList.remove("fade-out", "anteriorFoto", "fade-in");
+
+                novaAtual.classList.add("atualFoto");
+                novaProxima.classList.add("proximaFoto");
+                novaAnterior.classList.add("anteriorFoto");
+                novaAtual.classList.remove("fade-in");
+                novaProxima.classList.remove("fade-in");
+                novaAnterior.classList.remove("fade-in");
+
+                this.container.removeChild(anterior);
+                this.container.removeChild(atual);
+                this.container.removeChild(proxima);
+
+                this.container.appendChild(novaAnterior);
+                this.container.appendChild(novaAtual);
+                this.container.appendChild(novaProxima);
+            }, 200);
+
+            this.userChanged = Boolean(userChanged);
+        }
+
+        next = this._next.bind(this, true);
+        back = this._back.bind(this, true);
+    }
+
+    for (const carrosselContainer of document.querySelectorAll(".galeriaPainel")) {
+        if (carrosselContainer.carrossel) continue;
+        const carrossel = new Carrossel(carrosselContainer, imagens, 4000);
+    }
+</script>

@@ -161,7 +161,7 @@ body {
   font-size: 40px;
 }
 
-#galeriaPainel {
+#galeriaPainel, .galeriaPainel {
   position: relative;
   width: 80%;
   max-width: 1000px;
@@ -170,14 +170,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 150px; 
+  padding: 0; 
 }
 .seta{
   position: absolute;
-  top: 250px;
+  /* top: 250px; */
+  top: 40%;
   z-index: 9;
   font-size: 25px;
-  background-color: hsla(0, 0%, 38%, 0.752);
   width: 25px;
   height: 25px;
   padding: 10px;
@@ -191,9 +191,22 @@ body {
 }
 .fa-chevron-right{
   right: 28.5%;
+  background-color: hsla(0, 0%, 38%, 0.752);
 }
 .fa-chevron-left{
   left: 28.5%;
+  background-color: hsla(0, 0%, 38%, 0.752);
+}
+.fa-xmark{
+  right: 30.15%;
+  top: 13%;
+  color: rgb(255, 255, 255);
+  font-size: 39px;
+  text-shadow: 0 0 4px #000000;
+  padding: 10px;
+  padding-bottom: 20px;
+  padding-right: 15px;
+  margin: 0;
 }
 .fotoQuadro {
   position: absolute;
@@ -225,13 +238,72 @@ body {
   opacity: 0.5;
   cursor: pointer;
 }
-#centroImg {
+#centroImg, .atualFoto {
   left: 50%;
   transform: translateX(-50%) scale(1);
   z-index: 2;
   opacity: 1;
 }
 
+.botaoAdd {
+    background-color: #2c3e50;;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 60px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Montserrat';
+}
+
+.botaoAdd:hover {
+    background-color: #3b536a;
+}
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.modal-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 8px;
+}
+
+.modal-input,
+.modal-textarea,
+.modal-file {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.modal-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.modal-file {
+    padding: 6px;
+    background-color: #f9f9f9;
+    border: 1px dashed #ccc;
+}
+
+.custom-popup {
+    border-radius: 10px;
+    padding: 25px;
+
+}
 /* fim secão 2 */
 /* secão 3 */
 
@@ -973,7 +1045,7 @@ body {
     height: 200px;
     width: 300px;
   }
-  #galeriaPainel {
+  #galeriaPainel .galeriaPainel{
     width: 80%;
     max-width: 1000px;
     height: 200px;
@@ -986,8 +1058,20 @@ body {
   .proximaFoto {
     display: none;
   }
-  .seta{
+  .fa-chevron-right{
     display: none;
     opacity: 0;
-  }
+}
+.fa-chevron-left{
+    display: none;
+    opacity: 0;
+}
+  #galeriaPainel, .galeriaPainel {
+  height: 200px;
+}
+.fa-xmark{
+  right: 11%;
+  top: 14%;
+  font-size: 30px;
+}
 }

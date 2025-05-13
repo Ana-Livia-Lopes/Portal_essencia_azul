@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/guilherme-paiva2007/essencia_azul#readme",
   "dependencies": {
-    "@types/node": "^22.13.10",
-    "@types/ws": "^8.18.0",
+    "@types/node": "^22.14.1",
+    "chalk": "^4.1.2",
     "chokidar": "^4.0.3",
-    "firebase": "^11.6.0",
-    "mysql": "^2.18.1",
-    "ws": "^8.18.1"
+    "firebase": "^11.7.1",
+    "formidable": "^3.5.4",
+    "mysql": "^2.18.1"
   }
 }

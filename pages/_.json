@@ -1,0 +1,28 @@
+{
+    "page": {
+        "paths": [],
+        "includesFileName": true,
+        "events": {
+            "eventName": [ "eventCallbackName" ]
+        },
+        "contentType": "(vazio = padrão do arquivo)"
+    },
+    "screen.html": {
+        "paths": [ "/", "/index", "/main", "/home" ]
+    },
+    "executable.js": {
+        "contentType": "text/plain"
+    },
+    "index.html": {
+        "paths": [ "/", "/index", "/main", "/home" ]
+    },
+    "actions/login.js": {
+        "contentType": "application/json"
+    },
+    "actions/logout.js": {
+        "contentType": "application/json"
+    },
+    "actions/register.js": {
+        "contentType": "application/json"
+    }
+}
