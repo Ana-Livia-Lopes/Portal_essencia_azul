@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Essência Azul</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
         rel="stylesheet">
@@ -13,7 +14,8 @@
 
 <body>
     <component-header />
-    <component-acessibilidade />
+        <component-acessibilidade />
+
 
     <section id="secao1">
 
@@ -39,13 +41,14 @@
     <section id="secao2">
         <div id="setaEsquerda"><i class="seta fa-solid fa-chevron-left"></i></div>
         <div id="setaDireita"><i class="seta fa-solid fa-chevron-right"></i></div>
+        <div id="x"><i class="seta fa-solid fa-xmark"></i></div>
         <h2 class="conteudo-site">Galeria de fotos</h2>
         <div id="galeriaPainel">
             <img id="esquerdaImg" class="fotoQuadro anteriorFoto" />
             <img id="centroImg" class="fotoQuadro" />
             <img id="direitaImg" class="fotoQuadro proximaFoto" />
         </div>
-
+        <button onclick="addImagem()" class="botaoAdd">Adicionar Imagem</button>
     </section>
 
     <!-- cards -->
@@ -109,7 +112,7 @@
         <div class="texto">
             <div class="linha"></div>
             <p id="entenda" class="conteudo-site">Entenda sobre os documentos de identificação</p>
-            <a href="/pages/documentos" class="botao conteudo-site">Clique aqui</a>
+            <a href="/documentos" class="botao conteudo-site">Clique aqui</a>
         </div>
         <div class="imagem">
             <img src="/img/sobreDocumentoss.jpg">
@@ -149,7 +152,7 @@
             <div class="ajuda"></div>
             <h2 id="tituloAjuda" class="conteudo-site">Precisa de ajuda?</h2>
             <p id="textoAjuda" class="conteudo-site">Responda ao formulário e faça parte dessa causa!</p>
-            <a href="#" class="botao2 conteudo-site">Faça parte</a>
+            <a href="/formulario" class="botao2 conteudo-site">Faça parte</a>
         </div>
         <img id="menino" src="/img/menino.png">
     </section>
@@ -278,6 +281,42 @@
     }, 3000);
 
     atualizarGaleria();
+
+
+
+    function addImagem() {
+            Swal.fire({
+                title: 'Adicionar imagem',
+                html: `
+        <div class="modal-container">
+            <label for="arquivoInput" class="modal-label">Imagem</label>
+            <input type="file" id="arquivoInput" class="modal-file">
+        </div>
+    `,
+                confirmButtonText: 'Salvar',
+                cancelButtonText: 'Cancelar',
+                showCancelButton: true,
+                focusConfirm: false,
+                customClass: {
+                    popup: 'custom-popup'
+                },
+                preConfirm: () => {
+                    const arquivo = document.getElementById('arquivoInput').files[0];
+
+                    if (!arquivo) {
+                        Swal.showValidationMessage('Preencha todos os campos!');
+                        return false;
+                    }
+
+                    return { arquivo };
+                }
+            }).then(result => {
+                if (result.isConfirmed) {
+                    Swal.fire('Salvo!', 'Imagem adicionada', 'success');
+                }
+            });
+        }
+    </script>
 </script>
 
 </html>
