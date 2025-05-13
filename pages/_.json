@@ -16,9 +16,13 @@
     "index.html": {
         "paths": [ "/", "/index", "/main", "/home" ]
     },
-    "dev.html": {
-        "events": {
-            "before": [ "print" ]
-        }
+    "actions/login.js": {
+        "contentType": "application/json"
+    },
+    "actions/logout.js": {
+        "contentType": "application/json"
+    },
+    "actions/register.js": {
+        "contentType": "application/json"
     }
 }

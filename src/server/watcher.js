@@ -130,7 +130,8 @@ class WatcherHandler extends Map { // filepath => element
                 
                 let config;
                 if (fs.existsSync(configFile)) {
-                    config = require(configFile)[path.relative(dir, file)];
+                    const configFileContent = require(configFile);
+                    config = configFileContent[path.relative(dir, file).replaceAll("\\", "/")];
                 }
 
                 let paths = [];

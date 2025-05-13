@@ -20,7 +20,7 @@ declare interface RequiredPageLoadParameters {
     request: IncomingMessage
     response: ServerResponse
     content: PageContent
-    session: Session
+    session?: Session
     page: Page
 }
 
@@ -29,8 +29,9 @@ declare interface ErrorPageLoadParameters extends RequiredPageLoadParameters {
 }
 
 declare class Body {
-    type: "application/json" | "application/x-www-form-urlencoded" // | "multipart/form-data"
-    content: URLSearchParams //| any
+    type: "application/json" | "application/x-www-form-urlencoded" | "multipart/form-data"
+    fields: object
+    files: object
 }
 
 declare interface PageLoadParameters extends RequiredPageLoadParameters {

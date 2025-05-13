@@ -33,6 +33,7 @@ declare namespace Operations {
     export function isLogged(session: Session): boolean
     export function logout(session: Session): boolean
     export function validateKey(key: string): Promise<string>
+    export function register(session: Session, email: string, password: string, name: string, level: string): Promise<Login>
 
     export function create<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
