@@ -82,9 +82,11 @@ Session.Collection = class SessionCollection extends Map {
 };
 
 SessionConstructor.Collection = Session.Collection;
+Session.Constructor = SessionConstructor;
 
 protect(Session);
 protect(Session.Collection);
 protect(SessionConstructor);
+protect(Session.Constructor);
 
 module.exports = Session;

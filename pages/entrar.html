@@ -13,9 +13,11 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="/js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body>
+<body style="height: 100vh !important;">
     <component-acessibilidade/>
     <div class='box-entrar'>
         <div id='logo-topo'>
@@ -25,18 +27,18 @@
         <div id='campos'>
             <h1 class="conteudo-site">Entrar como administrador</h1>
             <p id="info-login-responsivo" class="conteudo-site">Formulário de login para administradores</p>
-            <form action="">
+            <form action="" id="form-login">
                 <div>
                     <label for="campo1" class="conteudo-site">E-mail</label>
-                    <input id="campo1" type="email" class="conteudo-site">
+                    <input id="campo1" type="email" class="conteudo-site" name="email">
                 </div>
 
                 <div>
                     <label for="campo2" class="conteudo-site">Senha</label>
-                    <input id="campo2" type="password" class="conteudo-site">
+                    <input id="campo2" type="password" class="conteudo-site" name="senha">
                 </div>
 
-                <a href="/gerenciamento" id="link-button"><button type="button" class="conteudo-site">Entrar</button></a>
+                <a id="link-button"><button type="submit" class="conteudo-site">Entrar</button></a>
             </form>
             <a href="" id='esq-senha'>
                 <p class="conteudo-site">Esqueceu sua senha?</p>
@@ -47,6 +49,31 @@
         </div>
     </div>
 </body>
+
+<script>
+    const form = document.getElementById("form-login");
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        login(form.email.value, form.senha.value).then(result => {
+            if (result.status === "okay") {
+                Swal.fire({
+                    icon: "success",
+                    title: "Sessão iniciada com sucesso",
+                }).then(() => {
+                    window.location.href = "/gerenciamento";
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Erro ao entrar",
+                    text: result.message,
+                });
+            }
+        })
+    });
+</script>
 
 <script>
     const inputs = document.getElementsByTagName("input");

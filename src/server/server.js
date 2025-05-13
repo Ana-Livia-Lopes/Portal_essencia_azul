@@ -38,7 +38,8 @@ class Server extends http.Server {
                     request,
                     response,
                     content: new Page.Content(),
-                    session: Session(this.sessions, request, response),
+                    // session: Session(this.sessions, request, response),
+                    session: this.getSession(request),
                     page,
                 };
 
@@ -143,6 +144,33 @@ class Server extends http.Server {
         const watcher = new Watcher(dir, handlers);
         this.watchers.add(watcher);
         return watcher;
+    }
+
+    getSession(request) {
+        const cookies = Cookie.parse(request.headers.cookie);
+        if (this.sessions.has(cookies[this.sessions.cookieName])) {
+            return this.sessions.get(cookies[this.sessions.cookieName]);
+        }
+        return null;
+    }
+
+    startSession(parameters) {
+        const cookies = Cookie.parse(parameters.request.headers.cookie);
+        if (this.sessions.has(cookies[this.sessions.cookieName])) {
+            return this.sessions.get(cookies[this.sessions.cookieName]);
+        }
+        const session = new Session(this.sessions, parameters.request, parameters.response);
+        parameters.session = session;
+        return session;
+    }
+
+    destroySession(session, response) {
+        if (session instanceof Session.Constructor) {
+            this.sessions.delete(session.id);
+            response.setHeader("Set-Cookie", `${this.sessions.cookieName}=; Max-Age=0; Path=/`);
+        } else {
+            throw new TypeError(`Session must be an instance of Session`);
+        }
     }
 
     static {

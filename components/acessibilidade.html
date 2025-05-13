@@ -13,7 +13,7 @@
             <div id="acess" onclick="mostrarBotoes()">
                 <i class="fa-solid fa-eye"></i>
             </div>
-            
+
             <div class="botoes-fonte-acessibilidade" id="botoesFonte">
                 <button onclick="alterarFonte('a')">+</button>
                 <button id="padrao-acessibilidade" onclick="alterarFonte('n')">Padrão</button>
@@ -54,25 +54,25 @@
 
     function alterarFonte(acao) {
         var elementos = document.querySelectorAll('.conteudo-site');
+        var tamanhoMinimo = 18;
+        var tamanhoMaximo = 28;
+
         elementos.forEach(function (elemento, index) {
             var tamanhoAtual = parseFloat(window.getComputedStyle(elemento, null).getPropertyValue('font-size'));
+            var novoTamanho = tamanhoAtual;
 
-            if (acao === 'a') {
-                elemento.style.fontSize = (tamanhoAtual + 1) + "px";
-            } else if (acao === 'd') {
-                elemento.style.fontSize = (tamanhoAtual - 1) + "px";
+            if (acao === 'a' && tamanhoAtual < tamanhoMaximo) {
+                novoTamanho = tamanhoAtual + 1;
+            } else if (acao === 'd' && tamanhoAtual > tamanhoMinimo) {
+                novoTamanho = tamanhoAtual - 1;
             } else if (acao === 'n') {
-                elemento.style.fontSize = tamanhosOriginais[index] + "px";
+                novoTamanho = tamanhosOriginais[index];
             }
+
+            elemento.style.fontSize = novoTamanho + "px";
         });
     }
 
-    window.addEventListener('load', () => {
-        const vlibrasButton = document.querySelector('[vw-access-button]');
-        if (vlibrasButton) {
-            vlibrasButton.style.right = '255px';
-        }
-    });
 
 
 </script>
@@ -87,7 +87,7 @@
         position: fixed;
     }
 
-    #botao-e-olho{
+    #botao-e-olho {
         display: flex;
         flex-direction: row-reverse;
         z-index: 999;
@@ -101,20 +101,20 @@
         flex-direction: column;
         width: 15vw;
     }
-    
+
     [vw] {
         transform: translate(0%, 0%) !important;
         position: static !important;
     }
-    
+
     [vw] [vw-access-button] {
         right: 0 !important;
         transform: translate(0%, 0%) !important;
     }
-    
-    
+
+
     #acess {
-        margin: 40px 10px 0 0 ;
+        margin: 50px 10px 0 0;
         box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
         background-color: #3084ee;
         width: 40px;
@@ -151,7 +151,7 @@
         background-color: #3084ee;
         color: white;
         border-radius: 5px;
-        margin: 45.5px 5px 10px 0;
+        margin: 55px 5px 10px 0;
     }
 
     #padrao-acessibilidade {

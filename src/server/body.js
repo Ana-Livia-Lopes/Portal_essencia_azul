@@ -49,7 +49,7 @@ class Body {
                         if (contentType.includes("application/json")) {
                             body.fields = JSON.parse(bodyString);
                         } else if (contentType.includes("application/x-www-form-urlencoded")) {
-                            body.fields = new URLSearchParams(bodyString);
+                            body.fields = Object.fromEntries(new URLSearchParams(bodyString).entries());
                         } else {
                             body.fields = bodyString;
                         }
