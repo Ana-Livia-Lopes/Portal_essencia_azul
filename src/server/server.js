@@ -14,6 +14,8 @@ const emptyPagePlaceholder = new Page._Placeholder();
 
 const loadComponentPage = new Page._Placeholder();
 
+const bodyAllowedMethods = ["POST", "PUT", "PATCH", "DELETE"];
+
 class Server extends http.Server {
     constructor(options) {
         super(options ?? {}, async (request, response) => {
@@ -50,7 +52,7 @@ class Server extends http.Server {
                         case "rest":
                             
                             parameters.query = Cookie.parse(parsedUrl.query?.replaceAll("&", ";") ?? "");
-                            parameters.body =  request.method === "POST" ? await Body.get(request, response) : null;
+                            parameters.body =  bodyAllowedMethods.includes(request.method) ? await Body.get(request, response) : null;
                             parameters.page = page;
                             parameters.params = urlparams;
                             parameters.localhooks = {};
