@@ -89,17 +89,6 @@
 
     </div>
 
-    <script type="module">
-        import ComponentSwitch from "/js/component_switch.js";
-
-        new ComponentSwitch(document.getElementById("option-switch"), { ignoreCache: true })
-            .setChangeButton(document.getElementById("option-switch-voluntarios"), "gerenciamento-voluntarios")
-            .setChangeButton(document.getElementById("option-switch-administradores"), "gerenciamento-administradores")
-            .setChangeButton(document.getElementById("option-switch-familias"), "gerenciamento-familias")
-            // .setChangeButton(document.getElementById("option-switch-relatorios"), "gerenciamento-relatorios")
-            .setChangeButton(document.getElementById("option-switch-acolhidos"), "gerenciamento-acolhidos")
-
-    </script>
 
     <!-- Gráficos -->
     <script>
@@ -172,7 +161,7 @@
                 }
             }
         });
-    </script>
+        </script>
 
     <script>
         const dados = [
@@ -181,7 +170,7 @@
             { id: 3, sim: 60 },
             { id: 4, sim: 30 },
         ];
-
+        
         dados.forEach((item) => {
             document.getElementById(`num${item.id}`).textContent = `${item.sim} de 100 acolhidos`;
             document.getElementById(`bar${item.id}`).style.width = `${item.sim}%`;
@@ -219,120 +208,120 @@
                 <div class="opcao-lista conteudo-site"> Acolhido 16</div>
             </div>
         </div>
-
+        
         <div class="form-container">
             <div class="form-cabecalho">
                 <img class="user-foto" src="/img/user-default.png" alt="Foto do acolhido">
                 <h2 class="conteudo-site">Lucas</h2>
             </div>
-
+            
             <form>
                 <div class="form-grid">
                     <div class="label-input conteudo-site"><label>Nome:</label><input type="text"></div>
                     <div class="label-input conteudo-site"><label>Áreas de Interesse:</label><input type="text"></div>
-
+                    
                     <div class="label-input conteudo-site"><label>Telefone:</label><input type="text"></div>
                     <div class="label-input conteudo-site"><label>Hiperfoco:</label><input type="text"></div>
-
+                    
                     <div class="label-input conteudo-site"><label>E-mail:</label><input type="email"></div>
                     <div class="label-input conteudo-site"><label>Como o autista se acalma?</label><input type="text">
                     </div>
-
+                    
                     <div class="label-input conteudo-site"><label>Idade:</label><input type="text"></div>
                     <div class="label-input conteudo-site"><label>Atividades que o autista NÃO gosta:</label><input
+                        type="text"></div>
+                        
+                        <div class="label-input conteudo-site"><label>Família:</label><input type="text"></div>
+                        <div class="label-input conteudo-site"><label>Restrições Alimentares:</label><input type="text">
+                        </div>
+                        
+                        <div class="label-input conteudo-site">
+                            <label class="conteudo-site">Nível de suporte:</label>
+                            <select id="nivel-suporte">
+                                <option value="" class="conteudo-site">Selecione...</option>
+                                <option value="1" class="conteudo-site">Nível 1</option>
+                                <option value="2" class="conteudo-site">Nível 2</option>
+                                <option value="3" class="conteudo-site">Nível 3</option>
+                            </select>
+                        </div>
+                        <div class="label-input conteudo-site"><label>Comida favorita:</label><input type="text"></div>
+                        
+                        <div class="label-input conteudo-site"><label>Escola:</label><input type="text"></div>
+                        <div class="label-input conteudo-site"><label>Convênio ou SUS: Qual convênio?</label><input
                             type="text"></div>
-
-                    <div class="label-input conteudo-site"><label>Família:</label><input type="text"></div>
-                    <div class="label-input conteudo-site"><label>Restrições Alimentares:</label><input type="text">
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site">Nível de suporte:</label>
-                        <select id="nivel-suporte">
-                            <option value="" class="conteudo-site">Selecione...</option>
-                            <option value="1" class="conteudo-site">Nível 1</option>
-                            <option value="2" class="conteudo-site">Nível 2</option>
-                            <option value="3" class="conteudo-site">Nível 3</option>
-                        </select>
-                    </div>
-                    <div class="label-input conteudo-site"><label>Comida favorita:</label><input type="text"></div>
-
-                    <div class="label-input conteudo-site"><label>Escola:</label><input type="text"></div>
-                    <div class="label-input conteudo-site"><label>Convênio ou SUS: Qual convênio?</label><input
-                            type="text"></div>
-
-                    <div class="label-input conteudo-site"><label>Nome dos responsáveis:</label><input type="text">
-                    </div>
-                    <div class="label-input conteudo-site"><label>Faz terapia?</label><input type="text"></div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site">Suporte na escola:</label>
-                        <div class="radio">
-                            <input class="conteudo-site" type="radio" id="escola-suporte-sim" name="escola-suporte"
-                                value="Sim">
-                            <label for="escola-suporte-sim" class="conteudo-site">Sim</label>
-
-                            <input class="conteudo-site" type="radio" id="escola-suporte-nao" name="escola-suporte"
-                                value="Não">
-                            <label for="escola-suporte-nao" class="conteudo-site">Não</label>
+                            
+                            <div class="label-input conteudo-site"><label>Nome dos responsáveis:</label><input type="text">
+                            </div>
+                            <div class="label-input conteudo-site"><label>Faz terapia?</label><input type="text"></div>
+                            
+                            <div class="label-input conteudo-site">
+                                <label class="conteudo-site">Suporte na escola:</label>
+                                <div class="radio">
+                                    <input class="conteudo-site" type="radio" id="escola-suporte-sim" name="escola-suporte"
+                                    value="Sim">
+                                    <label for="escola-suporte-sim" class="conteudo-site">Sim</label>
+                                    
+                                    <input class="conteudo-site" type="radio" id="escola-suporte-nao" name="escola-suporte"
+                                    value="Não">
+                                    <label for="escola-suporte-nao" class="conteudo-site">Não</label>
+                                </div>
+                            </div>
+                            <div class="label-input conteudo-site">
+                                <label class="conteudo-site">Qual terapia precisa e não faz?</label>
+                                <input type="text" class="conteudo-site">
+                            </div>
+                            
+                            <div class="label-input conteudo-site">
+                                <label class="conteudo-site">CIPTEA:</label>
+                                <div class="radio">
+                                    <input class="conteudo-site" type="radio" id="ciptea-sim" name="ciptea" value="Sim">
+                                    <label for="ciptea-sim" class="conteudo-site">Sim</label>
+                                    
+                                    <input class="conteudo-site" type="radio" id="ciptea-nao" name="ciptea" value="Não">
+                                    <label for="ciptea-nao" class="conteudo-site">Não</label>
+                                </div>
+                            </div>
+                            <div class="label-input conteudo-site">
+                                <label class="conteudo-site">Observações:</label>
+                                <textarea class="conteudo-site"></textarea>
+                            </div>
+                            
+                            <div class="label-input conteudo-site">
+                                <label class="conteudo-site">Cordão de Identificação:</label>
+                                <div class="radio">
+                                    <input class="conteudo-site" type="radio" id="cordao-sim" name="cordao" value="Sim">
+                                    <label class="conteudo-site" for="cordao-sim">Sim</label>
+                                    
+                                    <input class="conteudo-site" type="radio" id="cordao-nao" name="cordao" value="Não">
+                                    <label class="conteudo-site" for="cordao-nao">Não</label>
+                                </div>
+                            </div>
+                            
+                            <div class="label-input conteudo-site">
+                                <label class="conteudo-site">Cartão Defis:</label>
+                                <div class="radio">
+                                    <input class="conteudo-site" type="radio" id="defis-sim" name="defis" value="Sim">
+                                    <label class="conteudo-site" for="defis-sim">Sim</label>
+                                    
+                                    <input class="conteudo-site" type="radio" id="defis-nao" name="defis" value="Não">
+                                    <label class="conteudo-site" for="defis-nao">Não</label>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site">Qual terapia precisa e não faz?</label>
-                        <input type="text" class="conteudo-site">
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site">CIPTEA:</label>
-                        <div class="radio">
-                            <input class="conteudo-site" type="radio" id="ciptea-sim" name="ciptea" value="Sim">
-                            <label for="ciptea-sim" class="conteudo-site">Sim</label>
-
-                            <input class="conteudo-site" type="radio" id="ciptea-nao" name="ciptea" value="Não">
-                            <label for="ciptea-nao" class="conteudo-site">Não</label>
+                        
+                        <div class="form-buttons">
+                            <button type="button" class="edit-btn conteudo-site">Editar</button>
+                            <button type="button" class="delete-btn conteudo-site">Excluir</button>
                         </div>
-                    </div>
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site">Observações:</label>
-                        <textarea class="conteudo-site"></textarea>
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site">Cordão de Identificação:</label>
-                        <div class="radio">
-                            <input class="conteudo-site" type="radio" id="cordao-sim" name="cordao" value="Sim">
-                            <label class="conteudo-site" for="cordao-sim">Sim</label>
-
-                            <input class="conteudo-site" type="radio" id="cordao-nao" name="cordao" value="Não">
-                            <label class="conteudo-site" for="cordao-nao">Não</label>
+                        
+                        <div class="upload-section">
+                            <label class="conteudo-site">Adicionar documento:</label>
+                            <input type="file" class="conteudo-site">
+                            <button type="submit" class="submit-btn conteudo-site">Enviar</button>
                         </div>
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site">Cartão Defis:</label>
-                        <div class="radio">
-                            <input class="conteudo-site" type="radio" id="defis-sim" name="defis" value="Sim">
-                            <label class="conteudo-site" for="defis-sim">Sim</label>
-
-                            <input class="conteudo-site" type="radio" id="defis-nao" name="defis" value="Não">
-                            <label class="conteudo-site" for="defis-nao">Não</label>
-                        </div>
-                    </div>
+                    </form>
                 </div>
-
-                <div class="form-buttons">
-                    <button type="button" class="edit-btn conteudo-site">Editar</button>
-                    <button type="button" class="delete-btn conteudo-site">Excluir</button>
-                </div>
-
-                <div class="upload-section">
-                    <label class="conteudo-site">Adicionar documento:</label>
-                    <input type="file" class="conteudo-site">
-                    <button type="submit" class="submit-btn conteudo-site">Enviar</button>
-                </div>
-            </form>
-        </div>
-    </section> -->
+            </section> -->
 
     <!-- <section class="section-admin" id="secao2">
         <div class="lista-info-usuario">
@@ -343,31 +332,31 @@
                 <div class="opcao-lista conteudo-site"> Sol</div>
             </div>
         </div>
-
+        
         <div class="form-container">
             <div class="form-cabecalho">
                 <img class="user-foto" src="/img/user-default.png" alt="Foto do admin">
                 <h2 class="conteudo-site">Simone</h2>
             </div>
-
+            
             <form>
                 <div class="form-grid">
                     <div class="label-input conteudo-site">
                         <label>Nome:</label>
                         <input type="text">
                     </div>
-
+                    
                     <div class="label-input conteudo-site">
                         <label>Senha:</label>
                         <input type="text">
                     </div>
-
+                    
                     <div class="label-input conteudo-site">
                         <label>E-mail:</label>
                         <input type="email">
                     </div>
                 </div>
-
+                
                 <div class="form-buttons">
                     <button type="button" class="edit-btn conteudo-site">Editar</button>
                     <button type="button" class="delete-btn conteudo-site">Excluir</button>
@@ -387,12 +376,12 @@
                 <div class="opcao-lista conteudo-site">Família 5</div>
             </div>
         </div>
-
+        
         <div class="form-container">
             <div class="form-cabecalho">
                 <h2 class="conteudo-site">Família SmartWeb</h2>
             </div>
-
+            
             <h3 class="subtitulo-familias conteudo-site">Acolhidos da família:</h3>
             <div class="users-familia">
                 <div class="acolhido-card">
@@ -412,7 +401,7 @@
                     <p class="conteudo-site">Acolhido 4</p>
                 </div>
             </div>
-
+            
             <h3 class="subtitulo-familias conteudo-site">Residentes (outros):</h3>
             <div class="residente-linha">
                 <div class="residente-info">
@@ -452,17 +441,17 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="div-btn-adicionar">
                 <button class="btn-adicionar conteudo-site">Adicionar residente</button>
             </div>
-
+            
             <h3 class="mais-informacoes conteudo-site">Mais informações:</h3>
             <div class="label-input2 conteudo-site">
                 <label>Endereço:</label>
                 <input type="text" />
             </div>
-
+            
             <div class="mais-infomracoes-desc">
                 <p class="conteudo-site">Não acolhidos: <strong>2</strong></p>
                 <p class="conteudo-site">Residentes em investigação: <strong>1</strong></p>
@@ -482,45 +471,45 @@
                 <div class="opcao-lista conteudo-site"> Voluntário 5</div>
             </div>
         </div>
-
+        
         <div class="form-container">
             <div class="form-cabecalho">
                 <h2 class="conteudo-site">Voluntário</h2>
             </div>
-
+            
             <form>
                 <div class="form-grid">
                     <div class="label-input conteudo-site">
                         <label>Nome completo:</label>
                         <input type="text">
                     </div>
-
+                    
                     <div class="label-input conteudo-site">
                         <label>CPF:</label>
                         <input type="text">
                     </div>
-
+                    
                     <div class="label-input conteudo-site">
                         <label>E-mail:</label>
                         <input type="email">
                     </div>
-
+                    
                     <div class="label-input conteudo-site">
                         <label>Telefone:</label>
                         <input type="email">
                     </div>
-
+                    
                     <div class="label-input conteudo-site">
                         <label>Como quer ajudar:</label>
                         <input type="email">
                     </div>
-
+                    
                     <div class="label-input conteudo-site">
                         <label>Outro tipo de ajuda:</label>
                         <input type="email">
                     </div>
                 </div>
-
+                
                 <div class="form-buttons">
                     <button type="button" class="edit-btn conteudo-site">Aceitar</button>
                     <button type="button" class="delete-btn conteudo-site">Recusar</button>
@@ -537,33 +526,33 @@
         function scrollParaElemento(id) {
             var delayMilisegundos = 50;
             setTimeout(function() {
-
+                
                 const alvo = document.getElementById(id);
                 if (!alvo) return;
-    
+                
                 const distancia = alvo.getBoundingClientRect().top + window.scrollY;
                 const duracao = 800;
                 const inicio = window.scrollY;
                 const comeco = performance.now();
-    
+                
                 function animarScroll(agora) {
                     const tempoPassado = agora - comeco;
                     const progresso = Math.min(tempoPassado / duracao, 1);
                     const ease = 0.5 - Math.cos(progresso * Math.PI) / 2;
     
                     window.scrollTo(0, inicio + (distancia - inicio) * ease);
-    
+                    
                     if (progresso < 1) {
                         requestAnimationFrame(animarScroll);
                     }
                 }
-    
+                
                 requestAnimationFrame(animarScroll);
             }, delayMilisegundos);
         }
-
+        
         const scrollToTopButton = document.getElementById('scrollToTopButton');
-
+        
         function smoothScrollToTop() {
             const scrollStep = -window.scrollY / 40;
             const scrollInterval = setInterval(() => {
@@ -574,12 +563,12 @@
                 }
             }, 15);
         }
-
+        
         scrollToTopButton.addEventListener('click', (event) => {
             event.preventDefault();
             smoothScrollToTop();
         });
-
+        
         window.addEventListener('scroll', () => {
             if (window.scrollY > 100) {
                 scrollToTopButton.classList.add('show');
@@ -587,12 +576,24 @@
                 scrollToTopButton.classList.remove('show');
             }
         });
-
+        
         function irParaRelatorios() {
             window.location.href = "relatorios ";
         }
 
     </script>
+    
+        <script type="module">
+            import ComponentSwitch from "/js/component_switch.js";
+    
+            new ComponentSwitch(document.getElementById("option-switch"), { ignoreCache: true })
+                .setChangeButton(document.getElementById("option-switch-voluntarios"), "gerenciamento-voluntarios")
+                .setChangeButton(document.getElementById("option-switch-administradores"), "gerenciamento-administradores")
+                .setChangeButton(document.getElementById("option-switch-familias"), "gerenciamento-familias")
+                // .setChangeButton(document.getElementById("option-switch-relatorios"), "gerenciamento-relatorios")
+                .setChangeButton(document.getElementById("option-switch-acolhidos"), "gerenciamento-acolhidos")
+    
+        </script>
 </body>
 
 </html>
