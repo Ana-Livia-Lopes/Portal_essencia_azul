@@ -16,6 +16,11 @@
     "index.html": {
         "paths": [ "/", "/index", "/main", "/home" ]
     },
+    "dev.html": {
+        "events": {
+            "before": [ "forceError" ]
+        }
+    },
     "actions/login.js": {
         "contentType": "application/json"
     },

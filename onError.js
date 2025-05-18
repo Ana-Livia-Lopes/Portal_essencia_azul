@@ -1,9 +1,15 @@
+const path = require( "path" );
+const { Page } = require( "./src/server" );
 const { timestamp } = require("./src/util/index");
 
+const errorScreen = new Page.Screen("/", path.join(__dirname, "./onError.html"), { contentType: "text/html" });
+
 /**
- * @param {import("./src/server").Page.ErrorPageLoadParameters} param0 
+ * @param {import("./src/server").Page.ErrorPageLoadParameters} parameters 
  */
-module.exports = function({ error, content }) {
+module.exports = async function onError(parameters) {
+    let { error, content } = parameters;
+
     content.clear();
     switch (content.contentType) {
         case "application/json":
@@ -13,8 +19,10 @@ module.exports = function({ error, content }) {
                 timestamp: timestamp()
             }));
             break;
+        case "text/html":
         default:
-            content.append(`${error?.name ?? "Error"} (${error?.code ?? 500}): ${error?.message}`);
+            await errorScreen.load(parameters);
+            // content.append(`${error?.name ?? "Error"} (${error?.code ?? 500}): ${error?.message}`);
             break;
     }
     console.log(error);

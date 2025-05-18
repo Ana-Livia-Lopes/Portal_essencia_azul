@@ -28,6 +28,10 @@ class CodedError extends Error{
         if(response)response.statusCode=this.code;
         if(!message)this.message=DEFAULT_CODE_MESSAGES[this.code]||"Unknown Error";
     }
+
+    toString() {
+        return `${this.name} (${this.code}): ${this.message}`;
+    }
 }
 
 function createCodedError(name,defaultCode){
@@ -39,8 +43,8 @@ function createCodedError(name,defaultCode){
 
 module.exports = {
     ClientError:createCodedError("Client",400),
-    AuthenthicationError:createCodedError("Authenthication",401),
-    PermisionError:createCodedError("Permision",403),
+    AuthenticationError:createCodedError("Authentication",401),
+    PermissionError:createCodedError("Permission",403),
     NotFoundError:createCodedError("NotFound",404),
     MethodError:createCodedError("Method",405),
     ServerError:createCodedError("Server",500),

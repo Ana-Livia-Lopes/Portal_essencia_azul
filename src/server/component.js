@@ -2,7 +2,7 @@ const { protect } = require( "../util/" );
 const Cache = new (require("./cache.js"))();
 const fs = require("fs");
 
-const isValidName = RegExp.prototype.test.bind(/\w+/);
+const isValidName = RegExp.prototype.test.bind(/[\w\-]+/);
 
 class Component {
     constructor(name, file) {
@@ -91,9 +91,9 @@ class Component {
     }
 }
 
-const AttributeRegExp = /(\w+)(?:=(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/
+const AttributeRegExp = /([\w\-]+)(?:=(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/
 const EmptyPlaceholderComponentCollection = new Component.Collection();
-const ComponentRegExp = /<component-(\w+)([^<>]*)\/>/s;
+const ComponentRegExp = /<component-([\w\-]+)([^<>]*)\/>/s;
 
 /**
  * Mapeia procurando por componentes e gera um array com as partes do documento.

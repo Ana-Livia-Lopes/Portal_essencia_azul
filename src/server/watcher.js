@@ -150,8 +150,6 @@ class WatcherHandler extends Map { // filepath => element
                     }
                 } else { paths.push(pagePath) }
 
-                // obter eventos + contentType.
-                
                 const page = new this._pageTypeConstructor(paths, file, pageConfigs);
                 super.set(file, page, PrivateMethodSymbol);
 
@@ -222,7 +220,8 @@ class WatcherHandler extends Map { // filepath => element
             if (pathParsed.name.startsWith("_") && this.files.ignorePrivates) return;
 
             if (this.files.extensions.includes(pathParsed.ext) || this.files.extensions === "*") {
-                const componentName = (this.names.prefix + pathParsed.name);
+                const pathPrefixes = pathParsed.dir.slice(1).split("\\").join("-");
+                const componentName = (this.names.prefix + pathPrefixes + (pathPrefixes ? "-" : "") + pathParsed.name);
 
                 const component = new this._componentTypeConstructor(componentName, file);
                 super.set(file, component, PrivateMethodSymbol);

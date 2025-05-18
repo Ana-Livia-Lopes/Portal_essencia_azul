@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Erro <__CODE/> - Portal Essência Azul</title>
+        <title>Erro <component-error-code /> - Portal Essência Azul</title>
         <link rel="stylesheet" href="/css/erro.css">
         <link rel="stylesheet" href="/css/style.css">
     </head>
@@ -13,11 +13,11 @@
             <section>
                 <div id="main-div-1">
                     <div style="display: flex; align-items: end; gap: 8px;">
-                        <img src="<__ICONSRC/>" id="error-icon" class="icon">
-                        <p><b>Código do Erro: <__CODE/></b></p>
+                        <img src="<component-error-icon />" id="error-icon" class="icon">
+                        <p><b>Código do Erro: <component-error-code /></b></p>
                     </div>
-                    <h1 style="text-align: start;">Ops... Houve um erro<__TITLESUF/>.</h1>
-                    <p style="text-align: start;"><__DESCR/></p>
+                    <h1 style="text-align: start;">Ops... Houve um erro <component-error-title />.</h1>
+                    <p style="text-align: start;"><component-error-desc /></p>
                     <br>
                     <p style="text-align: start;"><b>Para saber mais sobre:</b></p>
                     <ul id="errors-ul">
@@ -31,7 +31,7 @@
                 <br>
                 <div>
                     <p style="margin-bottom: 6px; text-align: start;">Resposta do servidor:</p>
-                    <pre><__SERVER_RESP/></pre>
+                    <pre><component-error-server-resp /></pre>
                 </div>
             </section>
             <section id="session-more">
@@ -53,7 +53,6 @@
                 </ul>
             </section>
         </main>
-        <component-footer />
     </body>
     <style>
         #outer

@@ -6,5 +6,8 @@
             "eventName": [ "eventCallbackName" ]
         },
         "contentType": "(vazio = padrão do arquivo)"
+    },
+    "img/logo.png": {
+        "paths": [ "/favicon.ico" ]
     }
 }
