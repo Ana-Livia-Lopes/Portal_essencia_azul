@@ -86,103 +86,27 @@
             <img class="imgEvento" id="imgEvento" src="/img/evento1.png" alt="">
         </div>
     </section>
-
+    
     <section id="secao2">
-        <button onclick="editarEventos()" class="conteudo-site botao-editar">Adicionar eventos</button>
-
+        <button onclick="AddEventos()" class="conteudo-site botao-editar">Adicionar eventos</button>
+        
         <img src="/img/linha.png" id="quebraCabeca">
         <h2 class="h2 conteudo-site">Eventos anteriores</h2>
-
-        <div id="setaEsquerda"><i class="seta fa-solid fa-chevron-left"></i></div>
-        <div id="setaDireita"><i class="seta fa-solid fa-chevron-right"></i></div>
-        <div id="x"><i class="seta fa-solid fa-xmark"></i></div>
-        <div id="galeriaPainel">
-            <img id="esquerdaImg" class="fotoQuadro anteriorFoto" />
-            <img id="centroImg" class="fotoQuadro" />
-            <img id="direitaImg" class="fotoQuadro proximaFoto" />
-        </div>
+        
+        <component-carrossel/>
+        
         <button onclick="addImagem()" class="botaoAdd">Adicionar Imagem</button>
     </section>
 
     <component-footer/>
 
     <script>
-         const imagens = [
-        '/img/galeria1.png',
-        '/img/galeria2.png',
-        '/img/galeria3.png',
-        '/img/galeria4.png',
-        '/img/galeria5.png',
-    ];
-
-    let indiceAtual = 1;
-
-    const esquerdaImg = document.getElementById('esquerdaImg');
-    const centroImg = document.getElementById('centroImg');
-    const direitaImg = document.getElementById('direitaImg');
-    const setaEsquerda = document.getElementById('setaEsquerda');
-    const setaDireita = document.getElementById('setaDireita');
-
-    function atualizarGaleria() {
-        esquerdaImg.classList.add('fade-out');
-        centroImg.classList.add('fade-out');
-        direitaImg.classList.add('fade-out');
-
-        setTimeout(() => {
-            const anterior = (indiceAtual - 1 + imagens.length) % imagens.length;
-            const proxima = (indiceAtual + 1) % imagens.length;
-
-            esquerdaImg.src = imagens[anterior];
-            centroImg.src = imagens[indiceAtual];
-            direitaImg.src = imagens[proxima];
-
-            esquerdaImg.classList.remove('fade-out');
-            centroImg.classList.remove('fade-out');
-            direitaImg.classList.remove('fade-out');
-        }, 200);
-    }
-
-    let clicou = false;
-
-    esquerdaImg.addEventListener('click', () => {
-        indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
-        atualizarGaleria();
-        clicou = true;
-    });
-
-    direitaImg.addEventListener('click', () => {
-        indiceAtual = (indiceAtual + 1) % imagens.length;
-        atualizarGaleria();
-        clicou = true;
-    });
-
-    setaEsquerda.addEventListener('click', () => {
-        indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
-        atualizarGaleria();
-        clicou = true;
-    });
-
-    setaDireita.addEventListener('click', () => {
-        indiceAtual = (indiceAtual + 1) % imagens.length;
-        atualizarGaleria();
-        clicou = true;
-    });
-
-    setInterval(() => {
-        indiceAtual = (indiceAtual + 1) % imagens.length;
-        if (!clicou) atualizarGaleria();
-        clicou = false
-    }, 3000);
-
-    atualizarGaleria();
-
- 
 
 
 
-        function editarEventos() {
+        function AddEventos() {
             Swal.fire({
-                title: 'Editar evento',
+                title: 'Adcionar evento',
                 html: `
         <div class="modal-container">
             <label for="dataEvento" class="modal-label">Data do evento</label>
