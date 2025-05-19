@@ -90,13 +90,22 @@ body {
 
 /* fim secao1 */
 /* secao 2 */
-
-#quebraCabeca {
-    margin: 100px auto;
-    width: 100%;
-}
-#galeriaPainel,
-.galeriaPainel {
+#secao2 {
+    margin: 0;
+    padding-bottom: 40px;
+    text-align: center;
+    position: relative;
+  }
+  
+  #secao2 h2 {
+    color: #2c3e50;
+    margin-bottom: 30px;
+    margin-top: 90px;
+    font-size: 40px;
+  }
+  
+  #galeriaPainel,
+  .galeriaPainel {
     position: relative;
     width: 80%;
     max-width: 1000px;
@@ -106,12 +115,12 @@ body {
     align-items: center;
     justify-content: center;
     padding: 0;
-}
-
-.seta {
+  }
+  
+  .seta {
     position: absolute;
     /* top: 250px; */
-    top: 170%;
+    top: 45%;
     z-index: 9;
     font-size: 25px;
     width: 25px;
@@ -121,25 +130,25 @@ body {
     color: white;
     cursor: pointer;
     transition: 0.3s all;
-}
-
-.seta:hover {
-    transform: scale(1.1);
-}
-
-.fa-chevron-right {
-    right: 28.5%;
-    background-color: hsla(0, 0%, 38%, 0.752);
-}
-
-.fa-chevron-left {
-    left: 28.5%;
-    background-color: hsla(0, 0%, 38%, 0.752);
-}
-
-.fa-xmark {
-    right: 30.15%;
-    top: 146%;
+  }
+  
+  
+  .fa-chevron-right {
+      right: 18.5%;
+      background-color: hsla(0, 0%, 38%, 0.752);
+    }
+    
+    .fa-chevron-left {
+        left: 18.5%;
+        background-color: hsla(0, 0%, 38%, 0.752);
+    }
+    
+    .seta:hover {
+      transform: scale(1.1);
+    }
+  .fa-xmark {
+    right: 20.15%;
+    top: 0%;
     color: rgb(255, 255, 255);
     font-size: 39px;
     text-shadow: 0 0 4px #000000;
@@ -147,9 +156,9 @@ body {
     padding-bottom: 20px;
     padding-right: 15px;
     margin: 0;
-}
-
-.fotoQuadro {
+  }
+  
+  .fotoQuadro {
     position: absolute;
     height: 400px;
     width: 600px;
@@ -157,44 +166,43 @@ body {
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     transition: all 0.5s ease;
-}
-
-
-.fotoQuadro.fade-out {
+  }
+  
+  
+  .fotoQuadro.fade-out {
     opacity: 0;
-}
-
-.anteriorFoto {
+  }
+  
+  .anteriorFoto {
     left: 90%;
     transform: translateX(-170%) scale(0.85);
     z-index: 1;
     opacity: 0.5;
     cursor: pointer;
-}
-
-.proximaFoto {
+  }
+  
+  .proximaFoto {
     left: 10%;
     transform: translateX(70%) scale(0.85);
     z-index: 1;
     opacity: 0.5;
     cursor: pointer;
-}
-
-#centroImg,
-.atualFoto {
+  }
+  
+  #centroImg,
+  .atualFoto {
     left: 50%;
     transform: translateX(-50%) scale(1);
     z-index: 2;
     opacity: 1;
-}
-
-.botaoAdd {
+  }
+  
+  .botaoAdd {
     background-color: #2c3e50;
     ;
     color: white;
     padding: 10px 20px;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: 60px;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -203,11 +211,12 @@ body {
     margin-left: auto;
     margin-right: auto;
     font-family: 'Montserrat';
-}
-
-.botaoAdd:hover {
+  }
+  
+  .botaoAdd:hover {
     background-color: #3b536a;
-}
+  }
+  
 
 /* fim secao 2 */
 .botao-editar {
@@ -342,6 +351,7 @@ body {
     #galeriaPainel,
     .galeriaPainel {
         height: 200px;
+        position: relative;
     }
 
     .fa-chevron-right {
@@ -356,8 +366,11 @@ body {
     }
 
     .fa-xmark {
-        right: 11%;
-        top: 14%;
+        right: 3%;
+        top: 0%;
         font-size: 30px;
-    }
+      }
+      #secao2 h2 {
+        margin-top: 20px;
+      }
 }

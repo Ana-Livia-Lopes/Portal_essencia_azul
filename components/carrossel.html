@@ -1,7 +1,7 @@
 <component-json-imagens />
 <div style="position: relative;">
     <div class="galeriaPainel" id="galeriaPainel">
-    
+        <div id="x"><i class="seta fa-solid fa-xmark"></i></div>
     </div>
 </div>
 <script>
@@ -62,8 +62,13 @@
             backButton.append(backButtonIcon);
             backButtonIcon.classList.add("seta", "fa-solid", "fa-chevron-left");
             backButtonIcon.addEventListener("click", this.back);
-            this.container.insertAdjacentElement("beforebegin", backButton);
-            this.container.insertAdjacentElement("afterend", nextButton);
+            this.container.appendChild(backButton);
+            this.container.appendChild(nextButton);
+            let closeButton = document.createElement("div");
+            closeButton.append(closeButtonIcon);
+            let closeButtonIcon = document.createElement("i");
+            closeButtonIcon.classList.add("seta", "fa-solid", "fa-xmark");
+
         }
 
         imagens = [];

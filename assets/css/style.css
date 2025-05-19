@@ -161,7 +161,8 @@ body {
   font-size: 40px;
 }
 
-#galeriaPainel, .galeriaPainel {
+#galeriaPainel,
+.galeriaPainel {
   position: relative;
   width: 80%;
   max-width: 1000px;
@@ -170,12 +171,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0; 
+  padding: 0;
 }
-.seta{
+
+.seta {
   position: absolute;
-  /* top: 250px; */
-  top: 40%;
+  top: 45%;
   z-index: 9;
   font-size: 25px;
   width: 25px;
@@ -186,20 +187,24 @@ body {
   cursor: pointer;
   transition: 0.3s all;
 }
-.seta:hover{
+
+.seta:hover {
   transform: scale(1.1);
 }
-.fa-chevron-right{
-  right: 28.5%;
+
+.fa-chevron-right {
+  right: 18.5%;
   background-color: hsla(0, 0%, 38%, 0.752);
 }
-.fa-chevron-left{
-  left: 28.5%;
+
+.fa-chevron-left {
+  left: 18.5%;
   background-color: hsla(0, 0%, 38%, 0.752);
 }
-.fa-xmark{
-  right: 30.15%;
-  top: 13%;
+
+.fa-xmark {
+  right: 20.15%;
+  top: 0%;
   color: rgb(255, 255, 255);
   font-size: 39px;
   text-shadow: 0 0 4px #000000;
@@ -208,6 +213,7 @@ body {
   padding-right: 15px;
   margin: 0;
 }
+
 .fotoQuadro {
   position: absolute;
   height: 400px;
@@ -238,7 +244,9 @@ body {
   opacity: 0.5;
   cursor: pointer;
 }
-#centroImg, .atualFoto {
+
+#centroImg,
+.atualFoto {
   left: 50%;
   transform: translateX(-50%) scale(1);
   z-index: 2;
@@ -246,64 +254,67 @@ body {
 }
 
 .botaoAdd {
-    background-color: #2c3e50;;
-    color: white;
-    padding: 10px 20px;
-    margin-top: 60px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    font-family: 'Montserrat';
+  background-color: #2c3e50;
+  ;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 60px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Montserrat';
 }
 
 .botaoAdd:hover {
-    background-color: #3b536a;
+  background-color: #3b536a;
 }
+
 .modal-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
 }
 
 .modal-label {
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-    margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-top: 8px;
 }
 
 .modal-input,
 .modal-textarea,
 .modal-file {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
 }
 
 .modal-textarea {
-    resize: vertical;
-    min-height: 80px;
+  resize: vertical;
+  min-height: 80px;
 }
 
 .modal-file {
-    padding: 6px;
-    background-color: #f9f9f9;
-    border: 1px dashed #ccc;
+  padding: 6px;
+  background-color: #f9f9f9;
+  border: 1px dashed #ccc;
 }
 
 .custom-popup {
-    border-radius: 10px;
-    padding: 25px;
+  border-radius: 10px;
+  padding: 25px;
 
 }
+
 /* fim secão 2 */
 /* secão 3 */
 
@@ -661,9 +672,9 @@ body {
   position: absolute;
 
   top: 50%;
-  
+
   left: 58%;
-  
+
   transform: translate(-50%, -50%);
 }
 
@@ -754,8 +765,8 @@ body {
   margin-top: 80px;
 }
 
-.apoiador:hover{
-  transform: scale(1.08);  
+.apoiador:hover {
+  transform: scale(1.08);
 }
 
 .apoiador {
@@ -769,7 +780,8 @@ body {
   transition: 0.5s all;
   cursor: pointer;
 }
-.apoiador:hover{
+
+.apoiador:hover {
   transform: scale(1.04);
 }
 
@@ -976,7 +988,7 @@ body {
   }
 
   .texto2 {
-    position: relative; 
+    position: relative;
     margin-right: 15%;
     width: 100%;
   }
@@ -1041,37 +1053,45 @@ body {
     top: 66px;
     height: 2px;
   }
+
   .fotoQuadro {
     height: 200px;
     width: 300px;
   }
-  #galeriaPainel .galeriaPainel{
+
+  #galeriaPainel .galeriaPainel {
     width: 80%;
     max-width: 1000px;
     height: 200px;
-    padding: 0 0px; 
+    padding: 0 0px;
   }
+
   .anteriorFoto {
     display: none;
   }
-  
+
   .proximaFoto {
     display: none;
   }
-  .fa-chevron-right{
+
+  .fa-chevron-right {
     display: none;
     opacity: 0;
-}
-.fa-chevron-left{
+  }
+
+  .fa-chevron-left {
     display: none;
     opacity: 0;
-}
-  #galeriaPainel, .galeriaPainel {
-  height: 200px;
-}
-.fa-xmark{
-  right: 11%;
-  top: 14%;
-  font-size: 30px;
-}
+  }
+
+  #galeriaPainel,
+  .galeriaPainel {
+    height: 200px;
+  }
+
+  .fa-xmark {
+    right: 3%;
+    top: 0%;
+    font-size: 30px;
+  }
 }
