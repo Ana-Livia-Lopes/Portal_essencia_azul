@@ -214,11 +214,21 @@
                 title: 'Adicionar imagem',
                 html: `
         <div class="modal-container">
-            <label for="arquivoInput" class="modal-label">Imagem</label>
-            <input type="file" id="arquivoInput" class="modal-file">
+            <form id="upload-image-form">
+                <label for="tituloInput" class="modal-label">Título</label>
+                <input type="text" name="titulo" id="tituloInput" class="modal-input"/>
+                <label for="descricaoInput" class="modal-label">Descrição (opcional)</label>
+                <input type="text" name="descricao" id="descricaoInput" class="modal-input"/>
+                <label for="arquivoInput" class="modal-label">Imagem</label>
+                <input type="file" name="blob" id="arquivoInput" class="modal-file"/>
+            </form>
         </div>
     `,
+                didOpen() {
+                    document.getElementById("tituloInput").focus();
+                },
                 confirmButtonText: 'Salvar',
+                
                 cancelButtonText: 'Cancelar',
                 showCancelButton: true,
                 focusConfirm: false,
@@ -226,18 +236,49 @@
                     popup: 'custom-popup'
                 },
                 preConfirm: () => {
-                    const arquivo = document.getElementById('arquivoInput').files[0];
+                    const titulo = document.getElementById("tituloInput");
+                    const descricao = document.getElementById("descricaoInput");
+                    const arquivo = document.getElementById("arquivoInput");
 
-                    if (!arquivo) {
-                        Swal.showValidationMessage('Preencha todos os campos!');
+                    const fd = new FormData();
+                    if (!titulo.value.trim()) {
+                        Swal.showValidationMessage("Insira um título.");
+                        return false;
+                    }
+                    if (!arquivo.files[0]) {
+                        Swal.showValidationMessage("Selecione uma imagem.");
                         return false;
                     }
 
-                    return { arquivo };
+                    fd.append("blob", arquivo.files[0]);
+                    fd.append("titulo", titulo.value.trim());
+                    if (descricao.value.trim()) fd.append("descricao", descricao.value.trim());
+
+                    return fd;
                 }
             }).then(result => {
                 if (result.isConfirmed) {
-                    Swal.fire('Salvo!', 'Imagem adicionada', 'success');
+                    const formData = result.value;
+                    fetch("/api/imagens", {
+                        method: "POST",
+                        body: formData
+                    }).then(result => result.json()).then(json => {
+                        if (result.status && result.status === "error") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Erro",
+                                text: json.message,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Sucesso",
+                                text: "Imagem adicionada com sucesso!",
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        }
+                    })
                 }
             });
         }

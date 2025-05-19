@@ -213,29 +213,29 @@ declare namespace DataTypes {
 
     export class Apoiador extends DatabaseDocument<BaseDataTypes.Apoiador> {
         references: {
-            get_logo(): Promise<Blob>
+            get_logo(): Promise<string>
         }
     }
     export class Voluntario extends DatabaseDocument<BaseDataTypes.Voluntario> {}
 
     export class Imagem extends DatabaseDocument<BaseDataTypes.Imagem> {
         references: {
-            get_conteudo(): Promise<Blob>
+            get_conteudo(): Promise<string>
         }
     }
     export class Documento extends DatabaseDocument<BaseDataTypes.Documento> {
         references: {
-            get_arquivo(): Promise<Blob>
+            get_arquivo(): Promise<string>
         }
     }
     export class Evento extends DatabaseDocument<BaseDataTypes.Evento> {
         references: {
-            get_imagem(): Promise<Blob>
+            get_imagem(): Promise<string>
         }
     }
     export class Produto extends DatabaseDocument<BaseDataTypes.Produto> {
         references: {
-            get_imagem(): Promise<Blob>
+            get_imagem(): Promise<string>
         }
     }
 

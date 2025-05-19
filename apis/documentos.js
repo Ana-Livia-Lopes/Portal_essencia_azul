@@ -23,8 +23,8 @@ module.exports = {
         if (!body.files.blob || !body.fields.nome) throw new ClientError(response, "Parâmetros insuficientes");
         const blob = await getFormidableBlob(body.files.blob);
         return await create(session.get("login"), Documento, {
-            nome: body.fields.nome,
-            descricao: body.fields.descricao,
+            nome: body.fields.nome[0],
+            descricao: body.fields.descricao[0],
             blob
         });
     },
@@ -34,7 +34,10 @@ module.exports = {
     },
     async patch({ body, session, params }) {
         if (!params.id) throw new ClientError(response, "ID não informado");
-        return await update(session.get("login"), Documento, params.id, body.fields, {
+        const patchFields = {}
+        if (body.fields.nome) patchFields.nome = body.fields.nome[0];
+        if (body.fields.descricao) patchFields.descricao = body.fields.descricao[0];
+        return await update(session.get("login"), Documento, params.id, patchFields, {
             editType: "update"
         });
     },

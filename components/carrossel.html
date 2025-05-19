@@ -14,14 +14,15 @@
     ];
 
     class Carrossel {
-        constructor(container, imagens = [], timerInterval) {
+        constructor(container, imagens, timerInterval) {
             if (!(imagens instanceof Array)) throw new Error('As imagens devem ser um array');
             if (!(container instanceof HTMLElement)) throw new Error('O container deve ser um elemento HTML');
 
             for (const imagem of imagens) {
-                if (typeof imagem === "string") {
+                if (typeof imagem === "object") {
                     const imagemElemento = document.createElement("img");
-                    imagemElemento.src = imagem;
+                    imagemElemento.src = imagem.url;
+                    imagemElemento.id = imagem.id;
                     imagemElemento.classList.add("fotoQuadro");
                     this.imagens.push(imagemElemento);
                 }
@@ -65,10 +66,13 @@
             this.container.appendChild(backButton);
             this.container.appendChild(nextButton);
             let closeButton = document.createElement("div");
-            closeButton.append(closeButtonIcon);
             let closeButtonIcon = document.createElement("i");
+            closeButton.append(closeButtonIcon);
             closeButtonIcon.classList.add("seta", "fa-solid", "fa-xmark");
-
+            closeButton.addEventListener("click", () => {
+                removerImagem(imagens[this.index].id);
+            });
+            this.container.appendChild(closeButton);
         }
 
         imagens = [];
@@ -172,6 +176,29 @@
 
     for (const carrosselContainer of document.querySelectorAll(".galeriaPainel")) {
         if (carrosselContainer.carrossel) continue;
-        const carrossel = new Carrossel(carrosselContainer, imagens, 4000);
+        const carrossel = new Carrossel(carrosselContainer, window.IMAGENS ?? imagens, 4000);
+    }
+
+    function removerImagemRequest(id) {
+        fetch("/api/imagens/" + id, { method: "DELETE" }).then(window.location.reload.bind(window.location));
+    }
+
+    function removerImagem(id) {
+        if (Swal) {
+            Swal.fire({
+                title: "Deseja realmente apagar esta imagem?",
+                text: "Esta ação não pode ser desfeita.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim, apagar!",
+                cancelButtonText: "Não, cancelar!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    removerImagemRequest(id);
+                }
+            });
+        } else {
+            if (confirm("Deseja realmente apagar esta imagem?")) removerImagemRequest(id);
+        }
     }
 </script>
