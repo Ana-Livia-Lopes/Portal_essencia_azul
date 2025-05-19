@@ -12,6 +12,7 @@ class Body {
     type;
     files;
     fields;
+    error;
 
     static async get(request, response) {
         const body = new Body(privateConstructorSymbol);
@@ -23,20 +24,24 @@ class Body {
 
         if (contentType.includes("multipart/form-data")) {
 
-            const form = new formidable.IncomingForm();
-            form.parse(request, (err, fields, files) => {
-                if (err) {
-                    throw ClientError(response, err?.message);
-                } else {
-                    body.fields = fields;
-                    body.files = files;
-                }
+            await new Promise(async (resolve) => {
+                const form = new formidable.IncomingForm();
+                form.parse(request, (err, fields, files) => {
+                    if (err) {
+                        body.error = err;
+                    } else {
+                        body.fields = fields;
+                        body.files = files;
+                    }
+                    resolve();
+                });
+                
+                await new Promise((resolve, reject) => {
+                    form.on("end", resolve);
+                    form.on("error", reject);
+                });
             });
 
-            await new Promise((resolve, reject) => {
-                form.on("end", resolve);
-                form.on("error", reject);
-            });
             
         } else if (contentType.includes("application/x-www-form-urlencoded") || contentType.includes("application/json")) {
 

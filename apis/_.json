@@ -7,7 +7,76 @@
         },
         "contentType": "(vazio = padrão do arquivo)"
     },
-    "pages.js": {
-        "paths": [ "/pages/[path]" ]
+    "acolhidos.js": {
+        "paths": [ "/acolhidos/[id]" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "familias.js": {
+        "paths": [ "/familias/[id]" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "imagens.js": {
+        "paths": [ "/imagens/[id]", "/imagens/[id]/url" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "documentos.js": {
+        "paths": [ "/documentos/[id]", "/documentos/[id]/url" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "produtos.js": {
+        "paths": [ "/produtos/[id]", "/produtos/[id]/url" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "eventos.js": {
+        "paths": [ "/eventos/[id]", "/eventos/[id]/url" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "voluntarios.js": {
+        "paths": [ "/voluntarios/[id]" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "apoiadores.js": {
+        "paths": [ "/apoiadores/[id]", "/apoiadores/[id]/url" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "solicitacoes/acolhidos.js": {
+        "paths": [ "/solicitacoes/acolhidos/[id]" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "solicitacoes/voluntarios.js": {
+        "paths": [ "/solicitacoes/voluntarios/[id]" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "admins.js": {
+        "paths": [ "/admins/[id]" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "alteracoes.js": {
+        "paths": [ "/alteracoes/[id]" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
     }
 }

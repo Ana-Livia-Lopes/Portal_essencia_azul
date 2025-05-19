@@ -1,10 +1,10 @@
-const mysql = require("mysql");
-const { Session, NotFoundError, PermissionError } = require("./server/")
+const { Session, NotFoundError, PermissionError, ServiceError, ImplementationError } = require("./server/")
 const { Property } = require("./util");
 const { db } = require("../firebase.js");
 const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc, setDoc, deleteDoc } = require("firebase/firestore");
 const crypto = require("crypto");
 const { ClientError } = require("./server/errors.js");
+const supabase = require( "../supabase.js" );
 
 var EssenciaAzul = ( function() {
     const BaseDataTypes = {}
@@ -37,7 +37,7 @@ var EssenciaAzul = ( function() {
     }
     BaseDataTypes.Apoiador = class Apoiador {
         nome;
-        id_logo;
+        url_logo;
         link;
     }
     BaseDataTypes.Voluntario = class Voluntario {
@@ -51,25 +51,25 @@ var EssenciaAzul = ( function() {
     BaseDataTypes.Documento = class Documento {
         nome;
         descricao;
-        id_arquivo;
+        url_arquivo;
     }
     BaseDataTypes.Imagem = class Imagem {
         titulo;
         descricao;
         grupos;
-        id_conteudo;
+        url_conteudo;
     }
     BaseDataTypes.Evento = class Evento {
         titulo;
         descricao;
         data;
-        id_imagem;
+        url_imagem;
     }
     BaseDataTypes.Produto = class Produto {
         nome;
         descricao;
         preco;
-        id_imagem;
+        url_imagem;
         opcoes;
     }
     const Solicitacao = class Solicitacao {
@@ -115,6 +115,23 @@ var EssenciaAzul = ( function() {
         return Object.create(_PrivateHiddenData);
     }
 
+    async function saveInStorage(bucket, collection, blob, response) {
+        if (!(blob instanceof Blob)) throw new ClientError(response, "Blob não é do tipo Blob");
+        const path = `${collection}/${crypto.randomBytes(8).toString("hex")}`;
+        const { error } = await supabase.storage.from(bucket).upload(path, blob, { contentType: blob.contentType });
+        if (error) throw ServiceError(response, error.message);
+        return path;
+    }
+
+    async function readInStorage(bucket, url, response) {
+        return supabase.storage.from(bucket).getPublicUrl(url).data.publicUrl;
+    }
+
+    async function removeInStorage(bucket, url, response) {
+        const { error } = await supabase.storage.from(bucket).remove([ url ]);
+        if (error) throw ServiceError(response, error.message);
+    }
+
     class DatabaseInfo {
         constructor(key) {
             if (key !== privateDBConstructorKey) throw new Error("Construtor privado");
@@ -131,18 +148,41 @@ var EssenciaAzul = ( function() {
 
     const privateDocTypes = new WeakMap();
 
-    const availableDatabases = [ "firestore", "mysql" ];
-
     const instanceRealFields = new WeakMap();
     const createdByKey = new WeakMap();
 
     const emitEventSymbol = Symbol("Type.EventEmitterKey");
 
+    class PublicDocs extends Map {
+        constructor(collection, type) {
+            super();
+            this.collection = collection;
+            this.type = type;
+            this.init();
+        }
+
+        collection;
+        type;
+        _init = false;
+
+        async init() {
+            if (this._init) return;
+            this._init = true;
+            const collRef = collection(db, this.collection);
+            const docs = (await getDocs(collRef));
+            for (const doc of docs.docs) {
+                const fields = mapForTimestampToDate({ ...doc.data() });
+                delete fields.id;
+                this.set(doc.id, new this.type(Symbol.for("PublicTypesRead"), doc.id, fields, privateDBConstructorKey));
+            }
+        }
+    }
+
     function createDatabaseDocumentType(basetype, collection, {
         references = {},
         methods = {},
         privateFields = [],
-        database = "firestore",
+        bucket,
         /** callbacks ({ action, fields, key, type }) => fields */
         fieldsFilters = [],
         actionsMinKeyLevel = {
@@ -151,9 +191,10 @@ var EssenciaAzul = ( function() {
             ["update"]: 1,
             ["remove"]: 1
         },
-        events = {} // [action]: function | function[]
+        events = {}, // [action]: function | function[]
+        allowOverSet = true,
+        public = false
     } = {}) {
-        if (!availableDatabases.includes(database)) throw new Error("Banco de dados não suportado");
         let doctype;
 
         privateFields = Object.freeze([...privateFields]);
@@ -191,7 +232,7 @@ var EssenciaAzul = ( function() {
                 }
 
                 for (const [ key, descriptor ] of referencesEntriesDescriptors) {
-                    if (descriptor.get) Property.assign(this.references, key, "get", descriptor.get.bind(this));
+                    if (typeof descriptor.value === "function") Property.assign(this.references, key, "value", descriptor.value.bind(this));
                 }
                 Object.seal(this);
             }
@@ -209,14 +250,22 @@ var EssenciaAzul = ( function() {
 
         doctype._basetype = basetype;
         doctype.collection = collection;
-        doctype._dbtype = database;
         doctype._eventEmitter = emitEvent;
         doctype._callFieldsFilter = callFieldsFilters;
+        if (bucket) {
+            doctype._bucket = bucket;
+            Property.set(doctype, "_bucket", "freeze", "hide", "lock");
+        }
+        doctype._allowOverSet = allowOverSet;
+        if (public) {
+            doctype._public = new PublicDocs(collection, doctype);
+            Property.set(doctype, "_public", "freeze", "hide", "lock");
+        }
         Property.set(doctype, "_basetype", "freeze", "hide", "lock");
         Property.set(doctype, "collection", "freeze", "hide", "lock");
-        Property.set(doctype, "_dbtype", "freeze", "hide", "lock");
         Property.set(doctype, "_eventEmitter", "freeze", "hide", "lock");
         Property.set(doctype, "_callFieldsFilter", "freeze", "hide", "lock");
+        Property.set(doctype, "_allowOverSet", "freeze", "hide", "lock");
 
         doctype.prototype.collection = collection;
         Property.set(doctype.prototype, "collection", "freeze", "hide", "lock");
@@ -240,8 +289,8 @@ var EssenciaAzul = ( function() {
 
     Types.Acolhido = createDatabaseDocumentType(BaseDataTypes.Acolhido, "acolhidos", {
         references: {
-            get familia() { },
-            get documentos() { }
+            async get_familia() { },
+            async get_documentos() { }
         },
         privateFields: [ "ref_familia", "ref_documentos" ],
         events: {
@@ -255,7 +304,7 @@ var EssenciaAzul = ( function() {
 
     Types.Familia = createDatabaseDocumentType(BaseDataTypes.Familia, "familias", {
         references: {
-            get acolhidos() { return createdByKey.get(this) },
+            async get_acolhidos() { return createdByKey.get(this) },
         },
         methods: {
             count() {
@@ -266,56 +315,148 @@ var EssenciaAzul = ( function() {
 
     Types.Apoiador = createDatabaseDocumentType(BaseDataTypes.Apoiador, "apoiadores", {
         references: {
-            get logo() {  }
+            async get_logo() { return await readInStorage(Apoiador._bucket, instanceRealFields.get(this).url_logo) }
         },
-        privateFields: [ "id_logo" ]
+        fieldsFilters: [
+            async ({ fields, type, action } = {}) => {
+                switch (action) {
+                    case "create":
+                        delete fields.url_logo;
+                        if (!fields.blob) throw new ClientError(undefined, "Missing upload blob property.");
+                        fields.url_logo = await saveInStorage(type._bucket, type.collection, fields.blob);
+                        delete fields.blob;
+                        return fields;
+                    case "update":
+                        delete fields.url_logo;
+                        return fields;
+                    case "remove":
+                        await removeInStorage(type._bucket, fields.url_logo);
+                        return fields;
+                    default:
+                        return fields;
+                }
+            }
+        ],
+        privateFields: [ "url_logo" ],
+        bucket: "public-images",
+        allowOverSet: false
     });
     Types.Voluntario = createDatabaseDocumentType(BaseDataTypes.Voluntario, "voluntarios");
 
-    const MySQLTypes = {};
-    const MySQLDocumentStructure = class MySQLDocumentStructure {
-        id;
-        conteudo;
-    }
-    const MySQLImageStructure = class MySQLImageStructure {
-        id;
-        conteudo;
-        content_type;
-    }
-    const MySQLPrivateFields = [ "id" ];
-    
-    MySQLTypes.Documento = createDatabaseDocumentType(MySQLDocumentStructure, "documentos", {
-        database: "mysql",
-        privateFields: MySQLPrivateFields,
-    });
-    MySQLTypes.Imagem = createDatabaseDocumentType(MySQLImageStructure, "imagens", {
-        database: "mysql",
-        privateFields: MySQLPrivateFields
-    });
-
     Types.Documento = createDatabaseDocumentType(BaseDataTypes.Documento, "documentos", {
         references: {
-            get arquivo() { }
+            async get_arquivo() { return await readInStorage(Documento._bucket, instanceRealFields.get(this).url_arquivo) }
         },
-        privateFields: [ "id_arquivo" ]
+        fieldsFilters: [
+            async ({ fields, type, action } = {}) => {
+                switch (action) {
+                    case "create":
+                        delete fields.url_arquivo;
+                        if (!fields.blob) throw new ClientError(undefined, "Missing upload blob property.");
+                        fields.url_arquivo = await saveInStorage(type._bucket, type.collection, fields.blob);
+                        delete fields.blob;
+                        return fields;
+                    case "update":
+                        delete fields.url_arquivo;
+                        return fields;
+                    case "remove":
+                        await removeInStorage(type._bucket, fields.url_arquivo);
+                        return fields;
+                    default:
+                        return fields;
+                }
+            }
+        ],
+        privateFields: [ "url_arquivo" ],
+        bucket: "documents",
+        allowOverSet: false
     });
     Types.Imagem = createDatabaseDocumentType(BaseDataTypes.Imagem, "imagens", {
         references: {
-            get conteudo() { }
+            async get_conteudo() { return await readInStorage(Imagem._bucket, instanceRealFields.get(this).url_conteudo) }
         },
-        privateFields: [ "id_conteudo" ]
+        fieldsFilters: [
+            async ({ fields, type, action }) => {
+                switch (action) {
+                    case "create":
+                        delete fields.url_conteudo;
+                        if (!fields.blob) throw new ClientError(undefined, "Missing upload blob property.");
+                        fields.url_conteudo = await saveInStorage(type._bucket, type.collection, fields.blob);
+                        delete fields.blob;
+                        return fields;
+                    case "update":
+                        delete fields.url_conteudo;
+                        return fields;
+                    case "remove":
+                        await removeInStorage(type._bucket, fields.url_conteudo);
+                        return fields;
+                    default:
+                        return fields;
+                }
+            }
+        ],
+        privateFields: [ "url_conteudo" ],
+        bucket: "public-images",
+        allowOverSet: false,
+        public: true
     });
     Types.Evento = createDatabaseDocumentType(BaseDataTypes.Evento, "eventos", {
         references: {
-            get imagem() { }
+            async get_imagem() { await readInStorage(Evento._bucket, instanceRealFields.get(this).url_imagem) }
         },
-        privateFields: [ "id_imagem" ]
+        fieldsFilters: [
+            async ({ fields, type, action }) => {
+                switch (action) {
+                    case "create":
+                        delete fields.url_imagem;
+                        if (!fields.blob) throw new ClientError(undefined, "Missing upload blob property.");
+                        fields.url_imagem = await saveInStorage(type._bucket, type.collection, fields.blob);
+                        delete fields.blob;
+                        return fields;
+                    case "update":
+                        delete fields.url_imagem;
+                        return fields;
+                    case "remove":
+                        await removeInStorage(type._bucket, fields.url_imagem);
+                        return fields;
+                    default:
+                        return fields;
+                }
+            }
+        ],
+        privateFields: [ "url_imagem" ],
+        bucket: "public-images",
+        allowOverSet: false,
+        public: true
     });
     Types.Produto = createDatabaseDocumentType(BaseDataTypes.Produto, "produtos", {
         references: {
-            get imagem() { }
+            async get_imagem() { await readInStorage(Produto._bucket, instanceRealFields.get(this).url_imagem) }
         },
-        privateFields: [ "id_imagem" ]
+        fieldsFilters: [
+            async ({ fields, type, action }) => {
+                switch (action) {
+                    case "create":
+                        delete fields.url_imagem;
+                        if (!fields.blob) throw new ClientError(undefined, "Missing upload blob property.");
+                        fields.url_imagem = await saveInStorage(type._bucket, type.collection, fields.blob);
+                        delete fields.blob;
+                        return fields;
+                    case "update":
+                        delete fields.url_imagem;
+                        return fields;
+                    case "remove":
+                        await removeInStorage(type._bucket, fields.url_imagem);
+                        return fields;
+                    default:
+                        return fields;
+                }
+            }
+        ],
+        privateFields: [ "url_imagem" ],
+        bucket: "public-images",
+        allowOverSet: false,
+        public: true
     });
 
     Types.SolicitacaoAcolhido = createDatabaseDocumentType(BaseDataTypes.SolicitacaoAcolhido, "solicitacoes_acolhido");
@@ -329,10 +470,10 @@ var EssenciaAzul = ( function() {
             update(doc) {}
         },
         references: {
-            get alteracoes() { }
+            async get_alteracoes() { }
         },
         fieldsFilters: [
-            async ({ fields, key, type, action, id }) => {
+            async ({ fields, key, type, action, id } = {}) => {
                 delete fields.chave;
                 switch (action) {
                     case "create":
@@ -349,7 +490,7 @@ var EssenciaAzul = ( function() {
 
     Types.Alteracao = createDatabaseDocumentType(BaseDataTypes.Alteracao, "alteracoes", {
         references: {
-            get admin() { }
+            async get_admin() { }
         },
         privateFields: [ "ref_admin" ]
     });
@@ -363,17 +504,6 @@ var EssenciaAzul = ( function() {
     } = Types;
 
     function registerAction() {}
-
-    function storageConnect() {
-        const config = require("../config.json").mysql;
-
-        return mysql.createConnection({
-            user: config.username,
-            password: config.password,
-            host: config.hostname,
-            database: config.database
-        });
-    }
 
     async function validateKey(key) {
         // valida se a chave está correta e existe no banco de dados.
@@ -455,6 +585,17 @@ var EssenciaAzul = ( function() {
         return outputObject;
     }
 
+    function clearUndefined(object) {
+        for (const key in object) {
+            if (object[key] === undefined) {
+                delete object[key];
+            } else if (typeof object[key] === "object" && object[key] !== null) {
+                clearUndefined(object[key]);
+            }
+        }
+        return object;
+    }
+
     async function create(key, type, fields) {
         let keylevel = await validateKey(key);
         if (keylevel <= 0) throw new PermissionError("Permissão insuficiente para qualquer operação de administrador");
@@ -462,178 +603,79 @@ var EssenciaAzul = ( function() {
         await type._callFieldsFilter({ action: "create", type, key, fields });
 
         if (keylevel < type["create.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para criar documento de ${type._basetype.name}`);
-        const dbtype = type._dbtype;
 
         let doc;
 
-        switch (dbtype) {
-            case "mysql":
-                const storage = storageConnect();
-                const sql = `INSERT INTO ${type.collection} (${Object.keys(fields).join(", ")}) VALUES (${Object.values(fields).map(() => "?").join(", ")})`;
-                let values = { ...fields };
-                delete values.id;
-                values = Object.values(values).map(value => {
-                    if (value instanceof Date) {
-                        return value.toISOString().slice(0, 19).replace("T", " ");
-                    } else {
-                        return value;
-                    }
-                });
-                const insertId = await new Promise((resolve, reject) => {
-                    storage.query(sql, values, (err, results) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(results);
-                        }
-                    });
-                });
-                const docSnap = await new Promise((resolve, reject) => {
-                    storage.query(`SELECT * FROM ${type.collection} WHERE id = ?`, [ insertId ], (err, results) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(results[0]);
-                        }
-                    });
-                });
-                storage.end();
-                delete docSnap.id;
-                doc = new type(createdByKey.get(this), insertId, docSnap, privateDBConstructorKey);
+        const collRef = collection(db, type.collection);
 
-                break;
-            case "firestore":
-                const collRef = collection(db, type.collection);
-        
-                const sendingFields = mapForDateToTimestamp(fields);
-                const docRef = await addDoc(collRef, sendingFields);
-                doc = new type(createdByKey.get(this), docRef.id, (await getDoc(docRef)).data(), privateDBConstructorKey);
-                break;
-        }
+        const sendingFields = mapForDateToTimestamp(fields);
+        const docRef = await addDoc(collRef, clearUndefined(sendingFields));
+        doc = new type(createdByKey.get(this), docRef.id, (await getDoc(docRef)).data(), privateDBConstructorKey);
 
         type._eventEmitter("create", doc, emitEventSymbol);
+
+        if (type._public) type._public.set(doc.id, doc);
 
         return doc;
     }
 
-    const validOrderDirections = [ "ASC", "DESC" ];
     const validLowerOrderDirections = [ "asc", "desc" ];
-
-
 
     async function read(key, type, search) {
         let keylevel = await validateKey(key);
-        if (keylevel <= 0) throw new PermissionError(undefined, "Permissão insuficiente para qualquer operação de administrador");
+        if (!type._public) {
+            if (keylevel <= 0) throw new PermissionError(undefined, "Permissão insuficiente para qualquer operação de administrador");
+    
+            if (keylevel < type["read.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para ler documentos de ${type._basetype.name}`);
+        }
 
-        if (keylevel < type["read.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para ler documentos de ${type._basetype.name}`);
-
-        const dbtype = type._dbtype;
         let docs = [];
 
-        switch (dbtype) {
-            case "mysql":
-                const storage = storageConnect();
-                let sql = `SELECT${search?.distinct ? " DISTINCT" : ""} * FROM ${type.collection}`;
-                const queryParameters = [];
-                if (search?.conditions) {
-                    const conditions = [];
-                    for (const condition of search?.conditions) {
-                        let field = condition.field;
-                        let relation = condition.relation.toUpperCase();
-                        let value = condition.value;
-                        conditions.push(
-                            `${field} ${relation} ${value instanceof Array ? "(?)" : "?"}`
-                        );
-                        queryParameters.push(value);
-                    }
-                    sql += ` WHERE ${conditions.join(" AND ")}`;
-                }
-                if (search?.orderBy) {
-                    let orderDirection = search.orderDirection?.toUpperCase() ?? "ASC";
-                    if (!validOrderDirections.includes(orderDirection)) throw new ClientError(undefined, "Direção de ordenação inválida, use ASC ou DESC");
-                    sql += ` ORDER BY ? ${orderDirection}`;
-                    queryParameters.push(search.orderBy);
-                }
-                if (search?.limit) {
-                    if (typeof search?.limit !== "number") throw new ClientError(undefined, "O limite deve ser um número");
-                    if (search?.limitOffset) {
-                        if (typeof search?.limitOffset !== "number") throw new ClientError(undefined, "O limite de offset deve ser um número");
-                        sql += ` LIMIT ${search.limitOffset}, ${search.limit}`;
-                    } else {
-                        sql += ` LIMIT ${search.limit}`;
-                    }
-                }
+        const collRef = collection(db, type.collection);
 
-                const rows = await new Promise((resolve, reject) => {
-                    storage.query(sql, queryParameters, (err, results) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(results);
-                        }
-                    });
-                });
+        if (search?.id) {
+            const docRef = doc(collRef, search.id);
+            const docSnap = await getDoc(docRef);
+            if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
+            const fields = await type._callFieldsFilter({ action: "read", type, key, fields: { ...docSnap.data() }, id: docSnap.id });
+            delete fields.id;
+            docs.push(new type(createdByKey.get(this), docSnap.id, fields, privateDBConstructorKey));
+            return docs;
+        }
 
-                for (const row of rows) {
-                    const fields = await type._callFieldsFilter({ action: "read", type, key, fields: { ...row }, id: row.id });
-                    delete fields.id;
-                    let doc = new type(createdByKey.get(this), row.id, fields, privateDBConstructorKey);
-                    docs.push(doc);
-                }
+        const constraints = [];
 
-                storage.end();
+        if (search?.conditions) {
+            for (const condition of search?.conditions) {
+                let field = condition.field;
+                let relation = condition.relation.toLowerCase();
+                let value = condition.value;
 
-                break;
-            case "firestore":
-                const collRef = collection(db, type.collection);
+                if (relation === "not in") constraints.push(where(field, "not-in", value));
+                constraints.push(where(field, relation, value));
+            }
+        }
+        if (search?.orderBy) {
+            let orderDirection = search.orderDirection?.toLowerCase() ?? "asc";
+            if (!validLowerOrderDirections.includes(orderDirection)) throw new ClientError(undefined, "Direção de ordenação inválida, use ASC ou DESC");
+            constraints.push(orderBy(search.orderBy, orderDirection));
+        }
+        if (search?.limit) {
+            constraints.push(limit(search.limit));
+        }
+        if (search?.limitOffset) {
+            constraints.push(startAfter(search.limitOffset));
+        }
 
-                if (search?.id) {
-                    const docRef = doc(collRef, search.id);
-                    const docSnap = await getDoc(docRef);
-                    if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
-                    const fields = await type._callFieldsFilter({ action: "read", type, key, fields: { ...docSnap.data() }, id: docSnap.id });
-                    delete fields.id;
-                    docs.push(new type(createdByKey.get(this), docSnap.id, fields, privateDBConstructorKey));
-                    return docs;
-                }
-
-                const constraints = [];
-
-                if (search?.conditions) {
-                    console.log("conditions");
-                    for (const condition of search?.conditions) {
-                        let field = condition.field;
-                        let relation = condition.relation.toLowerCase();
-                        let value = condition.value;
-
-                        if (relation === "not in") constraints.push(where(field, "not-in", value));
-                        constraints.push(where(field, relation, value));
-                    }
-                }
-                if (search?.orderBy) {
-                    let orderDirection = search.orderDirection?.toLowerCase() ?? "asc";
-                    if (!validLowerOrderDirections.includes(orderDirection)) throw new ClientError(undefined, "Direção de ordenação inválida, use ASC ou DESC");
-                    constraints.push(orderBy(search.orderBy, orderDirection));
-                }
-                if (search?.limit) {
-                    constraints.push(limit(search.limit));
-                    console.log("limit");
-                }
-                if (search?.limitOffset) {
-                    console.log("offset");
-                    constraints.push(startAfter(search.limitOffset));
-                }
-
-                for (const doc of (await getDocs(query(collRef, ...constraints))).docs) {
-                    const fields = await type._callFieldsFilter({ fields: mapForTimestampToDate({ ...doc.data() }), action: "read", type, key, id: doc.id });
-                    delete fields.id;
-                    docs.push(new type(createdByKey.get(this), doc.id, fields, privateDBConstructorKey));
-                }
-
-                break;
+        for (const doc of (await getDocs(query(collRef, ...constraints))).docs) {
+            const fields = await type._callFieldsFilter({ fields: mapForTimestampToDate({ ...doc.data() }), action: "read", type, key, id: doc.id });
+            delete fields.id;
+            docs.push(new type(createdByKey.get(this), doc.id, fields, privateDBConstructorKey));
         }
 
         type._eventEmitter("read", docs, emitEventSymbol);
+
+        if (type._public) for (const doc of docs) type._public.set(doc.id, doc);
 
         return docs;
     }
@@ -650,77 +692,37 @@ var EssenciaAzul = ( function() {
 
         if (keylevel < type["update.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para atualizar documentos de ${type._basetype.name}`);
 
-        switch (type._dbtype) {
-            case "mysql":
-                const storage = storageConnect();
-                const sql = `UPDATE ${type.collection} SET ${Object.entries(fields).map(([ key ]) => `${key} = ?`).join(", ")} WHERE id = ?`;
-                let values = { ...fields };
-                delete values.id;
-                values = Object.values(values).map(value => {
-                    if (value instanceof Date) {
-                        return value.toISOString().slice(0, 19).replace("T", " ");
-                    } else {
-                        return value;
-                    }
-                });
-                values.push(id);
-                await new Promise((resolve, reject) => {
-                    storage.query(sql, values, (err, results) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(results);
-                        }
-                    });
-                });
-                const rowSnap = await new Promise((resolve, reject) => {
-                    storage.query(`SELECT * FROM ${type.collection} WHERE id = ?`, [ id ], (err, results) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(results[0]);
-                        }
-                    });
-                });
-                storage.end();
-                delete rowSnap.id;
-                const rowData = await type._callFieldsFilter({ action: "update", type, key, fields: { ...rowSnap }, id });
-                delete rowData.id;
-                const updatedRow = new type(createdByKey.get(this), id, rowData, privateDBConstructorKey);
-                type._eventEmitter("update", updatedRow, emitEventSymbol);
-                return updatedRow;
-            
-            case "firestore":
-                const collRef = collection(db, type.collection);
+        const collRef = collection(db, type.collection);
 
-                const docRef = doc(collRef, id);
-                const docSnap = await getDoc(docRef);
-                if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
+        const docRef = doc(collRef, id);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
 
-                switch (options?.editType) {
-                    case "set":
-                        const newDoc = mapForDateToTimestamp(fields);
-                        const filteredSetData = await type._callFieldsFilter({ action: "update", type, key, fields: newDoc, id });
-                        delete filteredSetData.id;
-                        await setDoc(docRef, filteredSetData);
-                        break;
-                    default:
-                    case "update":
-                        const docData = docSnap.data();
-                        const updatedFields = mapForDateToTimestamp(fields);
-                        const updatedDoc = { ...docData, ...updatedFields };
-                        const filteredPatchData = await type._callFieldsFilter({ action: "update", type, key, fields: updatedDoc, id });
-                        delete filteredPatchData.id;
-                        await updateDoc(docRef, filteredPatchData);
-                        break;
-                }
-
-                const newDocSnap = await getDoc(docRef);
-                const newDocData = newDocSnap.data();
-                const newDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(newDocData), privateDBConstructorKey);
-                type._eventEmitter("update", newDoc, emitEventSymbol);
-                return newDoc;
+        switch (options?.editType) {
+            case "set":
+                if (!type._allowOverSet) throw new ClientError(undefined, `Documentos ${type._basetype.name} não permite sobre-escrita.`);
+                const newDoc = mapForDateToTimestamp(fields);
+                const filteredSetData = await type._callFieldsFilter({ action: "update", type, key, fields: newDoc, id });
+                delete filteredSetData.id;
+                await setDoc(docRef, clearUndefined(filteredSetData));
+                break;
+            default:
+            case "update":
+                const docData = docSnap.data();
+                const updatedFields = mapForDateToTimestamp(fields);
+                const updatedDoc = { ...docData, ...updatedFields };
+                const filteredPatchData = await type._callFieldsFilter({ action: "update", type, key, fields: updatedDoc, id });
+                delete filteredPatchData.id;
+                await updateDoc(docRef, clearUndefined(filteredPatchData));
+                break;
         }
+
+        const newDocSnap = await getDoc(docRef);
+        const newDocData = newDocSnap.data();
+        const newDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(newDocData), privateDBConstructorKey);
+        type._eventEmitter("update", newDoc, emitEventSymbol);
+        if (type._public) type._public.set(id, newDoc);
+        return newDoc;
     }
 
     async function remove(key, type, id) {
@@ -729,56 +731,24 @@ var EssenciaAzul = ( function() {
 
         if (keylevel < type["remove.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para remover documentos de ${type._basetype.name}`);
 
-        switch (type._dbtype) {
-            case "mysql":
-                const storage = storageConnect();
+        const collRef = collection(db, type.collection);
+        const docRef = doc(collRef, id);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
+        const docData = docSnap.data();
+        const filteredRemoveData = await type._callFieldsFilter({ action: "remove", type, key, fields: docData, id });
+        delete filteredRemoveData.id;
+        const deletedDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(filteredRemoveData), privateDBConstructorKey);
+        await deleteDoc(docRef);
+        type._eventEmitter("remove", deletedDoc, emitEventSymbol);
+        if (type._public) type._public.delete(id);
+        return deletedDoc;
+    }
 
-                const rowSnap = await new Promise((resolve, reject) => {
-                    storage.query(`SELECT * FROM ${type.collection} WHERE id = ?`, [ id ], (err, results) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(results[0]);
-                        }
-                    });
-                });
-
-                if (!rowSnap) throw new NotFoundError(undefined, "Documento não encontrado");
-
-                const sql = `DELETE FROM ${type.collection} WHERE id = ?`;
-                const values = [ id ];
-                await new Promise((resolve, reject) => {
-                    storage.query(sql, values, (err, results) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(results);
-                        }
-                    });
-                });
-
-                storage.end();
-
-                delete rowSnap.id;
-                const rowData = await type._callFieldsFilter({ action: "remove",
-                    type, key, fields: { ...rowSnap }, id });
-                delete rowData.id;
-                const deletedRow = new type(createdByKey.get(this), id, rowData, privateDBConstructorKey);
-                type._eventEmitter("remove", deletedRow, emitEventSymbol);
-                return deletedRow;
-            case "firestore":
-                const collRef = collection(db, type.collection);
-                const docRef = doc(collRef, id);
-                const docSnap = await getDoc(docRef);
-                if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
-                const docData = docSnap.data();
-                const filteredRemoveData = await type._callFieldsFilter({ action: "remove", type, key, fields: docData, id });
-                delete filteredRemoveData.id;
-                const deletedDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(filteredRemoveData), privateDBConstructorKey);
-                await deleteDoc(docRef);
-                type._eventEmitter("remove", deletedDoc, emitEventSymbol);
-                return deletedDoc;
-        }
+    async function getPublics(type) {
+        await type._public.init();
+        if (!type._public) throw new ImplementationError(undefined, "Tipo não é público");
+        return type._public;
     }
 
     const privateLoginConstructorIndicator = Symbol("Login.PrivateConstructorIndicator");
@@ -840,7 +810,7 @@ var EssenciaAzul = ( function() {
 
     function isLogged(session) {
         if (!(session instanceof Session.Constructor)) throw new ClientError(undefined, "É necessário uma sessão no navegador para procurar por login");
-        if (session.get("login") instanceof Session.Constructor) return true; else return false;
+        if (session.get("login") instanceof Login) return true; else return false;
     }
     
     function logout(session) {
@@ -896,6 +866,7 @@ var EssenciaAzul = ( function() {
         read,
         update,
         remove,
+        getPublics,
         BaseDataTypes,
         ...Types
     };

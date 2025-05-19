@@ -60,6 +60,10 @@ declare namespace Operations {
         type: C,
         id: number
     ): Promise<InstanceType<C>>
+
+    export function getPublic<T extends object, C extends typeof DatabaseDocument<T>>(
+        type: T
+    ): Map<string, InstanceType<C>>
 }
 
 declare class Login {

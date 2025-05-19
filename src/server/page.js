@@ -276,7 +276,7 @@ class Page {
         async process(parameters) {
             const handler = (await this.content())[parameters.request.method.toLowerCase()];
             if (typeof handler !== "function") throw new ClientError(parameters.response, `Method ${parameters.request.method} not allowed`);
-            return JSON.stringify(handler(parameters));
+            return JSON.stringify(await handler(parameters));
         }
     }
 
@@ -420,7 +420,8 @@ class Page {
             }
         }
 
-        write(response, page) {
+        write(response, page, stop = false) {
+            if (stop) return;
             if (page?._type === "asset") return;
             if (this.contentType) response.setHeader("Content-Type", this.contentType);
             for (const chunk of this.before) { response.write(chunk) }

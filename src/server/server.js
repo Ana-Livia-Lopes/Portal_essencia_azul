@@ -5,7 +5,7 @@ const Page = require("./page.js");
 const Session = require("./session.js");
 const Component = require("./component.js");
 const Cookie = require("../util/cookie.js");
-const { ServerError, NotFoundError, ImplementationError } = require( "./errors.js" );
+const { ServerError, NotFoundError, ImplementationError, ClientError } = require( "./errors.js" );
 const { protect } = require( "../util/" );
 const Watcher = require( "./watcher.js" );
 const Body = require("./body.js");
@@ -14,7 +14,7 @@ const emptyPagePlaceholder = new Page._Placeholder();
 
 const loadComponentPage = new Page._Placeholder();
 
-const bodyAllowedMethods = ["POST", "PUT", "PATCH", "DELETE"];
+const bodyAllowedMethods = ["POST", "PUT", "PATCH"];
 
 class Server extends http.Server {
     constructor(options) {
@@ -51,9 +51,8 @@ class Server extends http.Server {
                         case "placeholder":
                         case "executable":
                         case "rest":
-                            
                             parameters.query = Cookie.parse(parsedUrl.query?.replaceAll("&", ";") ?? "");
-                            parameters.body =  bodyAllowedMethods.includes(request.method) ? await Body.get(request, response) : null;
+                            parameters.body = bodyAllowedMethods.includes(request.method) ? await Body.get(request, response) : null;
                             parameters.page = page;
                             parameters.params = urlparams;
                             parameters.localhooks = {};
@@ -68,6 +67,8 @@ class Server extends http.Server {
 
                     parameters.content.contentType = page.contentType;
 
+                    if (parameters.body?.error) throw ClientError(response, parameters.body.error?.message);
+
                     await page.load(parameters);
                 } catch (err) {
                     parameters.error = err;
@@ -75,11 +76,11 @@ class Server extends http.Server {
                     await emptyPagePlaceholder._emitEvent("error", parameters);
                 }
 
-                parameters.content.write(response, page);
+                parameters.content.write(response, page, parameters._stop);
 
             } catch (err) {
                 console.log(err);
-                response.write(`${err?.name ?? "Error"}: ${err?.message}`);
+                // response.write(`${err?.name ?? "Error"}: ${err?.message}`);
             } finally {
                 response.end();
             }

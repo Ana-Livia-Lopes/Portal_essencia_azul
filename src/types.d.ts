@@ -55,7 +55,7 @@ declare namespace BaseDataTypes {
 
     class Apoiador {
         nome: string
-        id_logo: string
+        url_logo: string
         link: string
     }
     class Voluntario {
@@ -70,25 +70,25 @@ declare namespace BaseDataTypes {
     class Documento {
         nome: string
         descricao: string
-        id_arquivo: number
+        url_arquivo: number
     }
     class Imagem {
         titulo: string
         descricao: string
         grupos: string[]
-        id_conteudo: number
+        url_conteudo: number
     }
     class Evento {
         titulo: string
         descricao: string
         data: Date
-        id_imagem: number
+        url_imagem: number
     }
     class Produto {
         nome: string
         descricao: string
         preco: number
-        id_imagem: number
+        url_imagem: number
         opcoes: Map<string, Produto>
     }
     interface Remetente {
@@ -194,16 +194,16 @@ declare namespace DataTypes {
 
     export class Acolhido extends DatabaseDocument<BaseDataTypes.Acolhido> {
         references: {
-            get familia(): Familia,
-            get documentos(): Documento
+            get_familia(): Promise<Familia>,
+            get_documentos(): Promise<Documento[]>
         }
     }
     export class Familia extends DatabaseDocument<BaseDataTypes.Familia> {
         references: {
-            get acolhidos(): Acolhido[]
+            get_acolhidos(): Promise<Acolhido[]>
         }
         methods: {
-            get count(): {
+            count(): {
                 autistas: number
                 neurotipicos: number
                 investigacao: number
@@ -213,29 +213,29 @@ declare namespace DataTypes {
 
     export class Apoiador extends DatabaseDocument<BaseDataTypes.Apoiador> {
         references: {
-            get logo(): Blob
+            get_logo(): Promise<Blob>
         }
     }
     export class Voluntario extends DatabaseDocument<BaseDataTypes.Voluntario> {}
 
     export class Imagem extends DatabaseDocument<BaseDataTypes.Imagem> {
         references: {
-            get conteudo(): Blob
+            get_conteudo(): Promise<Blob>
         }
     }
     export class Documento extends DatabaseDocument<BaseDataTypes.Documento> {
         references: {
-            get arquivo(): Blob
+            get_arquivo(): Promise<Blob>
         }
     }
     export class Evento extends DatabaseDocument<BaseDataTypes.Evento> {
         references: {
-            get imagem(): Blob
+            get_imagem(): Promise<Blob>
         }
     }
     export class Produto extends DatabaseDocument<BaseDataTypes.Produto> {
         references: {
-            get imagem(): Blob
+            get_imagem(): Promise<Blob>
         }
     }
 
@@ -244,13 +244,13 @@ declare namespace DataTypes {
     
     export class Admin extends DatabaseDocument<BaseDataTypes.Admin> {
         references: {
-            get alteracoes(): Alteracao[]
+            get_alteracoes(): Promise<Alteracao[]>
         }
     }
 
     export class Alteracao extends DatabaseDocument<BaseDataTypes.Alteracao<TipoAlteracao>> {
         references: {
-            get admin(): Admin
+            get_admin(): Promise<Admin>
         }
     }
 }

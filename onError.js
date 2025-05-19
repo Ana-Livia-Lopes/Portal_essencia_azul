@@ -11,6 +11,13 @@ module.exports = async function onError(parameters) {
     let { error, content } = parameters;
 
     content.clear();
+
+    if (error.name === "Redirect" && error.destination) {
+        parameters._stop = true;
+        parameters.response.writeHead(302, { location: error.destination });
+        return;
+    }
+
     switch (content.contentType) {
         case "application/json":
             content.append(JSON.stringify({

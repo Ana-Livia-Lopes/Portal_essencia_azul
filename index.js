@@ -3,6 +3,7 @@ const { Server, Page, Cache, Component, Watcher, Event } = require("./src/server
 const path = require( "path" );
 const { hostname, port, devMode } = require("./config.json").server;
 const Command = require("./cli.js");
+require("./src/");
 
 const server = new Server();
 console.clear();
