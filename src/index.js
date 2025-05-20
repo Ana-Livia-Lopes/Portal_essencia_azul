@@ -1,7 +1,7 @@
 const { Session, NotFoundError, PermissionError, ServiceError, ImplementationError } = require("./server/")
 const { Property } = require("./util");
 const { db } = require("../firebase.js");
-const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc, setDoc, deleteDoc } = require("firebase/firestore");
+const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc, setDoc, deleteDoc, onSnapshot } = require("firebase/firestore");
 const crypto = require("crypto");
 const { ClientError } = require("./server/errors.js");
 const supabase = require( "../supabase.js" );
@@ -164,6 +164,7 @@ var EssenciaAzul = ( function() {
         collection;
         type;
         _init = false;
+        _unsubscribe;
 
         async init() {
             if (this._init) return;
@@ -175,6 +176,18 @@ var EssenciaAzul = ( function() {
                 delete fields.id;
                 this.set(doc.id, new this.type(Symbol.for("PublicTypesRead"), doc.id, fields, privateDBConstructorKey));
             }
+            onSnapshot(collRef, snapshot => {
+                snapshot.docChanges().forEach(change => {
+                    const doc = change.doc;
+                    const fields = mapForTimestampToDate({ ...doc.data() });
+                    delete fields.id;
+                    if (change.type === "added" || change.type === "modified") {
+                        this.set(doc.id, new this.type(Symbol.for("PublicTypesRead"), doc.id, fields, privateDBConstructorKey));
+                    } else if (change.type === "removed") {
+                        this.delete(doc.id);
+                    }
+                });
+            });
         }
     }
 
@@ -614,8 +627,6 @@ var EssenciaAzul = ( function() {
 
         type._eventEmitter("create", doc, emitEventSymbol);
 
-        if (type._public) type._public.set(doc.id, doc);
-
         return doc;
     }
 
@@ -675,8 +686,6 @@ var EssenciaAzul = ( function() {
 
         type._eventEmitter("read", docs, emitEventSymbol);
 
-        if (type._public) for (const doc of docs) type._public.set(doc.id, doc);
-
         return docs;
     }
 
@@ -721,7 +730,6 @@ var EssenciaAzul = ( function() {
         const newDocData = newDocSnap.data();
         const newDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(newDocData), privateDBConstructorKey);
         type._eventEmitter("update", newDoc, emitEventSymbol);
-        if (type._public) type._public.set(id, newDoc);
         return newDoc;
     }
 
@@ -741,7 +749,6 @@ var EssenciaAzul = ( function() {
         const deletedDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(filteredRemoveData), privateDBConstructorKey);
         await deleteDoc(docRef);
         type._eventEmitter("remove", deletedDoc, emitEventSymbol);
-        if (type._public) type._public.delete(id);
         return deletedDoc;
     }
 

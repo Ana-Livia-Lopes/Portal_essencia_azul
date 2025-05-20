@@ -218,6 +218,62 @@
         </div>
     </section>
     <component-footer />
+    <a href="#" class="btn" id="scrollToTopButton"></a>
+     <script>
+        function scrollParaElemento(id) {
+            var delayMilisegundos = 50;
+            setTimeout(function() {
+                
+                const alvo = document.getElementById(id);
+                if (!alvo) return;
+                
+                const distancia = alvo.getBoundingClientRect().top + window.scrollY;
+                const duracao = 800;
+                const inicio = window.scrollY;
+                const comeco = performance.now();
+                
+                function animarScroll(agora) {
+                    const tempoPassado = agora - comeco;
+                    const progresso = Math.min(tempoPassado / duracao, 1);
+                    const ease = 0.5 - Math.cos(progresso * Math.PI) / 2;
+    
+                    window.scrollTo(0, inicio + (distancia - inicio) * ease);
+                    
+                    if (progresso < 1) {
+                        requestAnimationFrame(animarScroll);
+                    }
+                }
+                
+                requestAnimationFrame(animarScroll);
+            }, delayMilisegundos);
+        }
+        
+        const scrollToTopButton = document.getElementById('scrollToTopButton');
+        
+        function smoothScrollToTop() {
+            const scrollStep = -window.scrollY / 40;
+            const scrollInterval = setInterval(() => {
+                if (window.scrollY !== 0) {
+                    window.scrollBy(0, scrollStep);
+                } else {
+                    clearInterval(scrollInterval);
+                }
+            }, 15);
+        }
+        
+        scrollToTopButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            smoothScrollToTop();
+        });
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                scrollToTopButton.classList.add('show');
+            } else {
+                scrollToTopButton.classList.remove('show');
+            }
+        });
+        </script>
 </body>
 
 </html>

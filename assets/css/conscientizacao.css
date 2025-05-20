@@ -64,6 +64,7 @@ section h3 {
 .q1 {
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
+    border-radius: 6PX;
     position: relative;
     height: 230px;
     background: #34476d;
@@ -72,16 +73,19 @@ section h3 {
     align-items: center;
     z-index: 1;
     transform: translateY(90px);
+    transition: all 0.5s;
 }
 
 .card:hover .q1 {
     background: #1535B5;
     transform: translateY(0);
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .q2 {
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
     position: relative;
     background: #fff;
     display: flex;
@@ -104,7 +108,6 @@ section h3 {
 
 .card {
     text-align: center;
-
 }
 
 span.material-symbols-outlined {
@@ -439,6 +442,36 @@ span.material-symbols-outlined {
     display: flex;
     justify-content: center;
     align-items: center
+}
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  background-color: #1535B5;
+  border-radius: 100px;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn::after {
+  content: "↑";
+  font-size: 25px;
+  font-weight: bold;
+  color: aliceblue;
+}
+
+.btn:hover {
+  background-color: #142e96;
+}
+
+.btn.show {
+  opacity: 1;
 }
 
 @media (max-width: 768px) {
