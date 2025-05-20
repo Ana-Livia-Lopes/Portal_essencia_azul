@@ -312,7 +312,10 @@ body {
     border-radius: 10px;
     padding: 25px;
 }
-
+.descricao{
+    padding: 10px 30px;
+    font-weight: 400;
+}
 @media (max-width: 768px){
     #quebraCabeca {
         margin: 20px auto;
