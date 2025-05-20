@@ -1,0 +1,92 @@
+const { isLogged } = require("../../src")
+
+const usuarioLogado = `<div class="botoes-admin">
+    <a href="/gerenciamento"><button id="gerenciamento">Gerenciamento</button></a>
+    <a><button id="sair" onclick="sair()" id="sair-adm">Sair</button></a>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function sair() {
+                Swal.fire({
+                icon: 'question',
+                title: 'Tem certeza que deseja sair?',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Sair',
+            }).then(result => {
+                if (result.isConfirmed) {
+                    fetch("/actions/logout", {
+                        headers: {
+                            ["x-confirm-logout"]: 'true'
+                        }
+                    }).then(resp => resp.json()).then(json => {
+                        if (json.status === 'error') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Houve um erro!',
+                                text: json.message,
+                            })
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sessão encerrada com sucesso!',
+                            }).then(()=>{
+                                window.location.href = '/';
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    </script>
+
+    <style>
+        #gerenciamento {
+            background-color: #ffffff;
+            color: #4a62be;
+            width: 160px;
+            height: 30px;
+            font-size: 14px;
+            border-radius: 0.4rem;
+            border: none;
+            font-family: 'Montserrat';
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            justify-self: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        #gerenciamento:hover {
+            background-color: rgb(193, 205, 255);;
+            color: #4558a7;
+        }
+        #sair {
+            background-color:rgba(255, 255, 255, 0);
+            color: #fff;
+            width: 80px;
+            height: 30px;
+            font-size: 14px;
+            border-radius: 0.4rem;
+            border: none;
+            font-family: 'Montserrat';
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            justify-self: center;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</div>`;
+
+const usuarioNaoLogado = `<a href="/entrar" id="entrar-a"><button id="entrar-adm">Entrar como administrador</button></a>`;
+
+
+module.exports = function (_, { session }) {
+    if (!session) return usuarioNaoLogado;
+    if (!isLogged(session)) return usuarioNaoLogado;
+    return usuarioLogado;
+}
