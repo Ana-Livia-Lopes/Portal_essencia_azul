@@ -188,9 +188,47 @@
                 <hr class="hr">
             </div>
         </div>
+        <button onclick="editarEventos()" class="botao-editar conteudo-site">Adicionar apoiador</button>
     </section>
     <component-footer />
 </body>
+<script>
+    function editarEventos() {
+   Swal.fire({
+                title: 'Adicionar imagem',
+                html: `
+        <div class="modal-container">
+            <label for="nome" class="modal-label">Nome apoiador</label>
+            <input type="text" id="nome" class="modal-input">
+
+            <label for="arquivoInput" class="modal-label">Imagem</label>
+            <input type="file" id="arquivoInput" class="modal-file">
+        </div>
+    `,
+                confirmButtonText: 'Salvar',
+                cancelButtonText: 'Cancelar',
+                showCancelButton: true,
+                focusConfirm: false,
+                customClass: {
+                    popup: 'custom-popup'
+                },
+                preConfirm: () => {
+                    const arquivo = document.getElementById('arquivoInput').files[0];
+
+                    if (!arquivo) {
+                        Swal.showValidationMessage('Preencha todos os campos!');
+                        return false;
+                    }
+
+                    return { arquivo };
+                }
+            }).then(result => {
+                if (result.isConfirmed) {
+                    Swal.fire('Salvo!', 'Imagem adicionada', 'success');
+                }
+            });
+        }
+</script>
 
 
 
