@@ -1,7 +1,8 @@
 <component-json-imagens />
+<component-admin-is_logged />
 <div style="position: relative;">
     <div class="galeriaPainel" id="galeriaPainel">
-        <div id="x"><i class="seta fa-solid fa-xmark"></i></div>
+        <!-- <div id="x"><i class="seta fa-solid fa-xmark"></i></div> -->
     </div>
 </div>
 <script>
@@ -65,14 +66,16 @@
             backButtonIcon.addEventListener("click", this.back);
             this.container.appendChild(backButton);
             this.container.appendChild(nextButton);
-            let closeButton = document.createElement("div");
-            let closeButtonIcon = document.createElement("i");
-            closeButton.append(closeButtonIcon);
-            closeButtonIcon.classList.add("seta", "fa-solid", "fa-xmark");
-            closeButton.addEventListener("click", () => {
-                removerImagem(imagens[this.index].id);
-            });
-            this.container.appendChild(closeButton);
+            if (window.ISLOGGED) {
+                let closeButton = document.createElement("div");
+                let closeButtonIcon = document.createElement("i");
+                closeButton.append(closeButtonIcon);
+                closeButtonIcon.classList.add("seta", "fa-solid", "fa-xmark");
+                closeButton.addEventListener("click", () => {
+                    removerImagem(imagens[this.index].id);
+                });
+                this.container.appendChild(closeButton);
+            }
         }
 
         imagens = [];
