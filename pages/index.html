@@ -263,7 +263,7 @@
                         method: "POST",
                         body: formData
                     }).then(result => result.json()).then(json => {
-                        if (result.status && result.status === "error") {
+                        if (json.status && json.status === "error") {
                             Swal.fire({
                                 icon: "error",
                                 title: "Erro",
