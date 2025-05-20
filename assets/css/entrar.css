@@ -80,6 +80,18 @@ label {
     pointer-events: none;
 }
 
+input:-webkit-autofill {
+    animation-name: autofill-start;
+    animation-duration: 0.01s;
+    animation-iteration-count: 1;
+}
+
+@keyframes autofill-start {
+    from {}
+
+    to {}
+}
+
 .mover {
     font-size: 13px;
     transform: translateY(-12px);
@@ -170,14 +182,17 @@ button:hover {
     .box-entrar {
         width: 85%;
     }
+
     #campos h1 {
         font-size: 0;
         margin-bottom: 7px;
     }
+
     #campos h1::after {
         font-size: 35px;
         content: "Entrar";
     }
+
     #info-login-responsivo {
         display: flex;
         margin-bottom: 25px;
@@ -186,22 +201,27 @@ button:hover {
         width: 70%;
         text-align: center;
     }
+
     label {
         padding: 22px 10px;
         font-size: 20px;
     }
+
     .mover {
         font-size: 15px;
         padding: 18px 10px;
     }
+
     input {
         width: 95%;
         height: 52px;
         font-size: 20px;
     }
+
     #link-button {
         width: 94%;
     }
+
     button {
         height: 100%;
         padding: 10px 0px;
