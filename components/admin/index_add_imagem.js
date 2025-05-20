@@ -1,7 +1,7 @@
 const { isLogged } = require("../../src");
 
 const content = `
-<button onclick="addImagem()" class="botaoAdd">Adicionar Imagem</button>
+<button onclick="addImagem()" class="botaoAdd">Adicionar imagem</button>
 <script>
     function addImagem() {
             Swal.fire({
