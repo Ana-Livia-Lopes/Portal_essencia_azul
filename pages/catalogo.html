@@ -2,20 +2,32 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Portal Essência Azul</title>
-    <link rel="stylesheet" href="/css/catalogo.css">
+    <link rel="stylesheet" href="/css/catalogo.css" />
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
-        rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
+        rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon" />
+
+    <style>
+        /* CSS para esconder descrição por padrão */
+        .descricao {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .descricao.mostrar {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
-    <component-header />
-    <component-acessibilidade />
+    <component-header></component-header>
+    <component-acessibilidade></component-acessibilidade>
     <section id="quartos" class="seção-plano">
         <h3 class="titulo-w3-agileits titulo conteudo-site">Produtos disponíveis</h3>
         <div class="tabela-preco-principal">
@@ -31,7 +43,7 @@
                             <h3 id="preco" class="conteudo-site"><span>R$</span>35,00</h3>
                             <div class="custom-radios">
                                 <div>
-                                    <input type="radio" id="color-1" name="color" value="color-1" checked>
+                                    <input type="radio" id="color-1" name="color" value="color-1" checked />
                                     <label for="color-1">
                                         <span onclick="mudar('/img/produto2.jpeg')">
                                             <img id="radio1"
@@ -42,7 +54,7 @@
                                 </div>
 
                                 <div>
-                                    <input type="radio" id="color-2" name="color" value="color-2">
+                                    <input type="radio" id="color-2" name="color" value="color-2" />
                                     <label for="color-2">
                                         <span onclick="mudar('/img/produto1.png')">
                                             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
@@ -52,7 +64,7 @@
                                 </div>
 
                             </div>
-                            <button onclick="scrollParaSecao()" class="conteudo-site">Saiba Mais</button>
+                            <button onclick="toggleDescricao(this)" class="conteudo-site">Saiba Mais</button>
                         </div>
                         <div class="descricao">
                             <p>Camiseta ONG Essência Azul cores azul ou branca</p>
@@ -60,6 +72,7 @@
                     </div>
                 </div>
             </article>
+
             <article class="coluna card-preco">
                 <div class="bloco-preco agile">
                     <div class="topo-preco">
@@ -69,7 +82,7 @@
                     <div class="fundo-preco">
                         <div class="seleção-preco">
                             <h3 class="conteudo-site"><span>R$</span>10,00</h3>
-                            <button onclick="scrollParaSecao()" class="conteudo-site">Saiba Mais</button>
+                            <button onclick="toggleDescricao(this)" class="conteudo-site">Saiba Mais</button>
                         </div>
                         <div class="descricao">
                             <p>Cordão do quebra cabeça de identificação do autismo</p>
@@ -87,7 +100,7 @@
                     <div class="fundo-preco">
                         <div class="seleção-preco">
                             <h3 class="conteudo-site"><span>R$</span>10,00</h3>
-                            <button onclick="scrollParaSecao()" class="conteudo-site">Saiba Mais</button>
+                            <button onclick="toggleDescricao(this)" class="conteudo-site">Saiba Mais</button>
                         </div>
                         <div class="descricao">
                             <p>Cordão de girassol de identificação do autismo e deficiências ocultas</p>
@@ -98,19 +111,96 @@
         </div>
         <button onclick="editarEventos()" class="botao-editar conteudo-site">Adicionar produto</button>
     </section>
+
     <section id="secao2">
-        <img src="/img/linha.png" id="quebraCabeca">
+        <img src="/img/linha.png" id="quebraCabeca" />
     </section>
+
     <script>
-        function scrollParaSecao() {
-            const secao = document.getElementById("secao2");
-            secao.scrollIntoView({ behavior: "smooth" });
+        // Função para alternar visibilidade da descrição
+        function toggleDescricao(botao) {
+             const selecaoPreco = botao.parentElement;
+            const fundoPreco = selecaoPreco.parentElement;
+            const descricao = fundoPreco.querySelector('.descricao');
+            descricao.classList.toggle('mostrar');
+        }
+
+        function mudar(url) {
+            var image = document.getElementById("imgCamiseta");
+            image.src = url;
+            mudar2(url);
+        }
+
+        function mudar2(url) {
+            var preco = document.getElementById("preco");
+
+            if (url.includes("produto2.jpeg")) {
+                preco.innerHTML = "<span>R$</span>35,00";
+            } else if (url.includes("produto1.png")) {
+                preco.innerHTML = "<span>R$</span>50,00";
+            }
+            mudar3(url);
+        }
+
+        function mudar3(url) {
+            var infantilAdulto = document.getElementById("infantilAdulto");
+
+            if (url.includes("produto2.jpeg")) {
+                infantilAdulto.innerHTML = "Camiseta Infantil";
+            } else if (url.includes("produto1.png")) {
+                infantilAdulto.innerHTML = "Camiseta Adulta";
+            }
+        }
+
+        function editarEventos() {
+            Swal.fire({
+                title: "Adicionar produto",
+                html: `
+                    <div class="modal-container">
+                        <label for="nome" class="modal-label">Nome do produto</label>
+                        <input type="text" id="nome" class="modal-input" />
+
+                        <label for="preco" class="modal-label">Preço do produto</label>
+                        <input type="number" id="preco" class="modal-input" />
+                    </div>
+                `,
+                confirmButtonText: "Salvar",
+                cancelButtonText: "Cancelar",
+                showCancelButton: true,
+                focusConfirm: false,
+                customClass: {
+                    popup: "custom-popup",
+                },
+                preConfirm: () => {
+                    const nome = document.getElementById("nome").value.trim();
+                    const preco = document.getElementById("preco").value.trim();
+
+                    if (!nome || !preco) {
+                        Swal.showValidationMessage("Preencha todos os campos!");
+                        return false;
+                    }
+
+                    if (isNaN(preco) || parseFloat(preco) <= 0) {
+                        Swal.showValidationMessage("Insira um preço válido!");
+                        return false;
+                    }
+
+                    return {
+                        nome,
+                        preco: parseFloat(preco),
+                    };
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire("Salvo!", "O evento foi atualizado.", "success");
+                }
+            });
         }
     </script>
 
     <section id="secao3">
         <div class="imagem">
-            <img src="/img/bannerCatalogo.png">
+            <img src="/img/bannerCatalogo.png" />
         </div>
         <div class="texto">
             <div class="linha"></div>
@@ -120,80 +210,7 @@
         </div>
     </section>
 
-    <component-footer />
+    <component-footer></component-footer>
 </body>
-<script>
-    function mudar(url) {
-        var image = document.getElementById("imgCamiseta");
-        image.src = url;
-        mudar2(url);
-    }
-
-    function mudar2(url) {
-        var preco = document.getElementById("preco");
-        
-        if (url.includes("produto2.jpeg")) {
-            preco.innerHTML = "<span>R$</span>35,00";
-        } else if (url.includes("produto1.png")) {
-            preco.innerHTML = "<span>R$</span>50,00";
-        }
-        mudar3(url);
-    }
-
-    function mudar3(url) {
-        var preco = document.getElementById("infantilAdulto");
-        
-        if (url.includes("produto2.jpeg")) {
-            infantilAdulto.innerHTML = "Camiseta Infantil";
-        } else if (url.includes("produto1.png")) {
-            infantilAdulto.innerHTML = "Camiseta Adulta";
-        }
-    }
-
-    function editarEventos() {
-    Swal.fire({
-        title: 'Adicionar produto',
-        html: `
-            <div class="modal-container">
-                <label for="nome" class="modal-label">Nome do produto</label>
-                <input type="text" id="nome" class="modal-input">
-
-                <label for="preco" class="modal-label">Preço do produto</label>
-                <input type="number" id="preco" class="modal-input">
-            </div>
-        `,
-        confirmButtonText: 'Salvar',
-        cancelButtonText: 'Cancelar',
-        showCancelButton: true,
-        focusConfirm: false,
-        customClass: {
-            popup: 'custom-popup'
-        },
-        preConfirm: () => {
-            const nome = document.getElementById('nome').value.trim();
-            const preco = document.getElementById('preco').value.trim();
-
-            if (!nome || !preco) {
-                Swal.showValidationMessage('Preencha todos os campos!');
-                return false;
-            }
-
-            if (isNaN(preco) || parseFloat(preco) <= 0) {
-                Swal.showValidationMessage('Insira um preço válido!');
-                return false;
-            }
-
-            return {
-                nome,
-                preco: parseFloat(preco)
-            };
-        }
-    }).then(result => {
-                if (result.isConfirmed) {
-                    Swal.fire('Salvo!', 'O evento foi atualizado.', 'success');
-                }
-            });
-        }
-</script>
 
 </html>
