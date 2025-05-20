@@ -78,8 +78,7 @@ const content = `
         }
 </script>`;
 
-module.exports = async function execute(_, { session }) {
-    console.log(session);
+module.exports = function execute(_, { session }) {
     if (!session) return "";
     if (!isLogged(session)) return "";
     return content;
