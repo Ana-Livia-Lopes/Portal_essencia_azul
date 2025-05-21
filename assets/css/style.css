@@ -1091,14 +1091,10 @@ body {
     display: none;
   }
 
-  .fa-chevron-right {
+  .fa-chevron-right, .fa-chevron-left {
     display: none;
     opacity: 0;
-  }
-
-  .fa-chevron-left {
-    display: none;
-    opacity: 0;
+    pointer-events: none;
   }
 
   #galeriaPainel,
