@@ -215,12 +215,12 @@ var EssenciaAzul = ( function() {
         const methodsEntriesDescriptors = Object.entries(Object.getOwnPropertyDescriptors(methods));
         const typeEvents = { ...events };
 
-        function emitEvent(eventName, doc, key) {
-            if (key !== emitEventSymbol) throw new TypeError("Função privada");
+        async function emitEvent(eventName, doc, oldDoc = null, adminKey, privateKey) {
+            if (privateKey !== emitEventSymbol) throw new TypeError("Função privada");
             const event = typeEvents[eventName]
             if (event) {
-                if (typeof event === "function") event(doc);
-                if (event instanceof Array) for (const listener of event) listener();
+                if (typeof event === "function") await event(doc, oldDoc, adminKey);
+                if (event instanceof Array) for (const listener of event) await listener();
             }
         }
 
@@ -300,6 +300,11 @@ var EssenciaAzul = ( function() {
 
     const Types = {};
 
+    // type = nome no objeto Types
+    function createRegisterCallback(type, action) {
+        return async (doc, oldDoc, key) => await registerAction(key, Types[type], doc.id, action, oldDoc, doc);
+    }
+
     Types.Acolhido = createDatabaseDocumentType(BaseDataTypes.Acolhido, "acolhidos", {
         references: {
             async get_familia() { },
@@ -307,12 +312,10 @@ var EssenciaAzul = ( function() {
         },
         privateFields: [ "ref_familia", "ref_documentos" ],
         events: {
-            // create: (doc) => console.log(doc),
-            // read: (doc) => console.log(doc)
+            create: createRegisterCallback("Acolhido", "adicionar"),
+            remove: createRegisterCallback("Acolhido", "remover"),
+            update: createRegisterCallback("Acolhido", "editar"),
         },
-        fieldsFilters: [
-            ({ fields }) => { fields.manipulated = true; return fields; }
-        ]
     });
 
     Types.Familia = createDatabaseDocumentType(BaseDataTypes.Familia, "familias", {
@@ -323,6 +326,11 @@ var EssenciaAzul = ( function() {
             count() {
                 return {}
             }
+        },
+        events: {
+            create: createRegisterCallback("Familia", "adicionar"),
+            remove: createRegisterCallback("Familia", "remover"),
+            update: createRegisterCallback("Familia", "editar"),
         }
     });
 
@@ -352,9 +360,20 @@ var EssenciaAzul = ( function() {
         ],
         privateFields: [ "url_logo" ],
         bucket: "public-images",
-        allowOverSet: false
+        allowOverSet: false,
+        events: {
+            create: createRegisterCallback("Apoiador", "adicionar"),
+            remove: createRegisterCallback("Apoiador", "remover"),
+            update: createRegisterCallback("Apoiador", "editar"),
+        }
     });
-    Types.Voluntario = createDatabaseDocumentType(BaseDataTypes.Voluntario, "voluntarios");
+    Types.Voluntario = createDatabaseDocumentType(BaseDataTypes.Voluntario, "voluntarios", {
+        events: {
+            create: createRegisterCallback("Voluntario", "adicionar"),
+            remove: createRegisterCallback("Voluntario", "remover"),
+            update: createRegisterCallback("Voluntario", "editar"),
+        }
+    });
 
     Types.Documento = createDatabaseDocumentType(BaseDataTypes.Documento, "documentos", {
         references: {
@@ -382,7 +401,12 @@ var EssenciaAzul = ( function() {
         ],
         privateFields: [ "url_arquivo" ],
         bucket: "documents",
-        allowOverSet: false
+        allowOverSet: false,
+        events: {
+            create: createRegisterCallback("Documento", "adicionar"),
+            remove: createRegisterCallback("Documento", "remover"),
+            update: createRegisterCallback("Documento", "editar"),
+        }
     });
     Types.Imagem = createDatabaseDocumentType(BaseDataTypes.Imagem, "imagens", {
         references: {
@@ -411,7 +435,12 @@ var EssenciaAzul = ( function() {
         privateFields: [ "url_conteudo" ],
         bucket: "public-images",
         allowOverSet: false,
-        public: true
+        public: true,
+        events: {
+            create: createRegisterCallback("Imagem", "adicionar"),
+            remove: createRegisterCallback("Imagem", "remover"),
+            update: createRegisterCallback("Imagem", "editar"),
+        }
     });
     Types.Evento = createDatabaseDocumentType(BaseDataTypes.Evento, "eventos", {
         references: {
@@ -440,7 +469,12 @@ var EssenciaAzul = ( function() {
         privateFields: [ "url_imagem" ],
         bucket: "public-images",
         allowOverSet: false,
-        public: true
+        public: true,
+        events: {
+            create: createRegisterCallback("Evento", "adicionar"),
+            remove: createRegisterCallback("Evento", "remover"),
+            update: createRegisterCallback("Evento", "editar"),
+        }
     });
     Types.Produto = createDatabaseDocumentType(BaseDataTypes.Produto, "produtos", {
         references: {
@@ -469,11 +503,28 @@ var EssenciaAzul = ( function() {
         privateFields: [ "url_imagem" ],
         bucket: "public-images",
         allowOverSet: false,
-        public: true
+        public: true,
+        events: {
+            create: createRegisterCallback("Produto", "adicionar"),
+            remove: createRegisterCallback("Produto", "remover"),
+            update: createRegisterCallback("Produto", "editar"),
+        }
     });
 
-    Types.SolicitacaoAcolhido = createDatabaseDocumentType(BaseDataTypes.SolicitacaoAcolhido, "solicitacoes_acolhido");
-    Types.SolicitacaoVoluntario = createDatabaseDocumentType(BaseDataTypes.SolicitacaoVoluntario, "solicitacoes_voluntario");
+    Types.SolicitacaoAcolhido = createDatabaseDocumentType(BaseDataTypes.SolicitacaoAcolhido, "solicitacoes_acolhido", {
+        events: {
+            create: createRegisterCallback("SolicitacaoAcolhido", "adicionar"),
+            remove: createRegisterCallback("SolicitacaoAcolhido", "remover"),
+            update: createRegisterCallback("SolicitacaoAcolhido", "editar"),
+        }
+    });
+    Types.SolicitacaoVoluntario = createDatabaseDocumentType(BaseDataTypes.SolicitacaoVoluntario, "solicitacoes_voluntario", {
+        events: {
+            create: createRegisterCallback("SolicitacaoVoluntario", "adicionar"),
+            remove: createRegisterCallback("SolicitacaoVoluntario", "remover"),
+            update: createRegisterCallback("SolicitacaoVoluntario", "editar"),
+        }
+    });
 
     Types.Admin = createDatabaseDocumentType(BaseDataTypes.Admin, "admins", {
         privateFields: [ "senha", "chave" ],
@@ -486,7 +537,7 @@ var EssenciaAzul = ( function() {
             async get_alteracoes() { }
         },
         fieldsFilters: [
-            async ({ fields, key, type, action, id } = {}) => {
+            async ({ fields, action, id } = {}) => {
                 delete fields.chave;
                 switch (action) {
                     case "create":
@@ -515,8 +566,6 @@ var EssenciaAzul = ( function() {
         SolicitacaoAcolhido, SolicitacaoVoluntario,
         Admin, Alteracao
     } = Types;
-
-    function registerAction() {}
 
     async function validateKey(key) {
         // valida se a chave está correta e existe no banco de dados.
@@ -602,6 +651,8 @@ var EssenciaAzul = ( function() {
         for (const key in object) {
             if (object[key] === undefined) {
                 delete object[key];
+            } else if (typeof object[key] === "function" || object[key] instanceof Function) {
+                delete object[key];
             } else if (typeof object[key] === "object" && object[key] !== null) {
                 clearUndefined(object[key]);
             }
@@ -625,7 +676,7 @@ var EssenciaAzul = ( function() {
         const docRef = await addDoc(collRef, clearUndefined(sendingFields));
         doc = new type(createdByKey.get(this), docRef.id, (await getDoc(docRef)).data(), privateDBConstructorKey);
 
-        type._eventEmitter("create", doc, emitEventSymbol);
+        await type._eventEmitter("create", doc, null, key, emitEventSymbol);
 
         return doc;
     }
@@ -684,7 +735,7 @@ var EssenciaAzul = ( function() {
             docs.push(new type(createdByKey.get(this), doc.id, fields, privateDBConstructorKey));
         }
 
-        type._eventEmitter("read", docs, emitEventSymbol);
+        await type._eventEmitter("read", docs, null, key, emitEventSymbol);
 
         return docs;
     }
@@ -705,6 +756,8 @@ var EssenciaAzul = ( function() {
 
         const docRef = doc(collRef, id);
         const docSnap = await getDoc(docRef);
+        const oldDocData = docSnap.data();
+        const oldDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(oldDocData), privateDBConstructorKey);
         if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
 
         switch (options?.editType) {
@@ -729,7 +782,7 @@ var EssenciaAzul = ( function() {
         const newDocSnap = await getDoc(docRef);
         const newDocData = newDocSnap.data();
         const newDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(newDocData), privateDBConstructorKey);
-        type._eventEmitter("update", newDoc, emitEventSymbol);
+        await type._eventEmitter("update", newDoc, oldDoc, key, emitEventSymbol);
         return newDoc;
     }
 
@@ -748,7 +801,7 @@ var EssenciaAzul = ( function() {
         delete filteredRemoveData.id;
         const deletedDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(filteredRemoveData), privateDBConstructorKey);
         await deleteDoc(docRef);
-        type._eventEmitter("remove", deletedDoc, emitEventSymbol);
+        await type._eventEmitter("remove", deletedDoc, null, key, emitEventSymbol);
         return deletedDoc;
     }
 
@@ -797,6 +850,28 @@ var EssenciaAzul = ( function() {
         remove(type, id) {
             return remove(privateKeys.get(this), type, id);
         }
+    }
+
+    async function registerAction(key, type, id, change, oldDoc, doc) {
+        if(typeof key == "symbol") return;
+        if(key instanceof Login) key = privateKeys.get(key);
+        const admin = (await getDocs(query(collection(db, "admins"), where("chave", "==", key)))).docs[0];
+        if (!admin) return console.error("Admin não encontrado para chave " + key);
+        const registro = {
+            admin: admin.ref,
+            colecao: type.collection,
+            id_doc: doc.id,
+            data: Timestamp.fromDate(new Date()),
+            acao: change,
+        };
+        if (oldDoc) {
+            registro.documento_novo = clearUndefined(instanceRealFields.get(doc));
+            registro.documento_antigo = clearUndefined(instanceRealFields.get(oldDoc));
+        } else {
+            registro.documento = clearUndefined(instanceRealFields.get(doc));
+        }
+        const collRef = collection(db, "alteracoes");
+        await addDoc(collRef, registro);
     }
 
     async function login(session, email, password) {

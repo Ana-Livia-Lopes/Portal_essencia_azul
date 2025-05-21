@@ -53,4 +53,10 @@ module.exports = {
     TimeoutError:createCodedError("Timeout",504),
 }
 
-module.exports.ClientError();
+Object.defineProperty(module.exports.ServiceError, "toString", {
+    value() {
+        if (this.originalError) {
+            return `${this.name} (${this.code}, ${this.originalError?.name ?? "Unknown Origin"}) ${this.message}`
+        }
+    } 
+})

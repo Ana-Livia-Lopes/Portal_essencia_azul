@@ -1,6 +1,7 @@
 const path = require( "path" );
-const { Page } = require( "./src/server" );
+const { Page, ServiceError } = require( "./src/server" );
 const { timestamp } = require("./src/util/index");
+const { FirebaseError } = require("firebase/app");
 
 const errorScreen = new Page.Screen("/", path.join(__dirname, "./onError.html"), { contentType: "text/html" });
 
@@ -18,11 +19,18 @@ module.exports = async function onError(parameters) {
         return;
     }
 
+    if (error instanceof FirebaseError) {
+        let originalError = error;
+        error = ServiceError(parameters.response, "Erro em um serviço externo.");
+        error.originalError = originalError;
+    }
+
     switch (content.contentType) {
         case "application/json":
             content.append(JSON.stringify({
                 status: "error",
                 message: error?.message ?? "No details about",
+                originalError: error.originalError?.message,
                 timestamp: timestamp()
             }));
             break;
@@ -33,4 +41,7 @@ module.exports = async function onError(parameters) {
             break;
     }
     console.log(error);
+    if(error.originalError) {
+        console.log(error.originalError);
+    }
 }
