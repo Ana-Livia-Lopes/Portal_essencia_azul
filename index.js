@@ -41,7 +41,7 @@ function loadContent() {
     }
 }
 
-Cache.enabled = !devMode;
+Cache.enabled = (process.argv.includes("--dev") ? false : null) ?? (process.argv.includes("--release") ? true : null) ?? !devMode;
 
 server.listen(port, hostname);
 
@@ -124,20 +124,24 @@ const commands = [
     }),
     new Command("cache", () => {
         Cache.enabled = !Cache.enabled;
-        console.log(`Cache ${Cache.enabled ? "enabled" : "disabled"}`);
-    }),
+        console.log(`Cache ${chalk.blueBright(Cache.enabled ? "enabled" : "disabled")}`);
+    }, [
+        new Command("status", () => {
+            console.log(`Cache is ${chalk.blueBright(Cache.enabled ? "enabled" : "disabled")}`);
+        })
+    ]),
     new Command("memory", () => {
         const memoryUsage = process.memoryUsage();
 
-        console.log("Memory Usage:");
+        console.group("Memory Usage:");
         console.log(`RSS: ${(memoryUsage.rss / 1024 / 1024).toFixed(2)} MB`); // Resident Set Size
         console.log(`Heap Total: ${(memoryUsage.heapTotal / 1024 / 1024).toFixed(2)} MB`);
         console.log(`Heap Used: ${(memoryUsage.heapUsed / 1024 / 1024).toFixed(2)} MB`);
         console.log(`External: ${(memoryUsage.external / 1024 / 1024).toFixed(2)} MB`);
         console.log(`Array Buffers: ${(memoryUsage.arrayBuffers / 1024 / 1024).toFixed(2)} MB`);
+        console.groupEnd("Memory Usage:");
     }),
     new Command("close", () => {
-        console.log("Closing server..."); 
         process.exit(0);
     }),
 ]
@@ -146,3 +150,19 @@ const cli = new Command.Collection();
 for (const command of commands) cli.add(command);
 
 cli.listen();
+
+function exitCallback() {
+    console.log("Closing server...");
+    for (const watcher of server.watchers) watcher.close();
+    server.close();
+    process.exit(0);
+}
+
+process.on("exit", exitCallback);
+process.on("SIGINT", () => process.exit(0));
+process.on("uncaughtException", (err, origin) => {
+    console.error("Unhandled Exception:", err);
+});
+process.on("unhandledRejection", (reason, promise) => {
+    console.error("Unhandled Rejection:", reason);
+});

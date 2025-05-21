@@ -1,7 +1,7 @@
 {
   "name": "portal_essencia_azul",
   "version": "1.0.0",
-  "description": "O arquivo de inicialização do projeto é `index.js` do diretório raíz.\r Ele inicia um servidor HTTP, buscando suas configurações de hostname e porta no arquivo `config.json`:\r ```json\r {\r     \"hostname\": \"0.0.0.0\",\r     \"port\": 8080\r }\r ```",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
