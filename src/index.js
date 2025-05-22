@@ -444,7 +444,7 @@ var EssenciaAzul = ( function() {
     });
     Types.Evento = createDatabaseDocumentType(BaseDataTypes.Evento, "eventos", {
         references: {
-            async get_imagem() { await readInStorage(Evento._bucket, instanceRealFields.get(this).url_imagem) }
+            async get_imagem() { return await readInStorage(Evento._bucket, instanceRealFields.get(this).url_imagem) }
         },
         fieldsFilters: [
             async ({ fields, type, action }) => {
@@ -478,7 +478,7 @@ var EssenciaAzul = ( function() {
     });
     Types.Produto = createDatabaseDocumentType(BaseDataTypes.Produto, "produtos", {
         references: {
-            async get_imagem() { await readInStorage(Produto._bucket, instanceRealFields.get(this).url_imagem) }
+            async get_imagem() { return await readInStorage(Produto._bucket, instanceRealFields.get(this).url_imagem) }
         },
         fieldsFilters: [
             async ({ fields, type, action }) => {

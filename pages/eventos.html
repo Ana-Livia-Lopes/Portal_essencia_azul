@@ -10,7 +10,6 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/js/eventos.js" defer></script>
     <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
 </head>
 
@@ -18,172 +17,106 @@
     <component-header/>
     <component-acessibilidade/>
 
+    <component-json-eventos />
+
     <section id="secao1">
         <h1 class="conteudo-site">Eventos</h1>
 
         <div class="eventos">
             <div class="lista-eventos" id="listaEventos">
-                <div class="item-evento">
-                    <div class="data">
-                        <b class="conteudo-site">01</b><br>Abril
-                    </div>
-                    <div class="conteudo">
-                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                        <div class="conteudo-site">Descrição e informações do evento</div>
-                    </div>
-                </div>
-
-                <div class="item-evento">
-                    <div class="data">
-                        <b class="conteudo-site">29</b><br>Maio
-                    </div>
-                    <div class="conteudo">
-                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                        <div class="conteudo-site">Descrição e informações do evento</div>
-                    </div>
-                </div>
-
-                <div class="item-evento">
-                    <div class="data">
-                        <b class="conteudo-site">14</b><br>Junho
-                    </div>
-                    <div class="conteudo">
-                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                        <div class="conteudo-site">Descrição e informações do evento</div>
-                    </div>
-                </div>
-
-                <div class="item-evento">
-                    <div class="data">
-                        <b class="conteudo-site">30</b><br>Agosto
-                    </div>
-                    <div class="conteudo">
-                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                        <div class="conteudo-site">Descrição e informações do evento</div>
-                    </div>
-                </div>
-
-                <div class="item-evento">
-                    <div class="data">
-                        <b class="conteudo-site">09</b><br>Setembro
-                    </div>
-                    <div class="conteudo">
-                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                        <div class="conteudo-site">Descrição e informações do evento</div>
-                    </div>
-                </div>
-
-                <div class="item-evento">
-                    <div class="data">
-                        <b class="conteudo-site">17</b><br>Novembro
-                    </div>
-                    <div class="conteudo">
-                        <strong class="conteudo-site">NOME DO EVENTO</strong><br>
-                        <div class="conteudo-site">Descrição e informações do evento</div>
+            </div>
+            <div id="imgEventoContainer">
+                <!-- <img class="imgEvento" id="imgEvento" src="/img/evento1.png" alt=""> -->
+                <div id="semEventoDiv">
+                    <div style="height: 100%; display: flex; justify-content: center; align-items: center;">
+                        <h1 style="vertical-align: middle; margin: 0;">
+                            Nenhum evento...
+                        </h1>
                     </div>
                 </div>
             </div>
-            <img class="imgEvento" id="imgEvento" src="/img/evento1.png" alt="">
+            <script>
+                const imagemOutput = document.getElementById("imgEventoContainer");
+                const meses = [
+                    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+                ];
+
+                let eventoAtual = 0;
+
+                function createEvento(nome, descricao, data, url, index) {
+                    data = new Date(data);
+                    const imgInstance = document.createElement("img");
+                    imgInstance.src = url;
+
+                    const eventoDiv = document.createElement("div");
+                    eventoDiv.classList.add("item-evento");
+                    eventoDiv.imgInstance = imgInstance;
+
+                    const dataDiv = document.createElement("div");
+                    dataDiv.classList.add("data");
+                    const dataDivBold = document.createElement("b");
+                    dataDivBold.classList.add("conteudo-site");
+                    dataDivBold.innerHTML = data.getDate();
+                    const dataDivBr = document.createElement("br");
+                    const dataSubDiv = document.createElement("div")
+                    dataSubDiv.append(dataDivBold, dataDivBr, meses[data.getMonth()]);
+                    dataDiv.append(dataSubDiv);
+
+                    const conteudoDiv = document.createElement("div");
+                    conteudoDiv.classList.add("conteudo");
+                    const conteudoDivStrong = document.createElement("strong");
+                    conteudoDivStrong.classList.add("conteudo-site");
+                    conteudoDivStrong.innerHTML = nome;
+                    const conteudoDivDescricao = document.createElement("div");
+                    conteudoDivDescricao.classList.add("conteudo-site");
+                    conteudoDivDescricao.innerHTML = descricao;
+                    conteudoDiv.append(conteudoDivStrong, conteudoDivDescricao);
+
+                    eventoDiv.append(dataDiv, conteudoDiv);
+
+                    eventoDiv.addEventListener("click", () => {
+                        for (const child of imagemOutput.children) {
+                            child.remove();
+                        }
+                        imagemOutput.appendChild(imgInstance);
+                        eventoAtual = index;
+                    });
+
+                    eventoDiv.index = index;
+
+                    return eventoDiv;
+                }
+
+                const listaEventos = document.getElementById("listaEventos");
+
+                if (window.EVENTOS.length !== 0) {
+                    const semEventoDiv = document.getElementById("semEventoDiv");
+                    if (semEventoDiv) semEventoDiv.remove();
+                }
+
+                for (let i = 0; i < window.EVENTOS.length; i++) {
+                    const { titulo, descricao, data, imagem } = window.EVENTOS[i];
+                    const eventoDiv = createEvento(titulo, descricao, data, imagem, i);
+                    listaEventos.appendChild(eventoDiv);
+                    if (i === 0) eventoDiv.dispatchEvent(new Event("click"));
+                }
+            </script>
         </div>
     </section>
     
     <section id="secao2">
-        <button onclick="AddEventos()" class="conteudo-site botao-editar">Adicionar eventos</button>
+        <component-admin-eventos_add_evento />
         
         <img src="/img/linha.png" id="quebraCabeca">
         <h2 class="h2 conteudo-site">Eventos anteriores</h2>
         
         <component-carrossel/>
+        <component-admin-index_add_imagem />
         
-        <button onclick="addImagem()" class="botaoAdd">Adicionar imagem</button>
     </section>
 
     <component-footer/>
-
-    <script>
-
-
-
-        function AddEventos() {
-            Swal.fire({
-                title: 'Adcionar evento',
-                html: `
-        <div class="modal-container">
-            <label for="dataEvento" class="modal-label">Data do evento</label>
-            <input type="date" id="dataEvento" class="modal-input">
-
-            <label for="nomeEvento" class="modal-label">Nome do evento</label>
-            <input type="text" id="nomeEvento" class="modal-input">
-
-            <label for="descricaoEvento" class="modal-label">Descrição</label>
-            <textarea id="descricaoEvento" class="modal-textarea"></textarea>
-
-            <label for="arquivoInput" class="modal-label">Arte do evento</label>
-            <input type="file" id="arquivoInput" class="modal-file">
-        </div>
-    `,
-                confirmButtonText: 'Salvar',
-                cancelButtonText: 'Cancelar',
-                showCancelButton: true,
-                focusConfirm: false,
-                customClass: {
-                    popup: 'custom-popup'
-                },
-                preConfirm: () => {
-                    const nome = document.getElementById('nomeEvento').value.trim();
-                    const descricao = document.getElementById('descricaoEvento').value.trim();
-                    const data = document.getElementById('dataEvento').value;
-                    const arquivo = document.getElementById('arquivoInput').files[0];
-
-                    if (!nome || !descricao || !data) {
-                        Swal.showValidationMessage('Preencha todos os campos!');
-                        return false;
-                    }
-
-                    return { nome, descricao, data, arquivo };
-                }
-            }).then(result => {
-                if (result.isConfirmed) {
-                    Swal.fire('Salvo!', 'O evento foi atualizado.', 'success');
-                }
-            });
-        }
-
-
-
-        function addImagem() {
-            Swal.fire({
-                title: 'Adicionar imagem',
-                html: `
-        <div class="modal-container">
-            <label for="arquivoInput" class="modal-label">Imagem</label>
-            <input type="file" id="arquivoInput" class="modal-file">
-        </div>
-    `,
-                confirmButtonText: 'Salvar',
-                cancelButtonText: 'Cancelar',
-                showCancelButton: true,
-                focusConfirm: false,
-                customClass: {
-                    popup: 'custom-popup'
-                },
-                preConfirm: () => {
-                    const arquivo = document.getElementById('arquivoInput').files[0];
-
-                    if (!arquivo) {
-                        Swal.showValidationMessage('Preencha todos os campos!');
-                        return false;
-                    }
-
-                    return { arquivo };
-                }
-            }).then(result => {
-                if (result.isConfirmed) {
-                    Swal.fire('Salvo!', 'Imagem adicionada', 'success');
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>
