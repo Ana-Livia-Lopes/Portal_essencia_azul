@@ -48,13 +48,17 @@ h1 {
   font-size: 30px;
 }
 
-.formulario-solicitacao {
+section {
+  margin-bottom: 50px;
+}
+
+.formulario-solicitacao-section-expansiva {
   display: flex;
   justify-content: center;
 }
 
 .form-wrapper {
-  background: #8ec1e437;
+  background: #0990ea37;
   padding: 20px;
   border-radius: 10px;
   max-width: 800px;
@@ -135,6 +139,26 @@ select {
   padding: 5px;
   border-radius: 5px;
   border: 1px solid #ccc;
+}
+
+.conteudo {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1.0s ease;
+}
+
+.conteudo.expandido {
+  max-height: 5000px;
+  transition: max-height 2.5s ease;
+}
+
+.chevron {
+  cursor: pointer;
+  transition: transform 0.8s ease;
+}
+
+.chevron.rotacionado {
+  transform: rotate(180deg);
 }
 
 @media (max-width: 768px) {

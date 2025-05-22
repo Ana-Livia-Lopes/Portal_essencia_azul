@@ -165,10 +165,7 @@ i {
 
 @media (max-width: 850px) {
     body {
-        background-image: url(/img/fundo.png);
-        background-size: 600px 1600px;
-        background-repeat: no-repeat;
-        background-position: center;
+        background-image: none;
     }
     .contato-container {
         max-width: 95%;
@@ -221,10 +218,7 @@ i {
 
 @media (max-width: 480px) {
     body {
-        background-image: url(/img/fundo.png);
-        background-size: 600px 2000px;
-        background-repeat: no-repeat;
-        background-position: center;
+        background-image: none;
     }
     .formulario-contato h2 {
         font-size: 22px;

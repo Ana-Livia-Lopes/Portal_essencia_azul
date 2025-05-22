@@ -2,7 +2,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
         rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <footer id="footer">
     <img id="puzzle1-footer" src="/img/puzzle.png" alt="">
@@ -21,7 +21,7 @@
                 -23.1114594!4d-45.7107942!16s%2Fg%2F11fwz5x6kp!3m5!1s0x94cc517e22d894a5:0x653d53ede958fa5d!8m2!
                 3d-23.1114594!4d-45.7107942!16s%2Fg%2F11fwz5x6kp?hl=pt-BR&entry=ttu&g_ep=EgoyMDI1MDMyNC4wIKXMDSoASAFQAw%3D%3D" 
                 target="_blank" class="conteudo-site">Ver localização</a>
-
+                
                 <h5 id="email-footer" class="conteudo-site">Email:</h5>
                 <p class="conteudo-site">essenciatea@gmail.com</p>
             </div>
@@ -46,31 +46,33 @@
                     <a href="https://linktr.ee/isadoragomess" target="_blank" class="conteudo-site"><li>Isadora Gomes da Silva</li></a>
                     <a href="https://linktr.ee/lucasbalderrama"target="_blank" class="conteudo-site"><li>Lucas Randal Abreu Balderrama</li></a>
                 </ul>
-            </div> 
+            </div>
         </div>
-        <a href="/entrar" id="entrar-a"><button id="entrar-adm">Entrar como administrador</button></a>
+        
+        <component-admin-footer_botoes />
+
     </div>
     <img id="puzzle2-footer" src="/img/puzzle.png" alt="">
 </footer>
 
 <style>
-    #footer{
+    #footer {
         background-color: #4a62be;
         color: white;
         font-family: "Montserrat";
         display: flex;
     }
 
-    #puzzle1-footer{
+    #puzzle1-footer {
         width: 300px;
-        height:min-content;
+        height: min-content;
         display: block;
         margin-right: auto;
         margin-bottom: auto;
         overflow: hidden;
     }
 
-    #puzzle2-footer{
+    #puzzle2-footer {
         width: 300px;
         height: min-content;
         transform: rotate(180deg);
@@ -80,7 +82,7 @@
         overflow: hidden;
     }
 
-    #texto{
+    #texto {
         margin-top: 30px;
         margin-bottom: 20px;
         display: flex;
@@ -88,97 +90,97 @@
         align-items: center;
     }
 
-    #info{
+    #info {
         display: flex;
         gap: 50px;
         margin-top: 40px;
         margin-bottom: 0px;
     }
 
-    #footer h1{
+    #footer h1 {
         font-size: 27px;
         margin-bottom: 10px;
         cursor: default;
     }
 
-    #footer h2{
+    #footer h2 {
         font-size: 19px;
         cursor: default;
     }
 
-    #footer h5{
+    #footer h5 {
         font-size: 18px;
         cursor: default;
     }
 
-    #footer h4{
+    #footer h4 {
         margin-top: 10px;
         font-size: 16px;
         cursor: default;
     }
 
-    #footer ul{
+    #footer ul {
         list-style: none;
     }
 
-    #footer a{
+    #footer a {
         text-decoration: none;
         color: white;
         transition: all 0.2s;
     }
 
-    #footer a:hover{
+    #footer a:hover {
         color: rgb(193, 205, 255);
     }
 
-    #endereco-email{
+    #endereco-email {
         width: 300px;
         text-align: left;
     }
 
-    #endereco-email a{
+    #endereco-email a {
         text-decoration: underline;
     }
 
-    #endereco-email p{
+    #endereco-email p {
         margin-bottom: 10px;
     }
 
-    #email-footer{
+    #email-footer {
         margin-top: 15px;
     }
 
-    #desenvolvedores{
+    #desenvolvedores {
         width: 300px;
         text-align: left;
     }
 
-    #redes-contato{
+    #redes-contato {
         width: max-content;
         text-align: left;
     }
 
-    #redes-contato div{
+    #redes-contato div {
         display: flex;
     }
 
-    #barra{
+    #barra {
         margin-left: 7px;
         margin-right: 7px;
     }
 
-    .item-contato{
+    .item-contato {
         display: flex;
         gap: 10px;
         margin-bottom: 30px;
         width: max-content;
     }
 
-    .fa-brands{
+    .fa-brands {
         font-size: 22px;
     }
 
-    #entrar-adm{
+    #entrar-adm {
         background-color: #ffffff;
         color: #4a62be;
         width: 218px;
@@ -196,31 +198,38 @@
         cursor: pointer;
     }
 
-    #entrar-adm:hover{
-        background-color: rgb(193, 205, 255);;
+    #entrar-adm:hover {
+        background-color: rgb(193, 205, 255);
+        ;
         color: #4558a7;
     }
 
     @media (max-width: 768px) {
-        #footer{
+        #footer {
             flex-direction: column;
         }
-        #puzzle1-footer, #puzzle2-footer{
+
+        #puzzle1-footer,
+        #puzzle2-footer {
             display: none;
         }
-        #info{
+
+        #info {
             flex-direction: column;
             gap: 50px;
         }
-        #footer h2{
+
+        #footer h2 {
             text-align: center;
             margin-left: 10px;
             margin-right: 10px;
         }
-        .item-contato{
+
+        .item-contato {
             margin-bottom: 15px;
         }
-        #entrar-adm{
+
+        #entrar-adm {
             margin-top: 30px;
             margin-bottom: 20px;
         }
