@@ -61,6 +61,7 @@
                 Swal.fire({
                     icon: "success",
                     title: "Sessão iniciada com sucesso",
+                    confirmButtonColor: "#1535b5bd"
                 }).then(() => {
                     window.location.href = "/gerenciamento";
                 });
@@ -68,6 +69,7 @@
                 Swal.fire({
                     icon: "error",
                     title: "Erro ao entrar",
+                    confirmButtonColor: "#1535b5bd",
                     text: result.message,
                 });
             }

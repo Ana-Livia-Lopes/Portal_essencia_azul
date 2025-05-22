@@ -12,6 +12,8 @@ const usuarioLogado = `<div class="botoes-admin">
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Sair',
+                confirmButtonColor: "#1535b5bd",
+                cancelButtonColor: "#a21a1a",
             }).then(result => {
                 if (result.isConfirmed) {
                     fetch("/actions/logout", {
@@ -24,12 +26,14 @@ const usuarioLogado = `<div class="botoes-admin">
                                 icon: 'error',
                                 title: 'Houve um erro!',
                                 text: json.message,
+                                confirmButtonColor: "#1535b5bd"
                             })
                         }
                         else {
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Sessão encerrada com sucesso!',
+                                confirmButtonColor: "#1535b5bd"
                             }).then(()=>{
                                 window.location.href = '/';
                             })
@@ -55,7 +59,7 @@ const usuarioLogado = `<div class="botoes-admin">
             justify-content: center;
             align-items: center;
             justify-self: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             cursor: pointer;
         }
         #gerenciamento:hover {
@@ -67,7 +71,7 @@ const usuarioLogado = `<div class="botoes-admin">
             color: #fff;
             width: 80px;
             height: 30px;
-            font-size: 14px;
+            font-size: 16px;
             border-radius: 0.4rem;
             border: none;
             font-family: 'Montserrat';
@@ -78,6 +82,23 @@ const usuarioLogado = `<div class="botoes-admin">
             justify-self: center;
             cursor: pointer;
             text-decoration: underline;
+            transition: 0.3s all;
+        }
+        #sair:hover {
+            font-size: 20px;
+            transform: (scale 1.6);
+        }
+        @media (max-width: 768px) {
+            #gerenciamento {
+                margin-top: 30px;
+                margin-bottom: 20px;
+                width: 180px;
+                height: 40px;
+                font-size: 16px;
+            }
+            #sair {
+                font-size: 20px;
+            }
         }
     </style>
 </div>`;
