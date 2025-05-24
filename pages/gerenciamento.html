@@ -9,6 +9,39 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Gerenciamento - Portal Essência Azul</title>
     <script src="/js/admin.js"></script>
+
+    <script>
+        async function loadComponent(name) {
+            return await (await fetch("/" + name, {
+                headers: {
+                    ["x-get-component"]: "true"
+                }
+            })).text();
+        }
+
+        const sections = {
+            acolhidos: document.createElement("div"),
+            voluntarios: document.createElement("div"),
+            administradores: document.createElement("div"),
+            familias: document.createElement("div"),
+            relatorios: document.createElement("div"),
+        };
+
+        (async () => {
+            sections.acolhidos.innerHTML = await loadComponent("gerenciamento-acolhidos");
+            sections.voluntarios.innerHTML = await loadComponent("gerenciamento-voluntarios");
+            sections.administradores.innerHTML = await loadComponent("gerenciamento-administradores");
+            sections.familias.innerHTML = await loadComponent("gerenciamento-familias");
+            sections.relatorios.innerHTML = await loadComponent("gerenciamento-relatorios");
+
+            for (const sectionName in sections) {
+                const section = sections[sectionName];
+                for (const script of section.querySelectorAll("script")) {
+                    document.body.append(script);
+                }
+            }
+        })();
+    </script>
 </head>
 
 <body>
@@ -31,15 +64,15 @@
             <div id="atalhos">
                 <h2>Usuários</h2>
                 <div id="botoes-direita">
-                    <button class="botao conteudo-site" onclick="scrollParaElemento('secao4')"
+                    <button class="botao conteudo-site" onclick="mudarSection('voluntarios')"
                         id="option-switch-voluntarios">Voluntários</button>
-                    <button class="botao conteudo-site" onclick="scrollParaElemento('secao2')"
+                    <button class="botao conteudo-site" onclick="mudarSection('administradores')"
                         id="option-switch-administradores">Administradores</button>
-                    <button class="botao conteudo-site" onclick="scrollParaElemento('secao3')"
+                    <button class="botao conteudo-site" onclick="mudarSection('familias')"
                         id="option-switch-familias">Famílias</button>
-                    <button class="botao conteudo-site" onclick="scrollParaElemento('secao1')"
+                    <button class="botao conteudo-site" onclick="mudarSection('acolhidos')"
                         id="option-switch-acolhidos">Acolhidos</button>
-                    <button class="botao-esp" onclick="irParaRelatorios()"
+                    <button class="botao-esp" onclick="mudarSection('relatorios')"
                         id="option-switch-relatorios">Relatórios</button>
                 </div>
             </div>
@@ -185,6 +218,15 @@
         </section>
     </div>
 
+    <script>
+        const sectionContainer = document.getElementById("option-switch");
+        function mudarSection(nome) {
+            if (!sections[nome]) return;
+            for (const child of sectionContainer.children) child.remove();
+            sectionContainer.append(sections[nome]);
+        }
+    </script>
+
     <component-footer/>
 
     <a href="#" class="btn" id="scrollToTopButton"></a>
@@ -249,18 +291,6 @@
         }
 
     </script>
-    
-        <script type="module">
-            import ComponentSwitch from "/js/component_switch.js";
-    
-            new ComponentSwitch(document.getElementById("option-switch"), { ignoreCache: true })
-                .setChangeButton(document.getElementById("option-switch-voluntarios"), "gerenciamento-voluntarios")
-                .setChangeButton(document.getElementById("option-switch-administradores"), "gerenciamento-administradores")
-                .setChangeButton(document.getElementById("option-switch-familias"), "gerenciamento-familias")
-                // .setChangeButton(document.getElementById("option-switch-relatorios"), "gerenciamento-relatorios")
-                .setChangeButton(document.getElementById("option-switch-acolhidos"), "gerenciamento-acolhidos")
-    
-        </script>
 </body>
 
 </html>
