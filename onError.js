@@ -25,6 +25,11 @@ module.exports = async function onError(parameters) {
         error.originalError = originalError;
     }
 
+    console.log(error);
+    if(error.originalError) {
+        console.log(error.originalError);
+    }
+
     switch (content.contentType) {
         case "application/json":
             content.append(JSON.stringify({
@@ -40,8 +45,5 @@ module.exports = async function onError(parameters) {
             // content.append(`${error?.name ?? "Error"} (${error?.code ?? 500}): ${error?.message}`);
             break;
     }
-    console.log(error);
-    if(error.originalError) {
-        console.log(error.originalError);
-    }
+    
 }

@@ -9,10 +9,17 @@ const { ServerError, NotFoundError, ImplementationError, ClientError } = require
 const { protect } = require( "../util/" );
 const Watcher = require( "./watcher.js" );
 const Body = require("./body.js");
+const path = require( "path" );
 
 const emptyPagePlaceholder = new Page._Placeholder();
 
-const loadComponentPage = new Page._Placeholder();
+const loadComponentPage = new Page._Placeholder(async (parameters) => {
+    const componenetName = url.parse(parameters.request.url).pathname.slice(1);
+    const component = parameters.server.components.get(componenetName);
+    if (!component) throw NotFoundError(parameters.response, `Component ${componenetName} not found`);
+
+    return await component.load({}, parameters);
+});
 
 const bodyAllowedMethods = ["POST", "PUT", "PATCH"];
 
