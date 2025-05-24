@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Portal Essência Azul</title>
+    <title>Catálogo - Portal Essência Azul</title>
     <link rel="stylesheet" href="/css/catalogo.css" />
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
@@ -28,6 +28,7 @@
 <body>
     <component-header />
     <component-acessibilidade />
+    <component-json-produtos/>
     <section id="quartos" class="seção-plano">
         <h3 class="titulo-w3-agileits titulo conteudo-site">Produtos disponíveis</h3>
         <div class="tabela-preco-principal">
@@ -118,7 +119,7 @@
                 </div>
             </article>
         </div>
-        <button onclick="editarEventos()" class="botao-editar conteudo-site">Adicionar produto</button>
+        <component-admin-catalogo_add_produto/>
     </section>
 
     <section id="secao2">
@@ -159,51 +160,6 @@
             } else if (url.includes("produto1.png")) {
                 infantilAdulto.innerHTML = "Camiseta Adulta";
             }
-        }
-
-        function editarEventos() {
-            Swal.fire({
-                title: "Adicionar produto",
-                html: `
-                    <div class="modal-container">
-                        <label for="nome" class="modal-label">Nome do produto</label>
-                        <input type="text" id="nome" class="modal-input" />
-
-                        <label for="preco" class="modal-label">Preço do produto</label>
-                        <input type="number" id="preco" class="modal-input" />
-                    </div>
-                `,
-                confirmButtonText: "Salvar",
-                cancelButtonText: "Cancelar",
-                showCancelButton: true,
-                focusConfirm: false,
-                customClass: {
-                    popup: "custom-popup",
-                },
-                preConfirm: () => {
-                    const nome = document.getElementById("nome").value.trim();
-                    const preco = document.getElementById("preco").value.trim();
-
-                    if (!nome || !preco) {
-                        Swal.showValidationMessage("Preencha todos os campos!");
-                        return false;
-                    }
-
-                    if (isNaN(preco) || parseFloat(preco) <= 0) {
-                        Swal.showValidationMessage("Insira um preço válido!");
-                        return false;
-                    }
-
-                    return {
-                        nome,
-                        preco: parseFloat(preco),
-                    };
-                },
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire("Salvo!", "O evento foi atualizado.", "success");
-                }
-            });
         }
     </script>
 

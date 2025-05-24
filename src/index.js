@@ -159,7 +159,10 @@ var EssenciaAzul = ( function() {
             this.collection = collection;
             this.type = type;
             this.init();
+            PublicDocs.instances.add(this);
         }
+
+        static instances = new Set();
 
         collection;
         type;
@@ -176,7 +179,12 @@ var EssenciaAzul = ( function() {
                 delete fields.id;
                 this.set(doc.id, new this.type(Symbol.for("PublicTypesRead"), doc.id, fields, privateDBConstructorKey));
             }
-            onSnapshot(collRef, snapshot => {
+            this.createConnection();
+        }
+
+        createConnection() {
+            const collRef = collection(db, this.collection);
+            this._unsubscribe = onSnapshot(collRef, snapshot => {
                 snapshot.docChanges().forEach(change => {
                     const doc = change.doc;
                     const fields = mapForTimestampToDate({ ...doc.data() });
@@ -488,6 +496,15 @@ var EssenciaAzul = ( function() {
                         if (!fields.blob) throw new ClientError(undefined, "Missing upload blob property.");
                         fields.url_imagem = await saveInStorage(type._bucket, type.collection, fields.blob);
                         delete fields.blob;
+                        if (fields.opcoes instanceof Array) {
+                            for (const opcao of fields.opcoes) {
+                                delete opcao.url_imagem;
+                                if (opcao.blob) {
+                                    opcao.url_imagem = await saveInStorage(type._bucket, type.collection, opcao.blob);
+                                    delete opcao.blob;
+                                }
+                            }
+                        }
                         return fields;
                     case "update":
                         delete fields.url_imagem;
@@ -950,6 +967,7 @@ var EssenciaAzul = ( function() {
         remove,
         getPublics,
         BaseDataTypes,
+        PublicDocs,
         ...Types
     };
 } )();

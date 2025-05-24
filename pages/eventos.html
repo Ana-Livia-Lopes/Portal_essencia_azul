@@ -18,6 +18,7 @@
     <component-acessibilidade/>
 
     <component-json-eventos />
+    <component-admin-is_logged />
 
     <section id="secao1">
         <h1 class="conteudo-site">Eventos</h1>
@@ -36,6 +37,8 @@
                 </div>
             </div>
             <script>
+                window.EVENTOS.sort((a, b) => -(new Date(b.data) - new Date(a.data)));
+
                 const imagemOutput = document.getElementById("imgEventoContainer");
                 const meses = [
                     "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
@@ -43,8 +46,38 @@
                 ];
 
                 let eventoAtual = 0;
+                let autoScrollInterval;
 
-                function createEvento(nome, descricao, data, url, index) {
+                function modalRemoverEvento(id) {
+                    Swal.fire({
+                        icon: "question",
+                        title: "Tem certeza que deseja apagar este evento?",
+                        text: "Esta ação é irreversível",
+                        showCancelButton: true,
+                        confirmButtonText: "Apagar",
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            fetch(`/api/eventos/${id}`, {
+                                method: "DELETE"
+                            }).then(resp => resp.json()).then(json => {
+                                if (json.status === "error") {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Houve um erro...",
+                                        text: json.message
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Evento excluído com sucesso!"
+                                    }).then(() => window.location.reload());
+                                }
+                            });
+                        }
+                    });
+                }
+
+                function createEvento(nome, descricao, data, url, id, index) {
                     data = new Date(data);
                     const imgInstance = document.createElement("img");
                     imgInstance.src = url;
@@ -52,6 +85,16 @@
                     const eventoDiv = document.createElement("div");
                     eventoDiv.classList.add("item-evento");
                     eventoDiv.imgInstance = imgInstance;
+                    eventoDiv.style.position = "relative";
+
+                    if (window.ISLOGGED) {
+                        const removerButton = document.createElement("i");
+                        removerButton.classList.add("fa-xmark", "fa-solid", "removerButton");
+                        eventoDiv.append(removerButton);
+                        removerButton.addEventListener("click", () => {
+                            modalRemoverEvento(id)
+                        });
+                    }
 
                     const dataDiv = document.createElement("div");
                     dataDiv.classList.add("data");
@@ -75,12 +118,13 @@
 
                     eventoDiv.append(dataDiv, conteudoDiv);
 
-                    eventoDiv.addEventListener("click", () => {
+                    eventoDiv.addEventListener("click", event => {
                         for (const child of imagemOutput.children) {
                             child.remove();
                         }
                         imagemOutput.appendChild(imgInstance);
                         eventoAtual = index;
+                        if (autoScrollInterval && !event.autoScroll) clearInterval(autoScrollInterval);
                     });
 
                     eventoDiv.index = index;
@@ -96,11 +140,20 @@
                 }
 
                 for (let i = 0; i < window.EVENTOS.length; i++) {
-                    const { titulo, descricao, data, imagem } = window.EVENTOS[i];
-                    const eventoDiv = createEvento(titulo, descricao, data, imagem, i);
+                    const { titulo, descricao, data, imagem, id } = window.EVENTOS[i];
+                    const eventoDiv = createEvento(titulo, descricao, data, imagem, id, i);
                     listaEventos.appendChild(eventoDiv);
                     if (i === 0) eventoDiv.dispatchEvent(new Event("click"));
                 }
+
+                autoScrollInterval = setInterval(() => {
+                    const eventos = document.querySelectorAll(".item-evento");
+                    if (eventos.length === 0) return;
+                    let proxIndex = (eventoAtual + 1) % eventos.length;
+                    const event = new Event("click");
+                    event.autoScroll = true;
+                    eventos[proxIndex].dispatchEvent(event);
+                }, 4000);
             </script>
         </div>
     </section>

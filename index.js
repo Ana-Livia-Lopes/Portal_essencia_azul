@@ -3,7 +3,7 @@ const { Server, Page, Cache, Component, Watcher, Event } = require("./src/server
 const path = require( "path" );
 const { hostname, port, devMode } = require("./config.json").server;
 const Command = require("./cli.js");
-require("./src/");
+const { PublicDocs } = require("./src/");
 
 const server = new Server();
 console.clear();
@@ -110,6 +110,27 @@ const commands = [
             });
             if ("count" in flags) return console.log(filteredComponents.length);
             console.table(filteredComponents);
+        })
+    ]),
+    new Command("public", (...args) => {
+        const publics = [];
+        for (const publicCollection of PublicDocs.instances.values()) {
+            if (!args[0] || args.includes(publicCollection.collection)) publics.push(publicCollection);
+        }
+        const output = [];
+        for (const publicCollection of publics) {
+            for (const id of publicCollection.keys()) {
+                output.push({ collection: publicCollection.collection, id });
+            }
+        }
+        console.table(output)
+    }, [
+        new Command("status", () => {
+            console.log(`PublicDocs: ${PublicDocs.instances.size} collections`);
+            const output = [];
+            for (const publicCollection of PublicDocs.instances.values()) {
+                output.push({ collection: publicCollection.collection, size: publicCollection.size, connected });
+            }
         })
     ]),
     new Command("event", (...args) => {

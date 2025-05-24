@@ -64,6 +64,21 @@ declare namespace Operations {
     export function getPublic<T extends object, C extends typeof DatabaseDocument<T>>(
         type: T
     ): Map<string, InstanceType<C>>
+
+    export class PublicDocs<T extends object, C extends typeof DatabaseDocument<T>> extends Map<string, InstanceType<C>> {
+        constructor(collection: string, type: C)
+
+        collection: string
+        type: C
+        private _init: boolean
+        private _unsubscribe: () => void
+
+        static instances: Set<PublicDocs>
+
+        init(): Promise<void>
+
+        createConnection(): void
+    }
 }
 
 declare class Login {

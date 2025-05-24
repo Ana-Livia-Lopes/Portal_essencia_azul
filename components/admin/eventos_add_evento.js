@@ -70,7 +70,7 @@ const content = `
                                 icon: "success",
                                 title: "Sucesso!",
                                 text: "Evento adicionado com sucesso!",
-                            });
+                            }).then(() => window.location.reload());
                         }
                     });
                 }

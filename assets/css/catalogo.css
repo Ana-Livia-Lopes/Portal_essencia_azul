@@ -141,6 +141,37 @@ body {
     display: flex;
 }
 
+.optionContainer {
+    position: relative;
+}
+
+#add-produto-options {
+    padding: 4px;
+    background-color: #00000022;
+    position: relative;
+    padding-top: 40px;
+
+    .fa-solid.fa-plus {
+        position: absolute;
+        padding: 8px;
+        top: 0;
+        right: 0;
+        color: #fff;
+        cursor: pointer;
+        font-size: 20px;
+        
+    }
+}
+
+.removerOpcaoProduto {
+    position: absolute;
+    top: 8px;
+    right: 0;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 8px;
+}
 
 .custom-radios {
     div {
