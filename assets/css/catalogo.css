@@ -172,8 +172,14 @@ body {
     font-size: 20px;
     padding: 8px;
 }
-
+.custom-radios:empty{
+    margin-top: 32px;
+}
 .custom-radios {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin-left: 32px;
     div {
       display: inline-block;
       margin-top: 9px;
@@ -348,8 +354,8 @@ body {
     padding: 25px;
 }
 .descricao{
-    padding: 10px 30px;
-    font-weight: 400;
+    padding: 5px 20px;
+    font-weight: 430;
 }
 @media (max-width: 768px){
     #quebraCabeca {

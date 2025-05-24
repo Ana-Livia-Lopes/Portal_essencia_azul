@@ -40,31 +40,31 @@
                         <h4 id="infantilAdulto">Camiseta infantil</h4>
                     </div>
                     <div class="fundo-preco">
+                        <div class="custom-radios">
+                            <div>
+                                <input type="radio" id="color-1" name="color" value="color-1" checked />
+                                <label for="color-1">
+                                    <span onclick="mudar('/img/produto2.jpeg')">
+                                        <img id="radio1"
+                                            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
+                                            alt="Checked Icon" />
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="color-2" name="color" value="color-2" />
+                                <label for="color-2">
+                                    <span onclick="mudar('/img/produto1.png')">
+                                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
+                                            alt="Checked Icon" />
+                                    </span>
+                                </label>
+                            </div>
+
+                        </div>
                         <div class="seleção-preco">
                             <h3 id="preco" class="conteudo-site"><span>R$</span>35,00</h3>
-                            <div class="custom-radios">
-                                <div>
-                                    <input type="radio" id="color-1" name="color" value="color-1" checked />
-                                    <label for="color-1">
-                                        <span onclick="mudar('/img/produto2.jpeg')">
-                                            <img id="radio1"
-                                                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
-                                                alt="Checked Icon" />
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <div>
-                                    <input type="radio" id="color-2" name="color" value="color-2" />
-                                    <label for="color-2">
-                                        <span onclick="mudar('/img/produto1.png')">
-                                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg"
-                                                alt="Checked Icon" />
-                                        </span>
-                                    </label>
-                                </div>
-
-                            </div>
                             <button onclick="toggleDescricao(this)" class="conteudo-site">Saiba Mais</button>
                         </div>
                         <div class="descricao">
@@ -84,6 +84,7 @@
                         <h4 class="conteudo-site">Cordão</h4>
                     </div>
                     <div class="fundo-preco">
+                        <div class="custom-radios"></div>
                         <div class="seleção-preco">
                             <h3 class="conteudo-site"><span>R$</span>10,00</h3>
                             <button onclick="toggleDescricao(this)" class="conteudo-site">Saiba Mais</button>
@@ -105,6 +106,7 @@
                         <h4 class="conteudo-site">Cordão</h4>
                     </div>
                     <div class="fundo-preco">
+                        <div class="custom-radios"></div>
                         <div class="seleção-preco">
                             <h3 class="conteudo-site"><span>R$</span>10,00</h3>
                             <button onclick="toggleDescricao(this)" class="conteudo-site">Saiba Mais</button>
