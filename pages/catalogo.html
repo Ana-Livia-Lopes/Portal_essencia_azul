@@ -31,7 +31,7 @@
     <component-json-produtos/>
     <section id="quartos" class="seção-plano">
         <h3 class="titulo-w3-agileits titulo conteudo-site">Produtos disponíveis</h3>
-        <div class="tabela-preco-principal">
+        <div class="tabela-preco-principal" id="tabela-preco-principal">
 
             <article class="coluna card-preco">
                 <div class="bloco-preco agile">
@@ -129,6 +129,173 @@
     </section>
 
     <script>
+        const radioColors = [ "" ];
+
+        function criarProduto(nome, preco, descricao, imagem, opcoes) {
+            const mainArticle = document.createElement("article");
+            mainArticle.classList.add("coluna", "card-preco");
+            const blocoPreco = document.createElement("div");
+            blocoPreco.classList.add("bloco-preco", "agile");
+            const topoPreco = document.createElement("div");
+            topoPreco.classList.add("topo-preco");
+            const imgProduto = document.createElement("img");
+            imgProduto.src = imagem;
+            imgProduto.alt = nome;
+            imgProduto.classList.add("img-responsiva");
+            const nomeProduto = document.createElement("h4");
+            nomeProduto.classList.add("conteudo-site");
+            nomeProduto.textContent = nome;
+            topoPreco.appendChild(imgProduto);
+            topoPreco.appendChild(nomeProduto);
+            blocoPreco.appendChild(topoPreco);
+            const fundoPreco = document.createElement("div");
+            fundoPreco.classList.add("fundo-preco");
+            const customRadios = document.createElement("div");
+            customRadios.classList.add("custom-radios");
+            const selecaoPreco = document.createElement("div");
+            selecaoPreco.classList.add("seleção-preco");
+            const precoProduto = document.createElement("h3");
+            precoProduto.classList.add("conteudo-site");
+            precoProduto.innerHTML = `<span>R$</span>${Number.isSafeInteger(preco) ? preco.toFixed(2).replace(".", ",") : preco}`;
+            const botaoSaibaMais = document.createElement("button");
+            botaoSaibaMais.classList.add("conteudo-site");
+            botaoSaibaMais.textContent = "Saiba Mais";
+            botaoSaibaMais.onclick = function() {
+                toggleDescricao(botaoSaibaMais);
+            };
+            const descricaoProduto = document.createElement("div");
+            descricaoProduto.classList.add("descricao");
+            descricaoProduto.innerHTML = `<p>${descricao}</p>`;
+
+            if (opcoes && opcoes.length > 0) {
+                const opcoesObjs = [
+                    { nome: nomeProduto, preco: precoProduto, descricao: descricaoProduto, imagem: imgProduto }
+                ];
+
+                let atual = opcoesObjs[0];
+                const opcaoPadrao = opcoesObjs[0];
+
+                function mudarOpcao(opcao = opcaoPadrao) {
+                    const nomeAtual = atual.nome ?? opcaoPadrao.nome;
+                    const precoAtual = atual.preco ?? opcaoPadrao.preco;
+                    const descricaoAtual = atual.descricao ?? opcaoPadrao.descricao;
+                    const imagemAtual = atual.imagem ?? opcaoPadrao.imagem;
+
+                    if (opcao.nome) {
+                        if (nomeAtual !== opcao.nome) {
+                            nomeAtual.insertAdjacentElement("afterend", opcao.nome);
+                            nomeAtual.remove();
+                        }
+                    } else {
+                        if (nomeAtual !== opcaoPadrao.nome) {
+                            nomeAtual.insertAdjacentElement("afterend", opcaoPadrao.nome);
+                            if (atual !== opcaoPadrao) {
+                                nomeAtual.remove();
+                            }
+                        }
+                    }
+                    if (opcao.preco) {
+                        if (precoAtual !== opcao.preco) {
+                            precoAtual.insertAdjacentElement("afterend", opcao.preco);
+                            precoAtual.remove();
+                        }
+                    } else {
+                        if (precoAtual !== opcaoPadrao.preco) {
+                            precoAtual.insertAdjacentElement("afterend", opcaoPadrao.preco);
+                            if (atual !== opcaoPadrao) {
+                                precoAtual.remove();
+                            }
+                        }
+                    }
+                    if (opcao.descricao) {
+                        if (descricaoAtual !== opcao.descricao) {
+                            descricaoAtual.insertAdjacentElement("afterend", opcao.descricao);
+                            descricaoAtual.remove();
+                        }
+                    } else {
+                        if (descricaoAtual !== opcaoPadrao.descricao) {
+                            descricaoAtual.insertAdjacentElement("afterend", opcaoPadrao.descricao);
+                            if (atual !== opcaoPadrao) {
+                                descricaoAtual.remove();
+                            }
+                        }
+                    }
+                    if (opcao.imagem) {
+                        if (imagemAtual !== opcao.imagem) {
+                            imagemAtual.insertAdjacentElement("afterend", opcao.imagem);
+                            imagemAtual.remove();
+                        }
+                    } else {
+                        if (imagemAtual !== opcaoPadrao.imagem) {
+                            imagemAtual.insertAdjacentElement("afterend", opcaoPadrao.imagem);
+                            if (atual !== opcaoPadrao) {
+                                imagemAtual.remove();
+                            }
+                        }
+                    }
+                    atual = opcao;
+                }
+
+                
+                
+                for (const opcao of [{ nome, preco, descricao, imagem }, ...opcoes]) {
+                    const opcaoObj = {};
+                    if (opcao.nome) {
+                        opcaoObj.nome = document.createElement("h4");
+                        opcaoObj.nome.classList.add("conteudo-site");
+                        opcaoObj.nome.textContent = opcao.nome;
+                    }
+                    if (opcao.preco) {
+                        opcaoObj.preco = document.createElement("h3");
+                        opcaoObj.preco.classList.add("conteudo-site");
+                        opcaoObj.preco.innerHTML = `<span>R$</span>${Number.isSafeInteger(opcao.preco) ? opcao.preco.toFixed(2).replace(".", ",") : opcao.preco}`;
+                    }
+                    if (opcao.descricao) {
+                        opcaoObj.descricao = document.createElement("div");
+                        opcaoObj.descricao.classList.add("descricao");
+                        opcaoObj.descricao.innerHTML = `<p>${opcao.descricao}</p>`;
+                    }
+                    if (opcao.imagem) {
+                        opcaoObj.imagem = document.createElement("img");
+                        opcaoObj.imagem.src = opcao.imagem;
+                        opcaoObj.imagem.alt = opcao.nome || "Produto";
+                        opcaoObj.imagem.classList.add("img-responsiva");
+                    }
+
+                    const container = document.createElement("div");
+                    const input = document.createElement("input");
+                    input.type = "radio";
+                    input.checked = true;
+                    const label = document.createElement("label");
+                    const span = document.createElement("span");
+                    span.onclick = function() {
+                        mudarOpcao(opcaoObj);
+                    };
+                    const img = document.createElement("img");
+                    img.src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg";
+                    img.alt = "Checked Icon";
+                    span.appendChild(img);
+                    label.appendChild(span);
+                    input.id = `color-${opcao.nome}`;
+                    input.name = "color";
+                    input.value = `color-${opcao.nome}`;
+                    label.htmlFor = input.id;
+                    container.appendChild(input);
+                    container.appendChild(label);
+                    customRadios.appendChild(container);
+                }
+            }
+
+            fundoPreco.appendChild(customRadios);
+            selecaoPreco.appendChild(precoProduto);
+            selecaoPreco.appendChild(botaoSaibaMais);
+            fundoPreco.appendChild(selecaoPreco);
+            fundoPreco.appendChild(descricaoProduto);
+            blocoPreco.appendChild(fundoPreco);
+            mainArticle.appendChild(blocoPreco);
+            return mainArticle;
+        }
+
         // Função para alternar visibilidade da descrição
         function toggleDescricao(botao) {
              const selecaoPreco = botao.parentElement;
@@ -161,6 +328,16 @@
                 infantilAdulto.innerHTML = "Camiseta Infantil";
             } else if (url.includes("produto1.png")) {
                 infantilAdulto.innerHTML = "Camiseta Adulta";
+            }
+        }
+    </script>
+
+    <script>
+        if (window.PRODUTOS) {
+            for (const produto of window.PRODUTOS) {
+                const { nome, preco, descricao, imagem, opcoes } = produto;
+                const produtoElement = criarProduto(nome, preco, descricao, imagem, opcoes);
+                document.getElementById("tabela-preco-principal").appendChild(produtoElement);
             }
         }
     </script>
