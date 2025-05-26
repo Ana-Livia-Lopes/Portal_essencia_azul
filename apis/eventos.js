@@ -2,6 +2,7 @@ const { create, Evento, remove, update, read } = require( "../src/index.js" );
 const { ClientError } = require( "../src/server" );
 const redirect = require( "../src/server/redirect.js" );
 const getFormidableBlob = require( "./_getFormidableBlob.js" );
+const singleField = require( "./_singleField.js" );
 
 const maxSize = 50 * 1024 * 1024; // 50 MB
 
@@ -11,11 +12,12 @@ module.exports = {
         if (
             !body.files.blob ||
             !body.fields.titulo ||
+            !body.fields.descricao ||
             !body.fields.data
         ) throw new ClientError(response, "Parâmetros insuficientes");
 
         const blob = await getFormidableBlob(body.files.blob);
-        const data = new Date(`${body.fields.data[0]}T03:00:00Z`);
+        const data = new Date(`${singleField(body.fields.data)}T03:00:00Z`);
         if (isNaN(data.getTime())) {
             throw new ClientError(response, "Data inválida");
         }
@@ -28,15 +30,15 @@ module.exports = {
         }
 
         return await create(session.get("login"), Evento, {
-            titulo: body.fields.titulo[0],
-            descricao: body.fields.descricao?.[0] ?? undefined,
+            titulo: singleField(body.fields.titulo),
+            descricao: singleField(body.fields.descricao),
             blob,
             data,
-        })
+        }, response);
     },
-    async get({ params, query, response, session }) {
+    async get({ params, query, request, session, response }) {
         if (params.id) {
-            const event = (await read(session.get("login"), Evento, { id: params.id }))[0];
+            const event = (await read(session.get("login"), Evento, { id: params.id }, response))[0];
             if (request.url.includes("/url")) throw redirect(await event.references.get_imagem());
             return event;
         } else {
@@ -45,20 +47,20 @@ module.exports = {
                 limitOffset: query.pageSize * (query.page ?? 0),
                 orderBy: query.orderBy,
                 orderDirection: query.orderDirection,
-            });
+            }, response);
         }
     },
     async delete({ session, params, response }) {
         if (!params.id) throw new ClientError(response, "ID não informado");
-        return await remove(session.get("login"), Evento, params.id);
+        return await remove(session.get("login"), Evento, params.id, response);
     },
     async patch({ body, session, response }) {
         if (!params.id) throw new ClientError(response, "ID não informado");
         const patchFields = {};
-        if (body.fields.titulo) patchFields.titulo = body.fields.titulo[0];
-        if (body.fields.descricao) patchFields.descricao = body.fields.descricao[0];
+        if (body.fields.titulo) patchFields.titulo = singleField(body.fields.titulo);
+        if (body.fields.descricao) patchFields.descricao = singleField(body.fields.descricao);
         if (body.fields.data) {
-            const data = new Date(body.fields.data[0]);
+            const data = new Date(singleField(body.fields.data));
             if (isNaN(data.getTime())) {
                 throw new ClientError(response, "Data inválida");
             }
@@ -66,6 +68,6 @@ module.exports = {
         }
         return await update(session.get("login"), Evento, params.id, patchFields, {
             editType: "update"
-        });
+        }, response);
     },
 }

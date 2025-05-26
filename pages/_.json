@@ -29,5 +29,8 @@
     },
     "actions/register.js": {
         "contentType": "application/json"
+    },
+    "actions/unregister.js": {
+        "contentType": "application/json"
     }
 }

@@ -1,3 +1,5 @@
+import { DocumentReference, Timestamp } from "firebase/firestore"
+
 declare namespace BaseDataTypes {
     type TipoContato = "email"|"telefone"
     interface Contato {
@@ -12,9 +14,9 @@ declare namespace BaseDataTypes {
 
     class Acolhido {
         nome: string
-        idade: number
+        data_nascimento: Timestamp
         responsaveis: Responsavel[]
-        ref_familia: string
+        ref_familia: (DocumentReference)
         nivel_suporte: 1 | 2 | 3
         escola: {
             nome: string,
@@ -36,7 +38,8 @@ declare namespace BaseDataTypes {
             faz: string[]
             precisa: string[]
         }
-        ref_documentos: string[]
+        ref_documentos: (DocumentReference)[]
+        url_imagem: string
 
         observacoes: string | string[]
     }
@@ -48,7 +51,7 @@ declare namespace BaseDataTypes {
     class Familia {
         sobrenome: string
         endereco: string
-        residentes: Residente[]
+        residentes: Map<string, Residente>
 
         observacoes: string | string[]
     }
@@ -81,7 +84,7 @@ declare namespace BaseDataTypes {
     class Evento {
         titulo: string
         descricao: string
-        data: Date
+        data: Timestamp
         url_imagem: number
     }
     class Produto {
@@ -118,6 +121,7 @@ declare namespace BaseDataTypes {
         senha: string
         nivel: NivelAdmin
         chave: string
+        url_imagem: string
     }
 
     type Alteracao<A extends TipoAlteracao = TipoAlteracao> =
@@ -128,7 +132,7 @@ declare namespace BaseDataTypes {
 }
 
 declare abstract class AlteracaoBase<A extends string> {
-    ref_admin: string
+    ref_admin: (DocumentReference)
     colecao: string
     acao: A
     data: Date
@@ -195,7 +199,8 @@ declare namespace DataTypes {
     export class Acolhido extends DatabaseDocument<BaseDataTypes.Acolhido> {
         references: {
             get_familia(): Promise<Familia>,
-            get_documentos(): Promise<Documento[]>
+            get_documentos(): Promise<Documento[]>,
+            get_imagem(): Promise<string | null>
         }
     }
     export class Familia extends DatabaseDocument<BaseDataTypes.Familia> {

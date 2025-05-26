@@ -18,16 +18,18 @@ class Body {
         const body = new Body(privateConstructorSymbol);
 
         const contentType = request.headers["content-type"] || "";
-        body.type = contentType;
         body.fields = {};
         body.files = {};
 
         if (contentType.includes("multipart/form-data")) {
 
-            await new Promise(async (resolve) => {
+            body.type = "multipart/form-data";
+
+            await new Promise(async (resolve, reject) => {
                 const form = new formidable.IncomingForm();
                 form.parse(request, (err, fields, files) => {
                     if (err) {
+                        reject(err);
                         body.error = err;
                     } else {
                         body.fields = fields;

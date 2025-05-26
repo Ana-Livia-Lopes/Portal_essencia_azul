@@ -1,3 +1,4 @@
+import { ServerResponse } from "http"
 import { Session } from "./server/"
 import { DatabaseDocument } from "./types"
 
@@ -38,13 +39,15 @@ declare namespace Operations {
     export function create<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
         type: C,
-        fields: InstanceType<C>["fields"]
+        fields: InstanceType<C>["fields"],
+        response: ServerResponse,
     ): Promise<InstanceType<C>>
 
     export function read<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
         type: C,
         search: ReadOptions<InstanceType<C>>,
+        response: ServerResponse,
     ): Promise<InstanceType<C>[]> // só retorna único se limite for 1
 
     export function update<T extends object, C extends typeof DatabaseDocument<T>>(
@@ -52,18 +55,21 @@ declare namespace Operations {
         type: C,
         id: number,
         fields: InstanceType<C>["fields"],
-        options: UpdateOptions
+        options: UpdateOptions,
+        response: ServerResponse,
     ): Promise<InstanceType<C>>
 
     export function remove<T extends object, C extends typeof DatabaseDocument<T>>(
         key: string,
         type: C,
-        id: number
+        id: number,
+        response: ServerResponse,
     ): Promise<InstanceType<C>>
 
-    export function getPublic<T extends object, C extends typeof DatabaseDocument<T>>(
-        type: T
-    ): Map<string, InstanceType<C>>
+    export function getPublics<T extends object, C extends typeof DatabaseDocument<T>>(
+        type: T,
+        response: ServerResponse
+    ): Promise<PublicDocs<T, C>>
 
     export class PublicDocs<T extends object, C extends typeof DatabaseDocument<T>> extends Map<string, InstanceType<C>> {
         constructor(collection: string, type: C)

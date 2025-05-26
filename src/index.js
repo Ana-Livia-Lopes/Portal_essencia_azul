@@ -1,16 +1,16 @@
 const { Session, NotFoundError, PermissionError, ServiceError, ImplementationError } = require("./server/")
 const { Property } = require("./util");
 const { db } = require("../firebase.js");
-const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc, setDoc, deleteDoc, onSnapshot } = require("firebase/firestore");
+const { addDoc, collection, Timestamp, getDoc, where, query, orderBy, limit, startAfter, getDocs, updateDoc, doc, setDoc, deleteDoc, onSnapshot, DocumentReference, FieldValue } = require("firebase/firestore");
 const crypto = require("crypto");
-const { ClientError } = require("./server/errors.js");
+const { ClientError, ServerError } = require("./server/errors.js");
 const supabase = require( "../supabase.js" );
 
 var EssenciaAzul = ( function() {
     const BaseDataTypes = {}
     BaseDataTypes.Acolhido = class Acolhido {
         nome;
-        idade;
+        data_nascimento;
         responsaveis;
         ref_familia;
         nivel_suporte;
@@ -25,6 +25,7 @@ var EssenciaAzul = ( function() {
         convenio;
         terapias;
         ref_documentos;
+        urL_imagem;
 
         observacoes;
     }
@@ -87,6 +88,7 @@ var EssenciaAzul = ( function() {
         senha;
         nivel;
         chave;
+        urL_imagem;
     }
     BaseDataTypes.Alteracao = class Alteracao {
         ref_admin;
@@ -125,6 +127,12 @@ var EssenciaAzul = ( function() {
 
     async function readInStorage(bucket, url, response) {
         return supabase.storage.from(bucket).getPublicUrl(url).data.publicUrl;
+    }
+
+    async function updateInStorage(bucket, url, blob, response) {
+        if (!(blob instanceof Blob)) throw new ClientError(response, "Blob não é do tipo Blob");
+        const { error } = await supabase.storage.from(bucket).update(url, blob, { contentType: blob.contentType });
+        if (error) throw ServiceError(response, error.message);
     }
 
     async function removeInStorage(bucket, url, response) {
@@ -223,12 +231,12 @@ var EssenciaAzul = ( function() {
         const methodsEntriesDescriptors = Object.entries(Object.getOwnPropertyDescriptors(methods));
         const typeEvents = { ...events };
 
-        async function emitEvent(eventName, doc, oldDoc = null, adminKey, privateKey) {
+        async function emitEvent(eventName, doc, oldDoc = null, adminKey, response, privateKey) {
             if (privateKey !== emitEventSymbol) throw new TypeError("Função privada");
             const event = typeEvents[eventName]
             if (event) {
-                if (typeof event === "function") await event(doc, oldDoc, adminKey);
-                if (event instanceof Array) for (const listener of event) await listener();
+                if (typeof event === "function") await event(doc, oldDoc, adminKey, response);
+                if (event instanceof Array) for (const listener of event) await listener(doc, oldDoc, adminKey, response);
             }
         }
 
@@ -315,15 +323,67 @@ var EssenciaAzul = ( function() {
 
     Types.Acolhido = createDatabaseDocumentType(BaseDataTypes.Acolhido, "acolhidos", {
         references: {
-            async get_familia() { },
-            async get_documentos() { }
+            async get_familia() {
+                const ref = instanceRealFields.get(this).ref_familia;
+                if (ref instanceof DocumentReference) {
+                    const doc = await getDoc(ref);
+                    if (doc.exists()) {
+                        return new Types.Familia(Symbol.for("PublicTypesRead"), doc.id, mapForTimestampToDate({ ...doc.data() }), privateDBConstructorKey);
+                    }
+                } else {
+                    throw new NotFoundError("Família não encontrada");
+                }
+            },
+            async get_documentos() {
+                const docs = [];
+                for (const ref of instanceRealFields.get(this).ref_documentos) {
+                    if (ref instanceof DocumentReference) {
+                        const doc = await getDoc(ref);
+                        if (doc.exists()) {
+                            docs.push(new Types.Documento(Symbol.for("PublicTypesRead"), doc.id, mapForTimestampToDate({ ...doc.data() }), privateDBConstructorKey));
+                        }
+                    }
+                }
+                return docs;
+            },
+            async get_imagem() {
+                const url = instanceRealFields.get(this).url_imagem;
+                if (!url) return null;
+                return await readInStorage(Acolhido._bucket, url);
+            }
         },
-        privateFields: [ "ref_familia", "ref_documentos" ],
+        // privateFields: [ "ref_familia", "ref_documentos" ],
         events: {
             create: createRegisterCallback("Acolhido", "adicionar"),
             remove: createRegisterCallback("Acolhido", "remover"),
             update: createRegisterCallback("Acolhido", "editar"),
         },
+        bucket: "profile-pictures",
+        fieldsFilters: [
+            async ({ fields, action, response }) => {
+                switch (action) {
+                    case "create":
+                        delete fields.url_imagem;
+                        if (!fields.blob) return fields; else {
+                            fields.url_imagem = await saveInStorage(Acolhido._bucket, Acolhido.collection, fields.blob, response);
+                            delete fields.blob;
+                        }
+                        return fields;
+                    case "update":
+                        if (!fields.blob) return fields; else {
+                            delete fields.url_imagem;
+                            fields.url_imagem = await updateInStorage(Acolhido._bucket, fields.url_imagem, fields.blob, response);
+                            delete fields.blob;
+                        }
+                        return fields;
+                    case "remove":
+                        await removeInStorage(Acolhido._bucket, fields.url_imagem, response);
+                        return fields;
+                    default:
+                        return fields;
+                }
+            }
+        ]
     });
 
     Types.Familia = createDatabaseDocumentType(BaseDataTypes.Familia, "familias", {
@@ -339,7 +399,11 @@ var EssenciaAzul = ( function() {
             create: createRegisterCallback("Familia", "adicionar"),
             remove: createRegisterCallback("Familia", "remover"),
             update: createRegisterCallback("Familia", "editar"),
-        }
+        },
+        bucket: "profile-pictures",
+        fieldsFilters: [
+
+        ]
     });
 
     Types.Apoiador = createDatabaseDocumentType(BaseDataTypes.Apoiador, "apoiadores", {
@@ -347,16 +411,18 @@ var EssenciaAzul = ( function() {
             async get_logo() { return await readInStorage(Apoiador._bucket, instanceRealFields.get(this).url_logo) }
         },
         fieldsFilters: [
-            async ({ fields, type, action } = {}) => {
+            async ({ fields, type, action, response } = {}) => {
                 switch (action) {
                     case "create":
                         delete fields.url_logo;
-                        if (!fields.blob) throw new ClientError(undefined, "Missing upload blob property.");
+                        if (!fields.blob) throw new ClientError(response, "Missing upload blob property.");
                         fields.url_logo = await saveInStorage(type._bucket, type.collection, fields.blob);
                         delete fields.blob;
                         return fields;
                     case "update":
-                        delete fields.url_logo;
+                        if (!fields.blob) return fields; else {
+                            fields.url_logo = await updateInStorage(type._bucket, fields.url_logo, fields.blob);
+                        }
                         return fields;
                     case "remove":
                         await removeInStorage(type._bucket, fields.url_logo);
@@ -388,16 +454,20 @@ var EssenciaAzul = ( function() {
             async get_arquivo() { return await readInStorage(Documento._bucket, instanceRealFields.get(this).url_arquivo) }
         },
         fieldsFilters: [
-            async ({ fields, type, action } = {}) => {
+            async ({ fields, type, action, response } = {}) => {
                 switch (action) {
                     case "create":
                         delete fields.url_arquivo;
-                        if (!fields.blob) throw new ClientError(undefined, "Missing upload blob property.");
+                        if (!fields.blob) throw new ClientError(response, "Missing upload blob property.");
                         fields.url_arquivo = await saveInStorage(type._bucket, type.collection, fields.blob);
                         delete fields.blob;
                         return fields;
                     case "update":
-                        delete fields.url_arquivo;
+                        if (!fields.blob) return fields; else {
+                            delete fields.url_arquivo;
+                            fields.url_arquivo = await updateInStorage(type._bucket, fields.url_arquivo, fields.blob);
+                        }
+                        delete fields.blob;
                         return fields;
                     case "remove":
                         await removeInStorage(type._bucket, fields.url_arquivo);
@@ -421,16 +491,20 @@ var EssenciaAzul = ( function() {
             async get_conteudo() { return await readInStorage(Imagem._bucket, instanceRealFields.get(this).url_conteudo) }
         },
         fieldsFilters: [
-            async ({ fields, type, action }) => {
+            async ({ fields, type, action, response }) => {
                 switch (action) {
                     case "create":
                         delete fields.url_conteudo;
-                        if (!fields.blob) throw new ClientError(undefined, "Missing upload blob property.");
+                        if (!fields.blob) throw new ClientError(response, "Missing upload blob property.");
                         fields.url_conteudo = await saveInStorage(type._bucket, type.collection, fields.blob);
                         delete fields.blob;
                         return fields;
                     case "update":
-                        delete fields.url_conteudo;
+                        if (!fields.blob) return fields; else {
+                            delete fields.url_conteudo;
+                            fields.url_conteudo = await updateInStorage(type._bucket, fields.url_conteudo, fields.blob);
+                        }
+                        delete fields.blob;
                         return fields;
                     case "remove":
                         await removeInStorage(type._bucket, fields.url_conteudo);
@@ -455,16 +529,20 @@ var EssenciaAzul = ( function() {
             async get_imagem() { return await readInStorage(Evento._bucket, instanceRealFields.get(this).url_imagem) }
         },
         fieldsFilters: [
-            async ({ fields, type, action }) => {
+            async ({ fields, type, action, response }) => {
                 switch (action) {
                     case "create":
                         delete fields.url_imagem;
-                        if (!fields.blob) throw new ClientError(undefined, "Missing upload blob property.");
+                        if (!fields.blob) throw new ClientError(response, "Missing upload blob property.");
                         fields.url_imagem = await saveInStorage(type._bucket, type.collection, fields.blob);
                         delete fields.blob;
                         return fields;
                     case "update":
-                        delete fields.url_imagem;
+                        if (!fields.blob) return fields; else {
+                            delete fields.url_imagem;
+                            fields.url_imagem = await updateInStorage(type._bucket, fields.url_imagem, fields.blob);
+                        }
+                        delete fields.blob;
                         return fields;
                     case "remove":
                         await removeInStorage(type._bucket, fields.url_imagem);
@@ -489,11 +567,11 @@ var EssenciaAzul = ( function() {
             async get_imagem() { return await readInStorage(Produto._bucket, instanceRealFields.get(this).url_imagem) }
         },
         fieldsFilters: [
-            async ({ fields, type, action }) => {
+            async ({ fields, type, action, response }) => {
                 switch (action) {
                     case "create":
                         delete fields.url_imagem;
-                        if (!fields.blob) throw new ClientError(undefined, "Missing upload blob property.");
+                        if (!fields.blob) throw new ClientError(response, "Missing upload blob property.");
                         fields.url_imagem = await saveInStorage(type._bucket, type.collection, fields.blob);
                         delete fields.blob;
                         if (fields.opcoes instanceof Array) {
@@ -507,7 +585,19 @@ var EssenciaAzul = ( function() {
                         }
                         return fields;
                     case "update":
-                        delete fields.url_imagem;
+                        if (!fields.blob) return fields; else {
+                            delete fields.url_imagem;
+                            fields.url_imagem = await updateInStorage(type._bucket, fields.url_imagem, fields.blob);
+                        }
+                        delete fields.blob;
+                        if (fields.opcoes instanceof Array) {
+                            for (const opcao of fields.opcoes) {
+                                if (!opcao.blob) continue;
+                                delete opcao.url_imagem;
+                                opcao.url_imagem = await updateInStorage(type._bucket, opcao.url_imagem, opcao.blob);
+                                delete opcao.blob;
+                            }
+                        }
                         return fields;
                     case "remove":
                         await removeInStorage(type._bucket, fields.url_imagem);
@@ -530,16 +620,16 @@ var EssenciaAzul = ( function() {
 
     Types.SolicitacaoAcolhido = createDatabaseDocumentType(BaseDataTypes.SolicitacaoAcolhido, "solicitacoes_acolhido", {
         events: {
-            create: createRegisterCallback("SolicitacaoAcolhido", "adicionar"),
-            remove: createRegisterCallback("SolicitacaoAcolhido", "remover"),
-            update: createRegisterCallback("SolicitacaoAcolhido", "editar"),
+            // create: createRegisterCallback("SolicitacaoAcolhido", "adicionar"),
+            // remove: createRegisterCallback("SolicitacaoAcolhido", "remover"),
+            // update: createRegisterCallback("SolicitacaoAcolhido", "editar"),
         }
     });
     Types.SolicitacaoVoluntario = createDatabaseDocumentType(BaseDataTypes.SolicitacaoVoluntario, "solicitacoes_voluntario", {
         events: {
-            create: createRegisterCallback("SolicitacaoVoluntario", "adicionar"),
-            remove: createRegisterCallback("SolicitacaoVoluntario", "remover"),
-            update: createRegisterCallback("SolicitacaoVoluntario", "editar"),
+            // create: createRegisterCallback("SolicitacaoVoluntario", "adicionar"),
+            // remove: createRegisterCallback("SolicitacaoVoluntario", "remover"),
+            // update: createRegisterCallback("SolicitacaoVoluntario", "editar"),
         }
     });
 
@@ -554,19 +644,41 @@ var EssenciaAzul = ( function() {
             async get_alteracoes() { }
         },
         fieldsFilters: [
-            async ({ fields, action, id } = {}) => {
+            async ({ fields, action, id, response } = {}) => {
                 delete fields.chave;
                 switch (action) {
                     case "create":
+                        if (!fields.email) throw new ClientError(response, "Nome não informado");
+                        if (!fields.nivel) throw new ClientError(response, "Nível não informado");
+                        if (!fields.senha) throw new ClientError(response, "Senha não informada");
+                        if (![ "simples", "direcao", "dev" ].includes(fields.nivel)) throw new ClientError(response, "Nível inválido, use simples, direcao ou dev");
+                        const emailExists = (await getDocs(query(collection(db, "admins"), where("email", "==", fields.email)))).docs.length > 0;
+                        if (emailExists) throw new ClientError(response, "Email já cadastrado");
                         fields.chave = crypto.randomBytes(8).toString("hex");
+                        fields.senha = crypto.createHash("sha256").update(fields.senha).digest("hex");
+                        break;
+                    case "update":
+                        if (fields.senha) {
+                            fields.senha = crypto.createHash("sha256").update(fields.senha).digest("hex");
+                        }
+                        if (fields.nivel && ![ "simples", "direcao", "dev" ].includes(fields.nivel)) throw new ClientError(response, "Nível inválido, use simples, direcao ou dev");
+                        if (fields.email) {
+                            const docSnap = await getDoc(doc(db, "admins", id));
+                            if (docSnap.exists() && docSnap.data().email !== fields.email) {
+                                const emailExists = (await getDocs(query(collection(db, "admins"), where("email", "==", fields.email)))).docs.length > 0;
+                                if (emailExists) throw new ClientError(response, "Email já cadastrado");
+                            }
+                        }
                         break;
                     default:
-                        fields.chave = (await getDoc(doc(db, "admins", id))).data().chave;
+                        // fields.chave = (await getDoc(doc(db, "admins", id))).data().chave;
                         break;
                 }
                 return fields;
             }
-        ]
+        ],
+        bucket: "profile-pictures",
+        allowOverSet: false,
     });
 
     Types.Alteracao = createDatabaseDocumentType(BaseDataTypes.Alteracao, "alteracoes", {
@@ -677,13 +789,13 @@ var EssenciaAzul = ( function() {
         return object;
     }
 
-    async function create(key, type, fields) {
+    async function create(key, type, fields, response) {
         let keylevel = await validateKey(key);
         if (keylevel <= 0) throw new PermissionError("Permissão insuficiente para qualquer operação de administrador");
 
-        await type._callFieldsFilter({ action: "create", type, key, fields });
+        await type._callFieldsFilter({ action: "create", type, key, fields, response });
 
-        if (keylevel < type["create.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para criar documento de ${type._basetype.name}`);
+        if (keylevel < type["create.minKeyLevel"]) throw new PermissionError(response, `Permissão insuficiente para criar documento de ${type._basetype.name}`);
 
         let doc;
 
@@ -693,7 +805,7 @@ var EssenciaAzul = ( function() {
         const docRef = await addDoc(collRef, clearUndefined(sendingFields));
         doc = new type(createdByKey.get(this), docRef.id, (await getDoc(docRef)).data(), privateDBConstructorKey);
 
-        await type._eventEmitter("create", doc, null, key, emitEventSymbol);
+        await type._eventEmitter("create", doc, null, key, response, emitEventSymbol);
 
         return doc;
     }
@@ -703,9 +815,9 @@ var EssenciaAzul = ( function() {
     async function read(key, type, search) {
         let keylevel = await validateKey(key);
         if (!type._public) {
-            if (keylevel <= 0) throw new PermissionError(undefined, "Permissão insuficiente para qualquer operação de administrador");
+            if (keylevel <= 0) throw new PermissionError(response, "Permissão insuficiente para qualquer operação de administrador");
     
-            if (keylevel < type["read.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para ler documentos de ${type._basetype.name}`);
+            if (keylevel < type["read.minKeyLevel"]) throw new PermissionError(response, `Permissão insuficiente para ler documentos de ${type._basetype.name}`);
         }
 
         let docs = [];
@@ -715,8 +827,8 @@ var EssenciaAzul = ( function() {
         if (search?.id) {
             const docRef = doc(collRef, search.id);
             const docSnap = await getDoc(docRef);
-            if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
-            const fields = await type._callFieldsFilter({ action: "read", type, key, fields: { ...docSnap.data() }, id: docSnap.id });
+            if (!docSnap.exists()) throw new NotFoundError(response, "Documento não encontrado");
+            const fields = await type._callFieldsFilter({ action: "read", type, key, fields: { ...docSnap.data() }, id: docSnap.id, response });
             delete fields.id;
             docs.push(new type(createdByKey.get(this), docSnap.id, fields, privateDBConstructorKey));
             return docs;
@@ -736,7 +848,7 @@ var EssenciaAzul = ( function() {
         }
         if (search?.orderBy) {
             let orderDirection = search.orderDirection?.toLowerCase() ?? "asc";
-            if (!validLowerOrderDirections.includes(orderDirection)) throw new ClientError(undefined, "Direção de ordenação inválida, use ASC ou DESC");
+            if (!validLowerOrderDirections.includes(orderDirection)) throw new ClientError(response, "Direção de ordenação inválida, use ASC ou DESC");
             constraints.push(orderBy(search.orderBy, orderDirection));
         }
         if (search?.limit) {
@@ -747,12 +859,12 @@ var EssenciaAzul = ( function() {
         }
 
         for (const doc of (await getDocs(query(collRef, ...constraints))).docs) {
-            const fields = await type._callFieldsFilter({ fields: mapForTimestampToDate({ ...doc.data() }), action: "read", type, key, id: doc.id });
+            const fields = await type._callFieldsFilter({ fields: mapForTimestampToDate({ ...doc.data() }), action: "read", type, key, id: doc.id, response });
             delete fields.id;
             docs.push(new type(createdByKey.get(this), doc.id, fields, privateDBConstructorKey));
         }
 
-        await type._eventEmitter("read", docs, null, key, emitEventSymbol);
+        await type._eventEmitter("read", docs, null, key, response, emitEventSymbol);
 
         return docs;
     }
@@ -761,13 +873,13 @@ var EssenciaAzul = ( function() {
         // faz um read no id e verifica se o id do admin é menor que o da chave atual.
     }
 
-    async function update(key, type, id, fields, options) {
+    async function update(key, type, id, fields, options, response) {
         let keylevel = await validateKey(key);
-        if (keylevel === 0) throw new PermissionError(undefined, "Permissão insuficiente para qualquer operação de administrador");
+        if (keylevel === 0) throw new PermissionError(response, "Permissão insuficiente para qualquer operação de administrador");
         // verificação especial se o tipo for admin, já que admin1 pode apenas SE editar.
         if (type === Admin) keylevel = await updateAdminKeyRelevel(key, id);
 
-        if (keylevel < type["update.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para atualizar documentos de ${type._basetype.name}`);
+        if (keylevel < type["update.minKeyLevel"]) throw new PermissionError(response, `Permissão insuficiente para atualizar documentos de ${type._basetype.name}`);
 
         const collRef = collection(db, type.collection);
 
@@ -775,13 +887,13 @@ var EssenciaAzul = ( function() {
         const docSnap = await getDoc(docRef);
         const oldDocData = docSnap.data();
         const oldDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(oldDocData), privateDBConstructorKey);
-        if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
+        if (!docSnap.exists()) throw new NotFoundError(response, "Documento não encontrado");
 
         switch (options?.editType) {
             case "set":
-                if (!type._allowOverSet) throw new ClientError(undefined, `Documentos ${type._basetype.name} não permite sobre-escrita.`);
+                if (!type._allowOverSet) throw new ClientError(response, `Documentos ${type._basetype.name} não permite sobre-escrita.`);
                 const newDoc = mapForDateToTimestamp(fields);
-                const filteredSetData = await type._callFieldsFilter({ action: "update", type, key, fields: newDoc, id });
+                const filteredSetData = await type._callFieldsFilter({ action: "update", type, key, fields: newDoc, id, response });
                 delete filteredSetData.id;
                 await setDoc(docRef, clearUndefined(filteredSetData));
                 break;
@@ -790,7 +902,7 @@ var EssenciaAzul = ( function() {
                 const docData = docSnap.data();
                 const updatedFields = mapForDateToTimestamp(fields);
                 const updatedDoc = { ...docData, ...updatedFields };
-                const filteredPatchData = await type._callFieldsFilter({ action: "update", type, key, fields: updatedDoc, id });
+                const filteredPatchData = await type._callFieldsFilter({ action: "update", type, key, fields: updatedDoc, id, response });
                 delete filteredPatchData.id;
                 await updateDoc(docRef, clearUndefined(filteredPatchData));
                 break;
@@ -799,32 +911,32 @@ var EssenciaAzul = ( function() {
         const newDocSnap = await getDoc(docRef);
         const newDocData = newDocSnap.data();
         const newDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(newDocData), privateDBConstructorKey);
-        await type._eventEmitter("update", newDoc, oldDoc, key, emitEventSymbol);
+        await type._eventEmitter("update", newDoc, oldDoc, key, response, emitEventSymbol);
         return newDoc;
     }
 
-    async function remove(key, type, id) {
+    async function remove(key, type, id, response) {
         let keylevel = await validateKey(key);
-        if (keylevel === 0) throw new PermissionError(undefined, "Permissão insuficiente para qualquer operação de administrador");
+        if (keylevel === 0) throw new PermissionError(response, "Permissão insuficiente para qualquer operação de administrador");
 
-        if (keylevel < type["remove.minKeyLevel"]) throw new PermissionError(undefined, `Permissão insuficiente para remover documentos de ${type._basetype.name}`);
+        if (keylevel < type["remove.minKeyLevel"]) throw new PermissionError(response, `Permissão insuficiente para remover documentos de ${type._basetype.name}`);
 
         const collRef = collection(db, type.collection);
         const docRef = doc(collRef, id);
         const docSnap = await getDoc(docRef);
-        if (!docSnap.exists()) throw new NotFoundError(undefined, "Documento não encontrado");
+        if (!docSnap.exists()) throw new NotFoundError(response, "Documento não encontrado");
         const docData = docSnap.data();
-        const filteredRemoveData = await type._callFieldsFilter({ action: "remove", type, key, fields: docData, id });
+        const filteredRemoveData = await type._callFieldsFilter({ action: "remove", type, key, fields: docData, id, response });
         delete filteredRemoveData.id;
         const deletedDoc = new type(createdByKey.get(this), id, mapForTimestampToDate(filteredRemoveData), privateDBConstructorKey);
         await deleteDoc(docRef);
-        await type._eventEmitter("remove", deletedDoc, null, key, emitEventSymbol);
+        await type._eventEmitter("remove", deletedDoc, null, key, response, emitEventSymbol);
         return deletedDoc;
     }
 
-    async function getPublics(type) {
+    async function getPublics(type, response) {
         await type._public.init();
-        if (!type._public) throw new ImplementationError(undefined, "Tipo não é público");
+        if (!type._public) throw new ServerError(response, "Tipo não é público");
         return type._public;
     }
 
@@ -891,14 +1003,15 @@ var EssenciaAzul = ( function() {
         await addDoc(collRef, registro);
     }
 
-    async function login(session, email, password) {
-        if (!(session instanceof Session.Constructor)) throw new ClientError(undefined, "É necessário uma sessão no navegador para realizar login");
+    async function login(session, email, password, response) {
+        if (!(session instanceof Session.Constructor)) throw new ClientError(response, "É necessário uma sessão no navegador para realizar login");
         let hasLogin = session.get("login");
         if (hasLogin && hasLogin instanceof Login) return hasLogin;
 
-        const adminDoc = (await getDocs(query(collection(db, "admins"), where("email", "==", email), where("senha", "==", password)))).docs[0];
+        const passwordHash = crypto.createHash("sha256").update(password).digest("hex");
+        const adminDoc = (await getDocs(query(collection(db, "admins"), where("email", "==", email), where("senha", "==", passwordHash)))).docs[0];
 
-        if (!adminDoc) throw new ClientError(undefined, "Credenciais incorretas");
+        if (!adminDoc) throw new ClientError(response, "Credenciais incorretas");
         
         const adminDocData = adminDoc.data();
         const key = adminDocData.chave;
@@ -932,17 +1045,19 @@ var EssenciaAzul = ( function() {
     const validLevelNames = Object.freeze(Object.keys(validLevelNamesAndNumbers));
     const validLevelNumbers = Object.freeze(Object.values(validLevelNamesAndNumbers));
 
-    async function register(session, email, password, name, level) {
-        if (!(session instanceof Session.Constructor)) throw new ClientError(undefined, "É necessário uma sessão para registrar um administrador");
-        if (level && !validLevelNames.includes(level) && !validLevelNumbers.includes(level)) throw new ClientError(undefined, "Nível inválido, use comum, direcao ou dev");
+    async function register(session, email, password, name, level, imageBlob, response) {
+        if (!(session instanceof Session.Constructor)) throw new ClientError(response, "É necessário uma sessão para registrar um administrador");
+        if (level && !validLevelNames.includes(level) && !validLevelNumbers.includes(level)) throw new ClientError(response, "Nível inválido, use comum, direcao ou dev");
         if (level && typeof level === "number") {
             level = validLevelNames[validLevelNumbers.indexOf(level)];
         }
         if (!level) level = "simples";
 
+        if (imageBlob) await saveInStorage(Admin._bucket, Admin.collection, imageBlob);
+
         let hasLogin = session.get("login");
         if (hasLogin && hasLogin instanceof Login) {
-            if (validLevelNamesAndNumbers[level] ?? 0 >= validLevelNamesAndNumbers[hasLogin.nivel] ?? 0) throw new PermissionError(undefined, "Permissão insuficiente para registrar um administrador com nível maior ou igual ao seu");
+            if ((validLevelNamesAndNumbers[level] ?? 0) >= (validLevelNamesAndNumbers[hasLogin.nivel] ?? 0)) throw new PermissionError(response, "Permissão insuficiente para registrar um administrador com nível maior ou igual ao seu");
 
             const newAdmin = await create(hasLogin, Admin, { email, senha: password, nome: name, nivel: level });
             const newAdminData = await getDoc(doc(db, "admins", newAdmin.id));
@@ -950,9 +1065,11 @@ var EssenciaAzul = ( function() {
             const newAdminKey = newAdminDoc.chave;
             return new Login(session, newAdminDoc.nome, email, newAdminDoc.nivel, newAdminKey, privateLoginConstructorIndicator);
         } else {
-            throw new ClientError(undefined, "É necessário estar em uma sessão autorizada para registrar um administrador");
+            throw new ClientError(response, "É necessário estar em uma sessão autorizada para registrar um administrador");
         }
     }
+
+    async function unregister(session, admin) {}
 
 
     return {

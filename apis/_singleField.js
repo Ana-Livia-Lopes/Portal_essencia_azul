@@ -1,0 +1,1 @@
+module.exports = function singleField(field) {return (field instanceof Array) ? field[0] : field;}

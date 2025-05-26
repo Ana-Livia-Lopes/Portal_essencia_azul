@@ -1,0 +1,2 @@
+const singleField = require("./_singleField.js");
+module.exports = function jsonField(body, fieldName) {return !body.type.includes("application/json") ? JSON.parse(singleField(body.fields[fieldName])) : singleField(body.fields[fieldName]);}
