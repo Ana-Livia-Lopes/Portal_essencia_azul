@@ -28,7 +28,7 @@
 <body>
     <component-header />
     <component-acessibilidade />
-    <component-json-produtos/>
+    <component-json-produtos />
     <section id="quartos" class="seção-plano">
         <h3 class="titulo-w3-agileits titulo conteudo-site">Produtos disponíveis</h3>
         <div class="tabela-preco-principal" id="tabela-preco-principal">
@@ -66,6 +66,7 @@
                         <div class="seleção-preco">
                             <h3 id="preco" class="conteudo-site"><span>R$</span>35,00</h3>
                             <button onclick="toggleDescricao(this)" class="conteudo-site">Saiba Mais</button>
+                            <button class="btn-editar" onclick="editarProduto(this)">/</button>
                         </div>
                         <div class="descricao">
                             <p>Camiseta ONG Essência Azul cores azul ou branca</p>
@@ -88,6 +89,7 @@
                         <div class="seleção-preco">
                             <h3 class="conteudo-site"><span>R$</span>10,00</h3>
                             <button onclick="toggleDescricao(this)" class="conteudo-site">Saiba Mais</button>
+                        <button class="btn-editar" onclick="editarProduto(this)">/</button>  
                         </div>
                         <div class="descricao">
                             <p>Cordão do quebra cabeça de identificação do autismo</p>
@@ -110,6 +112,7 @@
                         <div class="seleção-preco">
                             <h3 class="conteudo-site"><span>R$</span>10,00</h3>
                             <button onclick="toggleDescricao(this)" class="conteudo-site">Saiba Mais</button>
+                            <button class="btn-editar" onclick="editarProduto(this)">/</button>
                         </div>
                         <div class="descricao">
                             <p>Cordão de girassol de identificação do autismo e deficiências ocultas</p>
@@ -121,7 +124,7 @@
                 </div>
             </article>
         </div>
-        <component-admin-catalogo_add_produto/>
+        <component-admin-catalogo_add_produto />
     </section>
 
     <section id="secao2">
@@ -129,7 +132,7 @@
     </section>
 
     <script>
-        const radioColors = [ "" ];
+        const radioColors = [""];
 
         function criarProduto(nome, preco, descricao, imagem, opcoes) {
             const mainArticle = document.createElement("article");
@@ -160,7 +163,7 @@
             const botaoSaibaMais = document.createElement("button");
             botaoSaibaMais.classList.add("conteudo-site");
             botaoSaibaMais.textContent = "Saiba Mais";
-            botaoSaibaMais.onclick = function() {
+            botaoSaibaMais.onclick = function () {
                 toggleDescricao(botaoSaibaMais);
             };
             const descricaoProduto = document.createElement("div");
@@ -236,8 +239,8 @@
                     atual = opcao;
                 }
 
-                
-                
+
+
                 for (const opcao of [{ nome, preco, descricao, imagem }, ...opcoes]) {
                     const opcaoObj = {};
                     if (opcao.nome) {
@@ -268,7 +271,7 @@
                     input.checked = true;
                     const label = document.createElement("label");
                     const span = document.createElement("span");
-                    span.onclick = function() {
+                    span.onclick = function () {
                         mudarOpcao(opcaoObj);
                     };
                     const img = document.createElement("img");
@@ -296,9 +299,8 @@
             return mainArticle;
         }
 
-        // Função para alternar visibilidade da descrição
         function toggleDescricao(botao) {
-             const selecaoPreco = botao.parentElement;
+            const selecaoPreco = botao.parentElement;
             const fundoPreco = selecaoPreco.parentElement;
             const descricao = fundoPreco.querySelector('.descricao');
             descricao.classList.toggle('mostrar');
@@ -340,6 +342,70 @@
                 document.getElementById("tabela-preco-principal").appendChild(produtoElement);
             }
         }
+
+        function editarProduto(botao) {
+    const blocoPreco = botao.closest('.bloco-preco');
+    if (!blocoPreco) return;
+
+    const nome = blocoPreco.querySelector('h4.conteudo-site')?.textContent || "";
+    const precoText = blocoPreco.querySelector('.seleção-preco h3.conteudo-site')?.textContent || "0";
+    const preco = precoText.replace('R$', '').replace(',', '.').trim();
+    const descricao = blocoPreco.querySelector('.descricao p')?.textContent || "";
+    const imagem = blocoPreco.querySelector('img.img-responsiva')?.src || "";
+
+    const produto = {
+        nome,
+        preco,
+        descricao,
+        imagem,
+        opcoes: []
+    };
+
+    Swal.fire({
+        title: "Editar produto",
+        html: `
+            <div class="modal-container">
+                <label for="nome-input" class="modal-label">Nome</label>
+                <input type="text" id="nome-input" class="modal-input" value="${produto.nome}" />
+
+                <label for="descricao-input" class="modal-label">Descrição</label>
+                <textarea id="descricao-input" class="modal-textarea">${produto.descricao}</textarea>
+
+                <label for="preco-input" class="modal-label">Preço</label>
+                <input type="number" id="preco-input" class="modal-input" step="0.01" min="0" value="${produto.preco}" />
+
+                <label for="imagem-input" class="modal-label">Nova Imagem (opcional)</label>
+                <input type="file" id="imagem-input" class="modal-input" accept="image/*" />
+            </div>
+        `,
+        confirmButtonText: "Salvar alterações",
+        cancelButtonText: "Cancelar",
+        showCancelButton: true,
+        focusConfirm: false,
+        preConfirm: () => {
+            const nomeNovo = document.getElementById("nome-input").value;
+            const descricaoNova = document.getElementById("descricao-input").value;
+            const precoNovo = document.getElementById("preco-input").value;
+
+            if (!nomeNovo || !descricaoNova || !precoNovo) {
+                Swal.showValidationMessage("Por favor, preencha todos os campos obrigatórios.");
+                return false;
+            }
+
+            return {
+                nome: nomeNovo,
+                descricao: descricaoNova,
+                preco: precoNovo
+            };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log('Produto editado:', result.value);
+            Swal.fire('Sucesso', 'Produto atualizado com sucesso!', 'success');
+        }
+    });
+}
+
     </script>
 
     <section id="secao3">
