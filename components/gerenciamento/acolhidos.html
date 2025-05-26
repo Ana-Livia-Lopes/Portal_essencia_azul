@@ -1,137 +1,61 @@
-<section class="section-acolhidos" id="secao1">
-    <div class="lista-info-usuario">
-        <input type="text" id="search" placeholder="Pesquise..." class="conteudo-site" />
-        <span class="search-icon"><i class="fa-solid fa-magnifying-glass" class="conteudo-site"></i></span>
-        <div class="user-opcao-lista" id="usuariosLista">
-            <div class="opcao-lista conteudo-site"> Lucas</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 2</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 3</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 4</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 5</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 6</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 7</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 8</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 9</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 10</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 11</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 12</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 13</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 14</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 15</div>
-            <div class="opcao-lista conteudo-site"> Acolhido 16</div>
+<div class="container">
+    <div class="sidebar">
+        <div class="search-box">
+            <input type="text" class="search" placeholder="Pesquisar" />
+        </div>
+        <div class="itens">
+            <div class="item">Lucas</div>
+            <div class="item">Acolhido 2</div>
+            <div class="item">Acolhido 3</div>
+            <div class="item">Acolhido 4</div>
+            <div class="item">Acolhido 5</div>
         </div>
     </div>
 
-    <div class="form-container">
-        <div class="form-cabecalho">
-            <img class="user-foto" src="/img/user-default.png" alt="Foto do acolhido">
-            <h2 class="conteudo-site">Lucas</h2>
+    <div class="box-content">
+        <div class="content">
+            <h1>Lucas</h1>
+            <form action="" class="form-gerenc">
+                <div class="inputs-gerenc">
+                    <label for="">Texto</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Texto</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Texto</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Texto</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Texto</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Texto</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc textarea">
+                    <label for="">Texto</label>
+                    <textarea name="" id=""></textarea>
+                </div>
+
+                <div class="aceitar-recusar">
+                    <button id="aceitar-gerenc">Aceitar</button>
+                    <button id="recusar-gerenc">Recusar</button>
+                </div>
+            </form>
         </div>
-
-        <form>
-            <div class="form-grid">
-                <div class="label-input conteudo-site"><label>Nome:</label><input type="text"></div>
-                <div class="label-input conteudo-site"><label>Áreas de Interesse:</label><input type="text"></div>
-
-                <div class="label-input conteudo-site"><label>Telefone:</label><input type="text"></div>
-                <div class="label-input conteudo-site"><label>Hiperfoco:</label><input type="text"></div>
-
-                <div class="label-input conteudo-site"><label>E-mail:</label><input type="email"></div>
-                <div class="label-input conteudo-site"><label>Como o autista se acalma?</label><input type="text">
-                </div>
-
-                <div class="label-input conteudo-site"><label>Idade:</label><input type="text"></div>
-                <div class="label-input conteudo-site"><label>Atividades que o autista NÃO gosta:</label><input
-                        type="text"></div>
-
-                <div class="label-input conteudo-site"><label>Família:</label><input type="text"></div>
-                <div class="label-input conteudo-site"><label>Restrições Alimentares:</label><input type="text">
-                </div>
-
-                <div class="label-input conteudo-site">
-                    <label class="conteudo-site">Nível de suporte:</label>
-                    <select id="nivel-suporte">
-                        <option value="" class="conteudo-site">Selecione...</option>
-                        <option value="1" class="conteudo-site">Nível 1</option>
-                        <option value="2" class="conteudo-site">Nível 2</option>
-                        <option value="3" class="conteudo-site">Nível 3</option>
-                    </select>
-                </div>
-                <div class="label-input conteudo-site"><label>Comida favorita:</label><input type="text"></div>
-
-                <div class="label-input conteudo-site"><label>Escola:</label><input type="text"></div>
-                <div class="label-input conteudo-site"><label>Convênio ou SUS: Qual convênio?</label><input
-                        type="text"></div>
-
-                <div class="label-input conteudo-site"><label>Nome dos responsáveis:</label><input type="text">
-                </div>
-                <div class="label-input conteudo-site"><label>Faz terapia?</label><input type="text"></div>
-
-                <div class="label-input conteudo-site">
-                    <label class="conteudo-site">Suporte na escola:</label>
-                    <div class="radio">
-                        <input class="conteudo-site" type="radio" id="escola-suporte-sim" name="escola-suporte"
-                            value="Sim">
-                        <label for="escola-suporte-sim" class="conteudo-site">Sim</label>
-
-                        <input class="conteudo-site" type="radio" id="escola-suporte-nao" name="escola-suporte"
-                            value="Não">
-                        <label for="escola-suporte-nao" class="conteudo-site">Não</label>
-                    </div>
-                </div>
-                <div class="label-input conteudo-site">
-                    <label class="conteudo-site">Qual terapia precisa e não faz?</label>
-                    <input type="text" class="conteudo-site">
-                </div>
-
-                <div class="label-input conteudo-site">
-                    <label class="conteudo-site">CIPTEA:</label>
-                    <div class="radio">
-                        <input class="conteudo-site" type="radio" id="ciptea-sim" name="ciptea" value="Sim">
-                        <label for="ciptea-sim" class="conteudo-site">Sim</label>
-
-                        <input class="conteudo-site" type="radio" id="ciptea-nao" name="ciptea" value="Não">
-                        <label for="ciptea-nao" class="conteudo-site">Não</label>
-                    </div>
-                </div>
-                <div class="label-input conteudo-site">
-                    <label class="conteudo-site">Observações:</label>
-                    <textarea class="conteudo-site"></textarea>
-                </div>
-
-                <div class="label-input conteudo-site">
-                    <label class="conteudo-site">Cordão de Identificação:</label>
-                    <div class="radio">
-                        <input class="conteudo-site" type="radio" id="cordao-sim" name="cordao" value="Sim">
-                        <label class="conteudo-site" for="cordao-sim">Sim</label>
-
-                        <input class="conteudo-site" type="radio" id="cordao-nao" name="cordao" value="Não">
-                        <label class="conteudo-site" for="cordao-nao">Não</label>
-                    </div>
-                </div>
-
-                <div class="label-input conteudo-site">
-                    <label class="conteudo-site">Cartão Defis:</label>
-                    <div class="radio">
-                        <input class="conteudo-site" type="radio" id="defis-sim" name="defis" value="Sim">
-                        <label class="conteudo-site" for="defis-sim">Sim</label>
-
-                        <input class="conteudo-site" type="radio" id="defis-nao" name="defis" value="Não">
-                        <label class="conteudo-site" for="defis-nao">Não</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-buttons">
-                <button type="button" class="edit-btn conteudo-site">Editar</button>
-                <button type="button" class="delete-btn conteudo-site">Excluir</button>
-            </div>
-
-            <div class="upload-section">
-                <label class="conteudo-site">Adicionar documento:</label>
-                <input type="file" class="conteudo-site">
-                <button type="submit" class="submit-btn conteudo-site">Enviar</button>
-            </div>
-        </form>
     </div>
-</section>
+</div>

@@ -1,94 +1,56 @@
-<section class="section-familias" id="secao3">
-    <div class="lista-info-usuario">
-        <span class="span-selecione conteudo-site">Selecione:</span>
-        <div class="acolhido-opcao-lista" id="usuariosLista">
-            <div class="opcao-lista conteudo-site">Família SmartWeb</div>
-            <div class="opcao-lista conteudo-site">Família 2</div>
-            <div class="opcao-lista conteudo-site">Família 3</div>
-            <div class="opcao-lista conteudo-site">Família 4</div>
-            <div class="opcao-lista conteudo-site">Família 5</div>
+<div class="container">
+    <div class="sidebar">
+        <div class="search-box">
+            <input type="text" class="search" placeholder="Pesquisar" />
+        </div>
+        <div class="itens">
+            <div class="item">Família SmartWeb</div>
+            <div class="item">Família 2</div>
+            <div class="item">Família 3</div>
+            <div class="item">Família 4</div>
+            <div class="item">Família 5</div>
         </div>
     </div>
 
-    <div class="form-container">
-        <div class="form-cabecalho">
-            <h2 class="conteudo-site">Família SmartWeb</h2>
-        </div>
+    <div class="box-content">
+        <div class="content">
+            <h1>Família SmartWeb</h1>
+            <form action="" class="form-familias">
+                <div class="membros-familia">
+                    <h2>Nesta família</h2>
+                    <div class="membro-row">
+                        <div>
+                            <p>Nome</p>
+                            <p>Gabriel</p>
+                        </div>
 
-        <h3 class="subtitulo-familias conteudo-site">Acolhidos da família:</h3>
-        <div class="users-familia">
-            <div class="acolhido-card">
-                <img src="/img/user-default.png" class="img-user-default" alt="">
-                <p class="conteudo-site">Lucas</p>
-            </div>
-            <div class="acolhido-card">
-                <img src="/img/user-default.png" class="img-user-default" alt="">
-                <p class="conteudo-site">Acolhido 2</p>
-            </div>
-            <div class="acolhido-card">
-                <img src="/img/user-default.png" class="img-user-default" alt="">
-                <p class="conteudo-site">Acolhido 3</p>
-            </div>
-            <div class="acolhido-card">
-                <img src="/img/user-default.png" class="img-user-default" alt="">
-                <p class="conteudo-site">Acolhido 4</p>
-            </div>
-        </div>
+                        <div>
+                            <p>Laudo</p>
+                            <select name="" id=""></select>
+                        </div>
 
-        <h3 class="subtitulo-familias conteudo-site">Residentes (outros):</h3>
-        <div class="residente-linha">
-            <div class="residente-info">
-                <div class="foto-nomeResidente">
-                    <img src="/img/user-default.png" class="img-user-default" alt="">
-                    <span class="conteudo-site">Residente 5</span>
+                        <div>
+                            <button>Salvar</button>
+                            <button>Excluir</button>
+                        </div>
+                    </div>
                 </div>
-                <select>
-                    <option class="conteudo-site">Selecione...</option>
-                    <option class="conteudo-site">Sim</option>
-                    <option class="conteudo-site">Não</option>
-                    <option class="conteudo-site">Em investigação</option>
-                    <option class="conteudo-site">Neurotípico</option>
-                </select>
-                <div class="botoes-acoes">
-                    <button class="btn-editar conteudo-site">Editar</button>
-                    <button class="btn-excluir conteudo-site">Excluir</button>
-                </div>
-            </div>
-        </div>
-        <div class="residente-linha">
-            <div class="residente-info">
-                <div class="foto-nomeResidente">
-                    <img src="/img/user-default.png" class="img-user-default" alt="">
-                    <span class="conteudo-site">Residente 6</span>
-                </div>
-                <select>
-                    <option class="conteudo-site">Selecione...</option>
-                    <option class="conteudo-site">Sim</option>
-                    <option class="conteudo-site">Não</option>
-                    <option class="conteudo-site">Em investigação</option>
-                    <option class="conteudo-site">Neurotípico</option>
-                </select>
-                <div class="botoes-acoes">
-                    <button class="btn-editar conteudo-site">Editar</button>
-                    <button class="btn-excluir conteudo-site">Excluir</button>
-                </div>
-            </div>
-        </div>
 
-        <div class="div-btn-adicionar">
-            <button class="btn-adicionar conteudo-site">Adicionar residente</button>
-        </div>
+                <div class="info-familia">
+                    <h2>Mais informações</h2>
+                    
+                    <label for="">Endereço</label>
+                    <input type="text">
 
-        <h3 class="mais-informacoes conteudo-site">Mais informações:</h3>
-        <div class="label-input2 conteudo-site">
-            <label>Endereço:</label>
-            <input type="text" />
-        </div>
+                    <p>Não acolhidos: 2</p>
+                    <p>Residentes em investigação: 1</p>
+                    <p>Residentes com laudo: 3</p>
+                </div>
 
-        <div class="mais-infomracoes-desc">
-            <p class="conteudo-site">Não acolhidos: <strong>2</strong></p>
-            <p class="conteudo-site">Residentes em investigação: <strong>1</strong></p>
-            <p class="conteudo-site">Residentes com laudo: <strong>3</strong></p>
+                <div class="aceitar-recusar">
+                    <button id="recusar-gerenc">Excluir família</button>
+                </div>
+            </form>
         </div>
     </div>
-</section>
+</div>
