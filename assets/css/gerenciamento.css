@@ -97,10 +97,16 @@ body {
 
 #div-grafico-meses {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #div-grafico-familias {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #graficoMeses,
@@ -212,7 +218,7 @@ body {
   max-height: 580px;
   border-radius: 15px;
   overflow: hidden;
-  background-color: #346ed2;
+  background-color: #6e84ff;
   margin: auto;
   margin-bottom: 35px;
 }
@@ -220,7 +226,7 @@ body {
 .sidebar {
   width: 30%;
   padding: 15px;
-  background-color: #346ed2;
+  background-color: #6e84ff;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -229,7 +235,7 @@ body {
 .search {
   padding: 10px 10px 10px 35px;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   background-color: #ffffff;
   font-size: 16px;
   font-weight: 500;
@@ -250,7 +256,7 @@ body {
 }
 
 .itens::-webkit-scrollbar-track {
-  background-color: #6c9aeb;
+  background-color: #5c6cc5;
   border-radius: 10px;
 }
 
@@ -289,9 +295,137 @@ body {
   width: 97%;
   padding: 20px;
   background-color: #ffffff;
-  border-radius: 15px;
+  border-radius: 10px;
   font-size: 22px;
   height: 100%;
+  overflow-y: auto;
+}
+
+.content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.content::-webkit-scrollbar-track {
+  background-color: #ffffff;
+  border-radius: 0 6px 6px 0;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #cecece;
+  border-radius: 15px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: #b6b6b6;
+}
+
+.content h1 {
+  margin-left: 40px;
+  font-size: 35px;
+  color: #444444;
+}
+
+.content h2 {
+  font-size: 22px;
+  color: #132d96;
+}
+
+.form-gerenc {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+  padding: 0 40px;
+}
+
+.form-familias {
+  display: flex;
+  flex-direction: column;
+}
+
+.membro-row {
+  display: flex;
+  background-color: #dfdfdf;
+  border-radius: 0.3rem;
+  padding: 10px;
+}
+
+.inputs-gerenc {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputs-gerenc label {
+  font-size: 18px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #494949;
+}
+
+.inputs-gerenc input {
+  background-color: #f3f3f3;
+  border: solid 2px rgb(214, 214, 214);
+  border-radius: 0.2rem;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  height: 40px;
+  outline: none;
+}
+
+.inputs-gerenc input:focus {
+  border: solid 2px #696969d6;
+}
+
+.textarea {
+  grid-column: 1 / span 2;
+}
+
+.textarea textarea {
+  background-color: #f3f3f3;
+  border: solid 2px rgb(214, 214, 214);
+  border-radius: 0.4rem;
+  padding: 10px;
+  font-size: 16px;
+  resize: none;
+  height: 120px;
+}
+
+.aceitar-recusar {
+  grid-column: 1 / span 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.aceitar-recusar button {
+  padding: 10px;
+  font-size: 17px;
+  color: white;
+  font-weight: 500;
+  border-radius: 0.3rem;
+  border: none;
+  cursor: pointer;
+}
+
+#aceitar-gerenc {
+  background-color: #1535B5;
+  transition: all 0.3s;
+}
+
+#aceitar-gerenc:hover {
+  background-color: #132d96;
+}
+
+#recusar-gerenc {
+  background-color: #c21010;
+  transition: all 0.3s;
+}
+
+#recusar-gerenc:hover {
+  background-color: #990f0f;
 }
 
 /* Responsividade geral */
