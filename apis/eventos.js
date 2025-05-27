@@ -54,7 +54,7 @@ module.exports = {
         if (!params.id) throw new ClientError(response, "ID não informado");
         return await remove(session.get("login"), Evento, params.id, response);
     },
-    async patch({ body, session, response }) {
+    async patch({ body, session, response, params }) {
         if (!params.id) throw new ClientError(response, "ID não informado");
         const patchFields = {};
         if (body.fields.titulo) patchFields.titulo = singleField(body.fields.titulo);
@@ -65,6 +65,16 @@ module.exports = {
                 throw new ClientError(response, "Data inválida");
             }
             patchFields.data = data;
+        }
+        if (body.files.blob) {
+            const blob = await getFormidableBlob(body.files.blob);
+            if (blob.type !== "image/jpeg" && blob.type !== "image/png") {
+                throw new ClientError(response, "Tipo de arquivo inválido");
+            }
+            if (blob.size > maxSize) {
+                throw new ClientError(response, "Arquivo excede o tamanho máximo de 50MB");
+            }
+            patchFields.blob = blob;
         }
         return await update(session.get("login"), Evento, params.id, patchFields, {
             editType: "update"

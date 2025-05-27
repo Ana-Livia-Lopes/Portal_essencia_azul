@@ -540,7 +540,7 @@ var EssenciaAzul = ( function() {
                         delete fields.blob;
                         return fields;
                     case "update":
-                        if (!fields.blob) return fields; else {
+                        if (fields.blob) {
                             delete fields.url_imagem;
                             fields.url_imagem = await updateInStorage(type._bucket, fields.url_imagem, fields.blob, response, type.collection);
                         }
