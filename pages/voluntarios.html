@@ -129,6 +129,7 @@
                 icon: "error",
                 title: "Erro",
                 text: "Por favor, preencha todos os campos.",
+                confirmButtonColor: "#1535B5"
             });
             return;
         }
@@ -149,6 +150,7 @@
                 Swal.fire({
                     icon: "error",
                     title: "Houve um erro...",
+                    confirmButtonColor: "#1535B5",
                     text: json.message,
                 });
             } else {
@@ -156,6 +158,7 @@
                     icon: "success",
                     title: "Sucesso",
                     text: "Sua solicitação foi enviada com sucesso!",
+                    confirmButtonColor: "#1535B5"
                 }).then(() => {
                     window.location.href = "/";
                 });
