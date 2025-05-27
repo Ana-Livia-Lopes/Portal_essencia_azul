@@ -55,54 +55,39 @@
                 </p>
             </div>
             <div class="caixas">
-                <h2 class="conteudo-site">Nome dos pais/responsáveis</h2>
+                <h2 class="conteudo-site">Nome do acolhido</h2>
                 <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2 class="conteudo-site">E-mail de contato</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Data de nascimento:</h2>
+                <input class="conteudo-site" type="date" id="data-nascimento" />
             </div>
             <div class="caixas">
-                <h2 class="conteudo-site">Endereço</h2>
-                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Telefone de contato</h2>
-                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Nome do autista</h2>
-                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Quantas pessoas moram na sua residência?</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Quantas pessoas tem laudo de autismo?</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Quantas pessoas estão em investigação?</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Idade do autista</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Nível de suporte</h2>
-                <select name="" id="">
-                    <option value="" class="conteudo-site">Selecionar</option>
-                    <option value="" class="conteudo-site">Nível 1</option>
-                    <option value="" class="conteudo-site">Nível 2</option>
-                    <option value="" class="conteudo-site">Nível 3</option>
-                </select>
-            </div>
-            <div class="caixas">
+            <h2 class="conteudo-site">Nível de suporte</h2>
+            <select name="" id="">
+                <option value="" class="conteudo-site">Selecionar</option>
+                <option value="" class="conteudo-site">Nível 1</option>
+                <option value="" class="conteudo-site">Nível 2</option>
+                <option value="" class="conteudo-site">Nível 3</option>
+            </select>
+        </div>
+        <div class="caixas">
                 <h2 class="conteudo-site">Escola onde estuda ou não estuda</h2>
                 <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Tem suporte na escola?</h2>
+                        <div class="radio">
+                            <input class="conteudo-site" type="radio" id="escola-suporte-sim" name="escola-suporte"
+                                value="true" />
+                            <label class="conteudo-site" for="escola-suporte-sim">Sim</label>
+
+                            <input class="conteudo-site" type="radio" id="escola-suporte-nao" name="escola-suporte"
+                                value="false" />
+                            <label class="conteudo-site" for="escola-suporte-nao">Não</label>
+                        </div>
+            </div>
+            
             <div class="caixas">
                 <h2 class="conteudo-site">Tem carteirinha de identificação do autismo?</h2>
                 <div class="div-maior-input-radio">
@@ -139,19 +124,7 @@
                     </div>
                 </div>
             </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Se criança, tem profissional de apoio na escola?</h2>
-                <div class="div-maior-input-radio">
-                    <div class="radio">
-                        <input type="radio" id="prof-sim" name="prof" value="Sim">
-                        <label for="prof-sim" class="conteudo-site">Sim</label>
-
-                        <input type="radio" id="prof-nao" name="prof" value="Não">
-                        <label for="prof-nao" class="conteudo-site">Não</label>
-                    </div>
-                </div>
-            </div>
-            <div class="caixas">
+              <div class="caixas">
                 <h2 class="conteudo-site">Áreas de Interesse (interesses da criança/pessoa autista, o que gosta de fazer?)</h2>
                 <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
                 <div class="list-input conteudo-site"></div>
@@ -194,6 +167,43 @@
                 <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
                 <div class="list-input conteudo-site"></div>
             </div>
+            <div class="caixas">
+            <label for="arquivoInput" class="modal-label">foto acolhido</label>
+            <input type="file" id="arquivoInput" class="modal-file">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Nome dos pais/responsáveis</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site" for="responsavel-relacao"> Relação com acolhido:</h2>
+                <input class="conteudo-site" type="text" id="responsavel-relacao" />
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">E-mail ou telefone de contato</h2>
+                <input type="text" placeholder="Escreva aqui">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Endereço</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Quantas pessoas moram na sua residência?</h2>
+                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Quantas pessoas tem laudo de autismo?</h2>
+                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Quantas pessoas estão em investigação?</h2>
+                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Quantas pessoas são neurotipicas</h2>
+                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
+            </div>           
+          
             <div class="caixas">
                 <h2 class="conteudo-site">Deixe aqui qualquer observação a mais que você gostaria de fazer e considera importante</h2>
                 <Textarea placeholder="Escreva aqui" class="conteudo-site"></Textarea>
