@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    position: relative;
+}
+
+/* Container central */
+.duvidas-div {
+    background-color: #6e84ff;
+    border-radius: 8px;
+    padding: 30px;
+    width: 80%;
+    max-width: 1000px;
+    max-height: 80vh; /* ou height: 80vh */
+    overflow-y: auto;
+}
+
+/* Título */
+.div-cabecalho h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Grid com 3 colunas */
+.div-corpo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* Cada "card" */
+.div-corpo {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 15px;
+    color: black;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.area-info {
+    background-color: #f3f3f3;
+    border: solid 2px rgb(214, 214, 214);
+    border-radius: 0.2rem;
+    padding: 4px 6px;
+}
+
+/* Botão voltar */
+.voltar-div {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.voltar {
+    color: #002293;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.voltar:hover {
+    color: #0033CC;
+}
