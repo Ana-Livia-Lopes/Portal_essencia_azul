@@ -14,8 +14,8 @@
 </head>
 
 <body>
-    <component-header/>
-    <component-acessibilidade/>
+    <component-header />
+    <component-acessibilidade />
 
     <component-json-eventos />
     <component-admin-is_logged />
@@ -77,6 +77,71 @@
                     });
                 }
 
+                function modaleditarEvento(evento) {
+                    
+                    Swal.fire({
+                        title: 'Editar evento',
+                        html: `
+                            <div class="modal-container">
+                                <label for="dataEvento" class="modal-label">Data do evento</label>
+                                <input type="date" id="dataEvento" class="modal-input" value="${evento.data}">
+
+                                <label for="nomeEvento" class="modal-label">Nome do evento</label>
+                                <input type="text" id="nomeEvento" class="modal-input" value="${evento.titulo}">
+
+                                <label for="descricaoEvento" class="modal-label">Descrição</label>
+                                <textarea id="descricaoEvento" class="modal-textarea">${evento.descricao}</textarea>
+
+                                <label for="arquivoInput" class="modal-label">Arte do evento (opcional)</label>
+                                <input type="file" id="arquivoInput" class="modal-file">
+                            </div>
+                            `,
+                        confirmButtonText: 'Salvar alterações',
+                        cancelButtonText: 'Cancelar',
+                        showCancelButton: true,
+                        focusConfirm: false,
+                        customClass: {
+                            popup: 'custom-popup'
+                        },
+                        preConfirm: () => {
+                            const nome = document.getElementById('nomeEvento').value.trim();
+                            const descricao = document.getElementById('descricaoEvento').value.trim();
+                            const data = document.getElementById('dataEvento').value;
+                            const arquivo = document.getElementById('arquivoInput').files[0];
+
+                            if (!nome || !descricao || !data) {
+                                Swal.showValidationMessage('Preencha todos os campos obrigatórios!');
+                                return false;
+                            }
+
+                            return fd;
+                        }
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            const fd = result.value;
+                            fetch(`/api/eventos/${evento.id}`, {
+                                method: "PUT",
+                                body: fd
+                            }).then(resp => resp.json()).then(json => {
+                                if (json.status === "error") {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Houve um erro...",
+                                        text: json.message,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Sucesso!",
+                                        text: "Evento atualizado com sucesso!",
+                                    }).then(() => window.location.reload());
+                                }
+                            });
+                        }
+                    });
+                }
+
+
                 function createEvento(nome, descricao, data, url, id, index) {
                     data = new Date(data);
                     const imgInstance = document.createElement("img");
@@ -91,11 +156,14 @@
                         const removerButton = document.createElement("i");
                         removerButton.classList.add("fa-xmark", "fa-solid", "removerButton");
                         eventoDiv.append(removerButton);
+                        removerButton.addEventListener("click", () => {
+                            modalRemoverEvento(id)
+                        });
                         const editarButton = document.createElement("i");
                         editarButton.classList.add("fa-pen-to-square", "fa-solid", "editarButton");
                         eventoDiv.append(editarButton);
-                        removerButton.addEventListener("click", () => {
-                            modalRemoverEvento(id)
+                        editarButton.addEventListener("click", () => {
+                            modaleditarEvento(id)
                         });
                     }
 
@@ -160,19 +228,19 @@
             </script>
         </div>
     </section>
-    
+
     <section id="secao2">
         <component-admin-eventos_add_evento />
-        
+
         <img src="/img/linha.png" id="quebraCabeca">
         <h2 class="h2 conteudo-site">Eventos anteriores</h2>
-        
-        <component-carrossel/>
+
+        <component-carrossel />
         <component-admin-index_add_imagem />
-        
+
     </section>
 
-    <component-footer/>
+    <component-footer />
 </body>
 
 </html>
