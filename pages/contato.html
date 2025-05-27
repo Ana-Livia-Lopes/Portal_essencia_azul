@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/contato.css">
     <title>Contato - Portal Essência Azul</title>
     <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -25,10 +26,10 @@
                     <h2 class="conteudo-site">Envie um comentário ou dúvida</h2>
                     <hr class="vertical-line" />
                     <div class="form">
-                        <form>
-                            <input type="text" placeholder="Digite seu nome" class="conteudo-site"/>
-                            <input type="text" placeholder="Digite seu email" class="conteudo-site"/>
-                            <textarea placeholder="Digite sua pergunta ou observação" class="conteudo-site"></textarea>
+                        <form id="comentario-form">
+                            <input type="text" placeholder="Digite seu nome" class="conteudo-site" id="input-nome"/>
+                            <input type="text" placeholder="Digite seu email" class="conteudo-site" id="input-email"/>
+                            <textarea placeholder="Digite sua pergunta ou observação" class="conteudo-site" id="input-mensagem"></textarea>
                             <button type="submit" class="conteudo-site">Enviar</button>
                         </form>
                     </div>
@@ -52,6 +53,53 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const form = document.getElementById('comentario-form');
+
+        form.addEventListener("submit", event => {
+            event.preventDefault();
+
+            const nome = document.getElementById('input-nome').value;
+            const email = document.getElementById('input-email').value;
+            const mensagem = document.getElementById('input-mensagem').value;
+
+            if (!nome || !email || !mensagem) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Por favor, preencha todos os campos.',
+                });
+                return;
+            }
+
+            const fd = new FormData();
+            fd.append("nome", nome);
+            fd.append("email", email);
+            fd.append("mensagem", mensagem);
+
+            fetch("/api/solicitacoes/comentario", {
+                method: "POST",
+                body: fd
+            }).then(resp => resp.json()).then(json => {
+                if (json.status === "error") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Houve um erro...',
+                        text: json.message,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso',
+                        text: 'Comentário enviado com sucesso!',
+                    }).then(() => {
+                        form.reset();
+                    });
+                }
+            })
+        })
+    </script>
 
     <component-footer/>
 </body>
