@@ -129,7 +129,8 @@ var EssenciaAzul = ( function() {
         return supabase.storage.from(bucket).getPublicUrl(url).data.publicUrl;
     }
 
-    async function updateInStorage(bucket, url, blob, response) {
+    async function updateInStorage(bucket, url, blob, response, collection) {
+        if (!url) return await saveInStorage(bucket, collection, blob, response);
         if (!(blob instanceof Blob)) throw new ClientError(response, "Blob não é do tipo Blob");
         const { error } = await supabase.storage.from(bucket).update(url, blob, { contentType: blob.contentType });
         if (error) throw ServiceError(response, error.message);
@@ -360,7 +361,7 @@ var EssenciaAzul = ( function() {
         },
         bucket: "profile-pictures",
         fieldsFilters: [
-            async ({ fields, action, response }) => {
+            async ({ fields, action, response, id }) => {
                 switch (action) {
                     case "create":
                         delete fields.url_imagem;
@@ -372,7 +373,7 @@ var EssenciaAzul = ( function() {
                     case "update":
                         if (!fields.blob) return fields; else {
                             delete fields.url_imagem;
-                            fields.url_imagem = await updateInStorage(Acolhido._bucket, fields.url_imagem, fields.blob, response);
+                            fields.url_imagem = await updateInStorage(Acolhido._bucket, fields.url_imagem, fields.blob, response, Acolhido.collection);
                             delete fields.blob;
                         }
                         return fields;
@@ -421,7 +422,7 @@ var EssenciaAzul = ( function() {
                         return fields;
                     case "update":
                         if (!fields.blob) return fields; else {
-                            fields.url_logo = await updateInStorage(type._bucket, fields.url_logo, fields.blob);
+                            fields.url_logo = await updateInStorage(type._bucket, fields.url_logo, fields.blob, response, type.collection);
                         }
                         return fields;
                     case "remove":
@@ -465,7 +466,7 @@ var EssenciaAzul = ( function() {
                     case "update":
                         if (!fields.blob) return fields; else {
                             delete fields.url_arquivo;
-                            fields.url_arquivo = await updateInStorage(type._bucket, fields.url_arquivo, fields.blob);
+                            fields.url_arquivo = await updateInStorage(type._bucket, fields.url_arquivo, fields.blob, response, type.collection);
                         }
                         delete fields.blob;
                         return fields;
@@ -502,7 +503,7 @@ var EssenciaAzul = ( function() {
                     case "update":
                         if (!fields.blob) return fields; else {
                             delete fields.url_conteudo;
-                            fields.url_conteudo = await updateInStorage(type._bucket, fields.url_conteudo, fields.blob);
+                            fields.url_conteudo = await updateInStorage(type._bucket, fields.url_conteudo, fields.blob, response, type.collection);
                         }
                         delete fields.blob;
                         return fields;
@@ -540,7 +541,7 @@ var EssenciaAzul = ( function() {
                     case "update":
                         if (!fields.blob) return fields; else {
                             delete fields.url_imagem;
-                            fields.url_imagem = await updateInStorage(type._bucket, fields.url_imagem, fields.blob);
+                            fields.url_imagem = await updateInStorage(type._bucket, fields.url_imagem, fields.blob, response, type.collection);
                         }
                         delete fields.blob;
                         return fields;
@@ -585,16 +586,17 @@ var EssenciaAzul = ( function() {
                         }
                         return fields;
                     case "update":
-                        if (!fields.blob) return fields; else {
+                        if (fields.blob)  {
                             delete fields.url_imagem;
-                            fields.url_imagem = await updateInStorage(type._bucket, fields.url_imagem, fields.blob);
+                            fields.url_imagem = await updateInStorage(type._bucket, fields.url_imagem, fields.blob, response, type.collection);
                         }
                         delete fields.blob;
+                        console.log(fields)
                         if (fields.opcoes instanceof Array) {
                             for (const opcao of fields.opcoes) {
                                 if (!opcao.blob) continue;
                                 delete opcao.url_imagem;
-                                opcao.url_imagem = await updateInStorage(type._bucket, opcao.url_imagem, opcao.blob);
+                                opcao.url_imagem = await updateInStorage(type._bucket, opcao.url_imagem, opcao.blob, response, type.collection);
                                 delete opcao.blob;
                             }
                         }
@@ -607,7 +609,7 @@ var EssenciaAzul = ( function() {
                 }
             }
         ],
-        privateFields: [ "url_imagem" ],
+        // privateFields: [ "url_imagem" ],
         bucket: "public-images",
         allowOverSet: false,
         public: true,
@@ -732,6 +734,12 @@ var EssenciaAzul = ( function() {
         for (const [ key, value ] of Object.entries(fields)) {
             if (value instanceof Date) {
                 outputObject[key] = Timestamp.fromDate(value);
+            } else if (typeof Blob !== "undefined" && value instanceof Blob) {
+                // NÃO processa Blob, apenas mantém
+                outputObject[key] = value;
+            } else if (value && value.constructor && value.constructor.name === "File") {
+                // Para arquivos do formidable (Node.js)
+                outputObject[key] = value;
             } else {
                 if (typeof value === "object" && value !== null) {
                     if (Array.isArray(value)) {

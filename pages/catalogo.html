@@ -29,6 +29,7 @@
     <component-header />
     <component-acessibilidade />
     <component-json-produtos />
+    <component-admin-is_logged />
     <section id="quartos" class="seção-plano">
         <h3 class="titulo-w3-agileits titulo conteudo-site">Produtos disponíveis</h3>
         <div class="tabela-preco-principal" id="tabela-preco-principal">
@@ -132,9 +133,58 @@
     </section>
 
     <script>
+        function createNovaOpcaoForm(nome = "", descricao = "", preco = "", url_imagem) {
+            const container = document.getElementById("add-produto-options");
+            if (!container) return;
+            if (!container.opcoes) container.opcoes = [];
+
+            const optionContainer = document.createElement("div");
+            optionContainer.classList.add("optionContainer");
+
+            optionContainer.innerHTML = `
+                <hr style="border: 2px solid white; margin: 24px 0;">
+                <label class="modal-label">Nome</label>
+                <input type="text" name="nome" class="modal-input add-produtos-nome-input" value="${nome}" />
+
+                <label class="modal-label">Descrição</label>
+                <textarea name="descricao" class="modal-textarea add-produtos-descricao-input" value="${descricao}"></textarea>
+
+                <label class="modal-label">Preço</label>
+                <input type="number" name="preco" class="modal-input add-produtos-preco-input" step="0.1" min="0" value="${preco}" />
+
+                <label class="modal-label">Imagem</label>
+                <input type="file" name="imagem" class="modal-input add-produtos-imagem-input" accept="image/*" />
+            `;
+
+            optionContainer.fields = {
+                url_imagem
+            };
+            for (const child of optionContainer.children) {
+                if (child.tagName === "INPUT" || child.tagName === "TEXTAREA") {
+                    const name = child.name;
+                    optionContainer.fields[name] = child;
+                }
+            }
+
+            optionContainer.remove = function () {
+                container.removeChild(optionContainer);
+                container.opcoes = container.opcoes.filter((opcao) => opcao !== optionContainer);
+            };
+
+            const removeButton = document.createElement("i");
+            removeButton.classList.add("fa-solid", "fa-trash", "removerOpcaoProduto");
+            removeButton.onclick = function () {
+                optionContainer.remove();
+            };
+            optionContainer.appendChild(removeButton);
+
+            container.opcoes.push(optionContainer);
+            container.appendChild(optionContainer);
+        }
+
         const radioColors = [""];
 
-        function criarProduto(nome, preco, descricao, imagem, opcoes) {
+        function criarProduto(nome, preco, descricao, imagem, opcoes, id) {
             const mainArticle = document.createElement("article");
             mainArticle.classList.add("coluna", "card-preco");
             const blocoPreco = document.createElement("div");
@@ -159,7 +209,7 @@
             selecaoPreco.classList.add("seleção-preco");
             const precoProduto = document.createElement("h3");
             precoProduto.classList.add("conteudo-site");
-            precoProduto.innerHTML = `<span>R$</span>${Number.isSafeInteger(preco) ? preco.toFixed(2).replace(".", ",") : preco}`;
+            precoProduto.innerHTML = `<span>R$</span>${Number.isSafeInteger(preco) ? preco.toFixed(2).replaceAll(".", ",") : preco}`;
             const botaoSaibaMais = document.createElement("button");
             botaoSaibaMais.classList.add("conteudo-site");
             botaoSaibaMais.textContent = "Saiba Mais";
@@ -169,6 +219,146 @@
             const descricaoProduto = document.createElement("div");
             descricaoProduto.classList.add("descricao");
             descricaoProduto.innerHTML = `<p>${descricao}</p>`;
+            if (window.ISLOGGED) {
+                const botoesProduto = document.createElement("div");
+                botoesProduto.classList.add("botoes-produto");
+                const removerButton = document.createElement("i");
+                removerButton.addEventListener("click", () => {
+                    Swal.fire({
+                        title: "Tem certeza?",
+                        text: "Você realmente deseja excluir este produto?",
+                        icon: "warning",
+                        showCancelButton: true, 
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Sim, excluir",
+                        cancelButtonText: "Cancelar"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch("/api/produtos/" + id, { method: "DELETE" }).then(resp => resp.json()).then(json => {
+                                if (json.status === "error") {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Houve um erro...",
+                                        text: json.message
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Sucesso",
+                                        text: "Produto excluído com sucesso!"
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+                removerButton.classList.add("fa-xmark", "fa-solid", "removerButton");
+                const editarButton = document.createElement("i");
+                editarButton.addEventListener("click", () => {
+                    Swal.fire({
+                        title: "Editar produto",
+                        html: `
+                            <div class="modal-container">
+                                <label for="nome-input" class="modal-label">Nome</label>
+                                <input type="text" id="nome-input" class="modal-input" value="${nome}" />
+
+                                <label for="descricao-input" class="modal-label">Descrição</label>
+                                <textarea id="descricao-input" class="modal-textarea" value=${descricao}></textarea>
+
+                                <label for="preco-input" class="modal-label">Preço</label>
+                                <input type="number" id="preco-input" class="modal-input" step="0.01" min="0" value="${preco}" />
+
+                                <label for="imagem-input" class="modal-label">Nova Imagem (opcional)</label>
+                                <input type="file" id="imagem-input" class="modal-input" accept="image/*" />
+
+                                <label for="opcoes-input" class="modal-label">Outras opções</label>
+                                <div id="add-produto-options">
+                                    <i class="fa-solid fa-plus" onclick="createNovaOpcaoForm()"></i>
+                                </div>
+                            </div>
+                        `,
+                        confirmButtonText: "Salvar alterações",
+                        cancelButtonText: "Cancelar",
+                        showCancelButton: true,
+                        focusConfirm: false,
+                        didOpen: () => {
+                            for (const opcao of opcoes) {
+                                createNovaOpcaoForm(opcao.nome, opcao.descricao, opcao.preco, opcao.url_imagem);
+                            }
+                        },
+                        preConfirm: () => {
+                            const nomeNovo = document.getElementById("nome-input").value;
+                            const descricaoNova = document.getElementById("descricao-input").value;
+                            const precoNovo = document.getElementById("preco-input").value;
+                            const imagemInput = document.getElementById("imagem-input");
+
+                            const formdata = new FormData();
+
+                            if (nomeNovo) formdata.append("nome", nomeNovo);
+                            if (descricaoNova) formdata.append("descricao", descricaoNova);
+                            if (precoNovo) formdata.append("preco", precoNovo);
+                            if (imagemInput.files.length > 0) {
+                                formdata.append("blob", imagemInput.files[0]);
+                            }
+                            const opcoesContainer = document.getElementById("add-produto-options");
+                            if (opcoesContainer && opcoesContainer.opcoes) {
+                                for (const opcao of opcoesContainer.opcoes) {
+                                    const nomeOpcao = opcao.fields.nome.value;
+                                    const descricaoOpcao = opcao.fields.descricao.value;
+                                    const precoOpcao = opcao.fields.preco.value;
+                                    const imagemOpcao = opcao.fields.imagem.files[0];
+
+                                    const opcaoData = {};
+                                    if (nomeOpcao) opcaoData.nome = nomeOpcao;
+                                    if (descricaoOpcao) opcaoData.descricao = descricaoOpcao;
+                                    if (precoOpcao) opcaoData.preco = precoOpcao;
+                                    if (opcao.fields.url_imagem) opcaoData.url_imagem = opcao.fields.url_imagem;
+
+                                    console.log(opcaoData)
+
+                                    formdata.append("opcoes[]", JSON.stringify(opcaoData));
+                                    if (imagemOpcao) {
+                                        formdata.append(`blob_opcao[${Array.from(opcoesContainer.opcoes).indexOf(opcao)}]`, imagemOpcao);
+                                    }
+                                }
+                            }
+
+                            return formdata;
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const formData = result.value;
+                            fetch(`/api/produtos/${id}`, {
+                                method: "PATCH",
+                                body: formData
+                            }).then(resp => resp.json()).then(json => {
+                                if (json.status === "error") {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Houve um erro...",
+                                        text: json.message
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Sucesso",
+                                        text: "Produto atualizado com sucesso!"
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+                editarButton.classList.add("fa-pen-to-square", "fa-solid", "editarButton");
+                botoesProduto.appendChild(removerButton);
+                botoesProduto.appendChild(editarButton);
+                blocoPreco.appendChild(botoesProduto);
+            }
 
             if (opcoes && opcoes.length > 0) {
                 const opcoesObjs = [
@@ -338,73 +528,73 @@
         if (window.PRODUTOS) {
             for (const produto of window.PRODUTOS) {
                 const { nome, preco, descricao, imagem, opcoes } = produto;
-                const produtoElement = criarProduto(nome, preco, descricao, imagem, opcoes);
+                const produtoElement = criarProduto(nome, preco, descricao, imagem, opcoes, produto.id);
                 document.getElementById("tabela-preco-principal").appendChild(produtoElement);
             }
         }
 
         function editarProduto(botao) {
-    const blocoPreco = botao.closest('.bloco-preco');
-    if (!blocoPreco) return;
+            const blocoPreco = botao.closest('.bloco-preco');
+            if (!blocoPreco) return;
 
-    const nome = blocoPreco.querySelector('h4.conteudo-site')?.textContent || "";
-    const precoText = blocoPreco.querySelector('.seleção-preco h3.conteudo-site')?.textContent || "0";
-    const preco = precoText.replace('R$', '').replace(',', '.').trim();
-    const descricao = blocoPreco.querySelector('.descricao p')?.textContent || "";
-    const imagem = blocoPreco.querySelector('img.img-responsiva')?.src || "";
+            const nome = blocoPreco.querySelector('h4.conteudo-site')?.textContent || "";
+            const precoText = blocoPreco.querySelector('.seleção-preco h3.conteudo-site')?.textContent || "0";
+            const preco = precoText.replace('R$', '').replace(',', '.').trim();
+            const descricao = blocoPreco.querySelector('.descricao p')?.textContent || "";
+            const imagem = blocoPreco.querySelector('img.img-responsiva')?.src || "";
 
-    const produto = {
-        nome,
-        preco,
-        descricao,
-        imagem,
-        opcoes: []
-    };
-
-    Swal.fire({
-        title: "Editar produto",
-        html: `
-            <div class="modal-container">
-                <label for="nome-input" class="modal-label">Nome</label>
-                <input type="text" id="nome-input" class="modal-input" value="${produto.nome}" />
-
-                <label for="descricao-input" class="modal-label">Descrição</label>
-                <textarea id="descricao-input" class="modal-textarea">${produto.descricao}</textarea>
-
-                <label for="preco-input" class="modal-label">Preço</label>
-                <input type="number" id="preco-input" class="modal-input" step="0.01" min="0" value="${produto.preco}" />
-
-                <label for="imagem-input" class="modal-label">Nova Imagem (opcional)</label>
-                <input type="file" id="imagem-input" class="modal-input" accept="image/*" />
-            </div>
-        `,
-        confirmButtonText: "Salvar alterações",
-        cancelButtonText: "Cancelar",
-        showCancelButton: true,
-        focusConfirm: false,
-        preConfirm: () => {
-            const nomeNovo = document.getElementById("nome-input").value;
-            const descricaoNova = document.getElementById("descricao-input").value;
-            const precoNovo = document.getElementById("preco-input").value;
-
-            if (!nomeNovo || !descricaoNova || !precoNovo) {
-                Swal.showValidationMessage("Por favor, preencha todos os campos obrigatórios.");
-                return false;
-            }
-
-            return {
-                nome: nomeNovo,
-                descricao: descricaoNova,
-                preco: precoNovo
+            const produto = {
+                nome,
+                preco,
+                descricao,
+                imagem,
+                opcoes: []
             };
+
+            Swal.fire({
+                title: "Editar produto",
+                html: `
+                    <div class="modal-container">
+                        <label for="nome-input" class="modal-label">Nome</label>
+                        <input type="text" id="nome-input" class="modal-input" value="${produto.nome}" />
+
+                        <label for="descricao-input" class="modal-label">Descrição</label>
+                        <textarea id="descricao-input" class="modal-textarea">${produto.descricao}</textarea>
+
+                        <label for="preco-input" class="modal-label">Preço</label>
+                        <input type="number" id="preco-input" class="modal-input" step="0.01" min="0" value="${produto.preco}" />
+
+                        <label for="imagem-input" class="modal-label">Nova Imagem (opcional)</label>
+                        <input type="file" id="imagem-input" class="modal-input" accept="image/*" />
+                    </div>
+                `,
+                confirmButtonText: "Salvar alterações",
+                cancelButtonText: "Cancelar",
+                showCancelButton: true,
+                focusConfirm: false,
+                preConfirm: () => {
+                    const nomeNovo = document.getElementById("nome-input").value;
+                    const descricaoNova = document.getElementById("descricao-input").value;
+                    const precoNovo = document.getElementById("preco-input").value;
+
+                    if (!nomeNovo || !descricaoNova || !precoNovo) {
+                        Swal.showValidationMessage("Por favor, preencha todos os campos obrigatórios.");
+                        return false;
+                    }
+
+                    return {
+                        nome: nomeNovo,
+                        descricao: descricaoNova,
+                        preco: precoNovo
+                    };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log('Produto editado:', result.value);
+                    Swal.fire('Sucesso', 'Produto atualizado com sucesso!', 'success');
+                }
+            });
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            console.log('Produto editado:', result.value);
-            Swal.fire('Sucesso', 'Produto atualizado com sucesso!', 'success');
-        }
-    });
-}
 
     </script>
 

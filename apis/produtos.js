@@ -54,6 +54,21 @@ module.exports = {
         if (body.fields.nome) patchFields.nome = body.fields.nome[0];
         if (body.fields.descricao) patchFields.descricao = body.fields.descricao[0];
         if (body.fields.preco) patchFields.preco = parseFloat(body.fields.preco[0]);
+        if (body.files.blob) {
+            const blob = await getFormidableBlob(body.files.blob);
+            if (blob.type !== "image/jpeg" && blob.type !== "image/png") throw new ClientError(response, "Tipo de arquivo inválido");
+            if (blob.size > maxSize) throw new ClientError(response, "Arquivo excede o tamanho máximo de 50MB");
+            patchFields.blob = blob;
+        }
+        if (body.fields["opcoes[]"]) {
+            patchFields.opcoes = [];
+            for (let i = 0; i < body.fields["opcoes[]"].length; i++) {
+                let opcao = body.fields["opcoes[]"][i];
+                opcao = JSON.parse(opcao);
+                if (body.files[`blob_opcao[${i}]`]) opcao.blob = await getFormidableBlob(body.files[`blob_opcao[${i}]`]);
+                patchFields.opcoes.push(opcao);
+            }
+        }
         return await update(session.get("login"), Produto, params.id, patchFields, {
             editType: "update"
         }, response);
