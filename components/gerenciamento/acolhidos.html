@@ -1,59 +1,188 @@
-<div class="container">
+<div class="container" id="resultScroll">
     <div class="sidebar">
         <div class="search-box">
             <input type="text" class="search" placeholder="Pesquisar" />
         </div>
         <div class="itens">
-            <div class="item">Lucas</div>
-            <div class="item">Acolhido 2</div>
-            <div class="item">Acolhido 3</div>
-            <div class="item">Acolhido 4</div>
-            <div class="item">Acolhido 5</div>
+            <div class="item"><img src="/img/user-default.png" alt="">Lucas</div>
+            <div class="item"><img src="/img/user-default.png" alt="">Acolhido 2</div>
+            <div class="item"><img src="/img/user-default.png" alt="">Acolhido 3</div>
+            <div class="item"><img src="/img/user-default.png" alt="">Acolhido 4</div>
+            <div class="item"><img src="/img/user-default.png" alt="">Acolhido 5</div>
         </div>
     </div>
 
     <div class="box-content">
         <div class="content">
-            <h1>Lucas</h1>
+            <div class="top-content">
+                <img src="/img/user-default.png" alt="">
+                <h1>Lucas</h1>
+            </div>
             <form action="" class="form-gerenc">
                 <div class="inputs-gerenc">
-                    <label for="">Texto</label>
+                    <label for="">Nome</label>
                     <input type="text">
                 </div>
 
                 <div class="inputs-gerenc">
-                    <label for="">Texto</label>
+                    <label for="">Áreas de Interesse</label>
                     <input type="text">
                 </div>
 
                 <div class="inputs-gerenc">
-                    <label for="">Texto</label>
+                    <label for="">Telefone</label>
                     <input type="text">
                 </div>
 
                 <div class="inputs-gerenc">
-                    <label for="">Texto</label>
+                    <label for="">Hiperfoco</label>
                     <input type="text">
                 </div>
 
                 <div class="inputs-gerenc">
-                    <label for="">Texto</label>
+                    <label for="">E-mail</label>
                     <input type="text">
                 </div>
 
                 <div class="inputs-gerenc">
-                    <label for="">Texto</label>
+                    <label for="">Como o autista se acalma?</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Idade</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Atividades que o autista NÃO gosta</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Família</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Restrições alimentares</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Nível de suporte</label>
+                    <select name="" id="select-nv-suporte">
+                        <option value="">Nível 1</option>
+                        <option value="">Nível 2</option>
+                        <option value="">Nível 3</option>
+                    </select>
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Comida favorita</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Escola</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Convênio ou SUS: Qual convênio?</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Nome dos responsáveis</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Faz terapia?</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputs-gerenc">
+                    <label for="">Qual terapia precisa e não faz?</label>
                     <input type="text">
                 </div>
 
                 <div class="inputs-gerenc textarea">
-                    <label for="">Texto</label>
+                    <label for="">Observações</label>
                     <textarea name="" id=""></textarea>
                 </div>
 
+                <div class="checkbox-div">
+                    <div class="checkboxes">
+                        <h2 class="titulo-checks">Tem carteirinha de identificação do autismo?</h2>
+                        <div class="div-maior-input-radio">
+                            <div class="radio">
+                                <input type="radio" id="cart-sim" name="cart" value="Sim">
+                                <label for="cart-sim" class="conteudo-site">Sim</label>
+
+                                <input type="radio" id="cart-nao" name="cart" value="Não">
+                                <label for="cart-nao" class="conteudo-site">Não</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkboxes">
+                        <h2 class="titulo-checks">Usa o cordão de girassol ou quebra-cabeça?</h2>
+                        <div class="div-maior-input-radio">
+                            <div class="radio">
+                                <input type="radio" id="cord-sim" name="cord" value="Sim">
+                                <label for="cord-sim" class="conteudo-site">Sim</label>
+
+                                <input type="radio" id="cord-nao" name="cord" value="Não">
+                                <label for="cord-nao" class="conteudo-site">Não</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkboxes">
+                        <h2 class="titulo-checks">Tem cartão para utilizar vaga de estacionamento exclusiva para
+                            autistas?</h2>
+                        <div class="div-maior-input-radio">
+                            <div class="radio">
+                                <input type="radio" id="vaga-sim" name="vaga" value="Sim">
+                                <label for="vaga-sim" class="conteudo-site">Sim</label>
+
+                                <input type="radio" id="vaga-nao" name="vaga" value="Não">
+                                <label for="vaga-nao" class="conteudo-site">Não</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkboxes">
+                        <h2 class="titulo-checks">Se criança, tem profissional de apoio na escola?</h2>
+                        <div class="div-maior-input-radio">
+                            <div class="radio">
+                                <input type="radio" id="prof-sim" name="prof" value="Sim">
+                                <label for="prof-sim" class="conteudo-site">Sim</label>
+
+                                <input type="radio" id="prof-nao" name="prof" value="Não">
+                                <label for="prof-nao" class="conteudo-site">Não</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="aceitar-recusar">
-                    <button id="aceitar-gerenc">Aceitar</button>
-                    <button id="recusar-gerenc">Recusar</button>
+                    <button id="aceitar-gerenc">Salvar</button>
+                    <button id="recusar-gerenc">Excluir</button>
+                </div>
+
+                <div class="add">
+                    <h3>Adicionar documento</h3>
+                    <input type="file" class="campo-file">
+                    <button>Enviar</button>
+                </div>
+
+                <div class="add">
+                    <h3>Adicionar foto</h3>
+                    <input type="file" class="campo-file">
+                    <button>Enviar</button>
                 </div>
             </form>
         </div>

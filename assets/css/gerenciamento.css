@@ -9,7 +9,6 @@
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f9f9f9;
-  color: #333;
 }
 
 /* Título principal */
@@ -52,7 +51,13 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 0;
+  padding: 5px 0;
+}
+
+#agrupamento-links p {
+  color: #1766ce;
+  font-weight: 600;
+  margin: 0;
 }
 
 #agrupamento-links p:hover {
@@ -218,15 +223,19 @@ body {
   max-height: 580px;
   border-radius: 15px;
   overflow: hidden;
-  background-color: #6e84ff;
+  background-color: #91b1e7;
   margin: auto;
   margin-bottom: 35px;
+}
+
+.cont-adm {
+  max-height: 300px;
 }
 
 .sidebar {
   width: 30%;
   padding: 15px;
-  background-color: #6e84ff;
+  background-color: #91b1e7;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -256,7 +265,7 @@ body {
 }
 
 .itens::-webkit-scrollbar-track {
-  background-color: #5c6cc5;
+  background-color: #7887d8;
   border-radius: 10px;
 }
 
@@ -272,11 +281,18 @@ body {
 .item {
   font-size: 18px;
   color: white;
-  border-bottom: 2px solid #92b3ec;
+  border-bottom: 2px solid #7a9bd5;
   padding: 8px;
   cursor: pointer;
   transition: opacity 0.2s;
   margin-right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item img {
+  width: 30px;
 }
 
 .item:hover {
@@ -341,13 +357,223 @@ body {
 .form-familias {
   display: flex;
   flex-direction: column;
+  padding: 20px 40px 0 40px;
 }
 
 .membro-row {
   display: flex;
-  background-color: #dfdfdf;
+  background-color: #e1ebff;
   border-radius: 0.3rem;
+  padding: 20px 30px;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.row-div-nome {
+  width: 200px;
+}
+
+.row-div-laudo {
+  margin-right: 50px;
+}
+
+.titulo-row {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 7px;
+  color: #102577;
+}
+
+#nome-membro {
+  font-size: 18px;
+}
+
+#select-laudo {
+  font-size: 16px;
+  font-weight: 500;
+  border: 2px solid #d1d1d1;
+  border-radius: 0.3rem;
+  padding: 5px;
+}
+
+#botoes-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+#botoes-row button {
   padding: 10px;
+  font-size: 17px;
+  color: white;
+  font-weight: 500;
+  border-radius: 0.3rem;
+  border: none;
+  cursor: pointer;
+}
+
+#salvar-row {
+  background-color: #1535B5;
+  transition: all 0.3s;
+}
+
+#excluir-row {
+  background-color: #c21010;
+  transition: all 0.3s;
+}
+
+#salvar-row:hover {
+  background-color: #132d96;
+}
+
+#excluir-row:hover {
+  background-color: #990f0f;
+}
+
+.info-familia {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-familia h2 {
+  margin-bottom: 15px;
+}
+
+.info-familia label, .info-familia p {
+  font-size: 18px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #494949;
+}
+
+.info-familia input {
+  margin-bottom: 20px;
+  background-color: #f3f3f3;
+  border: solid 2px rgb(214, 214, 214);
+  border-radius: 0.2rem;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  height: 40px;
+  outline: none;
+}
+
+.info-familia input:focus {
+  border: solid 2px #696969d6;
+}
+
+.top-content {
+  display: flex;
+  align-items: center;
+}
+
+.top-content img {
+  width: 70px;
+  margin-left: 40px;
+}
+
+.top-content h1 {
+  margin-left: 10px !important;
+}
+
+.checkbox-div {
+  grid-column: 1 / span 2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  gap: 20px;
+}
+
+.checkboxes h2 {
+  margin-bottom: 10px;
+}
+
+.radio {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.radio input[type="radio"] {
+  display: none;
+}
+
+.radio label {
+  padding: 6px 16px;
+  border: 2px solid #a0a0a0;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  color: #a0a0a0;
+  user-select: none;
+  font-weight: 500;
+}
+
+.radio input[type="radio"]:checked+label {
+  background-color: #1535B5;
+  border: 2px solid #1535B5;
+  color: white;
+}
+
+#select-nv-suporte {
+  background-color: #f3f3f3;
+  border: solid 2px rgb(214, 214, 214);
+  border-radius: 0.2rem;
+  padding: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  height: 40px;
+  outline: none;
+}
+
+#select-nv-suporte:focus {
+  border: solid 2px #696969d6;
+}
+
+.add {
+  display: flex;
+  flex-direction: column;
+  background-color: #e1ebff;
+  border-radius: 0.3rem;
+  padding: 15px;
+}
+
+.add h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #102577;
+  margin-bottom: 10px;
+}
+
+.campo-file {
+  padding: 6px;
+  background-color: #f9f9f9;
+  border: 1px dashed #ccc;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #565656;
+  font-weight: 500;
+  margin-bottom: 7px;
+}
+
+.add button {
+  padding: 7px;
+  font-size: 16px;
+  color: white;
+  font-weight: 500;
+  border-radius: 0.3rem;
+  border: none;
+  cursor: pointer;
+  background-color: #1535B5;
+  transition: all 0.3s;
+}
+
+.add button:hover {
+  background-color: #132d96;
 }
 
 .inputs-gerenc {
@@ -430,217 +656,228 @@ body {
 
 /* Responsividade geral */
 @media (max-width: 1200px) {
-  #botoes-direita button {
-    width: 100%;
-  }
-
-  #botoes-direita button:nth-child(4) {
-    width: 200px;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  #atalhos {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  #botoes-direita {
-    display: flex;
+  .estatisticas {
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 200px;
-  }
-
-  #botoes-direita .botao-esp {
-    width: 200px;
-  }
-
-  .section-acolhidos {
-    display: block;
-    padding: 10px;
-  }
-
-  .section-admin {
-    display: block;
-    padding: 10px;
-  }
-
-  .section-familias {
-    display: block;
-    padding: 10px;
-  }
-
-  .section-voluntarios {
-    display: block;
-    padding: 10px;
-  }
-
-  .section-nhm-opcao-selec {
-    padding: 15px;
-  }
-
-  .section-nhm-opcao-selec img {
-    width: 350px;
-    height: 300px;
-  }
-
-  .btn {
-    bottom: 20px;
-    right: 30px;
-  }
-
-  .users-familia {
-    margin-left: 0px;
-  }
-
-  .section-familias .form-container {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-/* Ajustes para tablets */
-@media (max-width: 768px) {
-  .form-container {
-    padding: 20px;
-  }
-
-  #botoes-direita .botao-esp {
-    width: 200px;
-  }
-
-  .user-opcao-lista {
-    max-height: 300px;
-    overflow-y: auto;
-  }
-
-  .lista-info-usuario {
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 30px;
-  }
-
-  .form-cabecalho {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .form-cabecalho img.user-foto {
-    width: 120px;
-    height: 120px;
-  }
-
-  .form-buttons {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .upload-section {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .upload-section button {
-    margin-top: 10px;
-  }
-
-  .btn {
-    bottom: 20px;
-    right: 30px;
-  }
-
-  .residente-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .foto-nomeResidente {
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-  }
-
-  .residente-info select {
-    width: 100%;
-  }
-
-  .botoes-acoes {
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    width: 100%;
-  }
-}
-
-/* Ajustes para celulares */
-@media (max-width: 480px) {
-  h1#titulo1 {
-    font-size: 24px;
-    text-align: center;
-  }
-
-  .links-pg-div h3 {
-    font-size: 18px;
-    text-align: center;
-  }
-
-  #botoes-direita {
-    width: 100%;
-  }
-
-  #atalhos h2 {
-    margin-bottom: 5px;
-  }
-
-  #atalhos button,
-  #atalhos .botao-esp {
-    width: 100% !important;
-  }
-
-  #atalhos {
-    flex-direction: column;
+    padding: 0 3%;
   }
 
   .graficos {
     flex-direction: column;
   }
 
-  .form-grid .label-input {
-    width: 100%;
+  .section-nhm-opcao-selec img {
+    width: 40%;
+    height: auto;
   }
 
-  input[type="text"],
-  input[type="email"],
-  select,
-  textarea {
-    width: 100%;
-    box-sizing: border-box;
+  .content {
+    overflow-y: auto;
+    max-height: 800px;
   }
 
-  .user-opcao-lista {
+  .container {
+    flex-direction: column;
+    max-height: 1000px;
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebar {
+    width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-height: 300px;
   }
 
-  .lista-info-usuario {
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 30px;
+  .itens {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
   }
 
-  .form-container {
+  .search-box {
+    width: 90%;
+  }
+
+  .search {
     width: 100%;
-    box-sizing: border-box;
   }
 
-  .btn {
-    bottom: 20px;
-    right: 30px;
+  .box-content {
+    padding: 10px 0;
+    width: 95%;
+  }
+}
+
+@media (max-width: 900px) {
+  .top-content img {
+    margin-left: 0 !important;
+  }
+
+  .section-nhm-opcao-selec img {
+    width: 70%;
+    height: auto;
+  }
+
+  .form-gerenc {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .checkbox-div {
+    grid-template-columns: 1fr;
+  }
+
+  .membro-row {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .row-div-nome,
+  .row-div-laudo {
+    width: 100%;
+    margin: 0;
+  }
+
+  .top-content img {
+    width: 50px;
+    margin-left: 15px;
+  }
+
+  .top-content h1 {
+    font-size: 26px;
+    margin-left: 10px !important;
+  }
+
+  .itens {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+  }
+}
+
+@media (max-width: 600px) {
+  #titulo1 {
+    font-size: 1.8em;
+  }
+
+  .graficos {
+    gap: 15px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .estatisticas-acolhidos {
+    flex: 1 1 100%;
+  }
+
+  .section-nhm-opcao-selec img {
+    width: 70%;
+    height: auto;
+  }
+
+  .container {
+    max-height: none;
+  }
+
+  .sidebar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content {
+    padding: 15px;
+  }
+
+  .top-content img {
+    width: 45px;
+  }
+
+  .content h1 {
+    margin: 0 !important;
+  }
+
+  .top-content h1 {
+    font-size: 24px;
+    margin-left: 10px !important;
+  }
+
+  .form-familias {
+    padding: 0;
+    margin-top: 15px;
+  }
+
+  .itens {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+  }
+}
+
+@media (max-width: 400px) {
+  #titulo1 {
+    font-size: 1.5em;
+  }
+
+  .botao,
+  .botao-esp {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .section-nhm-opcao-selec img {
+    width: 90%;
+    height: auto;
+  }
+
+  .item {
+    font-size: 16px;
+  }
+
+  .search {
+    font-size: 14px;
+  }
+
+  .content h1 {
+    font-size: 26px;
+  }
+
+  .content h2 {
+    font-size: 18px;
+  }
+
+  .form-gerenc {
+    gap: 10px;
+  }
+
+  .estatisticas {
+    gap: 10px;
+  }
+
+  .estatisticas-acolhidos .numero {
+    font-size: 1.2em;
+  }
+
+  .membro-row {
+    padding: 15px;
+  }
+
+  .progress-container {
+    height: 10px;
+  }
+
+  .itens {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Correção aqui */
   }
 }
