@@ -82,6 +82,11 @@ var EssenciaAzul = ( function() {
     BaseDataTypes.SolicitacaoVoluntario = class SolicitacaoVoluntario extends Solicitacao {
         voluntario;
     }
+    BaseDataTypes.Comentario = class Comentario {
+        nome;
+        email;
+        mensagem;
+    }
     BaseDataTypes.Admin = class Admin {
         nome;
         email;
@@ -634,6 +639,9 @@ var EssenciaAzul = ( function() {
             // remove: createRegisterCallback("SolicitacaoVoluntario", "remover"),
             // update: createRegisterCallback("SolicitacaoVoluntario", "editar"),
         }
+    });
+    Types.Comentario = createDatabaseDocumentType(BaseDataTypes.Comentario, "comentarios", {
+
     });
 
     Types.Admin = createDatabaseDocumentType(BaseDataTypes.Admin, "admins", {
