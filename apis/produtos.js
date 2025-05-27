@@ -3,18 +3,19 @@ const { ClientError } = require( "../src/server" );
 const redirect = require( "../src/server/redirect.js" );
 const getFormidableBlob = require( "./_getFormidableBlob.js" );
 const singleField = require( "./_singleField.js" );
+const jsonField = require("./_jsonField.js")
 
 const maxSize = 50 * 1024 * 1024; // 50 MB
 
 /** @type {import("../src/server").Page.RestHandlersObject} */
 module.exports = {
     async post({ body, session, response }) {
-        if (!body.files.blob || !body.fields.nome || !body.fields || !body.fields.preco) throw new ClientError(response, "Parâmetros insuficientes");
+        if (!body.files.blob || !body.fields.nome || !body.fields.preco) throw new ClientError(response, "Parâmetros insuficientes");
         const blob = await getFormidableBlob(body.files.blob);
-        console.log(body.files);
+        const opcoesArr = body.fields["opcoes[]"] ? jsonField(body, "opcoes[]") : [];
         const opcoes = [];
-        for (let i = 0; i < body.fields["opcoes[]"].length; i++) {
-            let opcao = body.fields["opcoes[]"][i];
+        for (let i = 0; i < opcoesArr.length; i++) {
+            let opcao = opcoesArr[i];
             opcao = JSON.parse(opcao);
             if (body.files[`blob_opcao[${i}]`]) opcao.blob = await getFormidableBlob(body.files[`blob_opcao[${i}]`]);
             opcoes.push(opcao);
