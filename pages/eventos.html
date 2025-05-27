@@ -91,6 +91,9 @@
                         const removerButton = document.createElement("i");
                         removerButton.classList.add("fa-xmark", "fa-solid", "removerButton");
                         eventoDiv.append(removerButton);
+                        const editarButton = document.createElement("i");
+                        editarButton.classList.add("fa-pen-to-square", "fa-solid", "editarButton");
+                        eventoDiv.append(editarButton);
                         removerButton.addEventListener("click", () => {
                             modalRemoverEvento(id)
                         });
