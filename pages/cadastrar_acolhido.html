@@ -16,41 +16,30 @@
     <component-acessibilidade />
 
     <div class="voltar-div">
-        <h3><a class="voltar" href="/gerenciamento"><i class="fa-solid fa-arrow-left" style="color: '#002293;'"></i> Voltar</a></h3>
+        <h3><a class="voltar" href="/gerenciamento"><i class="fa-solid fa-arrow-left" style="color: '#002293;'"></i>
+                Voltar</a></h3>
     </div>
     <div class="container">
         <h2 class="conteudo-site">Cadastrar Acolhido</h2>
         <form>
             <div class="form-container">
+
+                <!-- COLUNA RESPONSÁVEL -->
                 <div class="coluna">
+
                     <div class="label-input conteudo-site">
                         <label class="conteudo-site" for="name">Nome:</label>
-                        <input class="conteudo-site" type="text" id="name">
+                        <input class="conteudo-site" type="text" id="name" />
                     </div>
 
                     <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="phone">Telefone:</label>
-                        <input class="conteudo-site" type="text" id="phone">
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="email">E-mail:</label>
-                        <input class="conteudo-site" type="email" id="email">
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="age">Idade:</label>
-                        <input  class="conteudo-site"type="number" id="age">
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="family">Família:</label>
-                        <input class="conteudo-site" type="text" id="family">
+                        <label class="conteudo-site" for="data-nascimento">Data de nascimento:</label>
+                        <input class="conteudo-site" type="date" id="data-nascimento" />
                     </div>
 
                     <div class="label-input conteudo-site">
                         <label for="nivel-suporte" class="conteudo-site">Nível de suporte:</label>
-                        <select id="nivel-suporte">
+                        <select id="nivel-suporte" class="conteudo-site">
                             <option value="" class="conteudo-site">Selecione...</option>
                             <option value="1" class="conteudo-site">Nível 1</option>
                             <option value="2" class="conteudo-site">Nível 2</option>
@@ -59,116 +48,183 @@
                     </div>
 
                     <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="escola">Escola:</label>
-                        <input class="conteudo-site" type="text" id="escola">
+                        <label class="conteudo-site" for="escola">Nome da escola:</label>
+                        <input class="conteudo-site" type="text" id="escola" />
                     </div>
 
                     <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="responsible">Nome dos responsáveis:</label>
-                        <input class="conteudo-site" type="text" id="responsible">
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site">Suporte na escola:</label>
+                        <label class="conteudo-site">Tem suporte na escola?</label>
                         <div class="radio">
-                            <input class="conteudo-site" type="radio" id="escola-suporte-sim" name="escola-suporte" value="Sim">
+                            <input class="conteudo-site" type="radio" id="escola-suporte-sim" name="escola-suporte"
+                                value="true" />
                             <label class="conteudo-site" for="escola-suporte-sim">Sim</label>
-                    
-                            <input class="conteudo-site" type="radio" id="escola-suporte-nao" name="escola-suporte" value="Não">
+
+                            <input class="conteudo-site" type="radio" id="escola-suporte-nao" name="escola-suporte"
+                                value="false" />
                             <label class="conteudo-site" for="escola-suporte-nao">Não</label>
                         </div>
                     </div>
-                    
+
                     <div class="label-input conteudo-site">
                         <label class="conteudo-site">CipTEA:</label>
                         <div class="radio">
-                            <input class="conteudo-site" type="radio" id="ciptea-sim" name="ciptea" value="Sim">
+                            <input class="conteudo-site" type="radio" id="ciptea-sim" name="ciptea" value="true" />
                             <label class="conteudo-site" for="ciptea-sim">Sim</label>
-                    
-                            <input class="conteudo-site" type="radio" id="ciptea-nao" name="ciptea" value="Não">
+
+                            <input class="conteudo-site" type="radio" id="ciptea-nao" name="ciptea" value="false" />
                             <label class="conteudo-site" for="ciptea-nao">Não</label>
                         </div>
                     </div>
-                    
+
                     <div class="label-input conteudo-site">
                         <label class="conteudo-site">Cordão de identificação:</label>
                         <div class="radio">
-                            <input class="conteudo-site" type="radio" id="cordao-sim" name="cordao" value="Sim">
-                            <label class="conteudo-site"for="cordao-sim">Sim</label>
-                    
-                            <input class="conteudo-site" type="radio" id="cordao-nao" name="cordao" value="Não">
+                            <input class="conteudo-site" type="radio" id="cordao-sim" name="cordao" value="true" />
+                            <label class="conteudo-site" for="cordao-sim">Sim</label>
+
+                            <input class="conteudo-site" type="radio" id="cordao-nao" name="cordao" value="false" />
                             <label class="conteudo-site" for="cordao-nao">Não</label>
                         </div>
                     </div>
-                    
                     <div class="label-input conteudo-site">
-                        <label class="conteudo-site">Cartão DeFis:</label>
+                        <label class="conteudo-site">Vaga exclusiva:</label>
                         <div class="radio">
-                            <input class="conteudo-site" type="radio" id="defis-sim" name="defis" value="Sim">
-                            <label class="conteudo-site" for="defis-sim">Sim</label>
-                    
-                            <input class="conteudo-site" type="radio" id="defis-nao" name="defis" value="Não">
-                            <label class="conteudo-site" for="defis-nao">Não</label>
-                        </div>
-                    </div>                    
-                </div>
+                            <input class="conteudo-site" type="radio" id="vaga-exclusiva-sim" name="vaga-exclusiva"
+                                value="true" />
+                            <label class="conteudo-site" for="vaga-exclusiva-sim">Sim</label>
 
-                <div class="coluna">
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="interesse">Áreas de Interesse:</label>
-                        <input class="conteudo-site" type="text" id="interesse">
+                            <input class="conteudo-site" type="radio" id="vaga-exclusiva-nao" name="vaga-exclusiva"
+                                value="false" />
+                            <label class="conteudo-site" for="vaga-exclusiva-nao">Não</label>
+                        </div>
                     </div>
 
                     <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="hiperfoco">Hiperfoco:</label>
-                        <input class="conteudo-site" type="text" id="hiperfoco">
+                        <label class="conteudo-site" for="interesses">Interesses (separe por vírgula):</label>
+                        <textarea class="conteudo-site" id="interesses" rows="3"></textarea>
+                    </div>
+
+                    <div class="label-input conteudo-site">
+                        <label class="conteudo-site" for="hiperfoco">Hiperfoco (separe por vírgula):</label>
+                        <textarea class="conteudo-site" id="hiperfoco" rows="3"></textarea>
                     </div>
 
                     <div class="label-input conteudo-site">
                         <label class="conteudo-site" for="comoacalma">Como o autista se acalma?</label>
-                        <input class="conteudo-site" type="text" id="comoacalma">
+                        <input class="conteudo-site" type="text" id="comoacalma" />
+                    </div>
+                </div>
+
+                <!-- COLUNA ACOLHIDO -->
+                <div class="coluna">
+
+
+
+                    <div class="label-input conteudo-site">
+                        <label class="conteudo-site" for="naogosta">Atividades que o autista NÃO gosta (separe por
+                            vírgula):</label>
+                        <textarea class="conteudo-site" id="naogosta" rows="3"></textarea>
                     </div>
 
                     <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="naogosta">Atividades que o autista NÃO gosta:</label>
-                        <input class="conteudo-site" type="text" id="naogosta">
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="restricoes">Restrições Alimentares:</label>
-                        <input class="conteudo-site" type="text" id="restricoes">
+                        <label class="conteudo-site" for="restricoes">Restrições Alimentares (separe por
+                            vírgula):</label>
+                        <textarea class="conteudo-site" id="restricoes" rows="3"></textarea>
                     </div>
 
                     <div class="label-input conteudo-site">
                         <label class="conteudo-site" for="comida-fav">Comida favorita:</label>
-                        <input class="conteudo-site" type="text" id="comida-fav">
+                        <input class="conteudo-site" type="text" id="comida-fav" />
                     </div>
 
                     <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="convenio">Convênio ou SUS: Qual convênio?</label>
-                        <input class="conteudo-site" type="text" id="convenio">
+                        <label class="conteudo-site" for="convenio">Convênio ou SUS (qual?):</label>
+                        <input class="conteudo-site" type="text" id="convenio" />
                     </div>
 
                     <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="terapia">Faz terapia?</label>
-                        <input class="conteudo-site" type="text" id="terapia">
+                        <label class="conteudo-site" for="terapia-faz">Terapias que faz (separe por vírgula):</label>
+                        <textarea class="conteudo-site" id="terapia-faz" rows="3"></textarea>
                     </div>
 
                     <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="precisa-terapia">Qual terapia precisa e não faz?</label>
-                        <input class="conteudo-site" type="text" id="precisa-terapia">
+                        <label class="conteudo-site" for="terapia-precisa">Terapias que precisa e não faz (separe por
+                            vírgula):</label>
+                        <textarea class="conteudo-site" id="terapia-precisa" rows="3"></textarea>
+                    </div>
+
+
+                    <div class="label-input conteudo-site">
+                        <label class="conteudo-site" for="url-imagem">URL da imagem:</label>
+                        <input class="conteudo-site" type="text" id="url-imagem" />
                     </div>
 
                     <div class="label-input conteudo-site">
                         <label class="conteudo-site" for="observacoes">Observações:</label>
-                        <textarea class="conteudo-site" id="observacoes"></textarea>
+                        <textarea class="conteudo-site" id="observacoes" rows="4"></textarea>
                     </div>
                 </div>
             </div>
+            <div class="form-container">
 
-            <div class="button-container">
-                <button type="submit" class="conteudo-site">Finalizar Cadastro</button>
-            </div>
+                <!-- COLUNA RESPONSÁVEL -->
+                <div class="coluna">
+                    <h3 class="conteudo-site responsavel"> informações do Responsável</h3>
+
+                    <div class="label-input conteudo-site">
+                        <label class="conteudo-site" for="responsavel-nome">Nome:</label>
+                        <input class="conteudo-site" type="text" id="responsavel-nome" />
+                    </div>
+
+                    <div class="label-input conteudo-site">
+                        <label class="conteudo-site" for="responsavel-relacao">Relação com acolhido:</label>
+                        <input class="conteudo-site" type="text" id="responsavel-relacao" />
+                    </div>
+
+
+                    <div class="label-input conteudo-site">
+                        <label class="conteudo-site" for="contato-valor">telefone ou email para contato</label>
+                        <input class="conteudo-site" type="text" id="contato-valor" />
+                    </div>
+
+                    <div class="label-input conteudo-site">
+                        <label class="conteudo-site" for="familia-endereco">endereço</label>
+                        <input class="conteudo-site" type="text" id="contato-valor" />
+                    </div>
+
+                    <label class="conteudo-site" for="numero-residentes">qual a quantidade de residentes na casa</label>
+                    <input type="number" id="inputQuantidade" min="0" />
+
+                    <div id="containerInputs"></div>
+
+                    <script>
+                        const inputQuantidade = document.getElementById('inputQuantidade');
+                        const container = document.getElementById('containerInputs');
+
+                        inputQuantidade.addEventListener('input', () => {
+                            const quantidade = parseInt(inputQuantidade.value);
+                            container.innerHTML = '';
+
+                            if (!isNaN(quantidade) && quantidade > 0) {
+                                for (let i = 0; i < quantidade; i++) {
+                                    const novoInput = document.createElement('input');
+                                    novoInput.type = 'text';
+                                    novoInput.placeholder = `nome residente ${i + 1}`;
+                                    container.appendChild(novoInput);
+                                    container.appendChild(document.createElement('br'));
+                                }
+                            }
+                        });
+                    </script>
+
+                    <!-- COLUNA ACOLHIDO -->
+                    <div class="coluna">
+
+                    </div>
+
+                    <div class="button-container">
+                        <button type="submit" class="conteudo-site">Finalizar cadastro</button>
+                    </div>
         </form>
     </div>
 </body>

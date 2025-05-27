@@ -66,6 +66,7 @@ module.exports = {
             for (let i = 0; i < body.fields["opcoes[]"].length; i++) {
                 let opcao = body.fields["opcoes[]"][i];
                 opcao = JSON.parse(opcao);
+                if(opcao === null) continue;
                 if (body.files[`blob_opcao[${i}]`]) opcao.blob = await getFormidableBlob(body.files[`blob_opcao[${i}]`]);
                 patchFields.opcoes.push(opcao);
             }

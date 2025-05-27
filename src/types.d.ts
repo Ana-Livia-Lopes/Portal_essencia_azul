@@ -9,7 +9,7 @@ declare namespace BaseDataTypes {
     interface Responsavel {
         nome: string
         relacao: string
-        contatos: Contato[]
+        contato: string
     }
 
     class Acolhido {
