@@ -82,6 +82,11 @@ var EssenciaAzul = ( function() {
     BaseDataTypes.SolicitacaoVoluntario = class SolicitacaoVoluntario extends Solicitacao {
         voluntario;
     }
+    BaseDataTypes.Comentario = class Comentario {
+        nome;
+        email;
+        mensagem;
+    }
     BaseDataTypes.Admin = class Admin {
         nome;
         email;
@@ -540,7 +545,7 @@ var EssenciaAzul = ( function() {
                         delete fields.blob;
                         return fields;
                     case "update":
-                        if (!fields.blob) return fields; else {
+                        if (fields.blob) {
                             delete fields.url_imagem;
                             fields.url_imagem = await updateInStorage(type._bucket, fields.url_imagem, fields.blob, response, type.collection);
                         }
@@ -634,6 +639,9 @@ var EssenciaAzul = ( function() {
             // remove: createRegisterCallback("SolicitacaoVoluntario", "remover"),
             // update: createRegisterCallback("SolicitacaoVoluntario", "editar"),
         }
+    });
+    Types.Comentario = createDatabaseDocumentType(BaseDataTypes.Comentario, "comentarios", {
+
     });
 
     Types.Admin = createDatabaseDocumentType(BaseDataTypes.Admin, "admins", {

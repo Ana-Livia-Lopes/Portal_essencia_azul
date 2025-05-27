@@ -108,6 +108,11 @@ declare namespace BaseDataTypes {
     class SolicitacaoVoluntario extends Solicitacao {
         voluntario: Voluntario
     }
+    class Comentario {
+        nome: string
+        email: string
+        mensagem: string
+    }
 
     type NivelAdmin = 1 | 2 | 3
     // São cumulativos (ex: 2 tem acesso a tudo de 1 e 3 tem acesso a tudo de 1 e 2)
@@ -246,6 +251,7 @@ declare namespace DataTypes {
 
     export class SolicitacaoAcolhido extends DatabaseDocument<BaseDataTypes.SolicitacaoAcolhido> {}
     export class SolicitacaoVoluntario extends DatabaseDocument<BaseDataTypes.SolicitacaoVoluntario> {}
+    export class Comentario extends DatabaseDocument<BaseDataTypes.Comentario> {}
     
     export class Admin extends DatabaseDocument<BaseDataTypes.Admin> {
         references: {

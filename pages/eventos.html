@@ -114,13 +114,19 @@
                                 return false;
                             }
 
+                            const fd = new FormData();
+                            if (nome) fd.append("titulo", nome);
+                            if (descricao) fd.append("descricao", descricao);
+                            if (data) fd.append("data", data);
+                            if (arquivo) fd.append("blob", arquivo);
+
                             return fd;
                         }
                     }).then(result => {
                         if (result.isConfirmed) {
                             const fd = result.value;
                             fetch(`/api/eventos/${evento.id}`, {
-                                method: "PUT",
+                                method: "PATCH",
                                 body: fd
                             }).then(resp => resp.json()).then(json => {
                                 if (json.status === "error") {
@@ -163,7 +169,7 @@
                         editarButton.classList.add("fa-pen-to-square", "fa-solid", "editarButton");
                         eventoDiv.append(editarButton);
                         editarButton.addEventListener("click", () => {
-                            modaleditarEvento(id)
+                            modaleditarEvento({ titulo: nome, descricao, data: data.toISOString().split("T")[0], imagem: url, id });
                         });
                     }
 
