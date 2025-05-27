@@ -435,6 +435,7 @@ var EssenciaAzul = ( function() {
         ],
         privateFields: [ "url_logo" ],
         bucket: "public-images",
+        public: true,
         allowOverSet: false,
         events: {
             create: createRegisterCallback("Apoiador", "adicionar"),

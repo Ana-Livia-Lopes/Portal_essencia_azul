@@ -149,6 +149,7 @@
         </div>
         <img id="menino" src="/img/menino.png">
     </section>
+    <component-json-apoiadores/>
     <section id="secao7">
         <img src="/img/linha.png" id="quebraCabeca">
         <div id="apoiadores">
@@ -156,8 +157,13 @@
             <div class="button"><span id="textApoiadores" class="conteudo-site"> Apoiadores </span></div>
             <div class="button"><span class="arrow reverse"> « « « </span></div>
         </div>
-        <div class="cardsApoiadores">
-            <div class="apoiador">
+        <script>
+            if (!window.APOIADORES || !window.APOIADORES.length === 0) {
+                document.getElementById("apoiadores").remove();
+            }
+        </script>
+        <div class="cardsApoiadores" id="apoiadores-container">
+            <!-- <div class="apoiador">
                 <div class="header">
                     <div class="dot"></div>
                     <div class="dot"></div>
@@ -186,23 +192,61 @@
                 <div class="title conteudo-site">Nome do Apoiador</div>
                 <img src="/img/logo.png" alt="Imagem" class="image">
                 <hr class="hr">
-            </div>
+            </div> -->
         </div>
-        <button onclick="editarEventos()" class="botao-editar conteudo-site">Adicionar apoiador</button>
+        <component-admin-index_add_apoiadores/>
     </section>
     <component-footer />
 </body>
 <script>
-    function editarEventos() {
-   Swal.fire({
+    function criarApoiador(nome, logo, link) {
+        const apoiador = document.createElement("div");
+        apoiador.classList.add("apoiador");
+        apoiador.innerHTML = `
+            <div class="header">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="title conteudo-site">${nome}</div>
+            <img src="${logo}" alt="Imagem" class="image">
+            <hr class="hr">
+        `;
+        apoiador.addEventListener("click", () => {
+            if (link) {
+                window.open(link, "_blank");
+            } else {
+                Swal.fire({
+                    icon: "info",
+                    title: "Link não disponível",
+                    text: "Este apoiador não possui um link associado."
+                });
+            }
+        });
+        return apoiador;
+    }
+
+    const container = document.getElementById("apoiadores-container");
+
+    if (window.APOIADORES) {
+        for (const apoiador of window.APOIADORES) {
+            container.appendChild( criarApoiador(apoiador.nome, apoiador.logo, apoiador.link) )
+        }
+    }
+
+    function adicionarApoiador() {
+        Swal.fire({
                 title: 'Adicionar imagem',
                 html: `
         <div class="modal-container">
             <label for="nome" class="modal-label">Nome apoiador</label>
             <input type="text" id="nome" class="modal-input">
 
+            <label for="url" class="modal-label">URL do apoiador</label>
+            <input type="url" id="url" class="modal-input" placeholder="https://exemplo.com">
+
             <label for="arquivoInput" class="modal-label">Imagem</label>
-            <input type="file" id="arquivoInput" class="modal-file">
+            <input type="file" id="arquivoInput" class="modal-file" accept="image/*">
         </div>
     `,
                 confirmButtonText: 'Salvar',
@@ -213,18 +257,45 @@
                     popup: 'custom-popup'
                 },
                 preConfirm: () => {
-                    const arquivo = document.getElementById('arquivoInput').files[0];
+                    const nome = document.getElementById('nome').value;
+                    const url = document.getElementById('url').value;
+                    const arquivoInput = document.getElementById('arquivoInput');
+                    const arquivo = arquivoInput.files[0];
 
-                    if (!arquivo) {
-                        Swal.showValidationMessage('Preencha todos os campos!');
+                    if (!nome || !url || !arquivo) {
+                        Swal.showValidationMessage('Por favor, preencha todos os campos e selecione uma imagem.');
                         return false;
                     }
 
-                    return { arquivo };
+                    const formdata = new FormData();
+                    formdata.append('nome', nome);
+                    formdata.append('link', url);
+                    formdata.append('blob', arquivo);
+
+                    return formdata;
                 }
             }).then(result => {
                 if (result.isConfirmed) {
-                    Swal.fire('Salvo!', 'Imagem adicionada', 'success');
+                    const formdata = result.value;
+                    fetch("/api/apoiadores", {
+                        method: "POST",
+                        body: formdata
+                    }).then(resp => resp.json()).then(json => {
+                        if (json.status === "error") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Houve um erro...",
+                                message: json.message
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Apoiador adicionado com sucesso!",
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        }
+                    })
                 }
             });
         }

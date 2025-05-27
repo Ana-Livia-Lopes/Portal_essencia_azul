@@ -55,18 +55,6 @@
             "before": [ "onlyLogin" ]
         }
     },
-    "solicitacoes/acolhidos.js": {
-        "paths": [ "/solicitacoes/acolhidos/[id]" ],
-        "events": {
-            "before": [ "onlyLogin" ]
-        }
-    },
-    "solicitacoes/voluntarios.js": {
-        "paths": [ "/solicitacoes/voluntarios/[id]" ],
-        "events": {
-            "before": [ "onlyLogin" ]
-        }
-    },
     "admins.js": {
         "paths": [ "/admins/[id]" ],
         "events": {

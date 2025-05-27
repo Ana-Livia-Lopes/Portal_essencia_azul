@@ -28,6 +28,11 @@ module.exports = {
             como_ajudar,
             por_que_ser_voluntario
         }));
+
+        return JSON.stringify({
+            status: "okay",
+            message: "Solicitação registrada com sucesso"
+        })
     },
     async get({ params, response, session, query }) {
         if (!session || !isLogged(session)) throw new AuthenticationError(response, "Usuário não autenticado");

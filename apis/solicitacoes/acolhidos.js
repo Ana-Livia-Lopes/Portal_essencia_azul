@@ -47,6 +47,11 @@ module.exports = {
             terapias,
             observacoes
         }));
+
+        return JSON.stringify({
+            status: "okay",
+            message: "Solicitação registrada com sucesso"
+        });
     },
     async get({ params, response, session }) {
         if (!session || !isLogged(session)) throw new AuthenticationError(response, "Usuário não autenticado");
