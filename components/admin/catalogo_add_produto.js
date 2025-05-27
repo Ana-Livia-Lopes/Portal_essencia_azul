@@ -152,7 +152,6 @@ const content = `<button onclick="adicionarProduto()" class="botao-editar conteu
                                 Swal.fire({
                                     icon: "success",
                                     title: "Produto adicionado com sucesso!",
-                                    showConfirmButton: false,
                                     timer: 1500
                                 });
                             }
