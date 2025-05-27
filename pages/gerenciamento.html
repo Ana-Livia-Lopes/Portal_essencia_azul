@@ -56,6 +56,7 @@
                 <div id="agrupamento-links">
                     <h3><a href="/cadastrar_adm"><i id="icon-link" class="fas fa-plus conteudo-site"></i> <p>Cadastrar administrador</p> </a></h3>
                     <h3><a href="/cadastrar_acolhido"><i id="icon-link" class="fas fa-plus conteudo-site"></i> <p>Cadastrar acolhido</p> </a></h3>
+                    <h3><a href="/comentarios-duvidas"><i id="icon-link" class="fas fa-message conteudo-site"></i> <p>Comentários</p> </a></h3>
                     <h3><a href="/solic_receb"><i class="fas fa-user conteudo-site"></i> <p>Solicitações de cadastro</p> </a>
                     </h3>
                 </div>
@@ -64,15 +65,15 @@
             <div id="atalhos">
                 <h2>Usuários</h2>
                 <div id="botoes-direita">
-                    <button class="botao conteudo-site" onclick="mudarSection('voluntarios')"
+                    <button class="botao conteudo-site" onclick="mudarSection('voluntarios'), scrollParaElemento('resultScroll')"
                         id="option-switch-voluntarios">Voluntários</button>
-                    <button class="botao conteudo-site" onclick="mudarSection('administradores')"
+                    <button class="botao conteudo-site" onclick="mudarSection('administradores'), scrollParaElemento('resultScroll')"
                         id="option-switch-administradores">Administradores</button>
-                    <button class="botao conteudo-site" onclick="mudarSection('familias')"
+                    <button class="botao conteudo-site" onclick="mudarSection('familias'), scrollParaElemento('resultScroll')"
                         id="option-switch-familias">Famílias</button>
-                    <button class="botao conteudo-site" onclick="mudarSection('acolhidos')"
+                    <button class="botao conteudo-site" onclick="mudarSection('acolhidos'), scrollParaElemento('resultScroll')"
                         id="option-switch-acolhidos">Acolhidos</button>
-                    <button class="botao-esp" onclick="mudarSection('relatorios')"
+                    <button class="botao-esp" onclick="mudarSection('relatorios'), scrollParaElemento('resultScroll')"
                         id="option-switch-relatorios">Relatórios</button>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" id="resultScroll">
     <div class="sidebar">
         <div class="search-box">
             <input type="text" class="search" placeholder="Pesquisar" />
@@ -19,19 +19,46 @@
                 <div class="membros-familia">
                     <h2>Nesta família</h2>
                     <div class="membro-row">
-                        <div>
-                            <p>Nome</p>
-                            <p>Gabriel</p>
+                        <div class="row-div-nome">
+                            <p class="titulo-row">Nome</p>
+                            <p id="nome-membro">Gabriel Reis de Brito</p>
                         </div>
 
-                        <div>
-                            <p>Laudo</p>
-                            <select name="" id=""></select>
+                        <div class="row-div-laudo">
+                            <p class="titulo-row">Laudo</p>
+                            <select name="" id="select-laudo">
+                                <option value="">Não</option>
+                                <option value="">Sim</option>
+                                <option value="">Em investigação</option>
+                                <option value="">Neurotípico</option>
+                            </select>
                         </div>
 
-                        <div>
-                            <button>Salvar</button>
-                            <button>Excluir</button>
+                        <div id="botoes-row">
+                            <button id="salvar-row">Salvar</button>
+                            <button id="excluir-row">Excluir</button>
+                        </div>
+                    </div>
+
+                    <div class="membro-row">
+                        <div class="row-div-nome">
+                            <p class="titulo-row">Nome</p>
+                            <p id="nome-membro">Isadora</p>
+                        </div>
+
+                        <div class="row-div-laudo">
+                            <p class="titulo-row">Laudo</p>
+                            <select name="" id="select-laudo">
+                                <option value="">Não</option>
+                                <option value="">Sim</option>
+                                <option value="">Em investigação</option>
+                                <option value="">Neurotípico</option>
+                            </select>
+                        </div>
+
+                        <div id="botoes-row">
+                            <button id="salvar-row">Salvar</button>
+                            <button id="excluir-row">Excluir</button>
                         </div>
                     </div>
                 </div>
