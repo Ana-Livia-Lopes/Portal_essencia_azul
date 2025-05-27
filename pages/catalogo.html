@@ -34,7 +34,7 @@
         <h3 class="titulo-w3-agileits titulo conteudo-site">Produtos disponíveis</h3>
         <div class="tabela-preco-principal" id="tabela-preco-principal">
 
-            <article class="coluna card-preco">
+            <!-- <article class="coluna card-preco">
                 <div class="bloco-preco agile">
                     <div class="topo-preco">
                         <img src="/img/produto2.jpeg" alt="Quarto Amigos" class="img-responsiva" id="imgCamiseta" />
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-            </article>
+            </article> -->
         </div>
         <component-admin-catalogo_add_produto />
     </section>
@@ -305,6 +305,9 @@
                             }
                             const opcoesContainer = document.getElementById("add-produto-options");
                             if (opcoesContainer && opcoesContainer.opcoes) {
+                                if (opcoesContainer.opcoes.length === 0) {
+                                    formdata.append("opcoes[]", JSON.stringify(null));
+                                }
                                 for (const opcao of opcoesContainer.opcoes) {
                                     const nomeOpcao = opcao.fields.nome.value;
                                     const descricaoOpcao = opcao.fields.descricao.value;
@@ -324,6 +327,8 @@
                                         formdata.append(`blob_opcao[${Array.from(opcoesContainer.opcoes).indexOf(opcao)}]`, imagemOpcao);
                                     }
                                 }
+                            } else {
+                                formdata.append("opcoes[]", JSON.stringify(null));
                             }
 
                             return formdata;
