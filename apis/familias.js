@@ -19,9 +19,9 @@ module.exports = {
 
         return await create(session.get("login"), Familia, {
             sobrenome: singleField(body.fields.sobrenome),
-            endereco: body.fields.endereco ? singleField(body.fields.endereco) : undefined,
+            endereco: body.fields.endereco ? singleField(body.fields.endereco) : "",
             residentes: jsonField(body, residentes),
-            observacoes: body.fields.observacoes ? singleField(body.fields.observacoes) : undefined,
+            observacoes: body.fields.observacoes ? singleField(body.fields.observacoes) : "",
         }, response);
     },
     async get({ params, query, session, response }) {

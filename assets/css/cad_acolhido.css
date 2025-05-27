@@ -17,6 +17,10 @@ body {
     flex-direction: column;
 }
 
+h3 {
+    width: 100%;
+}
+
 .voltar-div {
     position: absolute;
     top: 20px;
@@ -26,6 +30,98 @@ body {
 .voltar-div:hover {
     color:#0033CC;
     cursor: pointer;
+}
+
+.list-input {
+    margin-bottom: 20px;
+    input {
+        margin-bottom: 0;
+        background-image: url("/img/circle-solid.svg");
+        background-repeat: no-repeat;
+        background-size: 8px 8px;
+        background-position: 10px;
+        padding-left: 24px;
+    }
+}
+
+.inputs-responsavel {
+    padding: 4px;
+    /* padding-left: 18px; */
+    position: relative;
+
+    & >input {
+        width: 100%;
+    }
+
+    .inputs-responsavel-subfields {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .inputs-responsavel-relacao {
+        width: 30%;
+    }
+    .inputs-responsavel-contato {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        label {
+            width: 100%;
+        }
+        input {
+            width: 100%;
+        }
+    }
+
+    hr {
+        width: 100%;
+        margin: 4px 0;
+    }
+
+    .fa-solid {
+        color: #002293;
+        font-size: 20px;
+        position: absolute;
+        right: calc(100% - 100%);
+        top: 0px;
+    }
+}
+
+.inputs-residente {
+    padding: 4px;
+    position: relative;
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    input, select {
+        width: 100%;
+    }
+
+    .inputs-residente-nome {
+        width: 60%;
+    }
+
+    .inputs-residente-perfil {
+        width: 35%;
+    }
+
+    .fa-solid {
+        color: #002293;
+        font-size: 20px;
+        position: absolute;
+        right: calc(100% - 100%);
+        top: 0px;
+    }
+
+    hr {
+        width: 100%;
+        margin: 4px 0;
+    }
 }
 
 .voltar {
@@ -169,7 +265,7 @@ button:hover {
     align-items: center;
     justify-content: center;
     font-size: 24px;
-    margin: 18px;
+    margin: 18px 0;
     color: #002299;
 }
 
