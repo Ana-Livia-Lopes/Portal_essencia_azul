@@ -52,9 +52,16 @@ section {
   margin-bottom: 50px;
 }
 
-.formulario-solicitacao-section-expansiva {
+.formulario-solicitacao-section-expansiva, .formulario-solicitacao-voluntario {
   display: flex;
   justify-content: center;
+}
+
+.formulario-solicitacao-voluntario .form-wrapper{
+  background-color: #002293;
+}
+.formulario-solicitacao-voluntario .form-wrapper .titulo-filtro{
+  color: #cfecff;
 }
 
 .form-wrapper {
@@ -70,8 +77,19 @@ section {
   justify-content: space-between;
   margin-bottom: 20px;
   margin-top: 20px;
-  font-weight: bold;
+  font-weight: 600;
   color: #002293;
+}
+
+.titulo-filtro strong {
+  font-weight: 800;
+}
+
+input[type=date]{
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+   border: 1px solid #ccc;
 }
 
 .form-grid {
@@ -83,6 +101,9 @@ section {
 .campo {
   display: flex;
   flex-direction: column;
+}
+.formulario-solicitacao-voluntario .campo {
+  color: #f0f0f0;
 }
 
 .campo.full {
@@ -103,6 +124,11 @@ textarea {
   background-color: white;
 }
 
+input::placeholder {
+  opacity: 1;
+  color: rgb(0, 0, 0);
+}
+
 textarea {
   resize: vertical;
   min-height: 80px;
@@ -116,9 +142,9 @@ textarea {
 }
 
 .aceitar {
-  background-color: #1535B5;
+  background-color: #5a7af7;
   color: white;
-  padding: 10px 30px;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   font-weight: bold;
@@ -128,7 +154,7 @@ textarea {
 .recusar {
   background-color: #870C0C;
   color: white;
-  padding: 10px 30px;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   font-weight: bold;
