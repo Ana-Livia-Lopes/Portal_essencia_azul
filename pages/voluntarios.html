@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/bindings/inputmask.binding.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Voluntários - Portal Essência Azul</title>
 </head>
 
@@ -26,7 +27,7 @@
             </div>
             <h1 class="conteudo-site">Seja um voluntário</h1>
             <h2 class="conteudo-site">Toda ajuda é bem-vinda!</h2>
-            <form action="">
+            <form action="" id="voluntario-form">
                 <div class="inserir-info">
                     <label for="" class="conteudo-site">Nome completo</label>
                     <input class="conteudo-site" id="nome" autocomplete="off" type="text" placeholder="Seu nome aqui">
@@ -67,7 +68,7 @@
                     <textarea class="conteudo-site" name="" id="" placeholder="Escreva aqui"></textarea>
                 </div>
 
-                <a href="/inicio" id="link-button"><button class="conteudo-site" type="button" id="enviar-voluntario">Enviar</button></a>
+                <a id="link-button"><button class="conteudo-site" type="submit" id="enviar-voluntario">Enviar</button></a>
             </form>
         </div>
     </section>
@@ -107,6 +108,57 @@
             inputOutro.value = "";
         }
     });
+
+    const form = document.getElementById("voluntario-form");
+
+    form.addEventListener("submit", event => {
+        event.preventDefault();
+
+        const nome = document.getElementById("nome").value;
+        const cpf = document.getElementById("cpf").value;
+        const email = document.getElementById("email").value;
+        const tel = document.getElementById("tel").value;
+        const ajuda = selectAjuda.value === "outro" ? inputOutro.value : selectAjuda.value;
+        const motivo = document.querySelector("textarea").value;
+
+        if (!nome || !cpf || !email || !tel || !ajuda || !motivo) {
+            Swal.fire({
+                icon: "error",
+                title: "Erro",
+                text: "Por favor, preencha todos os campos.",
+            });
+            return;
+        }
+
+        const formdata = new FormData();
+        formdata.append("nome", nome);
+        formdata.append("cpf", cpf);
+        formdata.append("email", email);
+        formdata.append("telefone", tel);
+        formdata.append("como_ajudar", ajuda);
+        formdata.append("por_que_ser_voluntario", motivo);
+
+        fetch("/api/solicitacoes/voluntarios", {
+            method: "POST",
+            body: formdata,
+        }).then(resp => resp.json()).then(json => {
+            if (json.status === "error") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Houve um erro...",
+                    text: json.message,
+                });
+            } else {
+                Swal.fire({
+                    icon: "success",
+                    title: "Sucesso",
+                    text: "Sua solicitação foi enviada com sucesso!",
+                }).then(() => {
+                    window.location.href = "/";
+                });
+            }
+        });
+    })
 </script>
 
 </html>
