@@ -55,6 +55,15 @@
             "before": [ "onlyLogin" ]
         }
     },
+    "solicitacoes/acolhidos.js": {
+        "paths": [ "/solicitacoes/acolhidos/[id]" ]
+    },
+    "solicitacoes/voluntarios.js": {
+        "paths": [ "/solicitacoes/voluntarios/[id]" ]
+    },
+    "solicitacoes/comentario.js": {
+        "paths": [ "/solicitacoes/comentarios/[id]" ]
+    },
     "admins.js": {
         "paths": [ "/admins/[id]" ],
         "events": {

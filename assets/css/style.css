@@ -849,6 +849,43 @@ body {
   top: 100px;
 }
 
+.fa-xmark {
+    right: 20.15%;
+    top: 0%;
+    color: rgb(255, 255, 255);
+    font-size: 39px;
+    text-shadow: 0 0 4px #000000;
+    padding: 10px;
+    padding-bottom: 20px;
+    padding-right: 15px;
+    margin: 0;
+  }
+  .removerButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    margin: 0;
+    padding: 8px;
+  }
+    .editarButton {
+    position: absolute;
+    top: 3px;
+    right: 22px;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    cursor: pointer;
+    margin: 0;
+    padding: 8px;
+    text-shadow: 0 0 4px #000000;
+  }
+
 /* fim secao 7 */
 
 @media (max-width: 768px) {
