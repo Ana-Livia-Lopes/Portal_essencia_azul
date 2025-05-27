@@ -4,7 +4,7 @@ const Redirect = require("../src/server/redirect.js");
 const getFormidableBlob = require("./_getFormidableBlob.js");
 const singleField = require("./_singleField.js");
 
-const maxSize = 10 * 1024 * 1024; // 10 MB para logos
+const maxSize = 50 * 1024 * 1024;
 
 /** @type {import("../src/server").Page.RestHandlersObject} */
 module.exports = {
@@ -48,7 +48,17 @@ module.exports = {
         const patchFields = {};
         if (body.fields.nome) patchFields.nome = singleField(body.fields.nome);
         if (body.fields.link) patchFields.link = singleField(body.fields.link);
-        // Atualização de logo não suportada via PATCH, apenas via POST
+        if (body.files.blob) {
+            const blob = await getFormidableBlob(body.files.blob);
+            if (blob.type !== "image/jpeg" && blob.type !== "image/png" && blob.type !== "image/svg+xml") {
+                throw new ClientError(response, "Tipo de arquivo inválido");
+            }
+            if (blob.size > maxSize) {
+                throw new ClientError(response, "Arquivo excede o tamanho máximo de 50MB");
+            }
+            patchFields.blob = blob;
+        }
+        console.log(patchFields)
         return await update(session.get("login"), Apoiador, params.id, patchFields, {
             editType: "update"
         }, response);

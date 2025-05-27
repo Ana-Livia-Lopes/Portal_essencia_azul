@@ -139,6 +139,7 @@ var EssenciaAzul = ( function() {
         if (!(blob instanceof Blob)) throw new ClientError(response, "Blob não é do tipo Blob");
         const { error } = await supabase.storage.from(bucket).update(url, blob, { contentType: blob.contentType });
         if (error) throw ServiceError(response, error.message);
+        return url;
     }
 
     async function removeInStorage(bucket, url, response) {
@@ -426,9 +427,11 @@ var EssenciaAzul = ( function() {
                         delete fields.blob;
                         return fields;
                     case "update":
-                        if (!fields.blob) return fields; else {
+                        if (fields.blob) {
                             fields.url_logo = await updateInStorage(type._bucket, fields.url_logo, fields.blob, response, type.collection);
                         }
+                        delete fields.blob;
+                        console.log(fields);
                         return fields;
                     case "remove":
                         await removeInStorage(type._bucket, fields.url_logo);

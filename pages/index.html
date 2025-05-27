@@ -213,7 +213,7 @@
             <img src="${logo}" alt="Imagem" class="image">
             <hr class="hr">
         `;
-        apoiador.addEventListener("click", () => {
+        apoiador.querySelector("img").addEventListener("click", () => {
             if (link) {
                 window.open(link, "_blank");
             } else {
@@ -233,7 +233,7 @@
                 confirmButtonText: "Apagar",
             }).then(result => {
                 if (result.isConfirmed) {
-                    fetch(`/api/apoiador/${id}`, {
+                    fetch(`/api/apoiadores/${id}`, {
                         method: "DELETE"
                     }).then(resp => resp.json()).then(json => {
                         if (json.status === "error") {
@@ -260,14 +260,14 @@
                 html: `
                  
             <div class="modal-container">
-            <label for="nome" class="modal-label">Nome apoiador</label  value="${apoiador.nome}">
+            <label for="nome" class="modal-label">Nome apoiador</label  value="${nome}">
             <input type="text" id="nome" class="modal-input">
 
             <label for="url" class="modal-label">URL do apoiador</label>
-            <input type="url" id="url" class="modal-input" placeholder="https://exemplo.com" value="${apoiador.url}">
+            <input type="url" id="url" class="modal-input" placeholder="https://exemplo.com">
 
             <label for="arquivoInput" class="modal-label">Imagem</label>
-            <input type="file" id="arquivoInput" class="modal-file" accept="image/*" value="${apoiador.arquivoInput}">
+            <input type="file" id="arquivoInput" class="modal-file" accept="image/*">
         </div>
                             `,
                 confirmButtonText: 'Salvar alterações',
@@ -278,24 +278,24 @@
                     popup: 'custom-popup'
                 },
                 preConfirm: () => {
-                const nome = document.getElementById('nome').value;
-                const url = document.getElementById('url').value;
-                const arquivoInput = document.getElementById('arquivoInput');
-                const arquivo = arquivoInput.files[0];
+                    const nome = document.getElementById('nome').value;
+                    const url = document.getElementById('url').value;
+                    const arquivoInput = document.getElementById('arquivoInput');
+                    const arquivo = arquivoInput.files[0];
 
-                    if (!nome || !descricao || !data) {
-                        Swal.showValidationMessage('Preencha todos os campos obrigatórios!');
-                        return false;
-                    }
+                    const formdata = new FormData();
+                    if (nome) formdata.append('nome', nome);
+                    if (url) formdata.append('link', url);
+                    if (arquivo) formdata.append('blob', arquivo);
 
                     return formdata;
                 }
             }).then(result => {
                 if (result.isConfirmed) {
                     const fd = result.value;
-                    fetch(`/api/apoiadores/${apoiador.id}`, {
-                        method: "PUT",
-                        body: formdata
+                    fetch(`/api/apoiadores/${id}`, {
+                        method: "PATCH",
+                        body: fd
                     }).then(resp => resp.json()).then(json => {
                         if (json.status === "error") {
                             Swal.fire({
