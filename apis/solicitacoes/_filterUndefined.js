@@ -13,6 +13,7 @@ function filterUndefined(object) {
             newObj[key] = filterUndefined(object[key]);
         }
     }
+    return newObj;
 }
 
 module.exports = filterUndefined;

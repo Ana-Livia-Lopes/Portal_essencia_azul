@@ -173,7 +173,19 @@ body {
     margin: 0;
     padding: 8px;
   }
-  
+    .editarButton {
+    position: absolute;
+    top: 3px;
+    right: 22px;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    cursor: pointer;
+    margin: 0;
+    padding: 8px;
+    text-shadow: 0 0 4px #000000;
+  }
   .fotoQuadro {
     position: absolute;
     height: 400px;

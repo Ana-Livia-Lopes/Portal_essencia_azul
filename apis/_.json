@@ -56,16 +56,13 @@
         }
     },
     "solicitacoes/acolhidos.js": {
-        "paths": [ "/solicitacoes/acolhidos/[id]" ],
-        "events": {
-            "before": [ "onlyLogin" ]
-        }
+        "paths": [ "/solicitacoes/acolhidos/[id]" ]
     },
     "solicitacoes/voluntarios.js": {
-        "paths": [ "/solicitacoes/voluntarios/[id]" ],
-        "events": {
-            "before": [ "onlyLogin" ]
-        }
+        "paths": [ "/solicitacoes/voluntarios/[id]" ]
+    },
+    "solicitacoes/comentario.js": {
+        "paths": [ "/solicitacoes/comentarios/[id]" ]
     },
     "admins.js": {
         "paths": [ "/admins/[id]" ],

@@ -82,6 +82,11 @@ var EssenciaAzul = ( function() {
     BaseDataTypes.SolicitacaoVoluntario = class SolicitacaoVoluntario extends Solicitacao {
         voluntario;
     }
+    BaseDataTypes.Comentario = class Comentario {
+        nome;
+        email;
+        mensagem;
+    }
     BaseDataTypes.Admin = class Admin {
         nome;
         email;
@@ -134,6 +139,7 @@ var EssenciaAzul = ( function() {
         if (!(blob instanceof Blob)) throw new ClientError(response, "Blob não é do tipo Blob");
         const { error } = await supabase.storage.from(bucket).update(url, blob, { contentType: blob.contentType });
         if (error) throw ServiceError(response, error.message);
+        return url;
     }
 
     async function removeInStorage(bucket, url, response) {
@@ -421,9 +427,11 @@ var EssenciaAzul = ( function() {
                         delete fields.blob;
                         return fields;
                     case "update":
-                        if (!fields.blob) return fields; else {
+                        if (fields.blob) {
                             fields.url_logo = await updateInStorage(type._bucket, fields.url_logo, fields.blob, response, type.collection);
                         }
+                        delete fields.blob;
+                        console.log(fields);
                         return fields;
                     case "remove":
                         await removeInStorage(type._bucket, fields.url_logo);
@@ -435,6 +443,7 @@ var EssenciaAzul = ( function() {
         ],
         privateFields: [ "url_logo" ],
         bucket: "public-images",
+        public: true,
         allowOverSet: false,
         events: {
             create: createRegisterCallback("Apoiador", "adicionar"),
@@ -539,7 +548,7 @@ var EssenciaAzul = ( function() {
                         delete fields.blob;
                         return fields;
                     case "update":
-                        if (!fields.blob) return fields; else {
+                        if (fields.blob) {
                             delete fields.url_imagem;
                             fields.url_imagem = await updateInStorage(type._bucket, fields.url_imagem, fields.blob, response, type.collection);
                         }
@@ -633,6 +642,9 @@ var EssenciaAzul = ( function() {
             // remove: createRegisterCallback("SolicitacaoVoluntario", "remover"),
             // update: createRegisterCallback("SolicitacaoVoluntario", "editar"),
         }
+    });
+    Types.Comentario = createDatabaseDocumentType(BaseDataTypes.Comentario, "comentarios", {
+
     });
 
     Types.Admin = createDatabaseDocumentType(BaseDataTypes.Admin, "admins", {
