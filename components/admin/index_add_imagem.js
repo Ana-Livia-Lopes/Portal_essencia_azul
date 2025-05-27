@@ -24,6 +24,7 @@ const content = `
                 confirmButtonText: 'Salvar',
                 
                 cancelButtonText: 'Cancelar',
+                confirmButtonColor: "#1535B5",
                 showCancelButton: true,
                 focusConfirm: false,
                 customClass: {
@@ -62,12 +63,14 @@ const content = `
                                 icon: "error",
                                 title: "Erro",
                                 text: json.message,
+                                confirmButtonColor: "#1535B5"
                             });
                         } else {
                             Swal.fire({
                                 icon: "success",
                                 title: "Sucesso",
                                 text: "Imagem adicionada com sucesso!",
+                                confirmButtonColor: "#1535B5"
                             }).then(() => {
                                 window.location.reload();
                             });

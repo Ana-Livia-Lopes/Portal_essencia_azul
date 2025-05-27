@@ -86,6 +86,11 @@ section{
     width: 40px;
 }
 
+#nome-escola{
+    width: 97%;
+    margin: 10px 0;
+}
+
 input{
     width: 560px;
     background-color: rgb(237, 237, 237);

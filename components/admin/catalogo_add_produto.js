@@ -74,6 +74,7 @@ const content = `<button onclick="adicionarProduto()" class="botao-editar conteu
                         </div>
                     \`` + `,
                     confirmButtonText: "Salvar",
+                    confirmButtonColor: "#1535B5",
                     cancelButtonText: "Cancelar",
                     showCancelButton: true,
                     focusConfirm: false,
@@ -146,12 +147,14 @@ const content = `<button onclick="adicionarProduto()" class="botao-editar conteu
                                 Swal.fire({
                                     icon: "error",
                                     title: "Erro ao adicionar produto",
+                                    confirmButtonColor: "#1535B5",
                                     text: json.message,
                                 });
                             } else {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Produto adicionado com sucesso!",
+                                    confirmButtonColor: "#1535B5",
                                     timer: 1500
                                 });
                             }
@@ -159,6 +162,7 @@ const content = `<button onclick="adicionarProduto()" class="botao-editar conteu
                             Swal.fire({
                                 icon: "error",
                                 title: "Erro ao adicionar produto",
+                                confirmButtonColor: "#1535B5",
                                 text: err.message,
                             });
                         });

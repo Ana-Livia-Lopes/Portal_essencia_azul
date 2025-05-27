@@ -324,18 +324,21 @@ span.material-symbols-outlined {
 .section4 #video-passos{
     margin-top: 20px;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 35vh;
     border-radius: 6px;
-    margin-right: 270px;
 }
 
 .section4 #barra4 {
-    width: 4px;
+    width: 5px;
     height: 420px;
     background-color: #0033cc;
     color: #0033cc;
     border-radius: 4px;
-    margin-left: 250px;
     margin-top: 26px;
+    margin-left: 20vh;
+    margin-right: 0;
 }
 
 .section5 #info5 {
@@ -534,7 +537,7 @@ span.material-symbols-outlined {
 
     .section3 #celular #n3{
         position: absolute;
-        top: 2330px;
+        top: 2390px;
     }
 
     .section3 .graus p {

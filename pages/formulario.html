@@ -10,8 +10,8 @@
 </head>
 
 <body>
-    <component-header/>
-    <component-acessibilidade/>
+    <component-header />
+    <component-acessibilidade />
 
     <section>
         <form action="" id="formularios">
@@ -55,23 +55,179 @@
                 </p>
             </div>
             <div class="caixas">
+                <h2 class="conteudo-site">Nome do acolhido</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site" id="input-nome">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Data de nascimento:</h2>
+                <input class="conteudo-site" type="date" id="input-data-nascimento" name="data-nascimento" />
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Nível de suporte</h2>
+                <select name="" id="input-nivel-suporte">
+                    <option value="" class="conteudo-site">Selecionar</option>
+                    <option value="" class="conteudo-site">Nível 1</option>
+                    <option value="" class="conteudo-site">Nível 2</option>
+                    <option value="" class="conteudo-site">Nível 3</option>
+                </select>
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Frequenta escola?</h2>
+                <div class="radio" id="radios-frequenta-escola">
+                    <input class="conteudo-site" type="radio" id="escola-suporte-sim" name="tem-escola-suporte"
+                        value="true" />
+                    <label class="conteudo-site" for="escola-suporte-sim">Sim</label>
+
+                    <input class="conteudo-site" type="radio" id="escola-suporte-nao" name="tem-escola-suporte"
+                        value="false" />
+                    <label class="conteudo-site" for="escola-suporte-nao">Não</label>
+                </div>
+
+                <div class="campo-escola" style="display: none; margin-top: 10px;">
+                    <label class="conteudo-site" for="nome-escola">Qual escola estuda?</label>
+                    <input class="conteudo-site" type="text" id="nome-escola" name="nome-escola"
+                        placeholder="Digite o nome da escola" />
+                </div>
+
+                <div class="suporte-escola" style="display: none; margin-top: 10px;">
+                    <label class="conteudo-site" for="suporte-escola">Tem suporte na escola?</label>
+                    <div class="radio" style="margin-top: 10px;" id="radios-suporte-escola">
+                        <input class="conteudo-site" type="radio" id="escola-suporte-s" name="escola-suporte"
+                            value="true" />
+                        <label class="conteudo-site" for="escola-suporte-s">Sim</label>
+    
+                        <input class="conteudo-site" type="radio" id="escola-suporte-n" name="escola-suporte"
+                            value="false" />
+                        <label class="conteudo-site" for="escola-suporte-n">Não</label>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                const simRadio = document.getElementById("escola-suporte-sim");
+                const naoRadio = document.getElementById("escola-suporte-nao");
+                const campoEscola = document.querySelector(".campo-escola");
+                const suporteEscola = document.querySelector(".suporte-escola");
+
+
+                simRadio.addEventListener("change", () => {
+                    if (simRadio.checked) {
+                        campoEscola.style.display = "block";
+                        suporteEscola.style.display = "block";
+                    }
+                });
+
+                naoRadio.addEventListener("change", () => {
+                    if (naoRadio.checked) {
+                        campoEscola.style.display = "none";
+                        suporteEscola.style.display = "none";
+                    }
+                });
+            </script>
+
+            <div class="caixas">
+                <h2 class="conteudo-site">Tem carteirinha de identificação do autismo?</h2>
+                <div class="div-maior-input-radio">
+                    <div class="radio" id="radios-cartao-identificacao">
+                        <input type="radio" id="cart-sim" name="cart" value="Sim">
+                        <label for="cart-sim" class="conteudo-site">Sim</label>
+
+                        <input type="radio" id="cart-nao" name="cart" value="Não">
+                        <label for="cart-nao" class="conteudo-site">Não</label>
+                    </div>
+                </div>
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Usa o cordão de girassol ou quebra-cabeça?</h2>
+                <div class="div-maior-input-radio">
+                    <div class="radio" id="radios-cordao-girassol">
+                        <input type="radio" id="cord-sim" name="cord" value="Sim">
+                        <label for="cord-sim" class="conteudo-site">Sim</label>
+
+                        <input type="radio" id="cord-nao" name="cord" value="Não">
+                        <label for="cord-nao" class="conteudo-site">Não</label>
+                    </div>
+                </div>
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?</h2>
+                <div class="div-maior-input-radio">
+                    <div class="radio" id="radios-vaga-estacionamento">
+                        <input type="radio" id="vaga-sim" name="vaga" value="Sim">
+                        <label for="vaga-sim" class="conteudo-site">Sim</label>
+
+                        <input type="radio" id="vaga-nao" name="vaga" value="Não">
+                        <label for="vaga-nao" class="conteudo-site">Não</label>
+                    </div>
+                </div>
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Áreas de Interesse (interesses da criança/pessoa autista, o que gosta de
+                    fazer?)</h2>
+                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
+                <div class="list-input conteudo-site" id="inputs-area-interesse"></div>
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Hiperfoco (descreva em que o autista demonstra hiperfoco)</h2>
+                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
+                <div class="list-input conteudo-site" id="inputs-hiperfocos"></div>
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Como o autista se acalma? (técnicas ou atividades que acalmam a criança/pessoa
+                    autista)</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site" id="input-como-se-acalma">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Atividades que o autista NÃO gosta de fazer (atividades que a criança evita ou
+                    não gosta)</h2>
+                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
+                <div class="list-input conteudo-site" id="inputs-atividade-nao-gosta"></div>
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Restrições alimentares (se a criança/pessoa tem restrições alimentares,
+                    descreva)</h2>
+                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
+                <div class="list-input conteudo-site" id="inputs-restricoes-alimentares"></div>
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Comida favorita</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site" id="input-comida-favorita">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Qual o convênio? (convênio ou SUS)</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site" id="input-convenio">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Quais terapias está fazendo? (Lista de terapias ou tratamentos que a
+                    criança/pessoa está fazendo)
+                </h2>
+                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
+                <div class="list-input conteudo-site" id="inputs-terapias-faz"></div>
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Quais terapias necessita e NÃO está fazendo?</h2>
+                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
+                <div class="list-input conteudo-site" id="inputs-terapias-precisa"></div>
+            </div>
+
+            <div class="caixas">
+                
+            </div>
+
+            <div class="caixas">
                 <h2 class="conteudo-site">Nome dos pais/responsáveis</h2>
                 <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2 class="conteudo-site">E-mail de contato</h2>
+                <h2 class="conteudo-site" for="responsavel-relacao"> Relação com acolhido:</h2>
+                <input class="conteudo-site" type="text" id="responsavel-relacao" />
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">E-mail ou telefone de contato</h2>
                 <input type="text" placeholder="Escreva aqui">
             </div>
             <div class="caixas">
                 <h2 class="conteudo-site">Endereço</h2>
-                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Telefone de contato</h2>
-                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Nome do autista</h2>
                 <input type="text" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
@@ -87,115 +243,13 @@
                 <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
             </div>
             <div class="caixas">
-                <h2 class="conteudo-site">Idade do autista</h2>
+                <h2 class="conteudo-site">Quantas pessoas são neurotipicas</h2>
                 <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
             </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Nível de suporte</h2>
-                <select name="" id="">
-                    <option value="" class="conteudo-site">Selecionar</option>
-                    <option value="" class="conteudo-site">Nível 1</option>
-                    <option value="" class="conteudo-site">Nível 2</option>
-                    <option value="" class="conteudo-site">Nível 3</option>
-                </select>
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Escola onde estuda ou não estuda</h2>
-                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Tem carteirinha de identificação do autismo?</h2>
-                <div class="div-maior-input-radio">
-                    <div class="radio">
-                        <input type="radio" id="cart-sim" name="cart" value="Sim">
-                        <label for="cart-sim" class="conteudo-site">Sim</label>
 
-                        <input type="radio" id="cart-nao" name="cart" value="Não">
-                        <label for="cart-nao" class="conteudo-site">Não</label>
-                    </div>
-                </div>
-            </div>
             <div class="caixas">
-                <h2 class="conteudo-site">Usa o cordão de girassol ou quebra-cabeça?</h2>
-                <div class="div-maior-input-radio">
-                    <div class="radio">
-                        <input type="radio" id="cord-sim" name="cord" value="Sim">
-                        <label for="cord-sim" class="conteudo-site">Sim</label>
-
-                        <input type="radio" id="cord-nao" name="cord" value="Não">
-                        <label for="cord-nao" class="conteudo-site">Não</label>
-                    </div>
-                </div>
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?</h2>
-                <div class="div-maior-input-radio">
-                    <div class="radio">
-                        <input type="radio" id="vaga-sim" name="vaga" value="Sim">
-                        <label for="vaga-sim" class="conteudo-site">Sim</label>
-
-                        <input type="radio" id="vaga-nao" name="vaga" value="Não">
-                        <label for="vaga-nao" class="conteudo-site">Não</label>
-                    </div>
-                </div>
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Se criança, tem profissional de apoio na escola?</h2>
-                <div class="div-maior-input-radio">
-                    <div class="radio">
-                        <input type="radio" id="prof-sim" name="prof" value="Sim">
-                        <label for="prof-sim" class="conteudo-site">Sim</label>
-
-                        <input type="radio" id="prof-nao" name="prof" value="Não">
-                        <label for="prof-nao" class="conteudo-site">Não</label>
-                    </div>
-                </div>
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Áreas de Interesse (interesses da criança/pessoa autista, o que gosta de fazer?)</h2>
-                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
-                <div class="list-input conteudo-site"></div>
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Hiperfoco (descreva em que o autista demonstra hiperfoco)</h2>
-                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
-                <div class="list-input conteudo-site"></div>
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Como o autista se acalma? (técnicas ou atividades que acalmam a criança/pessoa autista)</h2>
-                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Atividades que o autista NÃO gosta de fazer (atividades que a criança evita ou não gosta)</h2>
-                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
-                <div class="list-input conteudo-site"></div>
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Restrições alimentares (se a criança/pessoa tem restrições alimentares, descreva)</h2>
-                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
-                <div class="list-input conteudo-site"></div>
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Comida favorita</h2>
-                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Qual o convênio? (convênio ou SUS)</h2>
-                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Quais terapias está fazendo? (Lista de terapias ou tratamentos que a criança/pessoa está fazendo)
-                </h2>
-                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
-                <div class="list-input conteudo-site"></div>
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Quais terapias necessita e NÃO está fazendo?</h2>
-                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
-                <div class="list-input conteudo-site"></div>
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Deixe aqui qualquer observação a mais que você gostaria de fazer e considera importante</h2>
+                <h2 class="conteudo-site">Deixe aqui qualquer observação a mais que você gostaria de fazer e considera
+                    importante</h2>
                 <Textarea placeholder="Escreva aqui" class="conteudo-site"></Textarea>
             </div>
             <button class="conteudo-site">Solicitar cadastro</button>
@@ -205,6 +259,8 @@
         const form = document.getElementById("formularios");
         form.addEventListener("submit", event => {
             event.preventDefault();
+
+            
         })
     </script>
     <script type="module">
@@ -217,6 +273,7 @@
     <style>
         .conteudo-site.list-input {
             width: 100%;
+
             input {
                 width: 560px;
                 text-indent: 20px;
@@ -226,8 +283,17 @@
                 background-position: 10px;
             }
         }
+
+        @media (max-width: 768px) {
+            .conteudo-site.list-input {
+                width: 100%;
+            }
+            .conteudo-site.list-input input {
+                width: 100%;
+            }
+        }
     </style>
-    <component-footer/>
+    <component-footer />
 </body>
 
 </html>

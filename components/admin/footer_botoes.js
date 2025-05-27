@@ -12,8 +12,7 @@ const usuarioLogado = `<div class="botoes-admin">
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Sair',
-                confirmButtonColor: "#1535b5bd",
-                cancelButtonColor: "#a21a1a",
+                confirmButtonColor: "#1535B5",
             }).then(result => {
                 if (result.isConfirmed) {
                     fetch("/actions/logout", {
@@ -26,14 +25,14 @@ const usuarioLogado = `<div class="botoes-admin">
                                 icon: 'error',
                                 title: 'Houve um erro!',
                                 text: json.message,
-                                confirmButtonColor: "#1535b5bd"
+                                confirmButtonColor: "#1535B5",
                             })
                         }
                         else {
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Sessão encerrada com sucesso!',
-                                confirmButtonColor: "#1535b5bd"
+                                confirmButtonColor: "#1535B5",
                             }).then(()=>{
                                 window.location.href = '/';
                             })

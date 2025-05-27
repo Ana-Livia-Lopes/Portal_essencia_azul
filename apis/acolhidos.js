@@ -64,8 +64,8 @@ module.exports = {
             const nome = singleField(body.fields.nome);
             const data_nascimento = Timestamp.fromDate(new Date(singleField(body.fields.data_nascimento)));
             const responsaveis = jsonField(body, "responsaveis");
-            const id_familia = singleField(body.fields.id_familia);
-            const id_parente = singleField(body.fields.id_parente);
+            const id_familia = body.fields.id_familia ? singleField(body.fields.id_familia) : undefined;
+            const id_parente = body.fields.id_parente ? singleField(body.fields.id_parente) : undefined;
             const nivel_suporte = singleField(body.fields.nivel_suporte);
             const escola = body.fields.escola ? jsonField(body, "escola") : null;
             const identificacoes = jsonField(body, "identificacoes");
@@ -77,7 +77,7 @@ module.exports = {
             const comida_favorita = singleField(body.fields.comida_favorita);
             const convenio = body.fields.convenio ? singleField(body.fields.convenio) : null;
             const terapias = jsonField(body, "terapias");
-            const observacoes = jsonField(body, "observacoes");
+            const observacoes = singleField(body.fields.observacoes);
 
             const blob = await getFormidableBlob(body.files.blob);
 
