@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
+        rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function alertResidente() {
+            Swal.fire({
+                title: "",
+                html: `
+                                <div class="modal-container">
+                                    <h2 class="modal-titulo">Adicionar residente</h2>
+
+                                    <label for="nome-input" class="modal-label">Nome</label>
+                                    <input type="text" id="nome-input" class="modal-input" value="" />
+
+                                    <label for="laudo-input" class="modal-label">Laudo:</label>
+                                    <select name="" class="modal-select">
+                                        <option value="" id="esconder">Selecione...</option>
+                                        <option value="autista">Sim</option>
+                                        <option value="investigacao">Em investigação</option>
+                                        <option value="neurotipico">Neurotípico</option>
+                                    </select>
+                                </div>
+                            `,
+                confirmButtonText: "Adicionar",
+                cancelButtonText: "Cancelar",
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonColor: "#1535B5",
+            });
+        }
+
+        alertResidente();
+    </script>
+
+    <style>
+        .modal-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .modal-titulo {
+            text-align: center;
+            font-family: 'Montserrat';
+        }
+
+        .modal-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-top: 8px;
+            font-family: 'Montserrat';
+        }
+
+        .modal-input,
+        .modal-select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        #esconder {
+            display: none;
+        }
+    </style>
+</body>
+
+</html>

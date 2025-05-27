@@ -220,7 +220,8 @@
                 Swal.fire({
                     icon: "info",
                     title: "Link não disponível",
-                    text: "Este apoiador não possui um link associado."
+                    text: "Este apoiador não possui um link associado.",
+                    confirmButtonColor: "#1535B5"
                 });
             }
         })
@@ -231,6 +232,7 @@
                 text: "Esta ação é irreversível",
                 showCancelButton: true,
                 confirmButtonText: "Apagar",
+                confirmButtonColor: "#1535B5",
             }).then(result => {
                 if (result.isConfirmed) {
                     fetch(`/api/apoiadores/${id}`, {
@@ -240,12 +242,14 @@
                             Swal.fire({
                                 icon: "error",
                                 title: "Houve um erro...",
+                                confirmButtonColor: "#1535B5",
                                 text: json.message
                             })
                         } else {
                             Swal.fire({
                                 icon: "success",
-                                title: "Apoiador excluído com sucesso!"
+                                title: "Apoiador excluído com sucesso!",
+                                confirmButtonColor: "#1535B5"
                             }).then(() => window.location.reload());
                         }
                     });
@@ -271,6 +275,7 @@
         </div>
                             `,
                 confirmButtonText: 'Salvar alterações',
+                confirmButtonColor: "#1535B5",
                 cancelButtonText: 'Cancelar',
                 showCancelButton: true,
                 focusConfirm: false,
@@ -301,6 +306,7 @@
                             Swal.fire({
                                 icon: "error",
                                 title: "Houve um erro...",
+                                confirmButtonColor: "#1535B5",
                                 text: json.message,
                             });
                         } else {
@@ -308,6 +314,7 @@
                                 icon: "success",
                                 title: "Sucesso!",
                                 text: "Apoiador atualizado com sucesso!",
+                                confirmButtonColor: "#1535B5"
                             }).then(() => window.location.reload());
                         }
                     });
@@ -359,6 +366,7 @@
     `,
             confirmButtonText: 'Salvar',
             cancelButtonText: 'Cancelar',
+            confirmButtonColor: "#1535B5",
             showCancelButton: true,
             focusConfirm: false,
             customClass: {
@@ -396,12 +404,14 @@
                         Swal.fire({
                             icon: "error",
                             title: "Houve um erro...",
+                            confirmButtonColor: "#1535B5",
                             message: json.message
                         });
                     } else {
                         Swal.fire({
                             icon: "success",
                             title: "Apoiador adicionado com sucesso!",
+                            confirmButtonColor: "#1535B5"
                         }).then(() => {
                             window.location.reload();
                         });

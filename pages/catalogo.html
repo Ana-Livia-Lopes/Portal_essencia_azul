@@ -229,8 +229,7 @@
                         text: "Você realmente deseja excluir este produto?",
                         icon: "warning",
                         showCancelButton: true, 
-                        confirmButtonColor: "#d33",
-                        cancelButtonColor: "#3085d6",
+                        confirmButtonColor: "#1535B5",
                         confirmButtonText: "Sim, excluir",
                         cancelButtonText: "Cancelar"
                     }).then((result) => {
@@ -240,13 +239,15 @@
                                     Swal.fire({
                                         icon: "error",
                                         title: "Houve um erro...",
+                                        confirmButtonColor: "#1535B5",
                                         text: json.message
                                     });
                                 } else {
                                     Swal.fire({
                                         icon: "success",
                                         title: "Sucesso",
-                                        text: "Produto excluído com sucesso!"
+                                        text: "Produto excluído com sucesso!",
+                                        confirmButtonColor: "#1535B5",
                                     }).then(() => {
                                         window.location.reload();
                                     });
@@ -281,6 +282,7 @@
                             </div>
                         `,
                         confirmButtonText: "Salvar alterações",
+                        confirmButtonColor: "#1535B5",
                         cancelButtonText: "Cancelar",
                         showCancelButton: true,
                         focusConfirm: false,
@@ -339,13 +341,15 @@
                                     Swal.fire({
                                         icon: "error",
                                         title: "Houve um erro...",
+                                        confirmButtonColor: "#1535B5",
                                         text: json.message
                                     });
                                 } else {
                                     Swal.fire({
                                         icon: "success",
                                         title: "Sucesso",
-                                        text: "Produto atualizado com sucesso!"
+                                        text: "Produto atualizado com sucesso!",
+                                        confirmButtonColor: "#1535B5"
                                     }).then(() => {
                                         window.location.reload();
                                     });
@@ -569,6 +573,7 @@
                     </div>
                 `,
                 confirmButtonText: "Salvar alterações",
+                confirmButtonColor: "#1535B5",
                 cancelButtonText: "Cancelar",
                 showCancelButton: true,
                 focusConfirm: false,
@@ -592,6 +597,7 @@
                 if (result.isConfirmed) {
                     console.log('Produto editado:', result.value);
                     Swal.fire('Sucesso', 'Produto atualizado com sucesso!', 'success');
+                    confirmButtonColor: "#1535B5"
                 }
             });
         }

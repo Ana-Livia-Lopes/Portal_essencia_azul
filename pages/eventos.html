@@ -55,6 +55,7 @@
                         text: "Esta ação é irreversível",
                         showCancelButton: true,
                         confirmButtonText: "Apagar",
+                        confirmButtonColor: "#1535B5",
                     }).then(result => {
                         if (result.isConfirmed) {
                             fetch(`/api/eventos/${id}`, {
@@ -64,12 +65,14 @@
                                     Swal.fire({
                                         icon: "error",
                                         title: "Houve um erro...",
+                                        confirmButtonColor: "#1535B5",
                                         text: json.message
                                     })
                                 } else {
                                     Swal.fire({
                                         icon: "success",
-                                        title: "Evento excluído com sucesso!"
+                                        title: "Evento excluído com sucesso!",
+                                        confirmButtonColor: "#1535B5"
                                     }).then(() => window.location.reload());
                                 }
                             });
@@ -98,6 +101,7 @@
                             `,
                         confirmButtonText: 'Salvar alterações',
                         cancelButtonText: 'Cancelar',
+                        confirmButtonColor: "#1535B5",
                         showCancelButton: true,
                         focusConfirm: false,
                         customClass: {
@@ -134,12 +138,14 @@
                                         icon: "error",
                                         title: "Houve um erro...",
                                         text: json.message,
+                                        confirmButtonColor: "#1535B5",
                                     });
                                 } else {
                                     Swal.fire({
                                         icon: "success",
                                         title: "Sucesso!",
                                         text: "Evento atualizado com sucesso!",
+                                        confirmButtonColor: "#1535B5",
                                     }).then(() => window.location.reload());
                                 }
                             });

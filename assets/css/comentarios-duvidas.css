@@ -14,6 +14,24 @@ body {
     position: relative;
 }
 
+.section-nhm-solic-receb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.section-nhm-solic-receb img {
+  width: 450px;
+  height: 400px;
+}
+
+.section-nhm-solic-receb p {
+  margin-top: 20px;
+}
+
 /* Container central */
 .duvidas-div {
     background-color: #6e84ff;

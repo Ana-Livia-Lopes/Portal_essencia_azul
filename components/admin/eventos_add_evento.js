@@ -22,6 +22,7 @@ const content = `
     \`` + `,
                 confirmButtonText: 'Salvar',
                 cancelButtonText: 'Cancelar',
+                confirmButtonColor: "#1535B5",
                 showCancelButton: true,
                 focusConfirm: false,
                 customClass: {
