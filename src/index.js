@@ -783,7 +783,9 @@ var EssenciaAzul = ( function() {
                 outputObject[key] = value.toDate();
             } else {
                 if (typeof value === "object" && value !== null) {
-                    if (Array.isArray(value)) {
+                    if (value instanceof DocumentReference) {
+                        outputObject[key] = value.path;
+                    } else if (Array.isArray(value)) {
                         outputObject[key] = value.map(arrayMapForTimestampToDate);
                     } else {
                         outputObject[key] = mapForTimestampToDate(value);
@@ -832,7 +834,7 @@ var EssenciaAzul = ( function() {
 
     const validLowerOrderDirections = [ "asc", "desc" ];
 
-    async function read(key, type, search) {
+    async function read(key, type, search, response) {
         let keylevel = await validateKey(key);
         if (!type._public) {
             if (keylevel <= 0) throw new PermissionError(response, "Permissão insuficiente para qualquer operação de administrador");

@@ -77,6 +77,8 @@ module.exports = {
             const comida_favorita = singleField(body.fields.comida_favorita);
             const convenio = body.fields.convenio ? singleField(body.fields.convenio) : null;
             const terapias = jsonField(body, "terapias");
+            const residentes = body.fields.residentes ? jsonField(body, "residentes") : [];
+            const endereco = body.fields.endereco ? singleField(body.fields.endereco) : "";
             const observacoes = singleField(body.fields.observacoes);
 
             const blob = await getFormidableBlob(body.files.blob);
@@ -84,8 +86,8 @@ module.exports = {
             async function criarNovaFamilia() {
                 return doc(db, "familias", (await create(session.get("login"), Familia, {
                     sobrenome: nome.split(" ").pop(),
-                    endereco: "",
-                    residentes: {},
+                    endereco,
+                    residentes,
                     observacoes: ""
                 })).id);
             }

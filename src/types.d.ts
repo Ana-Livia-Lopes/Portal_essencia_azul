@@ -51,7 +51,7 @@ declare namespace BaseDataTypes {
     class Familia {
         sobrenome: string
         endereco: string
-        residentes: Map<string, Residente>
+        residentes: Residente[]
 
         observacoes: string | string[]
     }

@@ -4,7 +4,6 @@ const singleField = require("../_singleField.js");
 const { addDoc, collection, Timestamp } = require("firebase/firestore");
 const { db } = require("../../firebase.js");
 const jsonField = require( "../_jsonField.js" );
-const singleField = require( "../_singleField.js" );
 const filterUndefined = require( "./_filterUndefined.js" );
 
 /** @type {import("../../src/server").Page.RestHandlersObject} */
@@ -24,7 +23,9 @@ module.exports = {
         const comida_favorita = singleField(body.fields.comida_favorita);
         const convenio = body.fields.convenio ? singleField(body.fields.convenio) : null;
         const terapias = jsonField(body, "terapias");
-        const observacoes = jsonField(body, "observacoes");
+        const residentes = jsonField(body, "residentes");
+        const endereco = singleField(body.fields.endereco);
+        const observacoes = singleField(body.fields.observacoes);
 
         if (!nome || !data_nascimento || !responsaveis || !nivel_suporte) {
             throw new ClientError(response, "Parâmetros insuficientes");
@@ -45,6 +46,8 @@ module.exports = {
             comida_favorita,
             convenio,
             terapias,
+            residentes,
+            endereco,
             observacoes
         }));
 

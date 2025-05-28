@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/formulario.css">
     <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
     <title>Formulário - Portal Essência Azul</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -66,9 +67,9 @@
                 <h2 class="conteudo-site">Nível de suporte</h2>
                 <select name="" id="input-nivel-suporte">
                     <option value="" class="conteudo-site">Selecionar</option>
-                    <option value="" class="conteudo-site">Nível 1</option>
-                    <option value="" class="conteudo-site">Nível 2</option>
-                    <option value="" class="conteudo-site">Nível 3</option>
+                    <option value="1" class="conteudo-site">Nível 1</option>
+                    <option value="2" class="conteudo-site">Nível 2</option>
+                    <option value="3" class="conteudo-site">Nível 3</option>
                 </select>
             </div>
             <div class="caixas">
@@ -169,7 +170,6 @@
             </div>
             <div class="caixas">
                 <h2 class="conteudo-site">Hiperfoco (descreva em que o autista demonstra hiperfoco)</h2>
-                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
                 <div class="list-input conteudo-site" id="inputs-hiperfocos"></div>
             </div>
             <div class="caixas">
@@ -180,13 +180,11 @@
             <div class="caixas">
                 <h2 class="conteudo-site">Atividades que o autista NÃO gosta de fazer (atividades que a criança evita ou
                     não gosta)</h2>
-                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
                 <div class="list-input conteudo-site" id="inputs-atividade-nao-gosta"></div>
             </div>
             <div class="caixas">
                 <h2 class="conteudo-site">Restrições alimentares (se a criança/pessoa tem restrições alimentares,
                     descreva)</h2>
-                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
                 <div class="list-input conteudo-site" id="inputs-restricoes-alimentares"></div>
             </div>
             <div class="caixas">
@@ -201,66 +199,316 @@
                 <h2 class="conteudo-site">Quais terapias está fazendo? (Lista de terapias ou tratamentos que a
                     criança/pessoa está fazendo)
                 </h2>
-                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
                 <div class="list-input conteudo-site" id="inputs-terapias-faz"></div>
             </div>
             <div class="caixas">
                 <h2 class="conteudo-site">Quais terapias necessita e NÃO está fazendo?</h2>
-                <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
                 <div class="list-input conteudo-site" id="inputs-terapias-precisa"></div>
             </div>
 
             <div class="caixas">
-                
+                <h2 class="conteudo-site">Quem são os outros moradores da casa?</h2>
+                <p class="conteudo-site">Fale sobre os outros moradores da casa e em que categoria se encaixam</p>
+                <div class="bloco-explicacao">
+                    <b>Neurotípico</b> é alguém que não é neurodivergente
+                    (ou seja, autistas, possui TDAH, depressão, TAG ou outros).
+                </div>
+                <div id="container-residentes">
+
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <button type="button" onclick="criarResidente()" class="conteudo-site" id="adicionar-residente">Adicionar residente</button>
+                </div>
+                <script>
+                    const containerResidentes = document.getElementById("container-residentes");
+                    
+                    containerResidentes.residentes = [];
+
+                    function criarResidente() {
+                        const mainDiv = document.createElement("div");
+                        mainDiv.classList.add("container-residente");
+                        const nomeDiv = document.createElement("div");
+                        nomeDiv.classList.add("container-residente-nome");
+                        const inputNome = document.createElement("input");
+                        inputNome.type = "text";
+                        inputNome.placeholder = "Nome";
+                        inputNome.classList.add("conteudo-site");
+                        nomeDiv.appendChild(inputNome);
+                        const perfilDiv = document.createElement("div");
+                        perfilDiv.classList.add("container-residente-perfil");
+                        const selectPerfil = document.createElement("select");
+                        selectPerfil.classList.add("conteudo-site");
+                        const optionSelecionar = document.createElement("option");
+                        optionSelecionar.value = "";
+                        optionSelecionar.textContent = "Selecionar";
+                        selectPerfil.appendChild(optionSelecionar);
+                        const optionAutista = document.createElement("option");
+                        optionAutista.value = "autista";
+                        optionAutista.textContent = "Autista";
+                        selectPerfil.appendChild(optionAutista);
+                        const optionNeurotipico = document.createElement("option");
+                        optionNeurotipico.value = "neurotipico";
+                        optionNeurotipico.textContent = "Neurotípico";
+                        selectPerfil.appendChild(optionNeurotipico);
+                        const optionInvestigacao = document.createElement("option");
+                        optionInvestigacao.value = "em investigacao";
+                        optionInvestigacao.textContent = "Em investigação";
+                        selectPerfil.appendChild(optionInvestigacao);
+                        perfilDiv.appendChild(selectPerfil);
+                        mainDiv.appendChild(nomeDiv);
+                        mainDiv.appendChild(perfilDiv);
+                        containerResidentes.appendChild(mainDiv);
+                        mainDiv.residente = {
+                            get nome() { return inputNome.value },
+                            get perfil() { return selectPerfil.value }
+                        };
+                        containerResidentes.residentes.push(mainDiv.residente);
+
+                        const i = document.createElement("i");
+                        i.classList.add("fa-solid", "fa-trash");
+                        i.addEventListener("click", () => {
+                            containerResidentes.removeChild(mainDiv);
+                            containerResidentes.residentes = containerResidentes.residentes.filter(r => r !== mainDiv.residente);
+                        });
+                        mainDiv.appendChild(i);
+
+                    }
+
+                    criarResidente();
+                </script>
             </div>
 
             <div class="caixas">
-                <h2 class="conteudo-site">Nome dos pais/responsáveis</h2>
-                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site" for="responsavel-relacao"> Relação com acolhido:</h2>
-                <input class="conteudo-site" type="text" id="responsavel-relacao" />
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">E-mail ou telefone de contato</h2>
-                <input type="text" placeholder="Escreva aqui">
+                <h2 class="conteudo-site">Quem são os responsáveis que podemos contatar?</h2>
+                <div id="container-responsaveis">
+                    
+                </div>
+                <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+                    <button type="button" onclick="criarResponsavel()" class="conteudo-site" id="adicionar-responsavel">
+                        Adicionar responsável
+                    </button>
+                </div>
+                <script>
+                    const containerResponsaveis = document.getElementById("container-responsaveis");
+                    containerResponsaveis.responsaveis = [];
+
+                    function criarResponsavel() {
+                        const responsavelDiv = document.createElement("div");
+                        responsavelDiv.classList.add("container-responsavel");
+
+                        const nomeDiv = document.createElement("div");
+                        nomeDiv.classList.add("container-responsavel-nome");
+                        const inputNome = document.createElement("input");
+                        inputNome.type = "text";
+                        inputNome.placeholder = "Nome do responsável";
+                        inputNome.classList.add("conteudo-site");
+                        nomeDiv.appendChild(inputNome);
+
+                        const sublinhaDiv = document.createElement("div");
+                        sublinhaDiv.classList.add("container-responsavel-sublinha");
+
+                        const relacaoDiv = document.createElement("div");
+                        relacaoDiv.classList.add("container-responsavel-relacao");
+                        const inputRelacao = document.createElement("input");
+                        inputRelacao.type = "text";
+                        inputRelacao.placeholder = "Mãe, Pai, Tio, Avó...";
+                        inputRelacao.classList.add("conteudo-site");
+                        relacaoDiv.appendChild(inputRelacao);
+
+                        const contatoDiv = document.createElement("div");
+                        contatoDiv.classList.add("container-responsavel-contato");
+                        const inputContato = document.createElement("input");
+                        inputContato.type = "text";
+                        inputContato.placeholder = "Telefone ou e-mail";
+                        inputContato.classList.add("conteudo-site");
+                        contatoDiv.appendChild(inputContato);
+
+                        sublinhaDiv.appendChild(relacaoDiv);
+                        sublinhaDiv.appendChild(contatoDiv);
+                        
+                        responsavelDiv.appendChild(nomeDiv);
+                        responsavelDiv.appendChild(sublinhaDiv);
+
+                        const hr = document.createElement("hr");
+                        responsavelDiv.appendChild(hr);
+                        
+                        containerResponsaveis.appendChild(responsavelDiv);
+                        
+                        responsavelDiv.responsavel = {
+                            get nome() { return inputNome.value },
+                            get relacao() { return inputRelacao.value },
+                            get contato() { return inputContato.value }
+                        };
+                        
+                        containerResponsaveis.responsaveis.push(responsavelDiv.responsavel);
+
+                        const i = document.createElement("i");
+                        i.classList.add("fa-solid", "fa-trash");
+                        i.addEventListener("click", () => {
+                            containerResponsaveis.removeChild(responsavelDiv);
+                            containerResponsaveis.responsaveis = containerResponsaveis.responsaveis.filter(r => r !== responsavelDiv.responsavel);
+                        });
+                        
+                        responsavelDiv.appendChild(i);
+                    }
+                    criarResponsavel();
+                </script>
             </div>
             <div class="caixas">
                 <h2 class="conteudo-site">Endereço</h2>
-                <input type="text" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Quantas pessoas moram na sua residência?</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Quantas pessoas tem laudo de autismo?</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Quantas pessoas estão em investigação?</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
-            </div>
-            <div class="caixas">
-                <h2 class="conteudo-site">Quantas pessoas são neurotipicas</h2>
-                <input type="number" inputmode="numeric" min="1" placeholder="Escreva aqui" class="conteudo-site">
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site" id="input-endereco">
             </div>
 
             <div class="caixas">
                 <h2 class="conteudo-site">Deixe aqui qualquer observação a mais que você gostaria de fazer e considera
                     importante</h2>
-                <Textarea placeholder="Escreva aqui" class="conteudo-site"></Textarea>
+                <Textarea placeholder="Escreva aqui" class="conteudo-site" id="input-observacoes"></Textarea>
             </div>
-            <button class="conteudo-site">Solicitar cadastro</button>
+            <button class="conteudo-site" type="submit">Solicitar cadastro</button>
         </form>
     </section>
     <script>
         const form = document.getElementById("formularios");
+
+        form.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                // Impede o submit ao pressionar Enter
+                event.preventDefault();
+            }
+        });
         form.addEventListener("submit", event => {
             event.preventDefault();
 
-            
+            const nomeAcolhido = document.getElementById("input-nome").value;
+            const dataNascimento = document.getElementById("input-data-nascimento").value;
+            const nivelSuporte = document.getElementById("input-nivel-suporte").value;
+            const frequentaEscola = document.querySelector('input[name="tem-escola-suporte"]:checked')?.value;
+            const nomeEscola = document.getElementById("nome-escola")?.value;
+            const temSuporteEscola = document.querySelector('input[name="escola-suporte"]:checked')?.value;
+            const carteirinhaIdentificacao = document.querySelector('input[name="cart"]:checked')?.value;
+            const usaCordao = document.querySelector('input[name="cord"]:checked')?.value;
+            const cartaoVaga = document.querySelector('input[name="vaga"]:checked')?.value;
+            const areasInteresse = document.getElementById("inputs-area-interesse").value;
+            const hiperfocos = document.getElementById("inputs-hiperfocos").value;
+            const comoSeAcalma = document.getElementById("input-como-se-acalma").value;
+            const atividadesNaoGosta = document.getElementById("inputs-atividade-nao-gosta").value;
+            const restricoesAlimentares = document.getElementById("inputs-restricoes-alimentares").value;
+            const comidaFavorita = document.getElementById("input-comida-favorita").value;
+            const convenio = document.getElementById("input-convenio").value;
+            const terapiasFaz = document.getElementById("inputs-terapias-faz").value;
+            const terapiasPrecisa = document.getElementById("inputs-terapias-precisa").value;
+            const residentes = (document.getElementById("container-residentes").residentes || []).map(r => ({
+                nome: r.nome,
+                tipo: r.perfil
+            }));
+            const responsaveis = (document.getElementById("container-responsaveis").responsaveis || []).map(r => ({
+                nome: r.nome,
+                relacao: r.relacao,
+                contato: r.contato
+            }));
+            const endereco = document.getElementById("input-endereco").value;
+            const observacoes = document.getElementById("input-observacoes").value;
+
+            const camposFaltando = [];
+            if (!nomeAcolhido) camposFaltando.push("Nome do acolhido");
+            if (!dataNascimento) camposFaltando.push("Data de nascimento");
+            if (!nivelSuporte) camposFaltando.push("Nível de suporte");
+            if (frequentaEscola === "true" && !nomeEscola) camposFaltando.push("Nome da escola");
+            if (frequentaEscola === "true" && temSuporteEscola === undefined) camposFaltando.push("Suporte na escola");
+            if (carteirinhaIdentificacao === undefined) camposFaltando.push("Carteirinha de identificação");
+            if (usaCordao === undefined) camposFaltando.push("Cordão de girassol ou quebra-cabeça");
+            if (cartaoVaga === undefined) camposFaltando.push("Cartão de vaga de estacionamento");
+            if (!areasInteresse) camposFaltando.push("Áreas de interesse");
+            if (!hiperfocos) camposFaltando.push("Hiperfoco");
+            if (!comoSeAcalma) camposFaltando.push("Como o autista se acalma");
+            if (!atividadesNaoGosta) camposFaltando.push("Atividades que não gosta");
+            if (!restricoesAlimentares) camposFaltando.push("Restrições alimentares");
+            if (!comidaFavorita) camposFaltando.push("Comida favorita");
+            if (!convenio) camposFaltando.push("Convênio");
+            if (terapiasFaz === undefined) camposFaltando.push("Terapias que faz");
+            if (terapiasPrecisa === undefined) camposFaltando.push("Terapias que precisa");
+            if (residentes.length === 0) camposFaltando.push("Residentes");
+            residentes.forEach((r, idx) => {
+                if (!r.nome) camposFaltando.push(`Nome do residente ${idx + 1}`);
+                if (!r.tipo) camposFaltando.push(`Perfil do residente ${idx + 1}`);
+            });
+            responsaveis.forEach((r, idx) => {
+                if (!r.nome) camposFaltando.push(`Nome do responsável ${idx + 1}`);
+                if (!r.relacao) camposFaltando.push(`Relação do responsável ${idx + 1}`);
+                if (!r.contato) camposFaltando.push(`Contato do responsável ${idx + 1}`);
+            });
+            if (responsaveis.length === 0) camposFaltando.push("Responsáveis");
+            if (!endereco) camposFaltando.push("Endereço");
+            if (camposFaltando.length > 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campos obrigatórios não preenchidos',
+                    text: `Por favor, preencha os seguintes campos: ${camposFaltando.join(", ")}`,
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            const fd = new FormData();
+            fd.append("nome", nomeAcolhido);
+            fd.append("data_nascimento", dataNascimento);
+            fd.append("nivel_suporte", nivelSuporte);
+
+            fd.append("escola", JSON.stringify(
+                frequentaEscola === "true"
+                    ? {
+                        nome: nomeEscola || "",
+                        tem_suporte: temSuporteEscola === "true"
+                    }
+                    : null
+            ));
+
+            fd.append("identificacoes", JSON.stringify({
+                cordao: usaCordao === "Sim",
+                ciptea: carteirinhaIdentificacao === "Sim",
+                vaga_exclusiva: cartaoVaga === "Sim"
+            }));
+
+            fd.append("interesses", JSON.stringify(areasInteresse || []));
+            fd.append("hiperfoco", JSON.stringify(hiperfocos || []));
+            fd.append("como_acalma", comoSeAcalma);
+            fd.append("atividades_nao_gosta", JSON.stringify(atividadesNaoGosta || []));
+            fd.append("restricoes_alimentares", JSON.stringify(restricoesAlimentares || []));
+            fd.append("comida_favorita", comidaFavorita);
+            fd.append("convenio", convenio);
+            fd.append("terapias", JSON.stringify({
+                faz: terapiasFaz || [],
+                precisa: terapiasPrecisa || []
+            }));
+            fd.append("residentes", JSON.stringify(residentes || []));
+            fd.append("responsaveis", JSON.stringify(responsaveis || []));
+            fd.append("endereco", endereco);
+            fd.append("observacoes", observacoes || "");
+
+            fetch("/api/solicitacoes/acolhidos", {
+                method: "POST",
+                body: fd
+            }).then(resp => resp.json()).then(json => {
+                if (json.status === "error") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Houve um erro...',
+                        text: json.message || "Ocorreu um erro ao enviar o formulário. Tente novamente mais tarde.",
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso',
+                        text: "Cadastro solicitado com sucesso!",
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        form.reset();
+                        document.getElementById("container-residentes").innerHTML = "";
+                        document.getElementById("container-responsaveis").innerHTML = "";
+                    });
+                }
+            })
         })
     </script>
     <script type="module">
