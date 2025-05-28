@@ -24,7 +24,6 @@
         <h2 class="conteudo-site">Cadastrar Acolhido</h2>
         <form id="cadastrar-form">
             <div class="form-container">
-
                 <!-- COLUNA RESPONSÁVEL -->
                 <div class="coluna">
 
@@ -103,7 +102,7 @@
                     <div class="label-input conteudo-site">
                         <label class="conteudo-site" for="interesses">Interesses:</label>
                         <!-- <textarea class="conteudo-site" id="interesses" rows="3"></textarea> -->
-                         <div class="list-input" id="interesses"></div>
+                        <div class="list-input" id="interesses"></div>
                     </div>
 
                     <div class="label-input conteudo-site">
@@ -129,237 +128,243 @@
                         <div class="list-input" id="naogosta"></div>
                     </div>
 
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="restricoes">Restrições Alimentares:</label>
-                        <!-- <textarea class="conteudo-site" id="restricoes" rows="3"></textarea> -->
-                        <div class="list-input" id="restricoes"></div>
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="comida-fav">Comida favorita:</label>
-                        <input class="conteudo-site" type="text" id="comida-fav" />
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="convenio">Convênio ou SUS (qual?):</label>
-                        <input class="conteudo-site" type="text" id="convenio" />
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="terapia-faz">Terapias que faz:</label>
-                        <!-- <textarea class="conteudo-site" id="terapia-faz" rows="3"></textarea> -->
-                        <div class="list-input" id="terapia-faz"></div>
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="terapia-precisa">Terapias que precisa e não faz:</label>
-                        <!-- <textarea class="conteudo-site" id="terapia-precisa" rows="3"></textarea> -->
-                        <div class="list-input" id="terapia-precisa"></div>
-                    </div>
-
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="url-imagem">Foto:</label>
-                        <input class="conteudo-site" type="file" id="foto" />
-                    </div>
-
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="observacoes">Observações:</label>
-                        <textarea class="conteudo-site" id="observacoes" rows="4"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="form-container">
-
-                <!-- COLUNA RESPONSÁVEL -->
-                <div class="coluna">
-                    <h3 class="conteudo-site responsavel"> Responsáveis</h3>
-
-                    <!-- responsaveis -->
-                    <div style="position: relative; margin: 24px 0;">
-                        <div id="lista-responsaveis">
-                            
-                        </div>
-                        <div style="display: flex; justify-content: center;">
-                            <button onclick="criarResponsavel()" type="button" id="add-responsavel" class="conteudo-site" style="display: flex; align-items: center; gap: 6px;">
-                                <i class="fa-solid fa-plus"></i>
-                                <p>Adicionar responsável</p>
-                            </button>
-                        </div>
-                        <script>
-                            const responsaveisContainer = document.getElementById('lista-responsaveis');
-                            responsaveisContainer.responsaveis = [];
-
-                            function criarResponsavel() {
-                                const mainDiv = document.createElement('div');
-                                mainDiv.classList.add('inputs-responsavel');
-                                
-                                const labelNome = document.createElement('label');
-                                labelNome.classList.add('conteudo-site');
-                                labelNome.textContent = 'Nome:';
-                                mainDiv.appendChild(labelNome);
-                                const inputNome = document.createElement('input');
-                                inputNome.classList.add('conteudo-site');
-                                inputNome.type = 'text';
-                                mainDiv.appendChild(inputNome);
-
-                                const subDiv = document.createElement('div');
-                                subDiv.classList.add('inputs-responsavel-subfields');
-
-                                const relacaoDiv = document.createElement('div');
-                                relacaoDiv.classList.add('inputs-responsavel-relacao');
-                                const labelRelacao = document.createElement('label');
-                                labelRelacao.classList.add('conteudo-site');
-                                labelRelacao.textContent = 'Relação:';
-                                relacaoDiv.appendChild(labelRelacao);
-                                const inputRelacao = document.createElement('input');
-                                inputRelacao.classList.add('conteudo-site');
-                                inputRelacao.type = 'text';
-                                inputRelacao.placeholder = 'Pai, Mãe, Tio, Avó, ...';
-                                relacaoDiv.appendChild(inputRelacao);
-
-                                const contatoDiv = document.createElement('div');
-                                contatoDiv.classList.add('inputs-responsavel-contato');
-                                const labelContato = document.createElement('label');
-                                labelContato.classList.add('conteudo-site');
-                                labelContato.textContent = 'Contato:';
-                                contatoDiv.appendChild(labelContato);
-                                const inputContato = document.createElement('input');
-                                inputContato.classList.add('conteudo-site');
-                                inputContato.type = 'text';
-                                inputContato.placeholder = 'Telefone ou e-mail';
-                                contatoDiv.appendChild(inputContato);
-
-                                subDiv.appendChild(relacaoDiv);
-                                subDiv.appendChild(contatoDiv);
-                                mainDiv.appendChild(subDiv);
-                                const hr = document.createElement('hr');
-                                mainDiv.appendChild(hr);
-
-                                const i = document.createElement('i');
-                                i.classList.add('fa-solid', 'fa-trash');
-                                i.style.cursor = 'pointer';
-                                i.addEventListener('click', () => {
-                                    mainDiv.remove();
-                                    responsaveisContainer.responsaveis = responsaveisContainer.responsaveis.filter(r => r !== mainDiv.responsavel);
-                                });
-                                mainDiv.appendChild(i);
-
-                                mainDiv.responsavel = {
-                                    get nome() { return inputNome.value },
-                                    get relacao() { return inputRelacao.value },
-                                    get contato() { return inputContato.value }
-                                };
-
-                                responsaveisContainer.responsaveis.push(mainDiv.responsavel);
-                                responsaveisContainer.appendChild(mainDiv);
-
-                                return mainDiv;
-                            }
-
-                            criarResponsavel();
-                        </script>
-                        </div>
-                        <!-- outros residentes da casa (responsaveis nao sao incluido automaticamente) -->
-                        <h3 class="conteudo-site responsavel">Família</h3>
-                        <!-- opcao de pesquisa de selecionar uma familia ja existente -->
-
-                        <div style="display: flex; justify-content: center;">
-                            <button type="button" id="buscar-familia" class="conteudo-site" style="display: flex; align-items: center; gap: 6px; margin-bottom: 24px;">
-                                <i class="fa-solid fa-search"></i>
-                                <p>Buscar família existente</p>
-                            </button>
+                    <div class="div-alinhamento">
+                        <div class="label-input conteudo-site">
+                            <label class="conteudo-site" for="restricoes">Restrições Alimentares:</label>
+                            <!-- <textarea class="conteudo-site" id="restricoes" rows="3"></textarea> -->
+                            <div class="list-input" id="restricoes"></div>
                         </div>
 
                         <div class="label-input conteudo-site">
-                            <label class="conteudo-site" for="endereco">Endereço:</label>
-                            <input class="conteudo-site" type="text" id="endereco" placeholder="Rua, número, bairro, cidade" style="width: 100%;" />
+                            <label class="conteudo-site" for="comida-fav">Comida favorita:</label>
+                            <input class="conteudo-site" type="text" id="comida-fav" />
                         </div>
 
-                        <h4>Residentes</h4>
-                        <div id="lista-residentes">
-                            
-                        </div>
-                        
-                        <div style="display: flex; justify-content: center; margin: 16px 0;">
-                            <button onclick="criarResidente()" type="button" id="criar-residente" class="conteudo-site" style="display: flex; align-items: center; gap: 6px;">
-                                <i class="fa-solid fa-plus"></i> 
-                                <p>Criar residente</p>
-                            </button>
+                        <div class="label-input conteudo-site">
+                            <label class="conteudo-site" for="convenio">Convênio ou SUS (qual?):</label>
+                            <input class="conteudo-site" type="text" id="convenio" />
                         </div>
 
-                        <script>
-                            const residentesContainer = document.getElementById('lista-residentes');
-                            residentesContainer.residentes = [];
-
-                            function criarResidente() {
-                                const mainDiv = document.createElement('div');
-                                mainDiv.classList.add('inputs-residente');
-                                const row = document.createElement('div');
-                                row.classList.add('row');
-                                const nomeDiv = document.createElement('div');
-                                nomeDiv.classList.add('inputs-residente-nome');
-                                const labelNome = document.createElement('label');
-                                labelNome.classList.add('conteudo-site');
-                                labelNome.textContent = 'Nome:';
-                                nomeDiv.appendChild(labelNome);
-                                const inputNome = document.createElement('input');
-                                inputNome.classList.add('conteudo-site');
-                                inputNome.type = 'text';
-                                nomeDiv.appendChild(inputNome);
-                                row.appendChild(nomeDiv);
-                                const perfilDiv = document.createElement('div');
-                                perfilDiv.classList.add('inputs-residente-perfil');
-                                const labelPerfil = document.createElement('label');
-                                labelPerfil.classList.add('conteudo-site');
-                                labelPerfil.textContent = 'Perfil:';
-                                perfilDiv.appendChild(labelPerfil);
-                                const selectPerfil = document.createElement('select');
-                                selectPerfil.classList.add('conteudo-site');
-                                const optionDefault = document.createElement('option');
-                                optionDefault.value = '';
-                                optionDefault.textContent = 'Selecione...';
-                                selectPerfil.appendChild(optionDefault);
-                                const optionAutista = document.createElement('option');
-                                optionAutista.value = 'autista';
-                                optionAutista.textContent = 'Autista';
-                                selectPerfil.appendChild(optionAutista);
-                                const optionNeurotipico = document.createElement('option');
-                                optionNeurotipico.value = 'neurotipico';
-                                optionNeurotipico.textContent = 'Neurotípico';
-                                selectPerfil.appendChild(optionNeurotipico);
-                                const optionInvestigacao = document.createElement('option');
-                                optionInvestigacao.value = 'em investigacao';
-                                optionInvestigacao.textContent = 'Em investigação';
-                                selectPerfil.appendChild(optionInvestigacao);
-                                perfilDiv.appendChild(selectPerfil);
-                                row.appendChild(perfilDiv);
-                                mainDiv.appendChild(row);
-                                const hr = document.createElement('hr');
-                                mainDiv.appendChild(hr);
-                                const i = document.createElement('i');
-                                i.classList.add('fa-solid', 'fa-trash');
-                                i.style.cursor = 'pointer';
-                                i.addEventListener('click', () => {
-                                    mainDiv.remove();
-                                    residentesContainer.residentes = residentesContainer.residentes.filter(r => r !== mainDiv.residente);
-                                });
-                                mainDiv.appendChild(i);
-                                mainDiv.residente = {
-                                    get nome() { return inputNome.value },
-                                    get perfil() { return selectPerfil.value }
-                                };
-                                residentesContainer.residentes.push(mainDiv.residente);
-                                residentesContainer.appendChild(mainDiv);
-                                return mainDiv;
-                            }
-
-                            criarResidente()
-                        </script>
-
-                        <div class="button-container">
-                            <button type="submit" class="conteudo-site">Finalizar cadastro</button>
+                        <div class="label-input conteudo-site">
+                            <label class="conteudo-site" for="terapia-faz">Terapias que faz:</label>
+                            <!-- <textarea class="conteudo-site" id="terapia-faz" rows="3"></textarea> -->
+                            <div class="list-input" id="terapia-faz"></div>
                         </div>
+
+                        <div class="label-input conteudo-site">
+                            <label class="conteudo-site" for="terapia-precisa">Terapias que precisa e não faz:</label>
+                            <!-- <textarea class="conteudo-site" id="terapia-precisa" rows="3"></textarea> -->
+                            <div class="list-input" id="terapia-precisa"></div>
+                        </div>
+
+
+                        <div class="label-input conteudo-site">
+                            <label class="conteudo-site" for="url-imagem">Foto:</label>
+                            <input class="conteudo-site" type="file" id="foto" />
+                        </div>
+
+                        <div class="label-input conteudo-site">
+                            <label class="conteudo-site" for="observacoes">Observações:</label>
+                            <textarea class="conteudo-site" id="observacoes" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="coluna">
+                <h3 class="conteudo-site responsavel"> Responsáveis</h3>
+
+                <!-- responsaveis -->
+                <div style="position: relative; margin: 24px 0;">
+                    <div id="lista-responsaveis">
+
+                    </div>
+                    <div style="display: flex; justify-content: center;">
+                        <button onclick="criarResponsavel()" type="button" id="add-responsavel" class="conteudo-site"
+                            style="display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-plus"></i>
+                            <p>Adicionar responsável</p>
+                        </button>
+                    </div>
+                    <script>
+                        const responsaveisContainer = document.getElementById('lista-responsaveis');
+                        responsaveisContainer.responsaveis = [];
+
+                        function criarResponsavel() {
+                            const mainDiv = document.createElement('div');
+                            mainDiv.classList.add('inputs-responsavel');
+
+                            const labelNome = document.createElement('label');
+                            labelNome.classList.add('conteudo-site');
+                            labelNome.textContent = 'Nome:';
+                            mainDiv.appendChild(labelNome);
+                            const inputNome = document.createElement('input');
+                            inputNome.classList.add('conteudo-site');
+                            inputNome.type = 'text';
+                            mainDiv.appendChild(inputNome);
+
+                            const subDiv = document.createElement('div');
+                            subDiv.classList.add('inputs-responsavel-subfields');
+
+                            const relacaoDiv = document.createElement('div');
+                            relacaoDiv.classList.add('inputs-responsavel-relacao');
+                            const labelRelacao = document.createElement('label');
+                            labelRelacao.classList.add('conteudo-site');
+                            labelRelacao.textContent = 'Relação:';
+                            relacaoDiv.appendChild(labelRelacao);
+                            const inputRelacao = document.createElement('input');
+                            inputRelacao.classList.add('conteudo-site');
+                            inputRelacao.type = 'text';
+                            inputRelacao.placeholder = 'Pai, Mãe, Tio, Avó, ...';
+                            relacaoDiv.appendChild(inputRelacao);
+
+                            const contatoDiv = document.createElement('div');
+                            contatoDiv.classList.add('inputs-responsavel-contato');
+                            const labelContato = document.createElement('label');
+                            labelContato.classList.add('conteudo-site');
+                            labelContato.textContent = 'Contato:';
+                            contatoDiv.appendChild(labelContato);
+                            const inputContato = document.createElement('input');
+                            inputContato.classList.add('conteudo-site');
+                            inputContato.type = 'text';
+                            inputContato.placeholder = 'Telefone ou e-mail';
+                            contatoDiv.appendChild(inputContato);
+
+                            subDiv.appendChild(relacaoDiv);
+                            subDiv.appendChild(contatoDiv);
+                            mainDiv.appendChild(subDiv);
+                            const hr = document.createElement('hr');
+                            mainDiv.appendChild(hr);
+
+                            const i = document.createElement('i');
+                            i.classList.add('fa-solid', 'fa-trash');
+                            i.style.cursor = 'pointer';
+                            i.addEventListener('click', () => {
+                                mainDiv.remove();
+                                responsaveisContainer.responsaveis = responsaveisContainer.responsaveis.filter(r => r !== mainDiv.responsavel);
+                            });
+                            mainDiv.appendChild(i);
+
+                            mainDiv.responsavel = {
+                                get nome() { return inputNome.value },
+                                get relacao() { return inputRelacao.value },
+                                get contato() { return inputContato.value }
+                            };
+
+                            responsaveisContainer.responsaveis.push(mainDiv.responsavel);
+                            responsaveisContainer.appendChild(mainDiv);
+
+                            return mainDiv;
+                        }
+
+                        criarResponsavel();
+                    </script>
+                </div>
+                <!-- outros residentes da casa (responsaveis nao sao incluido automaticamente) -->
+                <h3 class="conteudo-site responsavel">Família</h3>
+                <!-- opcao de pesquisa de selecionar uma familia ja existente -->
+
+                <div style="display: flex; justify-content: center;">
+                    <button type="button" id="buscar-familia" class="conteudo-site"
+                        style="display: flex; align-items: center; gap: 6px; margin-bottom: 24px;">
+                        <i class="fa-solid fa-search"></i>
+                        <p>Buscar família existente</p>
+                    </button>
+                </div>
+
+                <div class="label-input conteudo-site">
+                    <label class="conteudo-site" for="endereco">Endereço:</label>
+                    <input class="conteudo-site" type="text" id="endereco" placeholder="Rua, número, bairro, cidade"
+                        style="width: 100%;" />
+                </div>
+
+                <h4>Residentes</h4>
+                <div id="lista-residentes">
+
+                </div>
+
+                <div style="display: flex; justify-content: center; margin: 16px 0;">
+                    <button onclick="criarResidente()" type="button" id="criar-residente" class="conteudo-site"
+                        style="display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-plus"></i>
+                        <p>Criar residente</p>
+                    </button>
+                </div>
+
+                <script>
+                    const residentesContainer = document.getElementById('lista-residentes');
+                    residentesContainer.residentes = [];
+
+                    function criarResidente() {
+                        const mainDiv = document.createElement('div');
+                        mainDiv.classList.add('inputs-residente');
+                        const row = document.createElement('div');
+                        row.classList.add('row');
+                        const nomeDiv = document.createElement('div');
+                        nomeDiv.classList.add('inputs-residente-nome');
+                        const labelNome = document.createElement('label');
+                        labelNome.classList.add('conteudo-site');
+                        labelNome.textContent = 'Nome:';
+                        nomeDiv.appendChild(labelNome);
+                        const inputNome = document.createElement('input');
+                        inputNome.classList.add('conteudo-site');
+                        inputNome.type = 'text';
+                        nomeDiv.appendChild(inputNome);
+                        row.appendChild(nomeDiv);
+                        const perfilDiv = document.createElement('div');
+                        perfilDiv.classList.add('inputs-residente-perfil');
+                        const labelPerfil = document.createElement('label');
+                        labelPerfil.classList.add('conteudo-site');
+                        labelPerfil.textContent = 'Perfil:';
+                        perfilDiv.appendChild(labelPerfil);
+                        const selectPerfil = document.createElement('select');
+                        selectPerfil.classList.add('conteudo-site');
+                        const optionDefault = document.createElement('option');
+                        optionDefault.value = '';
+                        optionDefault.textContent = 'Selecione...';
+                        selectPerfil.appendChild(optionDefault);
+                        const optionAutista = document.createElement('option');
+                        optionAutista.value = 'autista';
+                        optionAutista.textContent = 'Autista';
+                        selectPerfil.appendChild(optionAutista);
+                        const optionNeurotipico = document.createElement('option');
+                        optionNeurotipico.value = 'neurotipico';
+                        optionNeurotipico.textContent = 'Neurotípico';
+                        selectPerfil.appendChild(optionNeurotipico);
+                        const optionInvestigacao = document.createElement('option');
+                        optionInvestigacao.value = 'em investigacao';
+                        optionInvestigacao.textContent = 'Em investigação';
+                        selectPerfil.appendChild(optionInvestigacao);
+                        perfilDiv.appendChild(selectPerfil);
+                        row.appendChild(perfilDiv);
+                        mainDiv.appendChild(row);
+                        const hr = document.createElement('hr');
+                        mainDiv.appendChild(hr);
+                        const i = document.createElement('i');
+                        i.classList.add('fa-solid', 'fa-trash');
+                        i.style.cursor = 'pointer';
+                        i.addEventListener('click', () => {
+                            mainDiv.remove();
+                            residentesContainer.residentes = residentesContainer.residentes.filter(r => r !== mainDiv.residente);
+                        });
+                        mainDiv.appendChild(i);
+                        mainDiv.residente = {
+                            get nome() { return inputNome.value },
+                            get perfil() { return selectPerfil.value }
+                        };
+                        residentesContainer.residentes.push(mainDiv.residente);
+                        residentesContainer.appendChild(mainDiv);
+                        return mainDiv;
+                    }
+
+                    criarResidente()
+                </script>
+
+                <div class="button-container">
+                    <button type="submit" class="conteudo-site">Finalizar cadastro</button>
+                </div>
+            </div>
         </form>
     </div>
     <script>

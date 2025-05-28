@@ -6,10 +6,6 @@
 }
 
 body {
-    background-image: url('../img/ess_azul_bckg.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
     position: relative;
     display: flex;
      align-items: center;
@@ -125,22 +121,21 @@ h3 {
 }
 
 .voltar {
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    gap: 8px;
-    font-size: 18px;
-    transition: 0.3s all;
-    text-shadow: 0 0 4px #000000;
+  color: #002293;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 8px;
+  font-size: 18px;
+  transition: color 0.3s;
 }
 
 .voltar:hover {
-    transform: scale(1.1);
+  color: #0033CC;
 }
 
 .container {
-    background-color: #ffffff;
+    background-color: #0990ea37;
     padding: 50px 50px 50px 90px;
     border-radius: 10px;
     max-width: 850px;
@@ -169,6 +164,14 @@ h2 {
     margin-bottom: 12px;
 }
 
+.div-alinhamento {
+    margin-top: 40px;
+}
+
+.div-alinhamento .label-input input {
+    margin-bottom: 20.5px;
+}
+
 label {
     display: block;
     margin-bottom: 10px;
@@ -183,7 +186,7 @@ input, select, textarea {
     border-radius: 5px; 
     width: 100%;
     height: 43px;
-    background-color: #f3f3f3;
+    background-color: #fff;
     border: solid 2px rgb(214, 214, 214);
     border-radius: 0.4rem;
     margin-bottom: 20px;
@@ -223,12 +226,12 @@ textarea {
 
 .radio label {
     padding: 6px 16px;
-    border: 2px solid #a0a0a0;
+    border: 2px solid #7c7c7c;
     border-radius: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 0.95rem;
-    color: #a0a0a0;
+    color: #7c7c7c;
     user-select: none;
     font-weight: 500;
 }
