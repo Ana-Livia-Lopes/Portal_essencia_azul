@@ -4,13 +4,107 @@
             <input type="text" class="search" placeholder="Pesquisar" id="pesquisar-acolhidos" onchange="pesquisarAcolhidos(this.value)" />
         </div>
         <div class="itens" id="resultado-pesquisa-acolhidos">
-            <div class="item"><img src="/img/user-default.png" alt="">Lucas</div>
-            <div class="item"><img src="/img/user-default.png" alt="">Acolhido 2</div>
-            <div class="item"><img src="/img/user-default.png" alt="">Acolhido 3</div>
-            <div class="item"><img src="/img/user-default.png" alt="">Acolhido 4</div>
-            <div class="item"><img src="/img/user-default.png" alt="">Acolhido 5</div>
+            
         </div>
         <script>
+            function criarTextInput(id, label, value) {
+                const div = document.createElement('div');
+                div.classList.add('inputs-gerenc');
+                const labelElement = document.createElement('label');
+                labelElement.setAttribute('for', id);
+                labelElement.textContent = label;
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = id;
+                input.value = value || '';
+                div.appendChild(labelElement);
+                div.appendChild(input);
+                return div;
+            }
+
+            function criarListInput(id, label, values = []) {
+                const div = document.createElement('div');
+                div.classList.add('inputs-gerenc');
+                const labelElement = document.createElement('label');
+                labelElement.setAttribute('for', id);
+                labelElement.textContent = label;
+                const input = document.createElement('div');
+                input.classList.add('list-input');
+                input.id = id;
+                new ListInput(input, ...values);
+                div.appendChild(labelElement);
+                div.appendChild(input);
+                return div;
+            }
+
+            function criarDateInput(id, label, value) {
+                const div = document.createElement('div');
+                div.classList.add('inputs-gerenc');
+                const labelElement = document.createElement('label');
+                labelElement.setAttribute('for', id);
+                labelElement.textContent = label;
+                const input = document.createElement('input');
+                input.type = 'date';
+                input.id = id;
+                if (value) input.value = value;
+                div.appendChild(labelElement);
+                div.appendChild(input);
+                return div;
+            }
+
+            function criarSelectInput(id, label, options = [], value = '') {
+                const div = document.createElement('div');
+                div.classList.add('inputs-gerenc');
+                const labelElement = document.createElement('label');
+                labelElement.setAttribute('for', id);
+                labelElement.textContent = label;
+                const select = document.createElement('select');
+                select.classList.add("custom-select")
+                select.id = id;
+                options.forEach(opt => {
+                    const option = document.createElement('option');
+                    option.value = opt.value;
+                    option.textContent = opt.label;
+                    if (opt.value === value) option.selected = true;
+                    select.appendChild(option);
+                });
+                div.appendChild(labelElement);
+                div.appendChild(select);
+                return div;
+            }
+
+            function criarRadioGroup(name, label, value) {
+                const checkDiv = document.createElement('div');
+                checkDiv.classList.add('checkboxes');
+                const h2 = document.createElement('h2');
+                h2.classList.add('titulo-checks');
+                h2.textContent = label;
+                const divMaior = document.createElement('div');
+                divMaior.classList.add('div-maior-input-radio');
+                const radioDiv = document.createElement('div');
+                radioDiv.classList.add('radio');
+
+                ['Sim', 'Não'].forEach(opt => {
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.id = `${name}-${opt.toLowerCase()}`;
+                    input.name = name;
+                    input.value = opt;
+                    if (value === opt) input.checked = true;
+                    const lbl = document.createElement('label');
+                    lbl.setAttribute('for', input.id);
+                    lbl.classList.add('conteudo-site');
+                    lbl.textContent = opt;
+                    radioDiv.appendChild(input);
+                    radioDiv.appendChild(lbl);
+                });
+
+                divMaior.appendChild(radioDiv);
+                checkDiv.appendChild(h2);
+                checkDiv.appendChild(divMaior);
+                return checkDiv;
+            }
+
             let cachedSearch;
 
             function criarItemAcolhido(acolhido) {
@@ -22,27 +116,141 @@
                 div.appendChild(img);
                 div.appendChild(document.createTextNode(acolhido.fields.nome || "Acolhido"));
                 document.getElementById("resultado-pesquisa-acolhidos").appendChild(div);
+                div.addEventListener("click", () => {
+                    const contentDiv = document.querySelector('.box-content .content');
+                    contentDiv.classList.remove('empty');
+
+                    console.log(acolhido)
+
+                    contentDiv.innerHTML = '';
+                    const topContent = document.createElement('div');
+                    topContent.classList.add('top-content');
+                    const imgElement = document.createElement('img');
+                    imgElement.src = acolhido.fields.url_imagem || "/img/user-default.png";
+                    imgElement.alt = acolhido.fields.nome || "Acolhido";
+                    const nameElement = document.createElement('h1');
+                    nameElement.textContent = acolhido.fields.nome || "Acolhido";
+                    topContent.appendChild(imgElement);
+                    topContent.appendChild(nameElement);
+                    contentDiv.appendChild(topContent);
+                    const formContent = document.createElement('form');
+                    formContent.classList.add('form-gerenc');
+                    formContent.appendChild(criarTextInput('nome', 'Nome', acolhido.fields.nome));
+                    formContent.appendChild(criarListInput('areas_interesse', 'Áreas de Interesse', acolhido.fields.areas_interesse));
+                    formContent.appendChild(criarTextInput('telefone', 'Telefone', acolhido.fields.telefone));
+                    formContent.appendChild(criarTextInput('hiperfoco', 'Hiperfoco', acolhido.fields.hiperfoco));
+                    formContent.appendChild(criarTextInput('email', 'E-mail', acolhido.fields.email));
+                    formContent.appendChild(criarTextInput('como_acalma', 'Como o autista se acalma?', acolhido.fields.como_acalma));
+                    formContent.appendChild(criarDateInput('data_nascimento', 'Data de Nascimento', acolhido.fields.data_nascimento));
+                    formContent.appendChild(criarTextInput('atividades_nao_gosta', 'Atividades que o autista NÃO gosta', acolhido.fields.atividades_nao_gosta));
+                    formContent.appendChild(criarTextInput('familia', 'Família', acolhido.fields.familia));
+                    formContent.appendChild(criarTextInput('restricoes_alimentares', 'Restrições alimentares', acolhido.fields.restricoes_alimentares));
+                    formContent.appendChild(
+                        criarSelectInput(
+                            'nivel_suporte',
+                            'Nível de suporte',
+                            [
+                                { value: '1', label: 'Nível 1' },
+                                { value: '2', label: 'Nível 2' },
+                                { value: '3', label: 'Nível 3' }
+                            ],
+                            acolhido.fields.nivel_suporte
+                        )
+                    );
+                    formContent.appendChild(criarTextInput('comida_favorita', 'Comida favorita', acolhido.fields.comida_favorita));
+                    formContent.appendChild(criarTextInput('escola', 'Escola', acolhido.fields.escola));
+                    formContent.appendChild(criarTextInput('convenio', 'Convênio ou SUS: Qual convênio?', acolhido.fields.convenio));
+                    formContent.appendChild(criarTextInput('responsaveis', 'Nome dos responsáveis', acolhido.fields.responsaveis));
+                    formContent.appendChild(criarTextInput('faz_terapia', 'Faz terapia?', acolhido.fields.faz_terapia));
+                    formContent.appendChild(criarTextInput('terapia_precisa', 'Qual terapia precisa e não faz?', acolhido.fields.terapia_precisa));
+
+                    // Observações (textarea)
+                    const obsDiv = document.createElement('div');
+                    obsDiv.classList.add('inputs-gerenc', 'textarea');
+                    const obsLabel = document.createElement('label');
+                    obsLabel.textContent = 'Observações';
+                    obsLabel.setAttribute('for', 'observacoes');
+                    const obsTextarea = document.createElement('textarea');
+                    obsTextarea.id = 'observacoes';
+                    obsTextarea.value = acolhido.fields.observacoes || '';
+                    obsDiv.appendChild(obsLabel);
+                    obsDiv.appendChild(obsTextarea);
+                    formContent.appendChild(obsDiv);
+
+                    // Radio groups
+                    formContent.appendChild(criarRadioGroup('cart', 'Tem carteirinha de identificação do autismo?', acolhido.fields.cart));
+                    formContent.appendChild(criarRadioGroup('cord', 'Usa o cordão de girassol ou quebra-cabeça?', acolhido.fields.cord));
+                    formContent.appendChild(criarRadioGroup('vaga', 'Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?', acolhido.fields.vaga));
+                    formContent.appendChild(criarRadioGroup('prof', 'Se criança, tem profissional de apoio na escola?', acolhido.fields.prof));
+
+                    // Botões de ação
+                    const actionDiv = document.createElement('div');
+                    actionDiv.classList.add('aceitar-recusar');
+                    const salvarBtn = document.createElement('button');
+                    salvarBtn.id = 'aceitar-gerenc';
+                    salvarBtn.type = 'button';
+                    salvarBtn.textContent = 'Salvar';
+                    const excluirBtn = document.createElement('button');
+                    excluirBtn.id = 'recusar-gerenc';
+                    excluirBtn.type = 'button';
+                    excluirBtn.textContent = 'Excluir';
+                    actionDiv.appendChild(salvarBtn);
+                    actionDiv.appendChild(excluirBtn);
+                    formContent.appendChild(actionDiv);
+
+                    // Adicionar documento
+                    const addDocDiv = document.createElement('div');
+                    addDocDiv.classList.add('add');
+                    const addDocTitle = document.createElement('h3');
+                    addDocTitle.textContent = 'Adicionar documento';
+                    const addDocInput = document.createElement('input');
+                    addDocInput.type = 'file';
+                    addDocInput.classList.add('campo-file');
+                    const addDocBtn = document.createElement('button');
+                    addDocBtn.type = 'button';
+                    addDocBtn.textContent = 'Enviar';
+                    addDocDiv.appendChild(addDocTitle);
+                    addDocDiv.appendChild(addDocInput);
+                    addDocDiv.appendChild(addDocBtn);
+                    formContent.appendChild(addDocDiv);
+
+                    // Adicionar foto
+                    const addFotoDiv = document.createElement('div');
+                    addFotoDiv.classList.add('add');
+                    const addFotoTitle = document.createElement('h3');
+                    addFotoTitle.textContent = 'Adicionar foto';
+                    const addFotoInput = document.createElement('input');
+                    addFotoInput.type = 'file';
+                    addFotoInput.classList.add('campo-file');
+                    const addFotoBtn = document.createElement('button');
+                    addFotoBtn.type = 'button';
+                    addFotoBtn.textContent = 'Enviar';
+                    addFotoDiv.appendChild(addFotoTitle);
+                    addFotoDiv.appendChild(addFotoInput);
+                    addFotoDiv.appendChild(addFotoBtn);
+                    formContent.appendChild(addFotoDiv);
+
+                    contentDiv.appendChild(formContent);
+                });
             }
 
             async function pesquisarAcolhidos() {
                 const searchInput = document.getElementById('pesquisar-acolhidos');
-                if (searchInput.value.trim() === '') {
-                    return;
-                }
                 if (!cachedSearch) cachedSearch = await (await fetch("/api/acolhidos")).json();
                 document.getElementById("resultado-pesquisa-acolhidos").innerHTML = '';
                 for (const acolhido of cachedSearch) {
-                    if (acolhido?.fields?.nome?.toLowerCase?.()?.includes(searchInput.value.toLowerCase())) {
+                    if (acolhido?.fields?.nome?.toLowerCase?.()?.includes(searchInput.value.toLowerCase()) || !searchInput.value) {
                         criarItemAcolhido(acolhido);
                     }
                 }
             }
+            document.getElementById("option-switch-acolhidos").addEventListener("click", pesquisarAcolhidos);
         </script>
     </div>
 
     <div class="box-content">
-        <div class="content">
-            <div class="top-content">
+        <div class="content empty">
+            <!-- <div class="top-content">
                 <img src="/img/user-default.png" alt="">
                 <h1>Lucas</h1>
             </div>
@@ -78,8 +286,8 @@
                 </div>
 
                 <div class="inputs-gerenc">
-                    <label for="">Idade</label>
-                    <input type="text">
+                    <label for="">Data de Nascimento</label>
+                    <input type="date">
                 </div>
 
                 <div class="inputs-gerenc">
@@ -212,7 +420,7 @@
                     <input type="file" class="campo-file">
                     <button>Enviar</button>
                 </div>
-            </form>
+            </form> -->
         </div>
     </div>
 </div>
