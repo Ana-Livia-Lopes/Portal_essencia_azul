@@ -10,12 +10,22 @@
 </head>
 
 <body>
+    <style>
+        input {
+            pointer-events: none;
+        }
+        body {
+            min-height: 100vh;
+        }
+    </style>
     <component-acessibilidade />
+    <component-json-solicitacoes_preload />
 
     <div class="voltar-div">
         <h3><a class="voltar" href="/gerenciamento"><i class="fa-solid fa-arrow-left" style="color: '#002293;'"></i>
                 Voltar</a></h3>
     </div>
+
 
     <main>
         <section class="formulario-solicitacao-section-expansiva">
@@ -105,7 +115,7 @@
                             <div class="campo full">
                                 <label>Observações</label>
                                 <textarea
-                                    readonly>Lucas tem evoluído bem com a rotina de terapias e se comunica melhor com figuras visuais.</textarea>
+                                readonly>Lucas tem evoluído bem com a rotina de terapias e se comunica melhor com figuras visuais.</textarea>
                             </div>
 
                             <div class="campo">
@@ -153,37 +163,37 @@
                             <div class="campo">
                                 <label for="" class="conteudo-site">Nome completo</label>
                                 <input class="conteudo-site" id="nome" autocomplete="off" type="text"
-                                    placeholder="Márcio Almeida">
+                                placeholder="Márcio Almeida">
                             </div>
 
                             <div class="campo">
                                 <label for="" class="conteudo-site">CPF</label>
                                 <input class="conteudo-site" id="cpf" autocomplete="off" type="text"
-                                    placeholder="333.221.839-12">
+                                placeholder="333.221.839-12">
                             </div>
 
                             <div class="campo">
                                 <label for="" class="conteudo-site">Email</label>
                                 <input class="conteudo-site" id="email" autocomplete="off" type="text"
-                                    placeholder="marcio@gmail.com">
+                                placeholder="marcio@gmail.com">
                             </div>
 
                             <div class="campo">
                                 <label for="" class="conteudo-site">Telefone</label>
                                 <input class="conteudo-site" id="tel" autocomplete="off" type="text"
-                                    placeholder="(11) 99382-2829">
+                                placeholder="(11) 99382-2829">
                             </div>
 
                             <div class="campo">
                                 <label for="" class="conteudo-site">Como quer ajudar?</label>
                                 <input class="conteudo-site" id="email" autocomplete="off" type="text"
-                                    placeholder="Apoio no bazar">
+                                placeholder="Apoio no bazar">
                             </div>
 
                             <div class="campo">
                                 <label for="" class="conteudo-site">Outro tipo de ajuda</label>
                                 <input class="conteudo-site" id="outro" autocomplete="off" type="text"
-                                    placeholder="Não">
+                                placeholder="Não">
                             </div>
 
                             <div id="textarea" class="campo full">
@@ -201,6 +211,13 @@
             </div>
         </section>
     </main>
+    <script>
+        const container = document.getElementsByTagName("main")[0]; 
+
+        function criarSolicitacaoAcolhido(acolhido) {
+            
+        }
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

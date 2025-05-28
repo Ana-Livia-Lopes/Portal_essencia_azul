@@ -629,14 +629,14 @@ var EssenciaAzul = ( function() {
         }
     });
 
-    Types.SolicitacaoAcolhido = createDatabaseDocumentType(BaseDataTypes.SolicitacaoAcolhido, "solicitacoes_acolhido", {
+    Types.SolicitacaoAcolhido = createDatabaseDocumentType(BaseDataTypes.SolicitacaoAcolhido, "solicitacoes_acolhidos", {
         events: {
             // create: createRegisterCallback("SolicitacaoAcolhido", "adicionar"),
             // remove: createRegisterCallback("SolicitacaoAcolhido", "remover"),
             // update: createRegisterCallback("SolicitacaoAcolhido", "editar"),
         }
     });
-    Types.SolicitacaoVoluntario = createDatabaseDocumentType(BaseDataTypes.SolicitacaoVoluntario, "solicitacoes_voluntario", {
+    Types.SolicitacaoVoluntario = createDatabaseDocumentType(BaseDataTypes.SolicitacaoVoluntario, "solicitacoes_voluntarios", {
         events: {
             // create: createRegisterCallback("SolicitacaoVoluntario", "adicionar"),
             // remove: createRegisterCallback("SolicitacaoVoluntario", "remover"),

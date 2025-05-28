@@ -21,6 +21,18 @@
             "before": [ "onlyLogin" ]
         }
     },
+    "cadastrar_acolhido.html": {
+        "paths": [ "/gerenciamento/cadastrar_acolhido" ]
+    },
+    "cadastrar_adm.html": {
+        "paths": [ "/gerenciamento/cadastrar_admin" ]
+    },
+    "solic_receb.html": {
+        "paths": [ "/gerenciamento/solicitacoes" ]
+    },
+    "comentarios-duvidas.html": {
+        "paths": [ "/gerenciamento/comentarios" ]
+    },
     "actions/login.js": {
         "contentType": "application/json"
     },
