@@ -6,7 +6,10 @@
 }
 
 body {
-  background-color: #f0f0f0;
+  background-image: url('../img/ess_azul_bckg.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 20px;
 }
 
@@ -30,7 +33,7 @@ header {
 }
 
 .voltar {
-  color: #002293;
+  color: #fff;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -52,20 +55,22 @@ section {
   margin-bottom: 50px;
 }
 
-.formulario-solicitacao-section-expansiva, .formulario-solicitacao-voluntario {
+.formulario-solicitacao-section-expansiva,
+.formulario-solicitacao-voluntario {
   display: flex;
   justify-content: center;
 }
 
-.formulario-solicitacao-voluntario .form-wrapper{
+.formulario-solicitacao-voluntario .form-wrapper {
   background-color: #002293;
 }
-.formulario-solicitacao-voluntario .form-wrapper .titulo-filtro{
+
+.formulario-solicitacao-voluntario .form-wrapper .titulo-filtro {
   color: #cfecff;
 }
 
 .form-wrapper {
-  background: #0990ea37;
+  background: #fff;
   padding: 20px;
   border-radius: 10px;
   max-width: 800px;
@@ -85,11 +90,12 @@ section {
   font-weight: 800;
 }
 
-input[type=date]{
+input[type=date] {
   width: 100%;
   padding: 8px;
   border-radius: 5px;
-   border: 1px solid #ccc;
+  border: 1px solid #ccc;
+  background-color: #f3f3f3;
 }
 
 .form-grid {
@@ -102,6 +108,7 @@ input[type=date]{
   display: flex;
   flex-direction: column;
 }
+
 .formulario-solicitacao-voluntario .campo {
   color: #f0f0f0;
 }
@@ -121,7 +128,7 @@ textarea {
   border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 14px;
-  background-color: white;
+  background-color: #f3f3f3;
 }
 
 input::placeholder {
