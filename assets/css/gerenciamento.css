@@ -228,6 +228,10 @@ body {
   margin-bottom: 35px;
 }
 
+.content.empty {
+  height: 560px;
+}
+
 .cont-adm {
   max-height: 300px;
 }
@@ -519,7 +523,7 @@ body {
   color: white;
 }
 
-#select-nv-suporte {
+#select-nv-suporte, .custom-select {
   background-color: #f3f3f3;
   border: solid 2px rgb(214, 214, 214);
   border-radius: 0.2rem;
@@ -531,8 +535,12 @@ body {
   outline: none;
 }
 
-#select-nv-suporte:focus {
+#select-nv-suporte:focus, .custom-select:focus {
   border: solid 2px #696969d6;
+}
+
+.list-input input {
+  width: 100%;
 }
 
 .add {
@@ -709,6 +717,10 @@ body {
   .box-content {
     padding: 10px 0;
     width: 95%;
+  }
+
+  .content.empty {
+    height: 800px;
   }
 }
 
