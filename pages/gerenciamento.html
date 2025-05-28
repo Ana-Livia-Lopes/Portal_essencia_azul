@@ -37,7 +37,9 @@
             for (const sectionName in sections) {
                 const section = sections[sectionName];
                 for (const script of section.querySelectorAll("script")) {
-                    document.body.append(script);
+                    const newScript = document.createElement("script");
+                    newScript.textContent = script.textContent;
+                    document.body.append(newScript);
                 }
             }
         })();
@@ -286,10 +288,6 @@
                 scrollToTopButton.classList.remove('show');
             }
         });
-        
-        function irParaRelatorios() {
-            window.location.href = "relatorios ";
-        }
 
     </script>
 </body>

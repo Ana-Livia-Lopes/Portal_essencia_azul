@@ -37,11 +37,20 @@ module.exports = {
                 }
                 return acolhido;
             } else {
+                const conditions = [];
+                if (query.field && query.relation && query.value) {
+                    conditions.push({
+                        field: query.field,
+                        relation: query.relation,
+                        value: query.value
+                    });
+                }
                 return await read(session.get("login"), Acolhido, {
                     limit: query.pageSize ?? 100,
                     limitOffset: query.pageSize * (query.page ?? 0),
                     orderBy: query.orderBy,
                     orderDirection: query.orderDirection,
+                    conditions
                 }, response);
             }
         }

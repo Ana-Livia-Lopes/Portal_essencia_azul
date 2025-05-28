@@ -718,6 +718,8 @@ var EssenciaAzul = ( function() {
 
         if (!key) throw new Error("Chave não encontrada");
 
+        console.log(key)
+
         const doc = (await getDocs(query(collection(db, "admins"), where("chave", "==", key)))).docs[0];
 
         if (!doc) return 0;
