@@ -6,6 +6,10 @@
 }
 
 body {
+    background-image: url('../img/ess_azul_bckg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     position: relative;
     display: flex;
      align-items: center;
@@ -121,7 +125,7 @@ h3 {
 }
 
 .voltar {
-  color: #002293;
+  color: #fff;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -135,14 +139,17 @@ h3 {
 }
 
 .container {
-    background-color: #0990ea37;
-    padding: 50px 50px 50px 90px;
+    background-color: #fff;
     border-radius: 10px;
+    padding: 40px;
     max-width: 850px;
     width: 100%;
     margin-top: 80px;
     margin-bottom: 30px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.234);
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 }
 
 h2 {
@@ -186,7 +193,7 @@ input, select, textarea {
     border-radius: 5px; 
     width: 100%;
     height: 43px;
-    background-color: #fff;
+    background-color: #f3f3f3;
     border: solid 2px rgb(214, 214, 214);
     border-radius: 0.4rem;
     margin-bottom: 20px;
