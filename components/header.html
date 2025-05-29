@@ -24,7 +24,7 @@
             </ul>
 
             <div id="formulario">
-                <button>Faça parte!</button>
+                <a href="/formulario"><button>Faça parte!</button></a>
             </div>
 
             <div class="nuvem-info" id="id-nuvem">
@@ -35,7 +35,6 @@
                     pela Essência Azul. Suas informações serão tratadas com
                     cuidado e confidencialidade.
                 </p>
-                <a href="/formulario"><button class="resp-form">Responder formulário</button></a>
             </div>
 
         </div>
@@ -73,34 +72,6 @@
 </ul>
 
 <script>
-    const formularioBotao = document.getElementById('formulario');
-    const nuvem = document.getElementById('id-nuvem');
-
-    formularioBotao.addEventListener('mouseover', () => {
-        nuvem.classList.add('hovered');
-        clearTimeout(nuvem.timeoutId);
-    });
-
-    formularioBotao.addEventListener('mouseout', () => {
-        nuvem.timeoutId = setTimeout(() => {
-            if (!nuvem.matches(':hover')) {
-                nuvem.classList.remove('hovered');
-            }
-        }, 150);
-    });
-
-    nuvem.addEventListener('mouseover', () => {
-        clearTimeout(nuvem.timeoutId);
-    });
-
-    nuvem.addEventListener('mouseout', () => {
-        nuvem.timeoutId = setTimeout(() => {
-            if (!formularioBotao.matches(':hover')) {
-                nuvem.classList.remove('hovered');
-            }
-        }, 150);
-    });
-
     const formularioLi = document.getElementById('li-form');
     const formularioLiAberto = document.getElementById('li-form-aberto');
 
@@ -206,12 +177,16 @@
         border-radius: 0.4rem;
         width: 120px;
         height: 40px;
-        cursor: default;
+        cursor: pointer;
         transition: all 0.3s;
     }
 
     #formulario button:hover {
         background-color: #142e96;
+    }
+
+    #formulario:hover+.nuvem-info {
+        display: block;
     }
 
     .nuvem-info {
@@ -256,25 +231,7 @@
         color: white;
         text-align: justify;
         font-size: 15px;
-        margin-bottom: 14px;
-    }
-
-    .nuvem-info button {
-        background-color: #1535B5;
-        color: white;
-        font-family: 'Montserrat';
-        font-weight: 600;
-        font-size: 15px;
-        border: none;
-        border-radius: 0.4rem;
-        height: 40px;
-        cursor: pointer;
-        transition: all 0.3s;
-        padding: 10px;
-    }
-
-    .nuvem-info button:hover {
-        background-color: #142e96;
+        margin-bottom: 10px;
     }
 
     #user {

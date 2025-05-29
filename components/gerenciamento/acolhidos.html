@@ -75,6 +75,7 @@
 
             function criarRadioGroup(name, label, value) {
                 const checkDiv = document.createElement('div');
+                checkDiv.id = `${name}-check`;
                 checkDiv.classList.add('checkboxes');
                 const h2 = document.createElement('h2');
                 h2.classList.add('titulo-checks');
@@ -178,6 +179,7 @@
                     formContent.appendChild(obsDiv);
 
                     // Radio groups
+                    formContent.appendChild(criarRadioGroup('esco', 'Frequenta escola?', acolhido.fields.cart));
                     formContent.appendChild(criarRadioGroup('cart', 'Tem carteirinha de identificação do autismo?', acolhido.fields.cart));
                     formContent.appendChild(criarRadioGroup('cord', 'Usa o cordão de girassol ou quebra-cabeça?', acolhido.fields.cord));
                     formContent.appendChild(criarRadioGroup('vaga', 'Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?', acolhido.fields.vaga));
