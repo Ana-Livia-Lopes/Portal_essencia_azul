@@ -48,11 +48,48 @@
                     </div>
 
                     <div class="label-input conteudo-site">
+                        <label class="conteudo-site">Frequenta escola?</label>
+                        <div class="radio">
+                            <input class="conteudo-site" type="radio" id="escola-sim" name="escola" value="true" />
+                            <label class="conteudo-site" for="escola-sim">Sim</label>
+
+                            <input class="conteudo-site" type="radio" id="escola-nao" name="escola" value="false" />
+                            <label class="conteudo-site" for="escola-nao">Não</label>
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            const simRadio = document.getElementById("escola-sim");
+                            const naoRadio = document.getElementById("escola-nao");
+                            const campoEscola = document.querySelector(".campo-escola");
+                            const suporteEscola = document.querySelector(".suporte-escola");
+
+                            campoEscola.style.display = "none";
+                            suporteEscola.style.display = "none";
+
+                            simRadio.addEventListener("change", () => {
+                                if (simRadio.checked) {
+                                    campoEscola.style.display = "block";
+                                    suporteEscola.style.display = "block";
+                                }
+                            });
+
+                            naoRadio.addEventListener("change", () => {
+                                if (naoRadio.checked) {
+                                    campoEscola.style.display = "none";
+                                    suporteEscola.style.display = "none";
+                                }
+                            });
+                        });
+
+                    </script>
+
+                    <div class="campo-escola label-input conteudo-site">
                         <label class="conteudo-site" for="escola">Nome da escola:</label>
                         <input class="conteudo-site" type="text" id="escola" />
                     </div>
 
-                    <div class="label-input conteudo-site">
+                    <div class="suporte-escola label-input conteudo-site">
                         <label class="conteudo-site">Tem suporte na escola?</label>
                         <div class="radio">
                             <input class="conteudo-site" type="radio" id="escola-suporte-sim" name="escola-suporte"
@@ -111,15 +148,15 @@
                         <div class="list-input" id="hiperfoco"></div>
                     </div>
 
-                    <div class="label-input conteudo-site">
-                        <label class="conteudo-site" for="comoacalma">Como o autista se acalma?</label>
-                        <input class="conteudo-site" type="text" id="comoacalma" />
-                    </div>
                 </div>
 
                 <!-- COLUNA ACOLHIDO -->
                 <div class="coluna">
 
+                    <div class="label-input conteudo-site">
+                        <label class="conteudo-site" for="comoacalma">Como o autista se acalma?</label>
+                        <input class="conteudo-site" type="text" id="comoacalma" />
+                    </div>
 
 
                     <div class="label-input conteudo-site">
@@ -293,6 +330,7 @@
                 </div>
 
                 <script>
+
                     const residentesContainer = document.getElementById('lista-residentes');
                     residentesContainer.residentes = [];
 
@@ -372,7 +410,37 @@
 
         form.addEventListener("submit", event => {
             event.preventDefault();
-        })
+            const frequentaEscola = document.querySelector('input[name="escola"]:checked')?.value === "true";
+
+            const dados = {
+                nome: document.getElementById("name").value,
+                dataNascimento: document.getElementById("data-nascimento").value,
+                nivelSuporte: document.getElementById("nivel-suporte").value,
+                ciptea: document.querySelector('input[name="ciptea"]:checked')?.value,
+                cordao: document.querySelector('input[name="cordao"]:checked')?.value,
+                vagaExclusiva: document.querySelector('input[name="vaga-exclusiva"]:checked')?.value,
+                comoAcalma: document.getElementById("comoacalma").value,
+                comidaFavorita: document.getElementById("comida-fav").value,
+                convenio: document.getElementById("convenio").value,
+                observacoes: document.getElementById("observacoes").value,
+                endereco: document.getElementById("endereco").value,
+                escola: frequentaEscola ? {
+                    nome: document.getElementById("escola").value || null,
+                    suporte: document.querySelector('input[name="escola-suporte"]:checked')?.value === "true"
+                } : null,
+                responsaveis: Array.from(document.getElementById("lista-responsaveis").responsaveis).map(r => ({
+                    nome: r.nome,
+                    relacao: r.relacao,
+                    contato: r.contato
+                })),
+                residentes: Array.from(document.getElementById("lista-residentes").residentes).map(r => ({
+                    nome: r.nome,
+                    perfil: r.perfil
+                }))
+            };
+
+            // console.log("Dados do formulário:", dados);
+        });
     </script>
     <script type="module">
         import ListInput from "/js/list_input.js";
