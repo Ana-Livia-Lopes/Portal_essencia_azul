@@ -655,7 +655,12 @@ var EssenciaAzul = ( function() {
             update(doc) {}
         },
         references: {
-            async get_alteracoes() { }
+            async get_alteracoes() { },
+            async get_imagem() {
+                const url = instanceRealFields.get(this).url_imagem;
+                if (!url) return null;
+                return await readInStorage(Admin._bucket, url);
+            }
         },
         fieldsFilters: [
             async ({ fields, action, id, response } = {}) => {
