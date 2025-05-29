@@ -1088,13 +1088,14 @@ var EssenciaAzul = ( function() {
         }
         if (!level) level = "simples";
 
-        if (imageBlob) await saveInStorage(Admin._bucket, Admin.collection, imageBlob);
+        let url_imagem;
+        if (imageBlob) url_imagem = await saveInStorage(Admin._bucket, Admin.collection, imageBlob);
 
         let hasLogin = session.get("login");
         if (hasLogin && hasLogin instanceof Login) {
             if ((validLevelNamesAndNumbers[level] ?? 0) >= (validLevelNamesAndNumbers[hasLogin.nivel] ?? 0)) throw new PermissionError(response, "Permissão insuficiente para registrar um administrador com nível maior ou igual ao seu");
 
-            const newAdmin = await create(hasLogin, Admin, { email, senha: password, nome: name, nivel: level });
+            const newAdmin = await create(hasLogin, Admin, { email, senha: password, nome: name, nivel: level, url_imagem });
             const newAdminData = await getDoc(doc(db, "admins", newAdmin.id));
             const newAdminDoc = newAdminData.data();
             const newAdminKey = newAdminDoc.chave;

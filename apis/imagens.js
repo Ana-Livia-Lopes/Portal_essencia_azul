@@ -35,7 +35,7 @@ module.exports = {
     async post({ body, session, response }) {
         if (
             !body.files.blob ||
-            !body.files.descricao ||
+            // !body.fields.descricao ||
             !body.fields.titulo
         ) throw new ClientError(response, "Parâmetros insuficientes");
         const blob = await getFormidableBlob(body.files.blob);
