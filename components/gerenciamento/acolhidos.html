@@ -111,7 +111,7 @@
                 const div = document.createElement('div');
                 div.classList.add('item');
                 const img = document.createElement('img');
-                img.src = acolhido.fields.url_imagem || "/img/user-default.png";
+                img.src = acolhido.fields.url_imagem ? `/api/acolhidos/${acolhido.id}?getImagem=true` : "/img/user-default.png";
                 img.alt = acolhido.fields.nome || "Acolhido";
                 div.appendChild(img);
                 div.appendChild(document.createTextNode(acolhido.fields.nome || "Acolhido"));
@@ -126,7 +126,7 @@
                     const topContent = document.createElement('div');
                     topContent.classList.add('top-content');
                     const imgElement = document.createElement('img');
-                    imgElement.src = acolhido.fields.url_imagem || "/img/user-default.png";
+                    imgElement.src = acolhido.fields.url_imagem ? `/api/acolhidos/${acolhido.id}?getImagem=true` : "/img/user-default.png";
                     imgElement.alt = acolhido.fields.nome || "Acolhido";
                     const nameElement = document.createElement('h1');
                     nameElement.textContent = acolhido.fields.nome || "Acolhido";

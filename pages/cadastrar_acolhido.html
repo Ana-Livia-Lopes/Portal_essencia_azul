@@ -10,6 +10,7 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Arabic:wght@100..900&family=Noto+Serif+Old+Uyghur&display=swap"
         rel="stylesheet">
     <title>Cadastrar acolhido</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -408,19 +409,83 @@
     <script>
         const form = document.getElementById("cadastrar-form");
 
+        form.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+            }
+        });
+
         form.addEventListener("submit", event => {
             event.preventDefault();
             const frequentaEscola = document.querySelector('input[name="escola"]:checked')?.value === "true";
 
+            // Validação de campos obrigatórios
+            const requiredFields = [
+                { id: "name", label: "Nome" },
+                { id: "data-nascimento", label: "Data de nascimento" },
+                { id: "nivel-suporte", label: "Nível de suporte" },
+                { id: "comoacalma", label: "Como o autista se acalma?" },
+                { id: "comida-fav", label: "Comida favorita" },
+                { id: "convenio", label: "Convênio ou SUS" },
+                { id: "endereco", label: "Endereço" }
+            ];
+
+            let missing = [];
+            for (const field of requiredFields) {
+                const el = document.getElementById(field.id);
+                if (!el.value || (el.type === "select-one" && el.value === "")) {
+                    missing.push(field.label);
+                }
+            }
+
+            // Validação de escola se frequenta
+            if (frequentaEscola) {
+                const escolaNome = document.getElementById("escola").value;
+                if (!escolaNome) missing.push("Nome da escola");
+                const escolaSuporte = document.querySelector('input[name="escola-suporte"]:checked');
+                if (!escolaSuporte) missing.push("Tem suporte na escola?");
+            }
+
+            // Validação de pelo menos um responsável
+            const responsaveisArr = Array.from(document.getElementById("lista-responsaveis").responsaveis);
+            if (responsaveisArr.length === 0 || responsaveisArr.some(r => !r.nome || !r.relacao || !r.contato)) {
+                missing.push("Responsável (nome, relação e contato)");
+            }
+
+            // Validação de pelo menos um residente
+            const residentesArr = Array.from(document.getElementById("lista-residentes").residentes);
+            if (residentesArr.length === 0 || residentesArr.some(r => !r.nome || !r.perfil)) {
+                missing.push("Residente (nome e perfil)");
+            }
+
+            if (missing.length > 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Campos obrigatórios faltando",
+                    html: "Por favor, preencha os seguintes campos:<br><ul style='text-align:left'>" + missing.map(m => `<li>${m}</li>`).join("") + "</ul>"
+                });
+                return;
+            }
+
             const dados = {
                 nome: document.getElementById("name").value,
-                dataNascimento: document.getElementById("data-nascimento").value,
-                nivelSuporte: document.getElementById("nivel-suporte").value,
-                ciptea: document.querySelector('input[name="ciptea"]:checked')?.value,
-                cordao: document.querySelector('input[name="cordao"]:checked')?.value,
-                vagaExclusiva: document.querySelector('input[name="vaga-exclusiva"]:checked')?.value,
-                comoAcalma: document.getElementById("comoacalma").value,
-                comidaFavorita: document.getElementById("comida-fav").value,
+                data_nascimento: new Date(document.getElementById("data-nascimento").value),
+                nivel_suporte: parseInt(document.getElementById("nivel-suporte").value),
+                identificacoes: {
+                    ciptea: Boolean(document.querySelector('input[name="ciptea"]:checked')?.value),
+                    cordao: Boolean(document.querySelector('input[name="cordao"]:checked')?.value),
+                    vaga_exclusiva: Boolean(document.querySelector('input[name="vaga-exclusiva"]:checked')?.value),
+                },
+                interesses: document.getElementById("interesses").value ?? [],
+                hiperfoco: document.getElementById("hiperfoco").value ?? [],
+                atividades_nao_gosta: document.getElementById("naogosta").value ?? [],
+                restricoes_alimentares: document.getElementById("restricoes").value ?? [],
+                terapias: {
+                    faz: document.getElementById("terapia-faz").value ?? [],
+                    precisa: document.getElementById("terapia-precisa").value ?? [],
+                },
+                como_acalma: document.getElementById("comoacalma").value,
+                comida_favorita: document.getElementById("comida-fav").value,
                 convenio: document.getElementById("convenio").value,
                 observacoes: document.getElementById("observacoes").value,
                 endereco: document.getElementById("endereco").value,
@@ -428,18 +493,61 @@
                     nome: document.getElementById("escola").value || null,
                     suporte: document.querySelector('input[name="escola-suporte"]:checked')?.value === "true"
                 } : null,
-                responsaveis: Array.from(document.getElementById("lista-responsaveis").responsaveis).map(r => ({
+                responsaveis: responsaveisArr.map(r => ({
                     nome: r.nome,
                     relacao: r.relacao,
                     contato: r.contato
                 })),
-                residentes: Array.from(document.getElementById("lista-residentes").residentes).map(r => ({
+                residentes: residentesArr.map(r => ({
                     nome: r.nome,
                     perfil: r.perfil
                 }))
             };
 
-            // console.log("Dados do formulário:", dados);
+            
+
+            const fd = new FormData();
+
+            fd.append("nome", dados.nome);
+            fd.append("data_nascimento", dados.data_nascimento.toISOString());
+            fd.append("nivel_suporte", dados.nivel_suporte);
+            fd.append("identificacoes", JSON.stringify(dados.identificacoes));
+            fd.append("como_acalma", dados.como_acalma);
+            fd.append("comida_favorita", dados.comida_favorita);
+            fd.append("convenio", dados.convenio);
+            fd.append("observacoes", dados.observacoes);
+            fd.append("endereco", dados.endereco);
+            fd.append("escola", JSON.stringify(dados.escola));
+            fd.append("responsaveis", JSON.stringify(dados.responsaveis));
+            fd.append("residentes", JSON.stringify(dados.residentes));
+            fd.append("interesses", JSON.stringify(dados.interesses));
+            fd.append("hiperfoco", JSON.stringify(dados.hiperfoco));
+            fd.append("atividades_nao_gosta", JSON.stringify(dados.atividades_nao_gosta));
+            fd.append("restricoes_alimentares", JSON.stringify(dados.restricoes_alimentares));
+            fd.append("terapias", JSON.stringify(dados.terapias));
+
+            const fotoInput = document.getElementById("foto");
+
+            if (fotoInput.files.length > 0) fd.append("blob", fotoInput.files[0]);
+
+            fetch("/api/acolhidos", {
+                method: "POST",
+                body: fd
+            }).then(resp => resp.json()).then(json => {
+                if (json.status === "error") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Houve um erro...",
+                        text: json.message
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Acolhido cadastrado!",
+                        text: "Volte ao gerenciamento para consultar."
+                    });
+                }
+            })
         });
     </script>
     <script type="module">
