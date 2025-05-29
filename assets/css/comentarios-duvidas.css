@@ -24,40 +24,38 @@ body {
 }
 
 .section-nhm-solic-receb img {
-  width: 450px;
-  height: 400px;
+  width: 320px;
+  height: 300px;
 }
 
 .section-nhm-solic-receb p {
-  margin-top: 20px;
+  margin-top: 30px;
+  color: white;
 }
 
-/* Container central */
 .duvidas-div {
     background-color: #6e84ff;
     border-radius: 8px;
     padding: 30px;
     width: 80%;
     max-width: 1000px;
-    max-height: 80vh; /* ou height: 80vh */
+    max-height: 80vh;
     overflow-y: auto;
+    box-shadow: rgba(0, 0, 0, 0.50) 0px 5px 15px 0px;
 }
 
-/* Título */
 .div-cabecalho h2 {
     color: white;
     text-align: center;
     margin-bottom: 30px;
 }
 
-/* Grid com 3 colunas */
 .div-corpo-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
-/* Cada "card" */
 .div-corpo {
     background-color: #fff;
     border-radius: 5px;
