@@ -14,7 +14,7 @@ module.exports = async function execute({ body, request, response, session }) {
     let email = singleField(body.fields.email);
     let senha = singleField(body.fields.senha);
     let nivel = body.fields.nivel ? singleField(body.fields.nivel) : "simples";
-    let blob = body.files.blob ? getFormidableBlob(body.files.blob) : undefined;
+    let blob = body.files.blob ? await getFormidableBlob(body.files.blob) : undefined;
 
     if (!nome || !email || !senha || !nivel) throw new ClientError(response, `Informações faltando`);
     

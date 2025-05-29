@@ -14,11 +14,6 @@ module.exports = {
             if (!params.id) throw new ClientError(response, "ID não informado");
             const acolhido = (await read(session.get("login"), Acolhido, { id: params.id }, response))[0];
             if (!acolhido) throw new NotFoundError(response, "Acolhido não encontrado");
-            if (query.getImagem === "true") {
-                const imagem = await acolhido.references.get_imagem();
-                if (!imagem) throw Redirect("/img/user-solid.svg");
-                throw Redirect(imagem);
-            }
             const docs = await acolhido.references.get_documentos();
             if (params.doc) {
                 const doc = docs.find(doc => doc.id === params.doc);
@@ -29,6 +24,11 @@ module.exports = {
         } else {
             if (params.id) {
                 const acolhido = (await read(session.get("login"), Acolhido, { id: params.id }, response))[0];
+                if (query.getImagem === "true") {
+                    const imagem = await acolhido.references.get_imagem();
+                    if (!imagem) throw Redirect("/img/user-solid.svg");
+                    throw Redirect(imagem);
+                }
                 if (params.doc) {
                     const docs = await acolhido.references.get_documentos();
                     const doc = docs.find(doc => doc.id === params.doc);
@@ -75,7 +75,7 @@ module.exports = {
             const responsaveis = jsonField(body, "responsaveis");
             const id_familia = body.fields.id_familia ? singleField(body.fields.id_familia) : undefined;
             const id_parente = body.fields.id_parente ? singleField(body.fields.id_parente) : undefined;
-            const nivel_suporte = singleField(body.fields.nivel_suporte);
+            const nivel_suporte = parseInt(singleField(body.fields.nivel_suporte)) || 1;
             const escola = body.fields.escola ? jsonField(body, "escola") : null;
             const identificacoes = jsonField(body, "identificacoes");
             const interesses = jsonField(body, "interesses");

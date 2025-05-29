@@ -655,7 +655,12 @@ var EssenciaAzul = ( function() {
             update(doc) {}
         },
         references: {
-            async get_alteracoes() { }
+            async get_alteracoes() { },
+            async get_imagem() {
+                const url = instanceRealFields.get(this).url_imagem;
+                if (!url) return null;
+                return await readInStorage(Admin._bucket, url);
+            }
         },
         fieldsFilters: [
             async ({ fields, action, id, response } = {}) => {
@@ -735,6 +740,8 @@ var EssenciaAzul = ( function() {
     function arrayMapForDateToTimestamp(item) {
         if (item instanceof Date) {
             return Timestamp.fromDate(item);
+        } else if (item instanceof Timestamp || item instanceof DocumentReference) {
+            return item;
         } else if (typeof item === "object" && item !== null) {
             if (item instanceof Array) return arrayMapForDateToTimestamp(item);
             return mapForDateToTimestamp(item);
@@ -746,11 +753,11 @@ var EssenciaAzul = ( function() {
         for (const [ key, value ] of Object.entries(fields)) {
             if (value instanceof Date) {
                 outputObject[key] = Timestamp.fromDate(value);
+            } else if (value instanceof DocumentReference || value instanceof Timestamp) {
+                outputObject[key] = value;
             } else if (typeof Blob !== "undefined" && value instanceof Blob) {
-                // NÃO processa Blob, apenas mantém
                 outputObject[key] = value;
             } else if (value && value.constructor && value.constructor.name === "File") {
-                // Para arquivos do formidable (Node.js)
                 outputObject[key] = value;
             } else {
                 if (typeof value === "object" && value !== null) {
@@ -770,6 +777,10 @@ var EssenciaAzul = ( function() {
     function arrayMapForTimestampToDate(item) {
         if (item instanceof Timestamp) {
             return item.toDate();
+        } else if (item instanceof Timestamp) {
+            return item.toDate();
+        } else if (item instanceof DocumentReference) {
+            return item;
         } else if (typeof item === "object" && item !== null) {
             if (item instanceof Array) return item.map(arrayMapForTimestampToDate);
             return mapForDateToTimestamp(item);
@@ -804,6 +815,8 @@ var EssenciaAzul = ( function() {
                 delete object[key];
             } else if (typeof object[key] === "function" || object[key] instanceof Function) {
                 delete object[key];
+            } else if (object[key] instanceof DocumentReference) {
+                
             } else if (typeof object[key] === "object" && object[key] !== null) {
                 clearUndefined(object[key]);
             }
@@ -1075,13 +1088,14 @@ var EssenciaAzul = ( function() {
         }
         if (!level) level = "simples";
 
-        if (imageBlob) await saveInStorage(Admin._bucket, Admin.collection, imageBlob);
+        let url_imagem;
+        if (imageBlob) url_imagem = await saveInStorage(Admin._bucket, Admin.collection, imageBlob);
 
         let hasLogin = session.get("login");
         if (hasLogin && hasLogin instanceof Login) {
             if ((validLevelNamesAndNumbers[level] ?? 0) >= (validLevelNamesAndNumbers[hasLogin.nivel] ?? 0)) throw new PermissionError(response, "Permissão insuficiente para registrar um administrador com nível maior ou igual ao seu");
 
-            const newAdmin = await create(hasLogin, Admin, { email, senha: password, nome: name, nivel: level });
+            const newAdmin = await create(hasLogin, Admin, { email, senha: password, nome: name, nivel: level, url_imagem });
             const newAdminData = await getDoc(doc(db, "admins", newAdmin.id));
             const newAdminDoc = newAdminData.data();
             const newAdminKey = newAdminDoc.chave;

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/cad_adm.css">
-    <title>Cadastrar Administrador - Portal Essência Azul</title>
+    <title>Cadastrar administrador - Portal Essência Azul</title>
     <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +28,10 @@
             <h1 class="conteudo-site">Cadastrar administrador</h1>
             <p id="info-cad-responsivo" class="conteudo-site">Formulário de cadastro de administradores</p>
             <form action="" id="cadastrar-form">
+                <div class="conteudo-site">
+                    <p for="arquivoInput" id="foto" class="modal-label">Adicionar foto</p>
+                    <input type="file" id="arquivoInput" class="modal-file" accept="image/*">
+                </div>
                 <div class="conteudo-site">
                     <label for="campo1">Nome</label>
                     <input id="campo1" type="text">
@@ -61,6 +65,7 @@
         const nome = document.getElementById('campo1').value;
         const email = document.getElementById('campo2').value;
         const senha = document.getElementById('campo3').value;
+        const imagem = document.getElementById("arquivoInput").files[0];
 
         if (!nome || !email || !senha) {
             Swal.fire({
@@ -76,6 +81,7 @@
         fd.append('nome', nome);
         fd.append('email', email);
         fd.append('senha', senha);
+        if (imagem) fd.append("blob", imagem);
 
         fetch("/actions/register", {
             method: "POST",

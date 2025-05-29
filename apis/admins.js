@@ -6,6 +6,7 @@ const getFormidableBlob = require( "./_getFormidableBlob.js" );
 const singleField = require("./_singleField.js");
 const jsonField = require("./_jsonField.js");
 const { db } = require( "../firebase.js" );
+const redirect = require("../src/server/redirect.js");
 
 /** @type {import("../src/server/").Page.RestHandlersObject} */
 module.exports = {
@@ -13,7 +14,11 @@ module.exports = {
         if (params.id) {
             const admin = (await read(session.get("login"), Admin, { id: params.id }, response))[0];
             if (!admin) throw new NotFoundError(response, "Admin não encontrado");
-            if (query.url) throw Redirect(await admin.references.get_arquivo());
+            if (query.getImagem === "true") {
+                const imagem = await admin.references.get_imagem();
+                if (!imagem) throw redirect("/img/user-default.png");
+                throw redirect(imagem);
+            }
             return admin;
         } else {
             return await read(session.get("login"), Admin, {

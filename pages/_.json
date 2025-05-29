@@ -14,7 +14,10 @@
         "contentType": "text/plain"
     },
     "index.html": {
-        "paths": [ "/", "/index", "/main", "/home" ]
+        "paths": [ "/", "/index", "/main", "/home" ],
+        "events": {
+            "before": [ "accessControl" ]
+        }
     },
     "dev.html": {
         "events": {

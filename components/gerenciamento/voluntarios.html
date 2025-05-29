@@ -1,9 +1,9 @@
 <div class="container" id="resultScroll">
     <div class="sidebar">
         <div class="search-box">
-            <input type="text" class="search" placeholder="Pesquisar" />
+            <input type="text" class="search" placeholder="Pesquisar" id="pesquisar-voluntarios" oninput="pesquisarVoluntarios()" />
         </div>
-        <div class="itens">
+        <div class="itens" id="resultado-pesquisa-voluntarios">
             <div class="item">Ana Lívia</div>
             <div class="item">Voluntário 2</div>
             <div class="item">Voluntário 3</div>
@@ -13,8 +13,8 @@
     </div>
 
     <div class="box-content">
-        <div class="content">
-            <h1>Ana Lívia</h1>
+        <div class="content empty">
+            <!-- <h1>Ana Lívia</h1>
             <form action="" class="form-gerenc">
                 <div class="inputs-gerenc">
                     <label for="">Nome</label>
@@ -36,13 +36,8 @@
                     <input type="text">
                 </div>
 
-                <div class="inputs-gerenc">
+                <div class="inputs-gerenc" style="grid-column: 1 / span 2;">
                     <label for="">Como quer ajudar?</label>
-                    <input type="text">
-                </div>
-
-                <div class="inputs-gerenc">
-                    <label for="">Outro tipo de ajuda</label>
                     <input type="text">
                 </div>
 
@@ -55,7 +50,91 @@
                     <button id="aceitar-gerenc">Aceitar</button>
                     <button id="recusar-gerenc">Recusar</button>
                 </div>
-            </form>
+            </form> -->
         </div>
     </div>
+    <script>
+        function criarVoluntario(voluntario) {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.textContent = voluntario.fields.nome || 'Voluntário sem nome';
+
+            div.addEventListener("click", () => {
+                const content = document.querySelector(".box-content .content");
+                content.innerHTML = '';
+                content.classList.remove("empty");
+                
+                const h1 = document.createElement('h1');
+                h1.textContent = voluntario.fields.nome || 'Voluntário sem nome';
+                content.appendChild(h1);
+                const form = document.createElement('form');
+                form.className = 'form-gerenc';
+                const inputs = [
+                    { label: 'Nome', value: voluntario.fields.nome || '' },
+                    { label: 'CPF', value: voluntario.fields.cpf || '' },
+                    { label: 'Email', value: voluntario.fields.email || '' },
+                    { label: 'Telefone', value: voluntario.fields.telefone || '' },
+                    { label: 'Como quer ajudar?', value: voluntario.fields.como_ajudar || '' },
+                ];
+                inputs.forEach(inputData => {
+                    const divInput = document.createElement('div');
+                    divInput.className = 'inputs-gerenc';
+                    const label = document.createElement('label');
+                    label.textContent = inputData.label;
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.value = inputData.value;
+                    divInput.appendChild(label);
+                    divInput.appendChild(input);
+                    form.appendChild(divInput);
+                });
+                const textareaDiv = document.createElement('div');
+                textareaDiv.className = 'inputs-gerenc textarea';
+                const textareaLabel = document.createElement('label');
+                textareaLabel.textContent = 'Por que quer ser voluntário?';
+                const textarea = document.createElement('textarea');
+                textarea.value = voluntario.fields.por_que_voluntario || '';
+                textareaDiv.appendChild(textareaLabel);
+                textareaDiv.appendChild(textarea);
+                form.appendChild(textareaDiv);
+                const buttonDiv = document.createElement('div');
+                buttonDiv.className = 'aceitar-recusar';
+                const aceitarButton = document.createElement('button');
+                aceitarButton.id = 'aceitar-gerenc';
+                aceitarButton.textContent = 'Editar';
+                aceitarButton.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    // Aqui você pode adicionar a lógica para editar o voluntário
+                    alert(`Editando voluntário: ${voluntario.fields.nome}`);
+                });
+                const recusarButton = document.createElement('button');
+                recusarButton.id = 'recusar-gerenc';
+                recusarButton.textContent = 'Remover';
+                recusarButton.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    // Aqui você pode adicionar a lógica para remover o voluntário
+                    alert(`Removendo voluntário: ${voluntario.fields.nome}`);
+                });
+                buttonDiv.appendChild(aceitarButton);
+                buttonDiv.appendChild(recusarButton);
+                form.appendChild(buttonDiv);
+                content.appendChild(form);
+            });
+        }
+
+        let cachedVoluntariosSearch;
+
+        async function pesquisarVoluntarios() {
+            const searchInput = document.getElementById('pesquisar-voluntarios');
+            if (!cachedVoluntariosSearch) cachedVoluntariosSearch = await (await fetch("/api/voluntarios")).json();
+            document.getElementById("resultado-pesquisa-voluntarios").innerHTML = '';
+            for (const voluntario of cachedVoluntariosSearch) {
+                if (voluntario?.fields?.nome?.toLowerCase?.()?.includes(searchInput.value.toLowerCase()) || !searchInput.value) {
+                    criarVoluntario(voluntario);
+                }
+            }
+        }
+
+        document.getElementById("option-switch-voluntarios").addEventListener("click", pesquisarVoluntarios);
+    </script>
 </div>

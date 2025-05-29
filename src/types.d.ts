@@ -255,7 +255,8 @@ declare namespace DataTypes {
     
     export class Admin extends DatabaseDocument<BaseDataTypes.Admin> {
         references: {
-            get_alteracoes(): Promise<Alteracao[]>
+            get_alteracoes(): Promise<Alteracao[]>,
+            get_imagem(): Promise<string>
         }
     }
 

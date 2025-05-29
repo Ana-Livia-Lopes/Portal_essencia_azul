@@ -2,134 +2,109 @@
 
 <div class="box-relatorios" id="resultScroll">
     <h1>Relatórios</h1>
-    <div class="listagem-relatorios">
-        <div class="alteracao">
-            <div id="pessoa">
-                <img src="/img/user-default.png" alt="">
-                <h2>Carol</h2>
-            </div>
-
-            <div id="acao">
-                <p>Voltou por cima</p>
-            </div>
-
-            <div id="data">
-                <p>27/05/2025</p>
-                <p>14:28</p>
-            </div>
-        </div>
-
-        <div class="alteracao">
-            <div id="pessoa">
-                <img src="/img/user-default.png" alt="">
-                <h2>Simone</h2>
-            </div>
-
-            <div id="acao">
-                <p>Removeu Carol de administrador e apagou o banco de dados</p>
-            </div>
-
-            <div id="data">
-                <p>25/05/2025</p>
-                <p>10:20</p>
-            </div>
-        </div>
-
-        <div class="alteracao">
-            <div id="pessoa">
-                <img src="/img/user-default.png" alt="">
-                <h2>Carol</h2>
-            </div>
-
-            <div id="acao">
-                <p>Voltou por cima</p>
-            </div>
-
-            <div id="data">
-                <p>27/05/2025</p>
-                <p>14:28</p>
-            </div>
-        </div>
-
-        <div class="alteracao">
-            <div id="pessoa">
-                <img src="/img/user-default.png" alt="">
-                <h2>Simone</h2>
-            </div>
-
-            <div id="acao">
-                <p>Removeu Carol de administrador e apagou o banco de dados</p>
-            </div>
-
-            <div id="data">
-                <p>25/05/2025</p>
-                <p>10:20</p>
-            </div>
-        </div>
-
-        <div class="alteracao">
-            <div id="pessoa">
-                <img src="/img/user-default.png" alt="">
-                <h2>Carol</h2>
-            </div>
-
-            <div id="acao">
-                <p>Voltou por cima</p>
-            </div>
-
-            <div id="data">
-                <p>27/05/2025</p>
-                <p>14:28</p>
-            </div>
-        </div>
-
-        <div class="alteracao">
-            <div id="pessoa">
-                <img src="/img/user-default.png" alt="">
-                <h2>Simone</h2>
-            </div>
-
-            <div id="acao">
-                <p>Removeu Carol de administrador e apagou o banco de dados</p>
-            </div>
-
-            <div id="data">
-                <p>25/05/2025</p>
-                <p>10:20</p>
-            </div>
-        </div>
-
+    <div class="listagem-relatorios" id="listagem-relatorios">
         
-        <div class="alteracao">
-            <div id="pessoa">
-                <img src="/img/user-default.png" alt="">
-                <h2>Carol</h2>
-            </div>
-
-            <div id="acao">
-                <p>Voltou por cima</p>
-            </div>
-
-            <div id="data">
-                <p>27/05/2025</p>
-                <p>14:28</p>
-            </div>
-        </div>
-
-        <div class="alteracao">
-            <div id="pessoa">
-                <img src="/img/user-default.png" alt="">
-                <h2>Simone</h2>
-            </div>
-
-            <div id="acao">
-                <p>Removeu Carol de administrador e apagou o banco de dados</p>
-            </div>
-
-            <div id="data">
-                <p>25/05/2025</p>
-                <p>10:20</p>
-            </div>
-        </div>
     </div>
+    <script>
+        const adminsCache = {};
+
+        const adminRefRegexp = /\/?admins\/?/
+
+        async function getAdmin(id = "") {
+            id = id.replace(adminRefRegexp, "");
+            if (!id) throw new TypeError("ID não informado");
+            if (id in adminsCache) return adminsCache[id];
+            console.log("/api/admins/" + id)
+            adminsCache[id] = (await (await fetch("/api/admins/" + id)).json())
+            return adminsCache[id];
+        }
+
+        async function criarAlteracao(alteracao) {
+            const admin = await getAdmin(alteracao.fields.admin)
+            console.log(admin)
+
+            const alteracaoDiv = document.createElement('div');
+            alteracaoDiv.classList.add('alteracao');
+
+            const pessoaDiv = document.createElement('div');
+            pessoaDiv.id = 'pessoa';
+            const img = document.createElement('img');
+            img.src = `/api/admins/${admin.id}?getImagem=true` || '/img/user-default.png';
+            img.alt = '';
+            const nomeH2 = document.createElement('h2');
+            nomeH2.textContent = admin.fields.nome;
+            pessoaDiv.appendChild(img);
+            pessoaDiv.appendChild(nomeH2);
+
+            const acaoDiv = document.createElement('div');
+            acaoDiv.id = 'acao';
+            const acaoP = document.createElement('p');
+            switch (alteracao.fields.acao) {
+                case "editar":
+                    acaoP.textContent = "Editou";
+                    break;
+                case "adicionar":
+                    acaoP.textContent = "Criou";
+                    break;
+                case "remover":
+                    acaoP.textContent = "Apagou";
+                    break;
+                default:
+                    break;
+            }
+            if (
+                alteracao.fields.documento?.nome ??
+                alteracao.fields.documento?.titulo ??
+                alteracao.fields.documento?.sobrenome ??
+                alteracao.fields.documento?.descricao ??
+                alteracao.fields.documento_antigo?.nome ??
+                alteracao.fields.documento_antigo?.titulo ??
+                alteracao.fields.documento_antigo?.sobrenome ??
+                alteracao.fields.documento_antigo?.descricao
+            ) {
+                acaoP.innerHTML += ` <b>${
+                    alteracao.fields.documento?.nome ??
+                    alteracao.fields.documento?.titulo ??
+                    alteracao.fields.documento?.sobrenome ??
+                    alteracao.fields.documento?.descricao ??
+                    alteracao.fields.documento_antigo?.nome ??
+                    alteracao.fields.documento_antigo?.titulo ??
+                    alteracao.fields.documento_antigo?.sobrenome ??
+                    alteracao.fields.documento_antigo?.descricao
+                }</b>`;
+            }
+            acaoP.innerHTML += ` na coleção <b>${alteracao.fields.colecao}</b>`
+            acaoDiv.appendChild(acaoP);
+
+            const dataDiv = document.createElement('div');
+            dataDiv.id = 'data';
+            const data = new Date(alteracao.fields.data);
+            const dataP1 = document.createElement('p');
+            dataP1.textContent = `${data.getDate().toString().padStart(2, '0')}/${(data.getMonth() + 1).toString().padStart(2, '0')}/${data.getFullYear()}`;
+            const dataP2 = document.createElement('p');
+            dataP2.textContent = `${data.getHours().toString().padStart(2, '0')}:${data.getMinutes().toString().padStart(2, '0')}`;
+            dataDiv.appendChild(dataP1);
+            dataDiv.appendChild(dataP2);
+
+            alteracaoDiv.appendChild(pessoaDiv);
+            alteracaoDiv.appendChild(acaoDiv);
+            alteracaoDiv.appendChild(dataDiv);
+
+            document.getElementById("listagem-relatorios").appendChild(alteracaoDiv);
+
+            return alteracaoDiv;
+        }
+
+        async function listarAlteracoes() {
+            const search = await (await fetch("/api/alteracoes?orderBy=data&orderDirection=desc")).json();
+            for (const alteracao of search) {
+                await criarAlteracao(alteracao);
+            }
+        }
+
+        document.getElementById("option-switch-relatorios").addEventListener("click", listarAlteracoes)
+        document.getElementById("option-switch-relatorios").addEventListener("click", () => {
+            document.getElementById("option-switch-relatorios").removeEventListener("click", listarAlteracoes)
+        })
+    </script>
 </div>
