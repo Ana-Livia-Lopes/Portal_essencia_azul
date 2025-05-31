@@ -1,7 +1,7 @@
 const { Comentario, remove, read, isLogged } = require("../../src/index.js");
 const { ClientError, AuthenticationError } = require("../../src/server");
 const singleField = require("../_singleField.js");
-const { addDoc, collection } = require("firebase/firestore");
+const { addDoc, collection, Timestamp } = require("firebase/firestore");
 const { db } = require("../../firebase.js");
 const jsonField = require("../_jsonField.js");
 const filterUndefined = require("./_filterUndefined.js");
@@ -16,7 +16,8 @@ module.exports = {
         await addDoc(collection(db, "comentarios"), filterUndefined({
             email,
             nome,
-            mensagem
+            mensagem,
+            data: Timestamp.now()
         }));
 
         return JSON.stringify({

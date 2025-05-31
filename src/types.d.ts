@@ -112,6 +112,7 @@ declare namespace BaseDataTypes {
         nome: string
         email: string
         mensagem: string
+        data: Timestamp
     }
 
     type NivelAdmin = 1 | 2 | 3
