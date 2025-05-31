@@ -7,6 +7,7 @@
     <title>Solicitações recebidas</title>
     <link rel="stylesheet" href="/css/solic_receb.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -28,194 +29,312 @@
 
 
     <main>
-        <section class="formulario-solicitacao-section-expansiva">
-            <div class="form-wrapper">
-                <div class="titulo-filtro">
-                    <span>Solicitação de <strong>cadastro</strong> feita por Joana</span>
-                    <strong>14:54</strong>
-                    <i class="chevron fa fa-solid fa-chevron-down"></i>
-                </div>
-
-                <div class="conteudo">
-                    <form>
-                        <div class="form-grid">
-                            <div class="campo">
-                                <label>Nome do autista</label>
-                                <input type="text" value="Lucas Silva" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Atividades que NÃO gosta</label>
-                                <input type="text" value="Barulho alto e multidões" readonly>
-                            </div>
-                            <div class="campo">
-                                <label class="conteudo-site" for="data-nascimento">Data de nascimento:</label>
-                        <input class="conteudo-site" type="date" id="data-nascimento" />
-                            </div>
-                            <div class="label-input conteudo-site">
-                                <label class="conteudo-site" for="referencia-familia">Referência da família (uso
-                                    interno):</label>
-                                    <input class="conteudo-site" type="text" id="referencia-familia" />
+        <div id="container-acolhidos">
+            <section class="formulario-solicitacao-section-expansiva">
+                <div class="form-wrapper">
+                    <div class="titulo-filtro">
+                        <span>Solicitação de <strong>cadastro</strong> feita por Joana</span>
+                        <!-- <strong>14:54</strong> -->
+                        <i class="chevron fa fa-solid fa-chevron-down"></i>
+                    </div>
+    
+                    <div class="conteudo">
+                        <form>
+                            <div class="form-grid">
+                                <div class="campo">
+                                    <label>Nome do autista</label>
+                                    <input type="text" value="Lucas Silva" readonly>
                                 </div>
                                 <div class="campo">
-                                    <label>Restrições alimentares</label>
-                                    <input type="text" value="Sem glúten e lactose" readonly>
+                                    <label>Atividades que NÃO gosta</label>
+                                    <input type="text" value="Barulho alto e multidões" readonly>
                                 </div>
-                            <div class="campo">
-                                <label>Nível de suporte</label>
-                                <input type="text" value="Nível 2" readonly>
+                                <div class="campo">
+                                    <label class="conteudo-site" for="data-nascimento">Data de nascimento:</label>
+                            <input class="conteudo-site" type="date" id="data-nascimento" />
+                                </div>
+                                <div class="label-input conteudo-site">
+                                    <label class="conteudo-site" for="referencia-familia">Referência da família (uso
+                                        interno):</label>
+                                        <input class="conteudo-site" type="text" id="referencia-familia" />
+                                    </div>
+                                    <div class="campo">
+                                        <label>Restrições alimentares</label>
+                                        <input type="text" value="Sem glúten e lactose" readonly>
+                                    </div>
+                                <div class="campo">
+                                    <label>Nível de suporte</label>
+                                    <input type="text" value="Nível 2" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Comida favorita</label>
+                                    <input type="text" value="Arroz, frango e batata" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Escola onde estuda ou não estuda</label>
+                                    <input type="text" value="Escola Municipal Alegria" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Convênio ou SUS</label>
+                                    <input type="text" value="SUS" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Carteirinha de identificação do autismo</label>
+                                    <input type="text" value="Sim" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Usa cordão de girassol ou quebra-cabeça</label>
+                                    <input type="text" value="Sim" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Cartão para vaga de estacionamento</label>
+                                    <input type="text" value="Não" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Tem suporte na escola</label>
+                                    <input type="text" value="Sim" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Áreas de interesse</label>
+                                    <input type="text" value="Desenhos animados e dinossauros" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Hiperfoco</label>
+                                    <input type="text" value="Construções com blocos" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Como se acalma</label>
+                                    <input type="text" value="Ouvindo músicas calmas" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Quais terapias está fazendo</label>
+                                    <input type="text" value="Fonoaudiologia e Terapia Ocupacional" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Terapias que precisa e NÃO faz</label>
+                                    <input type="text" value="Fisioterapia" readonly>
+                                </div>
+                                <div class="campo full">
+                                    <label>Observações</label>
+                                    <textarea
+                                    readonly>Lucas tem evoluído bem com a rotina de terapias e se comunica melhor com figuras visuais.</textarea>
+                                </div>
+    
+                                <div class="campo">
+                                    <label>Nome dos pais/responsáveis</label>
+                                    <input type="text" value="Joana e Marcos Silva" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>E-mail ou telefone de contato</label>
+                                    <input type="text" value="joana.silva@email.com" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Relação com o acolhido</label>
+                                    <input type="text" value="" readonly placeholder="Ex: Pai, tia, avó">
+                                </div>
+                                <div class="campo">
+                                    <label>Endereço</label>
+                                    <input type="text" value="Rua das Acácias, 123, São Paulo - SP" readonly>
+                                </div>
+                                <div class="campo">
+                                    <label>Quantas pessoas moram na residência</label>
+                                    <input type="text" value="4" readonly>
+                                </div>
                             </div>
-                            <div class="campo">
-                                <label>Comida favorita</label>
-                                <input type="text" value="Arroz, frango e batata" readonly>
+    
+                            <div class="botoes">
+                                <button type="button" class="aceitar">Confirmar</button>
+                                <button type="button" class="recusar">Recusar</button>
                             </div>
-                            <div class="campo">
-                                <label>Escola onde estuda ou não estuda</label>
-                                <input type="text" value="Escola Municipal Alegria" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Convênio ou SUS</label>
-                                <input type="text" value="SUS" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Carteirinha de identificação do autismo</label>
-                                <input type="text" value="Sim" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Usa cordão de girassol ou quebra-cabeça</label>
-                                <input type="text" value="Sim" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Cartão para vaga de estacionamento</label>
-                                <input type="text" value="Não" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Tem suporte na escola</label>
-                                <input type="text" value="Sim" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Áreas de interesse</label>
-                                <input type="text" value="Desenhos animados e dinossauros" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Hiperfoco</label>
-                                <input type="text" value="Construções com blocos" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Como se acalma</label>
-                                <input type="text" value="Ouvindo músicas calmas" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Quais terapias está fazendo</label>
-                                <input type="text" value="Fonoaudiologia e Terapia Ocupacional" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Terapias que precisa e NÃO faz</label>
-                                <input type="text" value="Fisioterapia" readonly>
-                            </div>
-                            <div class="campo full">
-                                <label>Observações</label>
-                                <textarea
-                                readonly>Lucas tem evoluído bem com a rotina de terapias e se comunica melhor com figuras visuais.</textarea>
-                            </div>
-
-                            <div class="campo">
-                                <label>Nome dos pais/responsáveis</label>
-                                <input type="text" value="Joana e Marcos Silva" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>E-mail ou telefone de contato</label>
-                                <input type="text" value="joana.silva@email.com" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Relação com o acolhido</label>
-                                <input type="text" value="" readonly placeholder="Ex: Pai, tia, avó">
-                            </div>
-                            <div class="campo">
-                                <label>Endereço</label>
-                                <input type="text" value="Rua das Acácias, 123, São Paulo - SP" readonly>
-                            </div>
-                            <div class="campo">
-                                <label>Quantas pessoas moram na residência</label>
-                                <input type="text" value="4" readonly>
-                            </div>
-                        </div>
-
-                        <div class="botoes">
-                            <button type="button" class="aceitar">Confirmar</button>
-                            <button type="button" class="recusar">Recusar</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
-        <section class="formulario-solicitacao-voluntario">
-            <div class="form-wrapper">
-                <div class="titulo-filtro">
-                    <span>Solicitação de <strong>voluntário</strong> feita por Márcio</span>
-                    <strong>08:12</strong>
-                    <i class="chevron fa fa-solid fa-chevron-down"></i>
-                </div>
-
-                <div class="conteudo">
-                    <form>
-                        <div class="form-grid">
-                            <div class="campo">
-                                <label for="" class="conteudo-site">Nome completo</label>
-                                <input class="conteudo-site" id="nome" autocomplete="off" type="text"
-                                placeholder="Márcio Almeida">
-                            </div>
-
-                            <div class="campo">
-                                <label for="" class="conteudo-site">CPF</label>
-                                <input class="conteudo-site" id="cpf" autocomplete="off" type="text"
-                                placeholder="333.221.839-12">
-                            </div>
-
-                            <div class="campo">
-                                <label for="" class="conteudo-site">Email</label>
-                                <input class="conteudo-site" id="email" autocomplete="off" type="text"
-                                placeholder="marcio@gmail.com">
-                            </div>
-
-                            <div class="campo">
-                                <label for="" class="conteudo-site">Telefone</label>
-                                <input class="conteudo-site" id="tel" autocomplete="off" type="text"
-                                placeholder="(11) 99382-2829">
-                            </div>
-
-                            <div class="campo">
-                                <label for="" class="conteudo-site">Como quer ajudar?</label>
-                                <input class="conteudo-site" id="email" autocomplete="off" type="text"
-                                placeholder="Apoio no bazar">
-                            </div>
-
-                            <div class="campo">
-                                <label for="" class="conteudo-site">Outro tipo de ajuda</label>
-                                <input class="conteudo-site" id="outro" autocomplete="off" type="text"
-                                placeholder="Não">
-                            </div>
-
-                            <div id="textarea" class="campo full">
-                                <label for="" class="conteudo-site">Por que quer ser voluntário?</label>
-                                <textarea class="conteudo-site" name="" id="" placeholder="Contribuir com a ONG é de grande interesse meu, adoro ajudar em causa sociais"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="botoes">
-                            <button type="button" class="aceitar">Aceitar</button>
-                            <button type="button" class="recusar">Recusar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </section>
+        <div id="container-voluntarios">
+            
+        </div>
     </main>
     <script>
-        const container = document.getElementsByTagName("main")[0]; 
+        const containerAcolhidos = document.getElementById("container-acolhidos");
+        const containerVoluntarios = document.getElementById("container-voluntarios");
+
+        function acolhidoTextField() {}
+        function acolhidoListField() {}
+        function acolhidoRadioField() {}
+        function acolhidoTextArea() {}
 
         function criarSolicitacaoAcolhido(acolhido) {
             
+        }
+
+        function voluntarioTextField(label, text) {
+            const campoDiv = document.createElement("div");
+            campoDiv.className = "campo";
+            const labelElement = document.createElement("label");
+            labelElement.textContent = label;
+            const inputElement = document.createElement("input");
+            inputElement.type = "text";
+            inputElement.value = text;
+            inputElement.readOnly = true;
+            campoDiv.appendChild(labelElement);
+            campoDiv.appendChild(inputElement);
+            return campoDiv;
+        }
+        function voluntarioFullWidthTextField(label, text) {
+            const campoDiv = voluntarioTextField(label, text);
+            campoDiv.style.gridColumn = "1 / span 2";
+            return campoDiv;
+        }
+        function voluntarioTextArea(label, text) {
+            const campoDiv = document.createElement("div");
+            campoDiv.className = "campo full";
+            const labelElement = document.createElement("label");
+            labelElement.textContent = label;
+            const textareaElement = document.createElement("textarea");
+            textareaElement.value = text;
+            textareaElement.readOnly = true;
+            campoDiv.appendChild(labelElement);
+            campoDiv.appendChild(textareaElement);
+            return campoDiv;
+        }
+
+        function criarSolicitacaoVoluntario(voluntario) {
+            const formContainer = document.createElement("section");
+            formContainer.className = "formulario-solicitacao-voluntario";
+            const formWrapper = document.createElement("div");
+            formWrapper.className = "form-wrapper";
+            const tituloFiltro = document.createElement("div");
+            tituloFiltro.className = "titulo-filtro";
+            tituloFiltro.innerHTML = `<span>Solicitação de <strong>voluntário</strong> de ${voluntario.fields.nome}</span>
+                                      <i class="chevron fa fa-solid fa-chevron-down"></i>`;
+            const conteudo = document.createElement("div");
+            conteudo.className = "conteudo";
+            const form = document.createElement("form");
+            const formGrid = document.createElement("div");
+            formGrid.className = "form-grid";
+            formGrid.appendChild(voluntarioTextField("Nome completo", voluntario.fields.nome));
+            formGrid.appendChild(voluntarioTextField("CPF", voluntario.fields.cpf));
+            formGrid.appendChild(voluntarioTextField("Email", voluntario.fields.email));
+            formGrid.appendChild(voluntarioTextField("Telefone", voluntario.fields.telefone));
+            formGrid.appendChild(voluntarioFullWidthTextField("Como quer ajudar?", voluntario.fields.como_ajudar));
+            formGrid.appendChild(voluntarioTextArea("Por que quer ser voluntário?", voluntario.fields.por_que_ser_voluntario));
+            form.appendChild(formGrid);
+            formWrapper.appendChild(tituloFiltro);
+            formWrapper.appendChild(conteudo);
+            conteudo.appendChild(form);
+            const botoesDiv = document.createElement("div");
+            botoesDiv.className = "botoes";
+            const aceitarButton = document.createElement("button");
+            aceitarButton.type = "button";
+            aceitarButton.className = "aceitar";
+            aceitarButton.textContent = "Aceitar";
+            aceitarButton.addEventListener("click", () => {
+                Swal.fire({
+                    title: "Confirmar aceitação",
+                    text: "Tem certeza que deseja aceitar este voluntário?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "Sim, aceitar",
+                    confirmButtonColor: "#1535B5",
+                    cancelButtonText: "Cancelar",
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        const fd = new FormData();
+                        fd.append("nome", voluntario.fields.nome);
+                        fd.append("cpf", voluntario.fields.cpf);
+                        fd.append("email", voluntario.fields.email);
+                        fd.append("telefone", voluntario.fields.telefone);
+                        fd.append("como_ajudar", voluntario.fields.como_ajudar);
+                        fd.append("por_que_ser_voluntario", voluntario.fields.por_que_ser_voluntario);
+
+                        fetch("/api/voluntarios", {
+                            method: "POST",
+                            body: fd
+                        }).then(resp => resp.json()).then(json => {
+                            if (json.status === "error") {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Erro ao aceitar voluntário",
+                                    text: json.message,
+                                    confirmButtonColor: "#1535B5"
+                                });
+                            } else {
+                                fetch(`/api/solicitacoes/voluntarios/${voluntario.id}`, {
+                                    method: "DELETE"
+                                }).then(resp => resp.json()).then(json => {
+                                    if (json.status === "error") {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Erro ao remover solicitação antiga, porém foi aceita com sucesso",
+                                            text: json.message,
+                                            confirmButtonColor: "#1535B5"
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Voluntário aceito com sucesso!",
+                                            text: "O voluntário foi adicionado ao sistema.",
+                                            confirmButtonColor: "#1535B5"
+                                        }).then(() => {
+                                            formContainer.remove();
+                                        });
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            });
+            const recusarButton = document.createElement("button");
+            recusarButton.type = "button";
+            recusarButton.className = "recusar";
+            recusarButton.textContent = "Recusar";
+            recusarButton.addEventListener("click", () => {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Tem certeza que deseja recusar?",
+                    text: "Esta ação é permanente",
+                    showCancelButton: true,
+                    confirmButtonText: "Sim, recusar",
+                    confirmButtonColor: "#1535B5",
+                    cancelButtonText: "Cancelar",
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        fetch(`/api/solicitacoes/voluntarios/${voluntario.id}`, {
+                            method: "DELETE"
+                        }).then(resp => resp.json()).then(json => {
+                            if (json.status === "error") {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Erro ao recusar voluntário",
+                                    text: json.message,
+                                    confirmButtonColor: "#1535B5"
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Voluntário recusado com sucesso!",
+                                    text: "A solicitação foi removida.",
+                                    confirmButtonColor: "#1535B5"
+                                }).then(() => {
+                                    formContainer.remove();
+                                });
+                            }
+                        })
+                    }
+                })
+            })
+            botoesDiv.appendChild(aceitarButton);
+            botoesDiv.appendChild(recusarButton);
+            form.appendChild(botoesDiv);
+            formContainer.appendChild(formWrapper);
+            containerVoluntarios.appendChild(formContainer);
+        }
+
+        for (const voluntario of window.SOLICITACOES_VOLUNTARIOS) {
+            criarSolicitacaoVoluntario(voluntario);
         }
     </script>
 
