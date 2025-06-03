@@ -1,87 +1,98 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
 }
 
 body {
-    background-image: url('../img/ess_azul_bckg.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.nhm-opc-selec {
+  background-image: url('../img/ess_azul_bckg.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
-.nhm-opc-selec img {
-  width: 300px;
+.section-nhm-solic-receb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  grid-column: 2;
+}
+
+.section-nhm-solic-receb img {
+  width: 320px;
   height: 300px;
 }
 
+.section-nhm-solic-receb p {
+  margin-top: 30px;
+  text-align: center;
+}
+
 .duvidas-div {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 30px;
-    width: 80%;
-    max-width: 1000px;
-    max-height: 80vh;
-    overflow-y: auto;
-    box-shadow: rgba(0, 0, 0, 0.50) 0px 5px 15px 0px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 30px;
+  width: 80%;
+  max-width: 1000px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: rgba(0, 0, 0, 0.133) 0px 5px 15px 0px;
 }
 
 .div-cabecalho h2 {
-    color: #0033CC;
-    text-align: center;
-    margin-bottom: 30px;
+  color: #0033CC;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .div-corpo-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
 .div-corpo {
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 15px;
-    color: black;
-    min-height: 150px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    border: 2px solid #6e84ff;
-    box-shadow: rgba(0, 0, 0, 0.50) 0px 5px 15px 0px;
+  background-color: #e9f2ff;
+  border-radius: 5px;
+  padding: 15px;
+  color: black;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 2px solid #6e84ff86;
+  box-shadow: rgba(0, 0, 0, 0.073) 0px 5px 15px 0px;
 }
 
 .info label {
-    font-weight: bold;
-    font-size: 14px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #0a1f74;
 }
 
 .area-info {
-    background-color: #f3f3f3;
-    border: solid 2px rgb(214, 214, 214);
-    border-radius: 0.2rem;
-    padding: 4px 6px;
+  background-color: #ffffff;
+  border: solid 2px #6e84ff86;
+  border-radius: 0.2rem;
+  padding: 4px 6px;
+  max-height: 65px;
+  overflow-y: auto;
 }
 
 /* Botão voltar */
 .voltar-div {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
 }
 
 .voltar {
@@ -96,4 +107,8 @@ body {
 
 .voltar:hover {
   color: #0033CC;
+}
+
+#data {
+  color: #0a1f74;
 }

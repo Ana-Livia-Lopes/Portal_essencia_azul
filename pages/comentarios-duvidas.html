@@ -26,9 +26,11 @@
         </div>
         <div id="option-switch">
         </div>
-        <div class="nhm-opc-selec" id="container-comentarios">
-            <img src="/img/nhm-opcao-selec.png" alt="Ilustração de nenhuma solicitação recebida.">
-            <p class="conteudo-site">Nenhum comentário ou dúvida recebido.</p>
+        <div class="div-corpo-grid" id="container-comentarios">
+            <section class="section-nhm-solic-receb">
+                <img src="/img/nhm-opcao-selec.png" alt="Ilustração de nenhuma solicitação recebida.">
+                <p class="conteudo-site">Nenhum comentário ou dúvida recebido.</p>
+            </section>
         </div>
         <script>
             const container = document.getElementById("container-comentarios");
@@ -47,7 +49,7 @@
                     comentarioDiv.className = "div-corpo";
                     comentarioDiv.innerHTML = `
                         <div class="info">
-                            <p>Enviado em ${dataFormatada}</p>
+                            <p id="data">Enviado em ${dataFormatada}</p>
                         <div class="info">
                             <label for="">Nome</label>
                             <p class="area-info">${comentario.fields.nome || "N/A"}</p>
