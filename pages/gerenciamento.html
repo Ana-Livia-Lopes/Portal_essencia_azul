@@ -254,9 +254,6 @@
         </div>
 
         <div class="graficos">
-            <div id="div-grafico-meses">
-                <canvas id="graficoMeses" width="200" height="200"></canvas>
-            </div>
             <div id="div-grafico-familias">
                 <canvas id="graficoDonut" width="200" height="200"></canvas>
             </div>
@@ -302,38 +299,6 @@
     <!-- Gráficos -->
     <component-json-grafico />
     <script>
-        const ctxBar = document.getElementById('graficoMeses').getContext('2d');
-        const grafico = new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
-                datasets: [{
-                    label: 'Acessos por mês',
-                    data: [120, 150, 180, 90, 200, 170],
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Acessos mensais do site'
-                    },
-                    legend: {
-                        position: 'bottom'
-                    },
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true // Começa do zero
-                    }
-                }
-            }
-        });
-
         const ctxDonut = document.getElementById('graficoDonut').getContext('2d');
         const graficoDonut = new Chart(ctxDonut, {
             type: 'doughnut',
