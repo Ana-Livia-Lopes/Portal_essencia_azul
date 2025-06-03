@@ -86,6 +86,8 @@
                 const radioDiv = document.createElement('div');
                 radioDiv.classList.add('radio');
 
+                let radioInputs = [];
+
                 ['Sim', 'Não'].forEach(opt => {
                     const input = document.createElement('input');
                     input.type = 'radio';
@@ -102,23 +104,45 @@
                     radioDiv.appendChild(lbl);
 
                     if (name === 'esco') {
-                        input.addEventListener('change', () => {
-                            console.log(`esco changed to: ${input.value}`);
-                        });
+                        radioInputs.push(input);
                     }
                 });
 
-                // const escoSim = radioDiv.getElementsByClassName('class-esco-sim')[0];
-                // console.log('eu');
-
-                // escoSim.addEventListener('change', () => {
-                //     console.log('ok');
-                //     if (escoSim.checked) {
-                //         console.log('escola SIM');
-                //     }
-                // });
-
                 divMaior.appendChild(radioDiv);
+
+                let inputEsco;
+                if (name === 'esco') {
+                    const inputEscoDiv = document.createElement('div');
+                    inputEscoDiv.classList.add('inputs-gerenc');
+
+                    const labelEsco = document.createElement('label');
+                    labelEsco.setAttribute('for', 'esco-nome');
+                    labelEsco.textContent = 'Nome da escola';
+                    labelEsco.id = 'esco-nome-label';
+                    inputEscoDiv.appendChild(labelEsco);
+
+                    inputEsco = document.createElement('input');
+                    inputEsco.type = 'text';
+                    labelEsco.style.display = (value === 'Sim') ? '' : 'none';
+                    inputEsco.style.display = (value === 'Sim') ? '' : 'none';
+                    inputEsco.id = 'esco-nome';
+                    inputEscoDiv.appendChild(inputEsco);
+
+                    divMaior.appendChild(inputEscoDiv);
+
+                    radioInputs.forEach(input => {
+                        input.addEventListener('change', () => {
+                            if (input.value === 'Sim' && input.checked) {
+                                labelEsco.style.display = '';
+                                inputEsco.style.display = '';
+                            } else if (input.value === 'Não' && input.checked) {
+                                labelEsco.style.display = 'none';
+                                inputEsco.style.display = 'none';
+                            }
+                        });
+                    });
+                }
+
                 checkDiv.appendChild(h2);
                 checkDiv.appendChild(divMaior);
                 return checkDiv;

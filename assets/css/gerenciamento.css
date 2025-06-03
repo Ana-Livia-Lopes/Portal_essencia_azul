@@ -635,6 +635,14 @@ body {
   cursor: pointer;
 }
 
+#esco-nome-label {
+  margin-top: 15px;
+}
+
+#esco-nome {
+  margin-top: 5px;
+}
+
 #aceitar-gerenc {
   background-color: #1535B5;
   transition: all 0.3s;
