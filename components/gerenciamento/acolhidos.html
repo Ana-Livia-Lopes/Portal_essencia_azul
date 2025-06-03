@@ -1,10 +1,11 @@
 <div class="container" id="resultScroll">
     <div class="sidebar">
         <div class="search-box">
-            <input type="text" class="search" placeholder="Pesquisar" id="pesquisar-acolhidos" onchange="pesquisarAcolhidos(this.value)" />
+            <input type="text" class="search" placeholder="Pesquisar" id="pesquisar-acolhidos"
+                onchange="pesquisarAcolhidos(this.value)" />
         </div>
         <div class="itens" id="resultado-pesquisa-acolhidos">
-            
+
         </div>
         <script>
             function criarTextInput(id, label, value) {
@@ -89,6 +90,7 @@
                     const input = document.createElement('input');
                     input.type = 'radio';
                     input.id = `${name}-${opt.toLowerCase()}`;
+                    input.className = `class-${name}-${opt.toLowerCase()}`;
                     input.name = name;
                     input.value = opt;
                     if (value === opt) input.checked = true;
@@ -99,6 +101,16 @@
                     radioDiv.appendChild(input);
                     radioDiv.appendChild(lbl);
                 });
+
+                // const escoSim = radioDiv.getElementsByClassName('class-esco-sim')[0];
+                // console.log('eu');
+
+                // escoSim.addEventListener('change', () => {
+                //     console.log('ok');
+                //     if (escoSim.checked) {
+                //         console.log('escola SIM');
+                //     }
+                // });
 
                 divMaior.appendChild(radioDiv);
                 checkDiv.appendChild(h2);
@@ -179,7 +191,7 @@
                     formContent.appendChild(obsDiv);
 
                     // Radio groups
-                    formContent.appendChild(criarRadioGroup('esco', 'Frequenta escola?', acolhido.fields.cart));
+                    formContent.appendChild(criarRadioGroup('esco', 'Frequenta escola?', acolhido.fields.esco));
                     formContent.appendChild(criarRadioGroup('cart', 'Tem carteirinha de identificação do autismo?', acolhido.fields.cart));
                     formContent.appendChild(criarRadioGroup('cord', 'Usa o cordão de girassol ou quebra-cabeça?', acolhido.fields.cord));
                     formContent.appendChild(criarRadioGroup('vaga', 'Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?', acolhido.fields.vaga));
