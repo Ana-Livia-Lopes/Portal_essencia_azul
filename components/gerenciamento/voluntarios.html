@@ -120,6 +120,10 @@
                 form.appendChild(buttonDiv);
                 content.appendChild(form);
             });
+             const container = document.getElementById("resultado-pesquisa-voluntarios");
+    if (container) {
+        container.appendChild(div);
+    }
         }
 
         let cachedVoluntariosSearch;
