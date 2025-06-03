@@ -84,6 +84,7 @@ section{
 
 .caixas div input{
     width: 40px;
+    margin-bottom: 20px;
 }
 
 .fa-question-container {
@@ -266,6 +267,10 @@ button{
 
 button:hover{
     background-color: #142e96;
+}
+
+#adicionar-responsavel {
+    width: 230px;
 }
 
 @media (max-width: 768px) {
