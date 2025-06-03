@@ -7,16 +7,16 @@ const content = `
                 title: 'Adicionar evento',
                 html: \`` + `
         <div class="modal-container">
-            <label for="dataEvento" class="modal-label">Data do evento</label>
+            <label for="dataEvento" class="modal-label">Data do evento *</label>
             <input type="date" id="dataEvento" class="modal-input">
 
-            <label for="nomeEvento" class="modal-label">Nome do evento</label>
+            <label for="nomeEvento" class="modal-label">Nome do evento *</label>
             <input type="text" id="nomeEvento" class="modal-input">
 
-            <label for="descricaoEvento" class="modal-label">Descrição</label>
+            <label for="descricaoEvento" class="modal-label">Descrição *</label>
             <textarea id="descricaoEvento" class="modal-textarea"></textarea>
 
-            <label for="arquivoInput" class="modal-label">Arte do evento</label>
+            <label for="arquivoInput" class="modal-label">Arte do evento *</label>
             <input type="file" id="arquivoInput" class="modal-file">
         </div>
     \`` + `,

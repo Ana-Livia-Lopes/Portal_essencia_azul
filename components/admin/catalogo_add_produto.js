@@ -54,16 +54,16 @@ const content = `<button onclick="adicionarProduto()" class="botao-editar conteu
                     title: "Adicionar produto",
                     html: \`` + `
                         <div class="modal-container">
-                            <label for="nome-input" class="modal-label">Nome</label>
+                            <label for="nome-input" class="modal-label">Nome *</label>
                             <input type="text" id="nome-input" class="modal-input" />
 
-                            <label for="descricao-input" class="modal-label">Descrição</label>
+                            <label for="descricao-input" class="modal-label">Descrição *</label>
                             <textarea id="descricao-input" class="modal-textarea"></textarea>
 
-                            <label for="preco-input" class="modal-label">Preço</label>
+                            <label for="preco-input" class="modal-label">Preço *</label>
                             <input type="number" id="preco-input" class="modal-input" step="0.1" min="0" />
 
-                            <label for="imagem-input" class="modal-label">Imagem</label>
+                            <label for="imagem-input" class="modal-label">Imagem *</label>
                             <input type="file" id="imagem-input" class="modal-input" accept="image/*" />
 
                             <label for="opcoes-input" class="modal-label">Outras opções</label>
