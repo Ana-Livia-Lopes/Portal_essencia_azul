@@ -25,16 +25,33 @@
         }
     },
     "cadastrar_acolhido.html": {
-        "paths": [ "/gerenciamento/cadastrar_acolhido" ]
+        "paths": [ "/gerenciamento/cadastrar_acolhido" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
     },
     "cadastrar_adm.html": {
-        "paths": [ "/gerenciamento/cadastrar_admin" ]
+        "paths": [ "/gerenciamento/cadastrar_admin" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
     },
     "solic_receb.html": {
-        "paths": [ "/gerenciamento/solicitacoes" ]
+        "paths": [ "/gerenciamento/solicitacoes" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
     },
     "comentarios-duvidas.html": {
-        "paths": [ "/gerenciamento/comentarios" ]
+        "paths": [ "/gerenciamento/comentarios" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "gerenciamento.html": {
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
     },
     "actions/login.js": {
         "contentType": "application/json"

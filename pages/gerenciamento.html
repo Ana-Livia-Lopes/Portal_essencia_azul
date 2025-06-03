@@ -300,6 +300,7 @@
 
 
     <!-- Gráficos -->
+    <component-json-grafico />
     <script>
         const ctxBar = document.getElementById('graficoMeses').getContext('2d');
         const grafico = new Chart(ctxBar, {
@@ -339,7 +340,11 @@
             data: {
                 labels: ['Neurotípico', 'Autista', 'Em investigação'],
                 datasets: [{
-                    data: [53, 35, 12],
+                    data: [
+                        window.ANALYTICS.qntdNeurotipicos,
+                        window.ANALYTICS.qntdAutistas,
+                        window.ANALYTICS.qntdInvestigacao,
+                    ],
                     backgroundColor: [
                         '#1535B5',
                         '#fff550',
@@ -373,16 +378,19 @@
         </script>
 
     <script>
+        const totalAcolhidos = window.ANALYTICS.totalAcolhidos;
+        const totalEstudam = window.ANALYTICS.totalEstudam;
+
         const dados = [
-            { id: 1, sim: 75 },
-            { id: 2, sim: 40 },
-            { id: 3, sim: 60 },
-            { id: 4, sim: 30 },
+            { id: 1, sim: window.ANALYTICS.possuiCarteira, total: totalAcolhidos },
+            { id: 2, sim: window.ANALYTICS.possuiCordao, total: totalAcolhidos },
+            { id: 3, sim: window.ANALYTICS.possuiVaga, total: totalAcolhidos },
+            { id: 4, sim: window.ANALYTICS.possuiApoio, total: totalEstudam },
         ];
         
         dados.forEach((item) => {
-            document.getElementById(`num${item.id}`).textContent = `${item.sim} de 100 acolhidos`;
-            document.getElementById(`bar${item.id}`).style.width = `${item.sim}%`;
+            document.getElementById(`num${item.id}`).textContent = `${item.sim} de ${item.total} acolhidos`;
+            document.getElementById(`bar${item.id}`).style.width = `${(item.sim / item.total * 100).toFixed(0)}%`;
         });
     </script>
 

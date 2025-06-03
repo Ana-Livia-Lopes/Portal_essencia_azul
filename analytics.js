@@ -35,7 +35,7 @@ async function createAnalytics() {
         if (residentes instanceof Array) {
             for (const residente of residentes) {
                 if (residente) {
-                    switch (residente.tipo) {
+                    switch (residente.tipo ?? residente.perfil) {
                         case "neurotipico":
                             newValues.qntdNeurotipicos++;
                             break;
@@ -63,10 +63,14 @@ async function createAnalytics() {
     }
 
     Object.assign(analyticsResult, newValues);
+
+    console.log("Analytics updated");
 }
 
 setInterval(() => {
     createAnalytics();
-}, 1000 * 60 * 60 * 24)
+}, 1000 * 60 * 60 * 24);
+
+createAnalytics();
 
 module.exports = analyticsResult;
