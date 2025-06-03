@@ -90,7 +90,7 @@ module.exports = {
             const endereco = body.fields.endereco ? singleField(body.fields.endereco) : "";
             const observacoes = singleField(body.fields.observacoes);
 
-            const blob = await getFormidableBlob(body.files.blob);
+            const blob = body.files.blob ? await getFormidableBlob(body.files.blob) : undefined;
 
             async function criarNovaFamilia() {
                 return doc(db, "familias", (await create(session.get("login"), Familia, {
