@@ -214,7 +214,8 @@ body {
       vertical-align: middle;
       cursor: pointer;
       border-radius: 50%;
-      border: 2px solid #FFFFFF;
+      border: 2px solid #505050;
+      background-color: gray;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
       background-repeat: no-repeat;
       background-position: center;
