@@ -229,7 +229,7 @@
                         const responsaveisContainer = document.getElementById('lista-responsaveis');
                         responsaveisContainer.responsaveis = [];
 
-                        function criarResponsavel() {
+                        function criarResponsavel(responsavel) {
                             const mainDiv = document.createElement('div');
                             mainDiv.classList.add('inputs-responsavel');
 
@@ -293,10 +293,16 @@
                             responsaveisContainer.responsaveis.push(mainDiv.responsavel);
                             responsaveisContainer.appendChild(mainDiv);
 
+                            if (responsavel) {
+                                inputNome.value = responsavel.nome || '';
+                                inputRelacao.value = responsavel.relacao || '';
+                                inputContato.value = responsavel.contato || '';
+                            }
+
                             return mainDiv;
                         }
 
-                        criarResponsavel();
+                        // criarResponsavel();
                     </script>
                 </div>
                 <!-- outros residentes da casa (responsaveis nao sao incluido automaticamente) -->
@@ -310,6 +316,106 @@
                         <p>Buscar família existente</p>
                     </button>
                 </div>
+
+                <script>
+                    let id_parente;
+                    let cachedSearch;
+                    let lastSelectedElement;
+
+                    function criarItemAcolhido(acolhido, output) {
+                        const div = document.createElement('div');
+                        div.classList.add('item');
+                        const img = document.createElement('img');
+                        img.src = acolhido.fields.url_imagem ? `/api/acolhidos/${acolhido.id}?getImagem=true` : "/img/user-default.png";
+                        img.alt = acolhido.fields.nome || "Acolhido";
+                        div.appendChild(img);
+                        div.appendChild(document.createTextNode(acolhido.fields.nome || "Acolhido"));
+                        div.addEventListener("click", () => {
+                            if (lastSelectedElement) lastSelectedElement.classList.remove("selected");
+                            div.classList.add("selected");
+                            lastSelectedElement = div;
+                            id_parente = acolhido.id;
+                        });
+                        output.appendChild(div);
+                    }
+
+                    async function pesquisarAcolhidos(input, output) {
+                        if (!cachedSearch) cachedSearch = await (await fetch("/api/acolhidos")).json();
+                        output.innerHTML = '';
+                        for (const acolhido of cachedSearch) {
+                            if (acolhido?.fields?.nome?.toLowerCase?.()?.includes(input.toLowerCase()) || !input) {
+                                criarItemAcolhido(acolhido, output);
+                            }
+                        }
+                    }
+
+                    document.getElementById("buscar-familia").addEventListener("click", () => {
+                        let selected;
+
+                        Swal.fire({
+                            showCancelButton: true,
+                            title: "Procure um acolhido parente",
+                            html: `
+                            <div class="search-box">
+                                <input type="text" placeholder="Pesquise um acolhido" id="pesquisa-parente" />
+                            </div>
+                            <div id="pesquisa-output"/>
+                                
+                            </div>
+                            `,
+                            didOpen: () => {
+                                const input = document.getElementById("pesquisa-parente");
+                                input.focus();
+                                input.addEventListener("change", async () => {
+                                    const output = document.getElementById("pesquisa-output");
+                                    const search = await pesquisarAcolhidos(input.value, output);
+                                });
+                            },
+                            preConfirm: () => {
+                                return id_parente;
+                            }
+                        }).then(result => {
+                            let id_acolhido = result.isConfirmed ? result.value : null;
+                            if (result.isConfirmed && id_acolhido) {
+                                document.querySelectorAll(".fa-solid.fa-trash.remover-residente").forEach(i => i.dispatchEvent(new Event("click")));
+                                document.getElementById("criar-residente").disabled = true;
+                                const enderecoInput = document.getElementById("endereco");
+                                enderecoInput.disabled = true;
+                                enderecoInput.value = "";
+                                
+                                id_parente = id_acolhido;
+                            } else {
+                                id_parente = undefined;
+                            }
+                        });
+                    });
+                </script>
+                <style>
+                    .item {
+                        font-size: 18px;
+                        /* color: white; */
+                        border-bottom: 2px solid #7a9bd5;
+                        padding: 8px;
+                        cursor: pointer;
+                        transition: opacity 0.2s;
+                        margin-right: 10px;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
+
+                    .item img {
+                        width: 30px;
+                    }
+
+                    .item:hover {
+                        opacity: 0.8;
+                    }
+
+                    .item.selected {
+                        background-color: rgb(175, 175, 175);
+                    }
+                </style>
 
                 <div class="label-input conteudo-site">
                     <label class="conteudo-site" for="endereco">Endereço:</label>
@@ -335,7 +441,7 @@
                     const residentesContainer = document.getElementById('lista-residentes');
                     residentesContainer.residentes = [];
 
-                    function criarResidente() {
+                    function criarResidente(residente) {
                         const mainDiv = document.createElement('div');
                         mainDiv.classList.add('inputs-residente');
                         const row = document.createElement('div');
@@ -347,6 +453,7 @@
                         labelNome.textContent = 'Nome:';
                         nomeDiv.appendChild(labelNome);
                         const inputNome = document.createElement('input');
+                        if (residente) inputNome.value = residente.nome;
                         inputNome.classList.add('conteudo-site');
                         inputNome.type = 'text';
                         nomeDiv.appendChild(inputNome);
@@ -375,13 +482,14 @@
                         optionInvestigacao.value = 'em investigacao';
                         optionInvestigacao.textContent = 'Em investigação';
                         selectPerfil.appendChild(optionInvestigacao);
+                        if (residente) selectPerfil.value = residente.tipo;
                         perfilDiv.appendChild(selectPerfil);
                         row.appendChild(perfilDiv);
                         mainDiv.appendChild(row);
                         const hr = document.createElement('hr');
                         mainDiv.appendChild(hr);
                         const i = document.createElement('i');
-                        i.classList.add('fa-solid', 'fa-trash');
+                        i.classList.add('fa-solid', 'fa-trash', 'remover-residente');
                         i.style.cursor = 'pointer';
                         i.addEventListener('click', () => {
                             mainDiv.remove();
@@ -397,7 +505,7 @@
                         return mainDiv;
                     }
 
-                    criarResidente()
+                    // criarResidente()
                 </script>
 
                 <div class="button-container">
@@ -407,6 +515,59 @@
         </form>
     </div>
     <script>
+        if (window.SOLICITACAO) {
+            const fields = window.SOLICITACAO.fields;
+            document.getElementById("name").value = fields.nome;
+            const data_nascimento = new Date(fields.data_nascimento.seconds * 1000);
+            document.getElementById("data-nascimento").value = `${data_nascimento.getFullYear()}-${String(data_nascimento.getMonth() + 1).padStart(2, '0')}-${String(data_nascimento.getDate()).padStart(2, '0')}`;
+            document.getElementById("nivel-suporte").value = fields.nivel_suporte;
+            document.getElementById("comoacalma").value = fields.como_acalma;
+            document.getElementById("comida-fav").value = fields.comida_favorita;
+            document.getElementById("convenio").value = fields.convenio;
+            document.getElementById("observacoes").value = fields.observacoes;
+            document.getElementById("endereco").value = fields.endereco;
+
+            if (fields.identificacoes) {
+                if (fields.identificacoes.ciptea !== undefined) {
+                    document.getElementById(fields.identificacoes.ciptea ? "ciptea-sim" : "ciptea-nao").checked = true;
+                }
+                if (fields.identificacoes.cordao !== undefined) {
+                    document.getElementById(fields.identificacoes.cordao ? "cordao-sim" : "cordao-nao").checked = true;
+                }
+                if (fields.identificacoes.vaga_exclusiva !== undefined) {
+                    document.getElementById(fields.identificacoes.vaga_exclusiva ? "vaga-exclusiva-sim" : "vaga-exclusiva-nao").checked = true;
+                }
+            }
+
+            if (fields.escola) {
+                document.getElementById(fields.escola.nome ? "escola-sim" : "escola-nao").checked = true;
+                if (fields.escola.nome) {
+                    document.getElementById("escola").value = fields.escola.nome;
+                    if (fields.escola.tem_suporte !== undefined) {
+                        document.getElementById(fields.escola.suporte ? "escola-suporte-sim" : "escola-suporte-nao").checked = true;
+                    }
+                }
+                document.querySelector(".campo-escola").style.display = "block";
+                document.querySelector(".suporte-escola").style.display = "block";
+            }
+
+            if (fields.responsaveis) {
+                for (const responsavel of fields.responsaveis) {
+                    criarResponsavel(responsavel);
+                }
+            } else {
+                criarResponsavel();
+            }
+
+            if (fields.residentes) {
+                for (const residente of fields.residentes) {
+                    criarResidente(residente);
+                }
+            } else {
+                criarResidente();
+            }
+        }
+
         const form = document.getElementById("cadastrar-form");
 
         form.addEventListener("keydown", function (event) {
@@ -427,13 +588,13 @@
                 { id: "comoacalma", label: "Como o autista se acalma?" },
                 { id: "comida-fav", label: "Comida favorita" },
                 { id: "convenio", label: "Convênio ou SUS" },
-                { id: "endereco", label: "Endereço" }
+                { id: "endereco", label: "Endereço", fromFamily: true }
             ];
 
             let missing = [];
             for (const field of requiredFields) {
                 const el = document.getElementById(field.id);
-                if (!el.value || (el.type === "select-one" && el.value === "")) {
+                if ((!el.value || (el.type === "select-one" && el.value === "")) && !field.fromFamily) {
                     missing.push(field.label);
                 }
             }
@@ -454,7 +615,7 @@
 
             // Validação de pelo menos um residente
             const residentesArr = Array.from(document.getElementById("lista-residentes").residentes);
-            if (residentesArr.length === 0 || residentesArr.some(r => !r.nome || !r.perfil)) {
+            if ((residentesArr.length === 0 || residentesArr.some(r => !r.nome || !r.perfil)) && !id_parente) {
                 missing.push("Residente (nome e perfil)");
             }
 
@@ -501,9 +662,8 @@
                 residentes: residentesArr.map(r => ({
                     nome: r.nome,
                     perfil: r.perfil
-                }))
+                })),
             };
-
             
 
             const fd = new FormData();
@@ -525,10 +685,13 @@
             fd.append("atividades_nao_gosta", JSON.stringify(dados.atividades_nao_gosta));
             fd.append("restricoes_alimentares", JSON.stringify(dados.restricoes_alimentares));
             fd.append("terapias", JSON.stringify(dados.terapias));
+            if (id_parente) fd.append("id_parente", id_parente || "");
 
             const fotoInput = document.getElementById("foto");
 
-            if (fotoInput.files.length > 0) fd.append("blob", fotoInput.files[0]);
+            if (fotoInput.files.length > 0) {
+                fd.append("blob", fotoInput.files[0]);
+            }
 
             fetch("/api/acolhidos", {
                 method: "POST",
@@ -541,10 +704,17 @@
                         text: json.message
                     });
                 } else {
+                    if (window.SOLICITACAO) {
+                        fetch(`/api/solicitacoes/acolhidos/${window.SOLICITACAO.id}`, {
+                            method: "DELETE",
+                        })
+                    }
                     Swal.fire({
                         icon: "success",
                         title: "Acolhido cadastrado!",
                         text: "Volte ao gerenciamento para consultar."
+                    }).then(() => {
+                        window.location.href = "/gerenciamento";
                     });
                 }
             })
@@ -552,9 +722,23 @@
     </script>
     <script type="module">
         import ListInput from "/js/list_input.js";
+        
+        if (window.SOLICITACAO) {
+            const fields = window.SOLICITACAO.fields;
 
-        for (const input of document.querySelectorAll(".list-input")) {
-            new ListInput(input)
+            new ListInput(document.getElementById("terapia-faz"), ...(fields.terapias?.faz ?? []));
+            new ListInput(document.getElementById("terapia-precisa"), ...(fields.terapias?.precisa ?? []));
+            new ListInput(document.getElementById("interesses"), ...(fields.interesses ?? []));
+            new ListInput(document.getElementById("hiperfoco"), ...(fields.hiperfoco ?? []));
+            new ListInput(document.getElementById("naogosta"), ...(fields.atividades_nao_gosta ?? []));
+            new ListInput(document.getElementById("restricoes"), ...(fields.restricoes_alimentares ?? []));
+        } else {
+            new ListInput(document.getElementById("terapia-faz"));
+            new ListInput(document.getElementById("terapia-precisa"));
+            new ListInput(document.getElementById("interesses"));
+            new ListInput(document.getElementById("hiperfoco"));
+            new ListInput(document.getElementById("naogosta"));
+            new ListInput(document.getElementById("restricoes"));
         }
     </script>
 </body>
