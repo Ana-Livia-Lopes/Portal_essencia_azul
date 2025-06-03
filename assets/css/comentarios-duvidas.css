@@ -17,16 +17,24 @@ body {
     position: relative;
 }
 
-.nhm-opc-selec {
+.section-nhm-solic-receb {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  grid-column: 2;
 }
 
-.nhm-opc-selec img {
-  width: 300px;
+.section-nhm-solic-receb img {
+  width: 320px;
   height: 300px;
+}
+
+.section-nhm-solic-receb p {
+  margin-top: 30px;
+  text-align: center;
 }
 
 .duvidas-div {
@@ -37,7 +45,7 @@ body {
     max-width: 1000px;
     max-height: 80vh;
     overflow-y: auto;
-    box-shadow: rgba(0, 0, 0, 0.50) 0px 5px 15px 0px;
+    box-shadow: rgba(0, 0, 0, 0.133) 0px 5px 15px 0px;
 }
 
 .div-cabecalho h2 {
@@ -62,7 +70,6 @@ body {
     flex-direction: column;
     gap: 10px;
     border: 2px solid #6e84ff;
-    box-shadow: rgba(0, 0, 0, 0.50) 0px 5px 15px 0px;
 }
 
 .info label {
