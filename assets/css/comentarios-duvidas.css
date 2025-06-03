@@ -61,7 +61,7 @@ body {
 }
 
 .div-corpo {
-  background-color: #e9f2ff;
+  background-color: #fff;
   border-radius: 5px;
   padding: 15px;
   color: black;
@@ -79,9 +79,13 @@ body {
   color: #0a1f74;
 }
 
+.info p {
+  margin-bottom: 20px;
+}
+
 .area-info {
-  background-color: #ffffff;
-  border: solid 2px #6e84ff86;
+  background-color: #f6f6f6;
+  border: solid 2px rgb(225, 224, 224);
   border-radius: 0.2rem;
   padding: 4px 6px;
   max-height: 65px;
@@ -111,4 +115,20 @@ body {
 
 #data {
   color: #0a1f74;
+}
+
+@media (max-width: 768px) {
+  .div-corpo-grid {
+    flex-wrap: wrap;
+    flex-direction: column;
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+
+    .voltar {
+        font-size: 16px;
+    }
 }
