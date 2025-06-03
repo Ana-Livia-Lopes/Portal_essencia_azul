@@ -126,6 +126,7 @@
         const tel = document.getElementById("tel").value;
         const ajuda = selectAjuda.value === "outro" ? inputOutro.value : selectAjuda.value;
         const motivo = document.querySelector("textarea").value;
+        const data = new Date();
 
         if (!nome || !cpf || !email || !tel || !ajuda || !motivo) {
             Swal.fire({
@@ -144,6 +145,7 @@
         formdata.append("telefone", tel);
         formdata.append("como_ajudar", ajuda);
         formdata.append("por_que_ser_voluntario", motivo);
+        formdata.append("data_solicitacao", data.toISOString());
 
         fetch("/api/solicitacoes/voluntarios", {
             method: "POST",

@@ -15,6 +15,7 @@ module.exports = {
         const telefone = singleField(body.fields.telefone);
         const como_ajudar = singleField(body.fields.como_ajudar);
         const por_que_ser_voluntario = singleField(body.fields.por_que_ser_voluntario);
+        const data_solicitacao = singleField(body.fields.data_solicitacao);
 
         if (!nome || !cpf || !email || !telefone || !como_ajudar || !por_que_ser_voluntario) {
             throw new ClientError(response, "Parâmetros insuficientes");
@@ -26,7 +27,8 @@ module.exports = {
             email,
             telefone,
             como_ajudar,
-            por_que_ser_voluntario
+            por_que_ser_voluntario,
+            data_solicitacao
         }));
 
         return JSON.stringify({

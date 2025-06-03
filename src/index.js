@@ -81,11 +81,13 @@ var EssenciaAzul = ( function() {
     }
     BaseDataTypes.SolicitacaoVoluntario = class SolicitacaoVoluntario extends Solicitacao {
         voluntario;
+        data_solicitacao;
     }
     BaseDataTypes.Comentario = class Comentario {
         nome;
         email;
         mensagem;
+        data;
     }
     BaseDataTypes.Admin = class Admin {
         nome;

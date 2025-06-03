@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <component-json-comentarios/>
+    <component-json-comentarios />
     <div class="voltar-div">
         <h3><a class="voltar" href="/gerenciamento"><i class="fa-solid fa-arrow-left" style="color: '#002293;'"></i>
                 Voltar</a></h3>
@@ -26,20 +26,28 @@
         </div>
         <div id="option-switch">
         </div>
-        <div class="div-corpo-grid" id="container-comentarios">
-            <section class="section-nhm-solic-receb">
-                <img src="/img/nhm-opcao-selec.png" alt="Ilustração de nenhuma solicitação recebida.">
-                <p class="conteudo-site">Nenhum comentário ou dúvida recebido.</p>
-            </section>
+        <div class="nhm-opc-selec" id="container-comentarios">
+            <img src="/img/nhm-opcao-selec.png" alt="Ilustração de nenhuma solicitação recebida.">
+            <p class="conteudo-site">Nenhum comentário ou dúvida recebido.</p>
         </div>
         <script>
             const container = document.getElementById("container-comentarios");
+
             if (window.COMENTARIOS && window.COMENTARIOS.length > 0) {
                 container.innerHTML = "";
                 for (const comentario of window.COMENTARIOS) {
+                    // Firestore pode retornar data como { seconds, nanoseconds }
+                    let dataFormatada = "Data não informada";
+                    if (comentario.fields.data) {
+                        const data = new Date(comentario.fields.data);
+                        dataFormatada = data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
+                            " às " + data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    }
                     const comentarioDiv = document.createElement("div");
                     comentarioDiv.className = "div-corpo";
                     comentarioDiv.innerHTML = `
+                        <div class="info">
+                            <p>Enviado em ${dataFormatada}</p>
                         <div class="info">
                             <label for="">Nome</label>
                             <p class="area-info">${comentario.fields.nome || "N/A"}</p>

@@ -17,23 +17,16 @@ body {
     position: relative;
 }
 
-.section-nhm-solic-receb {
+.nhm-opc-selec {
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  justify-content: center;
+  align-items: center;
 }
 
-.section-nhm-solic-receb img {
-  width: 320px;
+.nhm-opc-selec img {
+  width: 300px;
   height: 300px;
-}
-
-.section-nhm-solic-receb p {
-  margin-top: 30px;
-  color: white;
 }
 
 .duvidas-div {
