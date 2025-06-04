@@ -5,6 +5,8 @@ const { addDoc, collection } = require("firebase/firestore");
 const { db } = require("../../firebase.js");
 const jsonField = require("../_jsonField.js");
 const filterUndefined = require("./_filterUndefined.js");
+const { transporter } = require( "../../mail.js" );
+const { auth } = require("../../config.json").mail;
 
 /** @type {import("../../src/server").Page.RestHandlersObject} */
 module.exports = {
@@ -51,9 +53,34 @@ module.exports = {
             }, response);
         }
     },
-    async delete({ params, session, response }) {
+    async delete({ params, session, response, request }) {
         if (!session || !isLogged(session)) throw new AuthenticationError(response, "Usuário não autenticado");
         if (!params.id) throw new ClientError(response, "ID não informado");
-        return await remove(session.get("login"), SolicitacaoVoluntario, params.id, response);
+        const voluntario = await remove(session.get("login"), SolicitacaoVoluntario, params.id, response);
+        if (request.headers["x-response-email"]) {
+            let responseStatus = request.headers["x-response-email"];
+            if (responseStatus === "accepted" || responseStatus === "refused") {
+                console.log(responseStatus);
+                await new Promise((res, rej) => {
+                    const subject = responseStatus === "accepted" ?
+                        "Sua solicitação para ser voluntário foi aceita!" :
+                        "Sua solicitação para ser voluntário foi recusada...";
+                    const text = responseStatus === "accepted" ?
+                    `Olá${voluntario.fields.nome ? ", " + voluntario.fields.nome : ""}, a Essência Azul acabou de aceitar seu pedido para se tornar um voluntário!
+Para saber mais sobre, entre em contato através de https://portalessenciaazul.com/contato.` :
+                    `Olá${voluntario.fields.nome ? ", " + voluntario.fields.nome : ""}, a Essência Azul avaliou seu pedido para se tornar um voluntário, mas infelizmente foi recusado...
+Para saber mais sobre, entre em contato através de https://portalessenciaazul.com/contato.`;
+                    transporter.sendMail({
+                        from: auth.user,
+                        to: voluntario.fields.email,
+                        subject,
+                        text,
+                    }, (error, info) => {
+                        if (error) rej(error); else res(info);
+                    });
+                });
+            }
+        }
+        return voluntario;
     }
 }

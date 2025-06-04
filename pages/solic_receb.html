@@ -268,7 +268,10 @@
                                 });
                             } else {
                                 fetch(`/api/solicitacoes/voluntarios/${voluntario.id}`, {
-                                    method: "DELETE"
+                                    method: "DELETE",
+                                    headers: {
+                                        ["x-response-email"]: "accepted",
+                                    }
                                 }).then(resp => resp.json()).then(json => {
                                     if (json.status === "error") {
                                         Swal.fire({
@@ -309,7 +312,10 @@
                 }).then(result => {
                     if (result.isConfirmed) {
                         fetch(`/api/solicitacoes/voluntarios/${voluntario.id}`, {
-                            method: "DELETE"
+                            method: "DELETE",
+                            headers: {
+                                ["x-response-email"]: "refused",
+                            }
                         }).then(resp => resp.json()).then(json => {
                             if (json.status === "error") {
                                 Swal.fire({

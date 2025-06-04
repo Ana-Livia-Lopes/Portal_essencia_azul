@@ -22,6 +22,7 @@
     "chalk": "^4.1.2",
     "chokidar": "^4.0.3",
     "firebase": "^11.7.1",
-    "formidable": "^3.5.4"
+    "formidable": "^3.5.4",
+    "nodemailer": "^7.0.3"
   }
 }

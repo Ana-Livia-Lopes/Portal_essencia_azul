@@ -26,6 +26,7 @@ module.exports = {
         const residentes = jsonField(body, "residentes");
         const endereco = singleField(body.fields.endereco);
         const observacoes = singleField(body.fields.observacoes);
+        const remetente = jsonField(body, "remetente");
 
         if (!nome || !data_nascimento || !responsaveis || !nivel_suporte) {
             throw new ClientError(response, "Parâmetros insuficientes");
@@ -48,7 +49,8 @@ module.exports = {
             terapias,
             residentes,
             endereco,
-            observacoes
+            observacoes,
+            remetente,
         }));
 
         return JSON.stringify({
@@ -74,6 +76,30 @@ module.exports = {
     async delete({ params, session, response }) {
         if (!session || !isLogged(session)) throw new AuthenticationError(response, "Usuário não autenticado");
         if (!params.id) throw new ClientError(response, "ID não informado");
-        return await remove(session.get("login"), SolicitacaoAcolhido, params.id, response);
+        const acolhido = await remove(session.get("login"), SolicitacaoAcolhido, params.id, response);
+        if (request.headers["x-response-email"]) {
+            let responseStatus = request.headers["x-response-email"];
+            if (responseStatus === "accepted" || responseStatus === "refused") {
+                await new Promise((res, rej) => {
+                    const subject = responseStatus === "accepted" ?
+                        `Sua solicitação de cadastro de ${acolhido.fields.nome} foi aceita!` :
+                        `Sua solicitação de cadastro de ${acolhido.fields.nome} foi recusada...`;
+                    const text = responseStatus === "accepted" ?
+                    `Olá${acolhido.fields.remetente?.nome ? ", " + acolhido.fields.remetente?.nome : ""}, a Essência Azul acabou de aceitar seu pedido para tornar ${acolhido.fields.nome} um de nossos acolhidos!
+Para saber mais sobre, entre em contato através de https://portalessenciaazul.com/contato/.` :
+                    `Olá${acolhido.fields.remetente?.nome ? ", " + acolhido.fields.remetente?.nome : ""}, a Essência Azul avaliou seu pedido para tornar ${acolhido.fields.nome} um de nossos acolhidos, mas infelizmente foi recusado...
+Para saber mais sobre, entre em contato através de https://portalessenciaazul.com/contato/.`;
+                    transporter.sendMail({
+                        from: auth.user,
+                        to: acolhido.fields.remetente?.email,
+                        subject,
+                        text,
+                    }, (error, info) => {
+                        if (error) rej(error); else res(info);
+                    });
+                });
+            }
+        }
+        return acolhido;
     }
 }

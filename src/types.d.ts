@@ -96,17 +96,15 @@ declare namespace BaseDataTypes {
     }
     interface Remetente {
         nome: string
-        contatos: Contato[]
+        email: string
     }
     
-    abstract class Solicitacao {
+    class SolicitacaoAcolhido extends Acolhido {
         remetente: Remetente
+        data_solicitacao: Timestamp
     }
-    class SolicitacaoAcolhido extends Solicitacao {
-        acolhido: Acolhido
-    }
-    class SolicitacaoVoluntario extends Solicitacao {
-        voluntario: Voluntario
+    class SolicitacaoVoluntario extends Voluntario {   
+        data_solicitacao: Timestamp
     }
     class Comentario {
         nome: string

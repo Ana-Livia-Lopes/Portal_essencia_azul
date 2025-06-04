@@ -58,6 +58,14 @@
                 </p>
             </div>
             <div class="caixas">
+                <h2 class="conteudo-site">Qual o nome de quem está enviando o formulário? *</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site" id="input-remetente-nome">
+            </div>
+            <div class="caixas">
+                <h2 class="conteudo-site">Qual o email de quem está enviando o formulário? *</h2>
+                <input type="text" placeholder="Escreva aqui" class="conteudo-site" id="input-remetente-email">
+            </div>
+            <div class="caixas">
                 <h2 class="conteudo-site">Nome completo do acolhido *</h2>
                 <input type="text" placeholder="Escreva aqui" class="conteudo-site" id="input-nome">
             </div>
@@ -374,12 +382,16 @@
 
         form.addEventListener("keydown", function(event) {
             if (event.key === "Enter") {
-                // Impede o submit ao pressionar Enter
                 event.preventDefault();
             }
         });
         form.addEventListener("submit", event => {
             event.preventDefault();
+
+            const remetente = {
+                nome: document.getElementById("input-remetente-nome").value,
+                email: document.getElementById("input-remetente-email").value,
+            };
 
             const nomeAcolhido = document.getElementById("input-nome").value;
             const dataNascimento = document.getElementById("input-data-nascimento").value;
@@ -486,6 +498,8 @@
             fd.append("responsaveis", JSON.stringify(responsaveis || []));
             fd.append("endereco", endereco);
             fd.append("observacoes", observacoes || "");
+
+            fd.append("remetente", JSON.stringify(remetente));
 
             fetch("/api/solicitacoes/acolhidos", {
                 method: "POST",

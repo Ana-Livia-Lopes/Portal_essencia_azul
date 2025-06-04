@@ -707,6 +707,9 @@
                     if (window.SOLICITACAO) {
                         fetch(`/api/solicitacoes/acolhidos/${window.SOLICITACAO.id}`, {
                             method: "DELETE",
+                            headers: {
+                                ["x-response-email"]: "accepted",
+                            }
                         })
                     }
                     Swal.fire({
