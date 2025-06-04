@@ -1,23 +1,333 @@
 <div class="container" id="resultScroll">
     <div class="sidebar">
         <div class="search-box">
-            <input type="text" class="search" placeholder="Pesquisar" />
+            <input type="text" class="search" placeholder="Pesquisar" onchange="pesquisarFamilias(this.value)" />
         </div>
-        <div class="itens">
+        <div class="itens" id="itens-familias">
             <div class="item">Família SmartWeb</div>
             <div class="item">Família 2</div>
             <div class="item">Família 3</div>
             <div class="item">Família 4</div>
             <div class="item">Família 5</div>
         </div>
+        <script>
+            let familiaCachedSearch;
+
+            function criarItemFamilia(familia) {
+                const div = document.createElement("div");
+                div.classList.add("item");
+                div.append(`Família ${familia.fields.sobrenome}`);
+                div.addEventListener("click", () => {
+                    const content = document.querySelector(".box-content .content");
+                    content.classList.remove("empty");
+
+                    const campos = {
+                        sobrenome: "",
+                        endereco: "",
+                        residentes: [],
+                        observacoes: "",
+                    };
+
+                    content.innerHTML = "";
+                    const h1 = document.createElement("h1");
+                    h1.textContent = `Família ${familia.fields.sobrenome}`;
+                    const form = document.createElement("form");
+                    form.classList.add("form-familias");
+                    form.addEventListener("submit", e => e.preventDefault());
+                    const areaSobrenome = document.createElement("div");
+                    areaSobrenome.style.margin = "15px 0";
+                    const inputDivSobrenome = document.createElement("div");
+                    inputDivSobrenome.classList.add("inputs-gerenc");
+                    const labelSobrenome = document.createElement("label");
+                    labelSobrenome.textContent = "Sobrenome";
+                    const inputSobrenome = document.createElement("input");
+                    inputSobrenome.addEventListener("input", () => {
+                        campos.sobrenome = inputSobrenome.value;
+                    });
+                    inputSobrenome.type = "text";
+                    inputSobrenome.value = familia.fields.sobrenome;
+                    inputDivSobrenome.append(labelSobrenome, inputSobrenome);
+                    areaSobrenome.append(inputDivSobrenome);
+                    form.append(areaSobrenome);
+                    const membrosFamilia = document.createElement("div");
+                    membrosFamilia.classList.add("membros-familia");
+                    const h2Acolhido = document.createElement("h2");
+                    h2Acolhido.textContent = "Acolhido nesta família";
+                    membrosFamilia.append(h2Acolhido);
+                    const membroRow = document.createElement("div");
+                    let acolhidos;
+                    const membrosRow = document.createElement("div");
+                    membroRow.classList.add("membro-row");
+                    membroRow.innerHTML = `
+                        <div style="display: flex; justify-content: center; width: 100%;">
+                            <div class="loader"></div>
+                        </div>
+                    `;
+                    membrosFamilia.append(membrosRow);
+                    membrosRow.append(membroRow);
+                    const h2Outros = document.createElement("h2");
+                    h2Outros.textContent = "Outros residentes não acolhidos";
+                    membrosFamilia.append(h2Outros);
+                    const outrosMembros = document.createElement("div");
+
+                    let autistas = 0;
+                    let investigacao = 0;
+                    let neurotipicos = 0;
+
+                    for (const residente of familia.fields.residentes) {
+                        const residenteObj = { nome: residente.nome, tipo: residente.tipo ?? residente.perfil };
+                        campos.residentes.push(residenteObj);
+
+                        console.log(residente)
+
+                        switch (residente.tipo ?? residente.perfil) {
+                            case "autista":
+                                autistas++;
+                                break;
+                            case "em investigacao":
+                                investigacao++;
+                                break;
+                            case "neurotipico":
+                                neurotipicos++;
+                                break;
+                            default:
+                                break;
+                        }
+                        
+                        const membroRow = document.createElement("div");
+                        membroRow.classList.add("membro-row");
+
+                        const rowDivNome = document.createElement("div");
+                        rowDivNome.classList.add("row-div-nome");
+                        const pTituloNome = document.createElement("p");
+                        pTituloNome.classList.add("titulo-row");
+                        pTituloNome.textContent = "Nome";
+                        const inputNome = document.createElement("input");
+                        inputNome.id = "nome-membro";
+                        inputNome.value = residente.nome;
+                        inputNome.addEventListener("input", () => {
+                            residenteObj.nome = inputNome.value;
+                        });
+                        rowDivNome.appendChild(pTituloNome);
+                        rowDivNome.appendChild(inputNome);
+
+                        const rowDivLaudo = document.createElement("div");
+                        rowDivLaudo.classList.add("row-div-laudo");
+                        const pTituloLaudo = document.createElement("p");
+                        pTituloLaudo.classList.add("titulo-row");
+                        pTituloLaudo.textContent = "Laudo";
+                        const selectLaudo = document.createElement("select");
+                        selectLaudo.addEventListener("input", () => {
+                            residenteObj.tipo = selectLaudo.value;
+                        });
+                        selectLaudo.id = "select-laudo";
+                        const opcoes = [
+                            { value: "autista", text: "Autista" },
+                            { value: "em investigacao", text: "Em investigação" },
+                            { value: "neurotipico", text: "Neurotípico" }
+                        ];
+                        opcoes.forEach(opt => {
+                            const option = document.createElement("option");
+                            option.value = opt.value;
+                            option.textContent = opt.text;
+                            if (
+                                (opt.value === residente.tipo) || (opt.value === residente.perfil)
+                            ) {
+                                option.selected = true;
+                            }
+                            selectLaudo.appendChild(option);
+                        });
+                        rowDivLaudo.appendChild(pTituloLaudo);
+                        rowDivLaudo.appendChild(selectLaudo);
+
+                        membroRow.appendChild(rowDivNome);
+                        membroRow.appendChild(rowDivLaudo);
+
+                        outrosMembros.appendChild(membroRow);
+                    }
+                    membrosFamilia.appendChild(outrosMembros);
+                    const infoFamilia = document.createElement("div");
+                    infoFamilia.classList.add("info-familia");
+                    const h2Info = document.createElement("h2");
+                    h2Info.textContent = "Mais informações";
+                    infoFamilia.appendChild(h2Info);
+                    const labelEndereco = document.createElement("label");
+                    labelEndereco.textContent = "Endereço";
+                    const inputEndereco = document.createElement("input");
+                    inputEndereco.type = "text";
+                    inputEndereco.value = familia.fields.endereco || "";
+                    inputEndereco.addEventListener("input", () => {
+                        campos.endereco = inputEndereco.value;
+                    });
+                    const labelObservacoes = document.createElement("label");
+                    labelObservacoes.textContent = "Observações";
+                    const textareaObservacoes = document.createElement("textarea");
+                    textareaObservacoes.value = familia.fields.observacoes || "";
+                    textareaObservacoes.rows = 3;
+                    textareaObservacoes.style.width = "100%";
+                    textareaObservacoes.addEventListener("input", () => {
+                        campos.observacoes = textareaObservacoes.value;
+                    });
+                    infoFamilia.append(labelEndereco, inputEndereco);
+                    infoFamilia.append(labelObservacoes, textareaObservacoes);
+                    const pNaoAcolhidos = document.createElement("p");
+                    pNaoAcolhidos.textContent = `Autistas: `;
+                    const spanAutistas = document.createElement("span");
+                    pNaoAcolhidos.appendChild(spanAutistas);
+                    const pInvestigacao = document.createElement("p");
+                    pInvestigacao.textContent = `Em investigação: `;
+                    const spanInvestigacao = document.createElement("span");
+                    pInvestigacao.appendChild(spanInvestigacao);
+                    const pComLaudo = document.createElement("p");
+                    pComLaudo.textContent = `Neurotípicos: `;
+                    const spanNeurotipicos = document.createElement("span");
+                    pComLaudo.appendChild(spanNeurotipicos);
+                    infoFamilia.append(pNaoAcolhidos, pInvestigacao, pComLaudo);
+                    const aceitarRecusar = document.createElement("div");
+                    aceitarRecusar.classList.add("aceitar-recusar");
+                    const editarButton = document.createElement("button");
+                    editarButton.id = "aceitar-gerenc";
+                    editarButton.textContent = "Editar família";
+                    const excluirButton = document.createElement("button");
+                    excluirButton.id = "recusar-gerenc";
+                    excluirButton.textContent = "Excluir família";
+
+                    editarButton.addEventListener("click", () => {
+                        if (!campos.endereco) {
+                            campos.endereco = inputEndereco.value;
+                        }
+                        if (!campos.sobrenome) {
+                            campos.sobrenome = inputSobrenome.value;
+                        }
+                        const fd = new FormData();
+
+                        fd.append("sobrenome", campos.sobrenome);
+                        fd.append("endereco", campos.endereco);
+                        fd.append("residentes", JSON.stringify(campos.residentes));
+                        fd.append("observacoes", familia.fields.observacoes || "");
+
+                        fetch("/api/familias/" + familia.id, {
+                            method: "PATCH",
+                            body: fd
+                        }).then(resp => resp.json()).then(json => {
+                            if (json.status === "error") {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Houve um erro...",
+                                    text: json.message
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Família editada com sucesso!"
+                                });
+                                familiaCachedSearch = undefined;
+                                pesquisarFamilias("");
+                                autistas = 0;
+                                investigacao = 0;
+                                neurotipicos = 0;
+                                for (const residente of campos.residentes) {
+                                    switch (residente.tipo) {
+                                        case "autista":
+                                            autistas++;
+                                            break;
+                                        case "em investigacao":
+                                            investigacao++;
+                                            break;
+                                        case "neurotipico":
+                                            neurotipicos++;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                autistas += acolhidos.length;
+                                spanAutistas.textContent = autistas;
+                                spanInvestigacao.textContent = investigacao;
+                                spanNeurotipicos.textContent = neurotipicos;
+                            }
+                        })
+                    });
+
+                    excluirButton.addEventListener("click", () => {
+
+                    });
+
+                    aceitarRecusar.append(editarButton);
+                    form.append(membrosFamilia, infoFamilia, aceitarRecusar);
+                    content.append(h1, form);
+
+                    fetch("/api/familias/" + familia.id, {
+                        headers: {
+                            ["x-acolhidos"]: "true"
+                        }
+                    }).then(resp => resp.json()).then(json => {
+                        acolhidos = json;
+
+                        
+                        membrosRow.innerHTML = "";
+                        for (const acolhido of acolhidos) {
+                            autistas++;
+                            const membroRow = document.createElement("div");
+                            membroRow.classList.add("membro-row");
+                            const nomeContainer = document.createElement("div");
+                            const labelNome = document.createElement("div");
+                            labelNome.textContent = "Nome";
+                            labelNome.classList.add("titulo-row");
+                            nomeContainer.appendChild(labelNome);
+                            const rowDivNome = document.createElement("div");
+                            rowDivNome.classList.add("row-div-nome");
+                            rowDivNome.textContent = acolhido.fields.nome;
+                            nomeContainer.appendChild(rowDivNome);
+                            membroRow.appendChild(nomeContainer);
+                            membrosRow.appendChild(membroRow);
+                        }
+
+                        if (acolhidos.length === 0) aceitarRecusar.append(excluirButton);
+
+                        spanAutistas.textContent = autistas;
+                        spanInvestigacao.textContent = investigacao;
+                        spanNeurotipicos.textContent = neurotipicos;
+                    });
+                });
+
+                return div;
+            }
+
+            async function pesquisarFamilias(value = "") {
+                if (!familiaCachedSearch) familiaCachedSearch = await (await fetch("/api/familias/")).json();
+                const familiasOutput = document.getElementById("itens-familias");
+                familiasOutput.innerHTML = "";
+
+                for (const familia of familiaCachedSearch) {
+                    if (familia.fields?.sobrenome?.toLowerCase?.()?.includes?.(value) || value === "") {
+                        familiasOutput.append(criarItemFamilia(familia));
+                    }
+                }
+            }
+
+            document.getElementById("option-switch-familias").addEventListener("click", () => pesquisarFamilias());
+        </script>
     </div>
 
     <div class="box-content">
-        <div class="content">
-            <h1>Família SmartWeb</h1>
+        <div class="content empty">
+            <!-- <h1>Família SmartWeb</h1>
             <form action="" class="form-familias">
+                <div style="margin: 15px 0;">
+                    <div class="inputs-gerenc">
+                        <label for="">Sobrenome</label>
+                        <input type="text">
+                    </div>
+                </div>
                 <div class="membros-familia">
-                    <h2>Nesta família</h2>
+                    <h2>Acolhido nesta família</h2>
+                    <div class="membro-row">
+                        <div style="display: flex; justify-content: center; width: 100%;">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                    <h2>Outros residentes não acolhidos</h2>
                     <div class="membro-row">
                         <div class="row-div-nome">
                             <p class="titulo-row">Nome</p>
@@ -34,10 +344,10 @@
                             </select>
                         </div>
 
-                        <!-- <div id="botoes-row">
+                        <div id="botoes-row">
                             <button id="salvar-row">Salvar</button>
                             <button id="excluir-row">Excluir</button>
-                        </div> -->
+                        </div>
                     </div>
 
                     <div class="membro-row">
@@ -56,10 +366,10 @@
                             </select>
                         </div>
 
-                        <!-- <div id="botoes-row">
+                        <div id="botoes-row">
                             <button id="salvar-row">Salvar</button>
                             <button id="excluir-row">Excluir</button>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
 
@@ -69,15 +379,34 @@
                     <label for="">Endereço</label>
                     <input type="text">
 
-                    <p>Não acolhidos: 2</p>
-                    <p>Residentes em investigação: 1</p>
-                    <p>Residentes com laudo: 3</p>
+                    <p>Não acolhidos: <span>-</span></p>
+                    <p>Residentes em investigação: <span>-</span></p>
+                    <p>Residentes com laudo: <span>-</span></p>
                 </div>
 
-                <!-- <div class="aceitar-recusar">
+                <div class="aceitar-recusar">
                     <button id="recusar-gerenc">Excluir família</button>
-                </div> -->
+                </div>
+                <div style="display: flex; justify-content: center; width: 100%;">
+                    <div class="loader"></div>
+                </div>
             </form>
-        </div>
+        </div> -->
     </div>
 </div>
+<style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #1535B5;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+        margin: auto 24px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>

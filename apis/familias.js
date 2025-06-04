@@ -1,9 +1,11 @@
-const { create, Familia, remove, update, read } = require( "../src/index.js" );
+const { create, Familia, remove, update, read, Acolhido } = require( "../src/index.js" );
 const { ClientError } = require( "../src/server" );
 const redirect = require( "../src/server/redirect.js" );
 const getFormidableBlob = require( "./_getFormidableBlob.js" );
 const singleField = require( "./_singleField.js" );
 const jsonField = require("./_jsonField.js");
+const { doc } = require("firebase/firestore");
+const { db } = require("../firebase.js");
 
 const maxSize = 50 * 1024 * 1024; // 50 MB
 
@@ -24,8 +26,12 @@ module.exports = {
             observacoes: body.fields.observacoes ? singleField(body.fields.observacoes) : "",
         }, response);
     },
-    async get({ params, query, session, response }) {
+    async get({ params, query, session, response, request }) {
         if (params.id) {
+            if (request.headers["x-acolhidos"]) {
+                const acolhidos = await read(session.get("login"), Acolhido, { conditions: [ { field: "ref_familia", relation: "==", value: doc(db, "familias", params.id) } ] });
+                return acolhidos;
+            }
             const familia = (await read(session.get("login"), Familia, { id: params.id }, response))[0];
             return familia;
         } else {
@@ -45,7 +51,7 @@ module.exports = {
         const patchFields = {};
         if (body.fields.sobrenome) patchFields.sobrenome = singleField(body.fields.sobrenome);
         if (body.fields.endereco) patchFields.endereco = singleField(body.fields.endereco);
-        if (body.fields.residentes) patchFields.residentes = jsonField(body, residentes);
+        if (body.fields.residentes) patchFields.residentes = jsonField(body, "residentes");
         if (body.fields.observacoes) patchFields.observacoes = singleField(body.fields.observacoes);
         return await update(session.get("login"), Familia, params.id, patchFields, {
             editType: "update"
