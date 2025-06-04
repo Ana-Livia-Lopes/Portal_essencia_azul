@@ -201,7 +201,6 @@
                         )
                     );
                     formContent.appendChild(criarTextInput('comida_favorita', 'Comida favorita', acolhido.fields.comida_favorita));
-                    formContent.appendChild(criarTextInput('escola', 'Escola', acolhido.fields.escola));
                     formContent.appendChild(criarTextInput('convenio', 'Convênio ou SUS: Qual convênio?', acolhido.fields.convenio));
                     formContent.appendChild(criarTextInput('responsaveis', 'Nome dos responsáveis', acolhido.fields.responsaveis));
                     formContent.appendChild(criarTextInput('faz_terapia', 'Faz terapia?', acolhido.fields.faz_terapia));
@@ -223,21 +222,40 @@
                     // Radio groups
                     formContent.appendChild(criarRadioGroup('esco', 'Frequenta escola?', acolhido.fields.esco));
                     formContent.appendChild(criarRadioGroup('cart', 'Tem carteirinha de identificação do autismo?', acolhido.fields.cart));
+                    formContent.appendChild(criarRadioGroup('prof', 'Tem profissional de apoio na escola?', acolhido.fields.prof));
                     formContent.appendChild(criarRadioGroup('cord', 'Usa o cordão de girassol ou quebra-cabeça?', acolhido.fields.cord));
                     formContent.appendChild(criarRadioGroup('vaga', 'Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?', acolhido.fields.vaga));
-                    formContent.appendChild(criarRadioGroup('prof', 'Se criança, tem profissional de apoio na escola?', acolhido.fields.prof));
+
+                    // Controle da exibição da div de profissional de apoio
+                    const escoSim = formContent.querySelector('input[name="esco"][value="Sim"]');
+                    const escoNao = formContent.querySelector('input[name="esco"][value="Não"]');
+                    const divProf = formContent.querySelector('#prof-check');
+
+                    function updateProfDisplay() {
+                        if (escoSim && escoSim.checked) {
+                            divProf.style.display = '';
+                        } else {
+                            divProf.style.display = 'none';
+                        }
+                    }
+
+                    if (escoSim && escoNao && divProf) {
+                        escoSim.addEventListener('change', updateProfDisplay);
+                        escoNao.addEventListener('change', updateProfDisplay);
+                        updateProfDisplay();
+                    }
 
                     // Botões de ação
                     const actionDiv = document.createElement('div');
                     actionDiv.classList.add('aceitar-recusar');
                     const salvarBtn = document.createElement('button');
-                    // salvarBtn.id = 'aceitar-gerenc';
-                    // salvarBtn.type = 'button';
-                    // salvarBtn.textContent = 'Salvar';
+                    salvarBtn.id = 'aceitar-gerenc';
+                    salvarBtn.type = 'button';
+                    salvarBtn.textContent = 'Salvar';
                     const excluirBtn = document.createElement('button');
-                    // excluirBtn.id = 'recusar-gerenc';
-                    // excluirBtn.type = 'button';
-                    // excluirBtn.textContent = 'Excluir';
+                    excluirBtn.id = 'recusar-gerenc';
+                    excluirBtn.type = 'button';
+                    excluirBtn.textContent = 'Excluir';
                     actionDiv.appendChild(salvarBtn);
                     actionDiv.appendChild(excluirBtn);
                     formContent.appendChild(actionDiv);
