@@ -29,11 +29,19 @@ module.exports = {
                     if (!imagem) throw Redirect("/img/user-solid.svg");
                     throw Redirect(imagem);
                 }
-                if (params.doc) {
-                    const docs = await acolhido.references.get_documentos();
-                    const doc = docs.find(doc => doc.id === params.doc);
-                    if (!doc) throw new NotFoundError(response, "Documento não encontrado");
-                    throw Redirect(await doc.references.get_arquivo());
+                if (query.doc) {
+                    const docs = await read(session.get("login"), Documento, {
+                        conditions: [
+                            {
+                                field: "ref_acolhido",
+                                relation: "==",
+                                value: doc(db, "acolhidos", acolhido.id),
+                            }
+                        ]
+                    }, response);
+                    const documento = docs.find(doc => doc.id === query.doc);
+                    if (!documento) throw new NotFoundError(response, "Documento não encontrado");
+                    throw Redirect(await documento.references.get_arquivo());
                 }
                 return acolhido;
             } else {
@@ -55,20 +63,18 @@ module.exports = {
             }
         }
     },
-    async post({ body, request, session, response }) {
-        if (request.headers["x-acolhido-docs"]) {
-            const acolhido = (await read(session.get("login"), Acolhido, { id: body.fields.acolhidoId }, response))[0];
+    async post({ body, request, session, response, params }) {
+        if (request.headers["x-acolhido-docs"] && params.id) {
+            const acolhido = (await read(session.get("login"), Acolhido, { id: params.id }, response))[0];
             if (!acolhido) throw new NotFoundError(response, "Acolhido não encontrado");
             if (!body.files.blob || !body.fields.nome) throw new ClientError(response, "Parâmetros insuficientes");
             const blob = await getFormidableBlob(body.files.blob);
-            const documento = await create(session.get("login"), Documento, {
+            return await create(session.get("login"), Documento, {
                 nome: singleField(body.fields.nome),
                 descricao: singleField(body.fields.descricao),
-                blob
+                blob,
+                ref_acolhido: doc(db, "acolhidos", acolhido.id),
             }, response);
-            return await update(session.get("login"), Acolhido, acolhido.id, {
-                ref_documentos: [ ...acolhido.fields.ref_documentos, doc(db, "documentos", documento.id) ]
-            });
         } else {
             const nome = singleField(body.fields.nome);
             const data_nascimento = Timestamp.fromDate(new Date(singleField(body.fields.data_nascimento)));

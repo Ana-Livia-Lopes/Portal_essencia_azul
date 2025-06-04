@@ -345,14 +345,7 @@ var EssenciaAzul = ( function() {
             },
             async get_documentos() {
                 const docs = [];
-                for (const ref of instanceRealFields.get(this).ref_documentos) {
-                    if (ref instanceof DocumentReference) {
-                        const doc = await getDoc(ref);
-                        if (doc.exists()) {
-                            docs.push(new Types.Documento(Symbol.for("PublicTypesRead"), doc.id, mapForTimestampToDate({ ...doc.data() }), privateDBConstructorKey));
-                        }
-                    }
-                }
+                await getDocs(collection(db, "documentos"), where("ref_acolhido", "==", doc(db, "acolhidos", this.id)))
                 return docs;
             },
             async get_imagem() {

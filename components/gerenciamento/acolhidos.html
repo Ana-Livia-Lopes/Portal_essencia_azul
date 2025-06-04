@@ -66,7 +66,7 @@
                     const option = document.createElement('option');
                     option.value = opt.value;
                     option.textContent = opt.label;
-                    if (opt.value === value) option.selected = true;
+                    if (opt.value === `${value}`) option.selected = true;
                     select.appendChild(option);
                 });
                 div.appendChild(labelElement);
@@ -185,14 +185,14 @@
                     const formContent = document.createElement('form');
                     formContent.classList.add('form-gerenc');
                     coluna1.appendChild(criarTextInput('nome', 'Nome', acolhido.fields.nome));
-                    coluna2.appendChild(criarListInput('areas_interesse', 'Áreas de Interesse', acolhido.fields.areas_interesse));
-                    coluna1.appendChild(criarTextInput('telefone', 'Telefone', acolhido.fields.telefone));
+                    coluna2.appendChild(criarListInput('areas_interesse', 'Áreas de Interesse', acolhido.fields.interesses));
                     coluna2.appendChild(criarListInput('hiperfoco', 'Hiperfoco', acolhido.fields.hiperfoco));
-                    coluna1.appendChild(criarTextInput('email', 'E-mail', acolhido.fields.email));
                     coluna2.appendChild(criarTextInput('como_acalma', 'Como o autista se acalma?', acolhido.fields.como_acalma));
-                    coluna1.appendChild(criarDateInput('data_nascimento', 'Data de Nascimento', acolhido.fields.data_nascimento));
+                    const data_nascimento = new Date(acolhido.fields.data_nascimento);
+                    coluna1.appendChild(criarDateInput('data_nascimento', 'Data de Nascimento',
+                        data_nascimento.toISOString().split('T')[0] // Formato YYYY-MM-DD
+                    ));
                     coluna2.appendChild(criarListInput('atividades_nao_gosta', 'Atividades que o autista NÃO gosta', acolhido.fields.atividades_nao_gosta));
-                    coluna1.appendChild(criarTextInput('familia', 'Família', acolhido.fields.familia));
                     coluna2.appendChild(criarListInput('restricoes_alimentares', 'Restrições alimentares', acolhido.fields.restricoes_alimentares));
                     coluna1.appendChild(
                         criarSelectInput(
@@ -208,9 +208,9 @@
                     );
                     coluna2.appendChild(criarTextInput('comida_favorita', 'Comida favorita', acolhido.fields.comida_favorita));
                     coluna1.appendChild(criarTextInput('convenio', 'Convênio ou SUS: Qual convênio?', acolhido.fields.convenio));
-                    coluna1.appendChild(criarTextInput('responsaveis', 'Nome dos responsáveis', acolhido.fields.responsaveis));
-                    coluna2.appendChild(criarListInput('faz_terapia', 'Terapias que está fazendo', acolhido.fields.faz_terapia));
-                    coluna2.appendChild(criarListInput('terapia_precisa', 'Qual terapia precisa e não faz?', acolhido.fields.terapia_precisa));
+                    // coluna1.appendChild(criarTextInput('responsaveis', 'Nome dos responsáveis', acolhido.fields.responsaveis));
+                    coluna2.appendChild(criarListInput('faz_terapia', 'Terapias que está fazendo', acolhido.fields.terapias.faz));
+                    coluna2.appendChild(criarListInput('terapia_precisa', 'Qual terapia precisa e não faz?', acolhido.fields.terapias.precisa));
 
                     // Observações (textarea)
                     const obsDiv = document.createElement('div');
@@ -278,6 +278,39 @@
                     addDocInput.type = 'file';
                     addDocInput.classList.add('campo-file');
                     const addDocBtn = document.createElement('button');
+                    addDocBtn.addEventListener("click", () => {
+                        const doc = addDocInput.files[0];
+                        if (doc) {
+                            const fd = new FormData();
+                            fd.append("blob", doc);
+                            fd.append("nome", "Documento de " + acolhido.fields.nome);
+                            fd.append("descricao", `Adicionado em ${new Date()}`);
+                            fetch("/api/acolhidos/" + acolhido.id, {
+                                method: "POST",
+                                body: fd,
+                                headers: {
+                                    ["x-acolhido-docs"]: "true",
+                                }
+                            }).then(resp => resp.json()).then(json => {
+                                if (json.status === "error") {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Houve um erro...',
+                                        text: json.message || 'Erro ao enviar documento.'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Sucesso!',
+                                        text: 'Documento enviado com sucesso!'
+                                    });
+                                    addDocInput.value = "";
+                                }
+                            })
+                        } else {
+
+                        }
+                    });
                     addDocBtn.type = 'button';
                     addDocBtn.textContent = 'Enviar';
                     addDocDiv.appendChild(addDocTitle);
@@ -289,11 +322,42 @@
                     const addFotoDiv = document.createElement('div');
                     addFotoDiv.classList.add('add');
                     const addFotoTitle = document.createElement('h3');
-                    addFotoTitle.textContent = 'Adicionar foto';
+                    addFotoTitle.textContent = acolhido.fields.url_imagem ? "Alterar foto" : 'Adicionar foto';
                     const addFotoInput = document.createElement('input');
                     addFotoInput.type = 'file';
+                    addFotoInput.accept = "image/*";
                     addFotoInput.classList.add('campo-file');
                     const addFotoBtn = document.createElement('button');
+                    addFotoBtn.addEventListener("click", () => {
+                        const foto = addFotoInput.files[0];
+                        if (foto) {
+                            const fd = new FormData();
+                            fd.append("blob", foto);
+                            fetch("/api/acolhidos/" + acolhido.id, {
+                                method: "PATCH",
+                                body: fd,
+                            }).then(resp => resp.json()).then(json => {
+                                if (json.status === "error") {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Houve um erro...',
+                                        text: json.message || 'Erro ao enviar foto.'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Sucesso!',
+                                        text: 'Foto enviada com sucesso!'
+                                    });
+                                    const d = new Date();
+                                    imgElement.src = `/api/acolhidos/${acolhido.id}?getImagem=true&t=${d.toISOString()}`;
+                                    img.src = `/api/acolhidos/${acolhido.id}?getImagem=true&t=${d.toISOString()}`;
+                                }
+                            })
+                        } else {
+
+                        }
+                    });
                     addFotoBtn.type = 'button';
                     addFotoBtn.textContent = 'Enviar';
                     addFotoDiv.appendChild(addFotoTitle);
