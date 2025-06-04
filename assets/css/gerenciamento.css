@@ -288,6 +288,8 @@ body {
 
 .item img {
   width: 30px;
+  border-radius: 50%;
+  border: 2px solid #c7dcff;
 }
 
 .item:hover {
@@ -436,7 +438,8 @@ body {
   margin-bottom: 15px;
 }
 
-.info-familia label, .info-familia p {
+.info-familia label,
+.info-familia p {
   font-size: 18px;
   margin-bottom: 5px;
   font-weight: 500;
@@ -468,6 +471,7 @@ body {
 .top-content img {
   width: 70px;
   margin-left: 40px;
+  border-radius: 50%;
 }
 
 .top-content h1 {
@@ -514,7 +518,18 @@ body {
   color: white;
 }
 
-#select-nv-suporte, .custom-select {
+.list-input {
+  input {
+    text-indent: 20px;
+    background-image: url("/img/circle-solid.svg");
+    background-repeat: no-repeat;
+    background-size: 8px 8px;
+    background-position: 10px;
+  }
+}
+
+#select-nv-suporte,
+.custom-select {
   background-color: #f3f3f3;
   border: solid 2px rgb(214, 214, 214);
   border-radius: 0.2rem;
@@ -526,7 +541,8 @@ body {
   outline: none;
 }
 
-#select-nv-suporte:focus, .custom-select:focus {
+#select-nv-suporte:focus,
+.custom-select:focus {
   border: solid 2px #696969d6;
 }
 
