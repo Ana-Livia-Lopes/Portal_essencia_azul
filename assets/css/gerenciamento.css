@@ -528,6 +528,22 @@ body {
   }
 }
 
+.coluna {
+  label {
+    margin-top: 15px;
+  }
+
+  .checkboxes {
+    margin-top: 15px;
+  }
+
+  .radio {
+    label {
+      margin-top: 0 !important;
+    }
+  }
+}
+
 #select-nv-suporte,
 .custom-select {
   background-color: #f3f3f3;

@@ -176,19 +176,25 @@
                     topContent.appendChild(imgElement);
                     topContent.appendChild(nameElement);
                     contentDiv.appendChild(topContent);
+
+                    const coluna1 = document.createElement('div');
+                    coluna1.classList.add('coluna');
+                    const coluna2 = document.createElement('div');
+                    coluna2.classList.add('coluna');
+
                     const formContent = document.createElement('form');
                     formContent.classList.add('form-gerenc');
-                    formContent.appendChild(criarTextInput('nome', 'Nome', acolhido.fields.nome));
-                    formContent.appendChild(criarListInput('areas_interesse', 'Áreas de Interesse', acolhido.fields.areas_interesse));
-                    formContent.appendChild(criarTextInput('telefone', 'Telefone', acolhido.fields.telefone));
-                    formContent.appendChild(criarListInput('hiperfoco', 'Hiperfoco', acolhido.fields.hiperfoco));
-                    formContent.appendChild(criarTextInput('email', 'E-mail', acolhido.fields.email));
-                    formContent.appendChild(criarTextInput('como_acalma', 'Como o autista se acalma?', acolhido.fields.como_acalma));
-                    formContent.appendChild(criarDateInput('data_nascimento', 'Data de Nascimento', acolhido.fields.data_nascimento));
-                    formContent.appendChild(criarListInput('atividades_nao_gosta', 'Atividades que o autista NÃO gosta', acolhido.fields.atividades_nao_gosta));
-                    formContent.appendChild(criarTextInput('familia', 'Família', acolhido.fields.familia));
-                    formContent.appendChild(criarListInput('restricoes_alimentares', 'Restrições alimentares', acolhido.fields.restricoes_alimentares));
-                    formContent.appendChild(
+                    coluna1.appendChild(criarTextInput('nome', 'Nome', acolhido.fields.nome));
+                    coluna2.appendChild(criarListInput('areas_interesse', 'Áreas de Interesse', acolhido.fields.areas_interesse));
+                    coluna1.appendChild(criarTextInput('telefone', 'Telefone', acolhido.fields.telefone));
+                    coluna2.appendChild(criarListInput('hiperfoco', 'Hiperfoco', acolhido.fields.hiperfoco));
+                    coluna1.appendChild(criarTextInput('email', 'E-mail', acolhido.fields.email));
+                    coluna2.appendChild(criarTextInput('como_acalma', 'Como o autista se acalma?', acolhido.fields.como_acalma));
+                    coluna1.appendChild(criarDateInput('data_nascimento', 'Data de Nascimento', acolhido.fields.data_nascimento));
+                    coluna2.appendChild(criarListInput('atividades_nao_gosta', 'Atividades que o autista NÃO gosta', acolhido.fields.atividades_nao_gosta));
+                    coluna1.appendChild(criarTextInput('familia', 'Família', acolhido.fields.familia));
+                    coluna2.appendChild(criarListInput('restricoes_alimentares', 'Restrições alimentares', acolhido.fields.restricoes_alimentares));
+                    coluna1.appendChild(
                         criarSelectInput(
                             'nivel_suporte',
                             'Nível de suporte',
@@ -200,11 +206,11 @@
                             acolhido.fields.nivel_suporte
                         )
                     );
-                    formContent.appendChild(criarTextInput('comida_favorita', 'Comida favorita', acolhido.fields.comida_favorita));
-                    formContent.appendChild(criarTextInput('convenio', 'Convênio ou SUS: Qual convênio?', acolhido.fields.convenio));
-                    formContent.appendChild(criarTextInput('responsaveis', 'Nome dos responsáveis', acolhido.fields.responsaveis));
-                    formContent.appendChild(criarListInput('faz_terapia', 'Terapias que está fazendo', acolhido.fields.faz_terapia));
-                    formContent.appendChild(criarListInput('terapia_precisa', 'Qual terapia precisa e não faz?', acolhido.fields.terapia_precisa));
+                    coluna2.appendChild(criarTextInput('comida_favorita', 'Comida favorita', acolhido.fields.comida_favorita));
+                    coluna1.appendChild(criarTextInput('convenio', 'Convênio ou SUS: Qual convênio?', acolhido.fields.convenio));
+                    coluna1.appendChild(criarTextInput('responsaveis', 'Nome dos responsáveis', acolhido.fields.responsaveis));
+                    coluna2.appendChild(criarListInput('faz_terapia', 'Terapias que está fazendo', acolhido.fields.faz_terapia));
+                    coluna2.appendChild(criarListInput('terapia_precisa', 'Qual terapia precisa e não faz?', acolhido.fields.terapia_precisa));
 
                     // Observações (textarea)
                     const obsDiv = document.createElement('div');
@@ -217,14 +223,14 @@
                     obsTextarea.value = acolhido.fields.observacoes || '';
                     obsDiv.appendChild(obsLabel);
                     obsDiv.appendChild(obsTextarea);
-                    formContent.appendChild(obsDiv);
+                    coluna2.appendChild(obsDiv);
 
                     // Radio groups
-                    formContent.appendChild(criarRadioGroup('esco', 'Frequenta escola?', acolhido.fields.esco));
-                    formContent.appendChild(criarRadioGroup('cart', 'Tem carteirinha de identificação do autismo?', acolhido.fields.cart));
-                    formContent.appendChild(criarRadioGroup('prof', 'Tem profissional de apoio na escola?', acolhido.fields.prof));
-                    formContent.appendChild(criarRadioGroup('cord', 'Usa o cordão de girassol ou quebra-cabeça?', acolhido.fields.cord));
-                    formContent.appendChild(criarRadioGroup('vaga', 'Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?', acolhido.fields.vaga));
+                    coluna1.appendChild(criarRadioGroup('esco', 'Frequenta escola?', acolhido.fields.esco));
+                    coluna1.appendChild(criarRadioGroup('cart', 'Tem carteirinha de identificação do autismo?', acolhido.fields.cart));
+                    coluna1.appendChild(criarRadioGroup('prof', 'Tem profissional de apoio na escola?', acolhido.fields.prof));
+                    coluna1.appendChild(criarRadioGroup('cord', 'Usa o cordão de girassol ou quebra-cabeça?', acolhido.fields.cord));
+                    coluna1.appendChild(criarRadioGroup('vaga', 'Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?', acolhido.fields.vaga));
 
                     // Controle da exibição da div de profissional de apoio
                     const escoSim = formContent.querySelector('input[name="esco"][value="Sim"]');
@@ -244,6 +250,9 @@
                         escoNao.addEventListener('change', updateProfDisplay);
                         updateProfDisplay();
                     }
+
+                    formContent.appendChild(coluna1);
+                    formContent.appendChild(coluna2);
 
                     // Botões de ação
                     const actionDiv = document.createElement('div');
