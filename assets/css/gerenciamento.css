@@ -71,6 +71,42 @@ body {
   margin-top: 10px;
 }
 
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.modal-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 8px;
+}
+
+.modal-input,
+.modal-textarea,
+.modal-file {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.modal-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.modal-file {
+    padding: 6px;
+    background-color: #f9f9f9;
+    border: 1px dashed #ccc;
+}
+
 .botao,
 .botao-esp {
   padding: 10px 15px;
@@ -344,6 +380,13 @@ body {
   border: 2px solid #c7dcff;
 }
 
+.relatorio-img {
+  width: 50px;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  border: 2px solid #c7dcff;
+}
+
 .item:hover {
   opacity: 0.8;
 }
@@ -442,7 +485,7 @@ body {
   font-weight: 500;
   border: 2px solid #d1d1d1;
   border-radius: 0.3rem;
-  padding: 5px;
+  padding: 10px;
 }
 
 #botoes-row {
@@ -513,6 +556,19 @@ body {
 
 .info-familia input:focus {
   border: solid 2px #696969d6;
+}
+
+.membros-familia input {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: solid 2px #d1d1d1;
+  border-radius: 0.2rem;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  height: 40px;
+  outline: none;
 }
 
 .top-content {
@@ -692,7 +748,7 @@ body {
   grid-column: 1 / span 2;
 }
 
-.textarea textarea {
+.textarea textarea, .observacoes-textarea {
   background-color: #f3f3f3;
   border: solid 2px rgb(214, 214, 214);
   border-radius: 0.4rem;
@@ -728,12 +784,12 @@ body {
   margin-top: 5px;
 }
 
-#aceitar-gerenc {
+#aceitar-gerenc, .add-residente {
   background-color: #1535B5;
   transition: all 0.3s;
 }
 
-#aceitar-gerenc:hover {
+#aceitar-gerenc:hover, .add-residente:hover {
   background-color: #132d96;
 }
 
@@ -766,7 +822,7 @@ body {
 
   .content {
     overflow-y: auto;
-    max-height: 800px;
+    max-height: 560px;
   }
 
   .container {
@@ -802,6 +858,7 @@ body {
 
   .box-content {
     padding: 10px 0;
+    padding-bottom: 24px;
     width: 95%;
   }
 

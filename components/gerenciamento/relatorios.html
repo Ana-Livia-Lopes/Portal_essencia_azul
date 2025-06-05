@@ -31,6 +31,7 @@
             const img = document.createElement('img');
             img.src = `/api/admins/${admin.id}?getImagem=true` || '/img/user-default.png';
             img.alt = '';
+            img.classList.add("relatorio-img");
             const nomeH2 = document.createElement('h2');
             nomeH2.textContent = admin.fields.nome;
             pessoaDiv.appendChild(img);

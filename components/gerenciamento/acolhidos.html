@@ -74,7 +74,7 @@
                 return div;
             }
 
-            function criarRadioGroup(name, label, value) {
+            function criarRadioGroup(name, label, value, acolhido) {
                 const checkDiv = document.createElement('div');
                 checkDiv.id = `${name}-check`;
                 checkDiv.classList.add('checkboxes');
@@ -88,6 +88,11 @@
 
                 let radioInputs = [];
 
+                const msgsToBool = {
+                    "Sim": true,
+                    "Não": false
+                };
+
                 ['Sim', 'Não'].forEach(opt => {
                     const input = document.createElement('input');
                     input.type = 'radio';
@@ -95,7 +100,7 @@
                     input.className = `class-${name}-${opt.toLowerCase()}`;
                     input.name = name;
                     input.value = opt;
-                    if (value === opt) input.checked = true;
+                    if (value === msgsToBool[opt]) input.checked = true;
                     const lbl = document.createElement('label');
                     lbl.setAttribute('for', input.id);
                     lbl.classList.add('conteudo-site');
@@ -123,8 +128,9 @@
 
                     inputEsco = document.createElement('input');
                     inputEsco.type = 'text';
-                    labelEsco.style.display = (value === 'Sim') ? '' : 'none';
-                    inputEsco.style.display = (value === 'Sim') ? '' : 'none';
+                    inputEsco.value = acolhido?.fields?.escola?.nome || '';
+                    labelEsco.style.display = (value === true) ? '' : 'none';
+                    inputEsco.style.display = (value === true) ? '' : 'none';
                     inputEsco.id = 'esco-nome';
                     inputEscoDiv.appendChild(inputEsco);
 
@@ -162,8 +168,6 @@
                 div.addEventListener("click", () => {
                     const contentDiv = document.querySelector('.box-content .content');
                     contentDiv.classList.remove('empty');
-
-                    console.log(acolhido)
 
                     contentDiv.innerHTML = '';
                     const topContent = document.createElement('div');
@@ -226,11 +230,11 @@
                     coluna2.appendChild(obsDiv);
 
                     // Radio groups
-                    coluna1.appendChild(criarRadioGroup('esco', 'Frequenta escola?', acolhido.fields.esco));
-                    coluna1.appendChild(criarRadioGroup('prof', 'Tem profissional de apoio na escola?', acolhido.fields.prof));
-                    coluna1.appendChild(criarRadioGroup('cart', 'Tem carteirinha de identificação do autismo?', acolhido.fields.cart));
-                    coluna1.appendChild(criarRadioGroup('cord', 'Usa o cordão de girassol ou quebra-cabeça?', acolhido.fields.cord));
-                    coluna1.appendChild(criarRadioGroup('vaga', 'Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?', acolhido.fields.vaga));
+                    coluna1.appendChild(criarRadioGroup('esco', 'Frequenta escola?', Boolean(acolhido.fields.escola), acolhido));
+                    coluna1.appendChild(criarRadioGroup('prof', 'Tem profissional de apoio na escola?', acolhido.fields.escola?.tem_suporte));
+                    coluna1.appendChild(criarRadioGroup('cart', 'Tem carteirinha de identificação do autismo?', acolhido.fields.identificacoes.ciptea));
+                    coluna1.appendChild(criarRadioGroup('cord', 'Usa o cordão de girassol ou quebra-cabeça?', acolhido.fields.identificacoes.cordao));
+                    coluna1.appendChild(criarRadioGroup('vaga', 'Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?', acolhido.fields.identificacoes.vaga_exclusiva));
 
                     // Controle da exibição da div de profissional de apoio
                     const escoSim = coluna1.querySelector('input[name="esco"][value="Sim"]');
@@ -261,6 +265,70 @@
                     salvarBtn.id = 'aceitar-gerenc';
                     salvarBtn.type = 'button';
                     salvarBtn.textContent = 'Salvar';
+                    salvarBtn.addEventListener("click", () => {
+                        Swal.fire({
+                            title: 'Salvar Acolhido',
+                            text: "Você tem certeza que deseja salvar as alterações?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Sim, salvar!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const formData = new FormData();
+                                formData.append("nome", document.getElementById('nome').value);
+                                formData.append("interesses", JSON.stringify(document.getElementById('areas_interesse').value));
+                                formData.append("hiperfoco", JSON.stringify(document.getElementById('hiperfoco').value));
+                                formData.append("como_acalma", document.getElementById('como_acalma').value);
+                                formData.append("data_nascimento", document.getElementById('data_nascimento').value);
+                                formData.append("atividades_nao_gosta", JSON.stringify(document.getElementById('atividades_nao_gosta').value));
+                                formData.append("restricoes_alimentares", JSON.stringify(document.getElementById('restricoes_alimentares').value));
+                                formData.append("nivel_suporte", document.getElementById('nivel_suporte').value);
+                                formData.append("comida_favorita", document.getElementById('comida_favorita').value);
+                                formData.append("convenio", document.getElementById('convenio').value);
+                                formData.append("terapias", JSON.stringify({
+                                    faz: document.getElementById('faz_terapia').value,
+                                    precisa: document.getElementById('terapia_precisa').value
+                                }));
+                                formData.append("observacoes", document.getElementById('observacoes').value);
+                                formData.append("identificacoes", JSON.stringify({
+                                    ciptea: document.querySelector('input[name="cart"]:checked')?.value === 'Sim',
+                                    cordao: document.querySelector('input[name="cord"]:checked')?.value === 'Sim',
+                                    vaga_exclusiva: document.querySelector('input[name="vaga"]:checked')?.value === 'Sim'
+                                }));
+                                formData.append("escola", JSON.stringify(escoSim.checked ? {
+                                    nome: document.getElementById('esco-nome').value,
+                                    tem_suporte: document.querySelector('input[name="prof"]:checked')?.value === 'Sim'
+                                } : null));
+                                fetch("/api/acolhidos/" + acolhido.id, {
+                                    method: "PATCH",
+                                    body: formData,
+                                }).then(resp => resp.json()).then(json => {
+                                    if (json.status === "error") {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Houve um erro...',
+                                            text: json.message || 'Erro ao salvar acolhido.'
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Sucesso!',
+                                            text: 'Acolhido salvo com sucesso!'
+                                        });
+                                        cachedSearch = undefined;
+                                        acolhido.fields = json.fields;
+                                        const d = new Date();
+                                        imgElement.src = acolhido.fields.url_imagem ? `/api/acolhidos/${acolhido.id}?getImagem=true&t=${d.toISOString()}` : "/img/user-default.png";
+                                        img.src = acolhido.fields.url_imagem ? `/api/acolhidos/${acolhido.id}?getImagem=true&t=${d.toISOString()}` : "/img/user-default.png";
+                                        nameElement.textContent = acolhido.fields.nome || "Acolhido";
+                                        div.textContent = acolhido.fields.nome || "Acolhido";
+                                    }
+                                })
+                            }
+                        });
+                    });
                     const excluirBtn = document.createElement('button');
                     excluirBtn.id = 'recusar-gerenc';
                     excluirBtn.type = 'button';
@@ -449,7 +517,7 @@
                         const leftSide = document.createElement('div');
                         leftSide.classList.add('left-side');
                         const leftSide1 = document.createElement('div');
-                        leftSide1.innerHTML = `<i class="fa fa-file-alt" style="font-size: 2em; color: #1535B5;"></i>`;
+                        leftSide1.innerHTML = `<i class="fa fa-file-alt" style="font-size: 2em; color: #1535B5; cursor: pointer;"></i>`;
                         leftSide1.addEventListener("click", () => {
                             window.open(`/api/acolhidos/${acolhido.id}?doc=${documento.id}`);
                         });
@@ -475,9 +543,11 @@
                             Swal.fire({
                                 title: 'Editar Documento',
                                 html: `
-                                    <input type="text" id="doc-edit-nome" class="swal2-input" placeholder="Nome do documento" value="${documento.fields.nome || ''}">
-                                    <textarea id="doc-edit-descricao" class="swal2-textarea" placeholder="Descrição">${documento.fields.descricao || ''}</textarea>
-                                    <input type="file" id="doc-edit-file" class="swal2-file" accept="application/pdf,image/*">
+                                <div class="modal-container">
+                                    <input class="modal-input" type="text" id="doc-edit-nome" class="swal2-input" placeholder="Nome do documento" value="${documento.fields.nome || ''}">
+                                    <textarea class="modal-textarea" id="doc-edit-descricao" class="swal2-textarea" placeholder="Descrição">${documento.fields.descricao || ''}</textarea>
+                                    <input class="modal-file" type="file" id="doc-edit-file" class="swal2-file" accept="application/pdf,image/*">
+                                </div>
                                 `,
                                 focusConfirm: false,
                                 preConfirm: () => {

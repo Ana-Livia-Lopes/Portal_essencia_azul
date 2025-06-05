@@ -75,10 +75,21 @@
                     let neurotipicos = 0;
 
                     for (const residente of familia.fields.residentes) {
+                        criarResidente(residente);
+                    }
+
+                    const btnAddResidenteContainer = document.createElement("div");
+                    btnAddResidenteContainer.classList.add("aceitar-recusar");
+                    const btnAddResidente = document.createElement("button");
+                    btnAddResidente.textContent = "Adicionar residente";
+                    btnAddResidente.type = "button";
+                    btnAddResidente.classList.add("add-residente");
+                    btnAddResidente.addEventListener("click", () => criarResidente({ nome: "", tipo: "autista" }));
+                    btnAddResidenteContainer.appendChild(btnAddResidente);
+
+                    function criarResidente(residente) {
                         const residenteObj = { nome: residente.nome, tipo: residente.tipo ?? residente.perfil };
                         campos.residentes.push(residenteObj);
-
-                        console.log(residente)
 
                         switch (residente.tipo ?? residente.perfil) {
                             case "autista":
@@ -95,6 +106,7 @@
                         }
                         
                         const membroRow = document.createElement("div");
+                        membroRow.style.position = "relative";
                         membroRow.classList.add("membro-row");
 
                         const rowDivNome = document.createElement("div");
@@ -140,12 +152,40 @@
                         rowDivLaudo.appendChild(pTituloLaudo);
                         rowDivLaudo.appendChild(selectLaudo);
 
+                        const removerBtn = document.createElement("button");
+                        removerBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`;
+                        removerBtn.style.position = "absolute";
+                        removerBtn.style.top = "8px";
+                        removerBtn.style.right = "8px";
+                        removerBtn.type = "button";
+                        removerBtn.classList.add("delete-doc-btn");
+                        removerBtn.addEventListener("click", () => {
+                            Swal.fire({
+                                title: "Tem certeza?",
+                                text: "Você não poderá reverter isso!",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "Sim, remover",
+                                cancelButtonText: "Cancelar"
+                            }).then(result => {
+                                if (result.isConfirmed) {
+                                    let newResidentes = campos.residentes.filter(r => r !== residenteObj);
+                                    campos.residentes.length = 0;
+                                    campos.residentes.push(...newResidentes);
+                                    membroRow.remove();
+                                }
+                            });
+                        });
+
+                        const botoesRow = document.createElement("div");
                         membroRow.appendChild(rowDivNome);
                         membroRow.appendChild(rowDivLaudo);
+                        membroRow.appendChild(removerBtn);
 
                         outrosMembros.appendChild(membroRow);
                     }
                     membrosFamilia.appendChild(outrosMembros);
+                    membrosFamilia.appendChild(btnAddResidenteContainer);
                     const infoFamilia = document.createElement("div");
                     infoFamilia.classList.add("info-familia");
                     const h2Info = document.createElement("h2");
@@ -162,6 +202,7 @@
                     const labelObservacoes = document.createElement("label");
                     labelObservacoes.textContent = "Observações";
                     const textareaObservacoes = document.createElement("textarea");
+                    textareaObservacoes.classList.add("observacoes-textarea")
                     textareaObservacoes.value = familia.fields.observacoes || "";
                     textareaObservacoes.rows = 3;
                     textareaObservacoes.style.width = "100%";
@@ -193,60 +234,73 @@
                     excluirButton.textContent = "Excluir família";
 
                     editarButton.addEventListener("click", () => {
-                        if (!campos.endereco) {
-                            campos.endereco = inputEndereco.value;
-                        }
-                        if (!campos.sobrenome) {
-                            campos.sobrenome = inputSobrenome.value;
-                        }
-                        const fd = new FormData();
-
-                        fd.append("sobrenome", campos.sobrenome);
-                        fd.append("endereco", campos.endereco);
-                        fd.append("residentes", JSON.stringify(campos.residentes));
-                        fd.append("observacoes", familia.fields.observacoes || "");
-
-                        fetch("/api/familias/" + familia.id, {
-                            method: "PATCH",
-                            body: fd
-                        }).then(resp => resp.json()).then(json => {
-                            if (json.status === "error") {
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Houve um erro...",
-                                    text: json.message
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "Família editada com sucesso!"
-                                });
-                                familiaCachedSearch = undefined;
-                                pesquisarFamilias("");
-                                autistas = 0;
-                                investigacao = 0;
-                                neurotipicos = 0;
-                                for (const residente of campos.residentes) {
-                                    switch (residente.tipo) {
-                                        case "autista":
-                                            autistas++;
-                                            break;
-                                        case "em investigacao":
-                                            investigacao++;
-                                            break;
-                                        case "neurotipico":
-                                            neurotipicos++;
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                        Swal.fire({
+                            title: "Tem certeza?",
+                            text: "Você deseja realmente editar esta família?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Sim, editar",
+                            cancelButtonText: "Cancelar"
+                        }).then(result => {
+                            if (result.isConfirmed) {
+                                if (!campos.endereco) {
+                                    campos.endereco = inputEndereco.value;
                                 }
-                                autistas += acolhidos.length;
-                                spanAutistas.textContent = autistas;
-                                spanInvestigacao.textContent = investigacao;
-                                spanNeurotipicos.textContent = neurotipicos;
+                                if (!campos.sobrenome) {
+                                    campos.sobrenome = inputSobrenome.value;
+                                }
+                                const fd = new FormData();
+        
+                                fd.append("sobrenome", campos.sobrenome);
+                                fd.append("endereco", campos.endereco);
+                                fd.append("residentes", JSON.stringify(campos.residentes));
+                                fd.append("observacoes", familia.fields.observacoes || "");
+        
+                                fetch("/api/familias/" + familia.id, {
+                                    method: "PATCH",
+                                    body: fd
+                                }).then(resp => resp.json()).then(json => {
+                                    if (json.status === "error") {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Houve um erro...",
+                                            text: json.message
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Família editada com sucesso!"
+                                        });
+                                        familiaCachedSearch = undefined;
+                                        pesquisarFamilias("");
+                                        autistas = 0;
+                                        investigacao = 0;
+                                        neurotipicos = 0;
+                                        for (const residente of campos.residentes) {
+                                            switch (residente.tipo) {
+                                                case "autista":
+                                                    autistas++;
+                                                    break;
+                                                case "em investigacao":
+                                                    investigacao++;
+                                                    break;
+                                                case "neurotipico":
+                                                    neurotipicos++;
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                        }
+                                        autistas += acolhidos.length;
+                                        spanAutistas.textContent = autistas;
+                                        spanInvestigacao.textContent = investigacao;
+                                        spanNeurotipicos.textContent = neurotipicos;
+                                        familia.fields = json.fields
+                                    }
+                                })
                             }
-                        })
+                        });
+
                     });
 
                     excluirButton.addEventListener("click", () => {

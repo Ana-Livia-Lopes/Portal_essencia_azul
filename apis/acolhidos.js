@@ -198,7 +198,7 @@ module.exports = {
             if (body.fields.comida_favorita) patchFields.comida_favorita = singleField(body.fields.comida_favorita);
             if (body.fields.convenio) patchFields.convenio = singleField(body.fields.convenio);
             if (body.fields.terapias) patchFields.terapias = jsonField(body, "terapias");
-            if (body.fields.observacoes) patchFields.observacoes = jsonField(body, "observacoes");
+            if (body.fields.observacoes) patchFields.observacoes = singleField(body.fields.observacoes);
             if (body.files.blob) {
                 const blob = await getFormidableBlob(body.files.blob);
                 patchFields.blob = blob;

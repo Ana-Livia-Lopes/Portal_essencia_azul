@@ -220,6 +220,7 @@
 
 <body>
     <component-header/>
+    <component-admin-login_status />
 
     <h1 id="titulo1" class="conteudo-site">Gerenciamento</h1>
 
@@ -228,11 +229,18 @@
         <div class="navegacao-lateral">
             <div class="links-pg-div">
                 <div id="agrupamento-links">
-                    <h3><a href="/cadastrar_adm"><i id="icon-link" class="fas fa-plus conteudo-site"></i> <p>Cadastrar administrador</p> </a></h3>
+                    <h3 id="cadastrar_adm_h3"><a href="/cadastrar_adm"><i id="icon-link" class="fas fa-plus conteudo-site"></i> <p>Cadastrar administrador</p> </a></h3>
                     <h3><a href="/cadastrar_acolhido"><i id="icon-link" class="fas fa-plus conteudo-site"></i> <p>Cadastrar acolhido</p> </a></h3>
                     <h3><a href="/comentarios-duvidas"><i id="icon-link" class="fas fa-message conteudo-site"></i> <p>Comentários</p> </a></h3>
                     <h3><a href="/solic_receb"><i class="fas fa-user conteudo-site"></i> <p>Solicitações de cadastro</p> </a>
                     </h3>
+                    <script>
+                        if (window.LOGIN_STATUS) {
+                            if (window.LOGIN_STATUS.nivel === "simples") {
+                                document.getElementById("cadastrar_adm_h3").remove();
+                            }
+                        }
+                    </script>
                 </div>
             </div>
 
