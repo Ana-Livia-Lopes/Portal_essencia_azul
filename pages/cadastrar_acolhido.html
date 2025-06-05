@@ -652,7 +652,7 @@
                 endereco: document.getElementById("endereco").value,
                 escola: frequentaEscola ? {
                     nome: document.getElementById("escola").value || null,
-                    suporte: document.querySelector('input[name="escola-suporte"]:checked')?.value === "true"
+                    tem_suporte: document.querySelector('input[name="escola-suporte"]:checked')?.value === "true"
                 } : null,
                 responsaveis: responsaveisArr.map(r => ({
                     nome: r.nome,

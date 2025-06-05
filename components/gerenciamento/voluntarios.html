@@ -115,30 +115,43 @@
                 aceitarButton.textContent = 'Editar';
                 aceitarButton.addEventListener("click", (e) => {
                     e.preventDefault();
-                    const fd = new FormData();
-                    for (const [key, value] of Object.entries(fields)) {
-                        fd.append(key, value);
-                    }
-                    fetch("/api/voluntarios/" + voluntario.id, {
-                        method: "PATCH",
-                        body: fd
-                    }).then(resp => resp.json()).then(json => {
-                        if (json.status === "error") {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Houve um erro...',
-                                text: json.message || 'Erro ao editar voluntário.'
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Sucesso!',
-                                text: 'Voluntário editado com sucesso!'
-                            });
-                            h1.textContent = json.fields.nome || 'Voluntário sem nome';
-                            div.textContent = json.fields.nome || 'Voluntário sem nome';
+                    Swal.fire({
+                        title: 'Tem certeza?',
+                        text: "Você está prestes a editar este voluntário!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sim, editar!'
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            const fd = new FormData();
+                            for (const [key, value] of Object.entries(fields)) {
+                                fd.append(key, value);
+                            }
+                            fetch("/api/voluntarios/" + voluntario.id, {
+                                method: "PATCH",
+                                body: fd
+                            }).then(resp => resp.json()).then(json => {
+                                if (json.status === "error") {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Houve um erro...',
+                                        text: json.message || 'Erro ao editar voluntário.'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Sucesso!',
+                                        text: 'Voluntário editado com sucesso!'
+                                    });
+                                    h1.textContent = json.fields.nome || 'Voluntário sem nome';
+                                    div.textContent = json.fields.nome || 'Voluntário sem nome';
+                                    voluntario.fields = json.fields;
+                                }
+                            })
                         }
-                    })
+                    });
                 });
                 const recusarButton = document.createElement('button');
                 recusarButton.id = 'recusar-gerenc';
