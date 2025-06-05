@@ -15,6 +15,7 @@
         input {
             pointer-events: none;
         }
+
         body {
             min-height: 100vh;
         }
@@ -153,21 +154,138 @@
         </div>
 
         <div id="container-voluntarios">
-            
+
         </div>
     </main>
     <script>
         const containerAcolhidos = document.getElementById("container-acolhidos");
         const containerVoluntarios = document.getElementById("container-voluntarios");
 
-        function acolhidoTextField() {}
-        function acolhidoListField() {}
-        function acolhidoRadioField() {}
-        function acolhidoTextArea() {}
+        function acolhidoTextField() { }
+        function acolhidoListField() { }
+        function acolhidoRadioField() { }
+        function acolhidoTextArea() { }
 
         function criarSolicitacaoAcolhido(acolhido) {
-            
+            const formContainer = document.createElement("section");
+            formContainer.className = "formulario-solicitacao-acolhido";
+
+            const formWrapper = document.createElement("div");
+            formWrapper.className = "form-wrapper";
+
+            const tituloFiltro = document.createElement("div");
+            tituloFiltro.className = "titulo-filtro";
+console.log("data_solicitacao:", acolhido.fields.data_solicitacao);
+            let dataFormat = "Data não informada";
+if (acolhido.fields.data_solicitacao) {
+    const data = new Date(acolhido.fields.data_solicitacao);
+    if (!isNaN(data.getTime())) {
+         dataFormat = data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
+                            " às " + data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+}
+
+
+            tituloFiltro.innerHTML = `
+    <span>Solicitação de <strong>acolhido</strong> para ${acolhido.fields.nome}</span>
+    <p>${dataFormat}</p>
+    <i class="chevron fa fa-solid fa-chevron-down"></i>
+`;
+
+            const conteudo = document.createElement("div");
+            conteudo.className = "conteudo";
+            conteudo.style.display = "none";
+
+            const botoesDiv = document.createElement("div");
+            botoesDiv.className = "botoes";
+
+            const aceitarButton = document.createElement("button");
+            aceitarButton.type = "button";
+            aceitarButton.className = "aceitar";
+            aceitarButton.textContent = "Aceitar";
+            aceitarButton.addEventListener("click", () => {
+                Swal.fire({
+                    title: "Confirmar aceitação",
+                    text: "Tem certeza que deseja aceitar este acolhido?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "Sim, aceitar",
+                    confirmButtonColor: "#1535B5",
+                    cancelButtonText: "Cancelar",
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        fetch(`/api/solicitacoes/acolhidos/${acolhido.id}`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(acolhido.fields)
+                        }).then(resp => resp.json()).then(json => {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Acolhido aceito com sucesso!",
+                                confirmButtonColor: "#1535B5"
+                            }).then(() => {
+                                formContainer.remove();
+                            });
+                        });
+                    }
+                });
+            });
+
+            const recusarButton = document.createElement("button");
+            recusarButton.type = "button";
+            recusarButton.className = "recusar";
+            recusarButton.textContent = "Recusar";
+            recusarButton.addEventListener("click", () => {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Tem certeza que deseja recusar?",
+                    text: "Esta ação é permanente",
+                    showCancelButton: true,
+                    confirmButtonText: "Sim, recusar",
+                    confirmButtonColor: "#1535B5",
+                    cancelButtonText: "Cancelar",
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        fetch(`/api/solicitacoes/acolhidos/${acolhido.id}`, {
+                            method: "DELETE"
+                        }).then(resp => resp.json()).then(json => {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Solicitação recusada com sucesso!",
+                                confirmButtonColor: "#1535B5"
+                            }).then(() => {
+                                formContainer.remove();
+                            });
+                        });
+                    }
+                });
+            });
+
+            botoesDiv.appendChild(aceitarButton);
+            botoesDiv.appendChild(recusarButton);
+            conteudo.appendChild(botoesDiv);
+
+            setTimeout(() => {
+                const chevron = tituloFiltro.querySelector(".chevron");
+                chevron.addEventListener("click", () => {
+                    if (conteudo.style.display === "block") {
+                        conteudo.style.display = "none";
+                        chevron.classList.add("rotacionado");
+                    } else {
+                        conteudo.style.display = "block";
+                        chevron.classList.remove("rotacionado");
+                    }
+                });
+            }, 0);
+
+            formWrapper.appendChild(tituloFiltro);
+            formWrapper.appendChild(conteudo);
+            formContainer.appendChild(formWrapper);
+            containerAcolhidos.appendChild(formContainer);
         }
+
 
         function voluntarioTextField(label, text) {
             const campoDiv = document.createElement("div");
@@ -347,6 +465,9 @@
 
         for (const voluntario of window.SOLICITACOES_VOLUNTARIOS) {
             criarSolicitacaoVoluntario(voluntario);
+        }
+        for (const acolhido of window.SOLICITACOES_ACOLHIDOS || []) {
+            criarSolicitacaoAcolhido(acolhido);
         }
     </script>
 

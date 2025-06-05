@@ -97,6 +97,17 @@ form button {
     margin-right: auto;
 }
 
+.info-linhas a{
+     color: #000;
+     text-decoration: none;
+}
+
+.info-linhas #tel{
+    display: flex;
+    margin: 0;
+    flex-direction: row;
+}
+
 .info-linhas p {
     margin-bottom: 20px;
 }
