@@ -46,6 +46,31 @@ header {
   color: #0033CC;
 }
 
+#div-nhm-solic-receb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  background-color: #fff;
+  width: 500px;
+  height: 450px;
+  border-radius: 0.3rem;
+  align-self: center;
+  justify-self: center;
+}
+
+#div-nhm-solic-receb img {
+  width: 320px;
+  height: 300px;
+}
+
+#div-nhm-solic-receb p {
+  margin-top: 30px;
+  text-align: center;
+}
+
 h1 {
   color: #1535B5;
   font-size: 30px;

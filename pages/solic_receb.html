@@ -28,6 +28,10 @@
                 Voltar</a></h3>
     </div>
 
+    <div id="div-nhm-solic-receb">
+        <img src="/img/nhm-opcao-selec.png" alt="Ilustração de nenhuma solicitação recebida.">
+        <p class="conteudo-site">Nenhuma solicitação recebida.</p>
+    </div>
 
     <main>
         <div id="container-acolhidos">
@@ -158,6 +162,12 @@
         </div>
     </main>
     <script>
+        const containerSolicVazias = document.getElementById("div-nhm-solic-receb");
+        if (window.SOLICITACOES_ACOLHIDOS.length === 0 && window.SOLICITACOES_VOLUNTARIOS.length === 0) {
+            containerSolicVazias.style.display = "flex";
+        } else {
+            containerSolicVazias.style.display = "none";
+        }
         const containerAcolhidos = document.getElementById("container-acolhidos");
         const containerVoluntarios = document.getElementById("container-voluntarios");
 
@@ -177,13 +187,13 @@
             tituloFiltro.className = "titulo-filtro";
             console.log(acolhido)
             console.log("data_solicitacao:", acolhido.fields.data_solicitacao);
-      
+
             let dataFormat = "Data não informada";
             if (acolhido.fields.data_solicitacao) {
                 const data = new Date(acolhido.fields.data_solicitacao);
                 if (!isNaN(data.getTime())) {
                     dataFormat = data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
-                    " às " + data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                        " às " + data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
                 }
             }
 
