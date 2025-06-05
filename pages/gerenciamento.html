@@ -350,11 +350,11 @@
             { id: 1, sim: window.ANALYTICS.possuiCarteira, total: totalAcolhidos },
             { id: 2, sim: window.ANALYTICS.possuiCordao, total: totalAcolhidos },
             { id: 3, sim: window.ANALYTICS.possuiVaga, total: totalAcolhidos },
-            { id: 4, sim: window.ANALYTICS.possuiApoio, total: totalEstudam },
+            { id: 4, sim: window.ANALYTICS.possuiApoio, total: totalEstudam, texto: "crianças" },
         ];
         
         dados.forEach((item) => {
-            document.getElementById(`num${item.id}`).textContent = `${item.sim} de ${item.total} acolhidos`;
+            document.getElementById(`num${item.id}`).textContent = `${item.sim} de ${item.total} ${item.texto ? item.texto : "acolhidos"} (${((item.sim / item.total) * 100).toFixed(0)}%)`;
             document.getElementById(`bar${item.id}`).style.width = `${(item.sim / item.total * 100).toFixed(0)}%`;
         });
     </script>

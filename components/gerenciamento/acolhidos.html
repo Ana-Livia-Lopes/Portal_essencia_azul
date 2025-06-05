@@ -227,15 +227,15 @@
 
                     // Radio groups
                     coluna1.appendChild(criarRadioGroup('esco', 'Frequenta escola?', acolhido.fields.esco));
-                    coluna1.appendChild(criarRadioGroup('cart', 'Tem carteirinha de identificação do autismo?', acolhido.fields.cart));
                     coluna1.appendChild(criarRadioGroup('prof', 'Tem profissional de apoio na escola?', acolhido.fields.prof));
+                    coluna1.appendChild(criarRadioGroup('cart', 'Tem carteirinha de identificação do autismo?', acolhido.fields.cart));
                     coluna1.appendChild(criarRadioGroup('cord', 'Usa o cordão de girassol ou quebra-cabeça?', acolhido.fields.cord));
                     coluna1.appendChild(criarRadioGroup('vaga', 'Tem cartão para utilizar vaga de estacionamento exclusiva para autistas?', acolhido.fields.vaga));
 
                     // Controle da exibição da div de profissional de apoio
-                    const escoSim = formContent.querySelector('input[name="esco"][value="Sim"]');
-                    const escoNao = formContent.querySelector('input[name="esco"][value="Não"]');
-                    const divProf = formContent.querySelector('#prof-check');
+                    const escoSim = coluna1.querySelector('input[name="esco"][value="Sim"]');
+                    const escoNao = coluna1.querySelector('input[name="esco"][value="Não"]');
+                    const divProf = coluna1.querySelector('#prof-check');
 
                     function updateProfDisplay() {
                         if (escoSim && escoSim.checked) {
