@@ -323,7 +323,11 @@
                                         imgElement.src = acolhido.fields.url_imagem ? `/api/acolhidos/${acolhido.id}?getImagem=true&t=${d.toISOString()}` : "/img/user-default.png";
                                         img.src = acolhido.fields.url_imagem ? `/api/acolhidos/${acolhido.id}?getImagem=true&t=${d.toISOString()}` : "/img/user-default.png";
                                         nameElement.textContent = acolhido.fields.nome || "Acolhido";
-                                        div.textContent = acolhido.fields.nome || "Acolhido";
+                                        const imgRef = img;
+                                        img.src = acolhido.fields.url_imagem ? `/api/acolhidos/${acolhido.id}?getImagem=true&t=${d.toISOString()}` : "/img/user-default.png";
+                                        div.innerHTML = "";
+                                        div.appendChild(imgRef);
+                                        div.appendChild(document.createTextNode(acolhido.fields.nome || "Acolhido"));
                                     }
                                 })
                             }
