@@ -61,5 +61,11 @@
     },
     "actions/unregister.js": {
         "contentType": "application/json"
+    },
+    "actions/login_status.js": {
+        "contentType": "application/json",
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
     }
 }
