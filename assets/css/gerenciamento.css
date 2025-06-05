@@ -289,6 +289,7 @@ body {
 .item img {
   width: 30px;
   border-radius: 50%;
+  aspect-ratio: 1;
   border: 2px solid #c7dcff;
 }
 
@@ -472,6 +473,7 @@ body {
   width: 70px;
   margin-left: 40px;
   border-radius: 50%;
+  aspect-ratio: 1;
 }
 
 .top-content h1 {

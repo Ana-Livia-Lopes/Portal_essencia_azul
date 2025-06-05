@@ -3,7 +3,7 @@
         <div class="search-box">
             <input type="text" class="search" placeholder="Pesquisar" />
         </div>
-        <div class="itens">
+        <div class="itens" id="itens-admins">
             <div class="item"><img src="/img/user-default.png" alt="">Simone</div>
             <div class="item"><img src="/img/user-default.png" alt="">Carol</div>
             <div class="item"><img src="/img/user-default.png" alt="">Sol</div>
@@ -13,10 +13,178 @@
             <div class="item"><img src="/img/user-default.png" alt="">Admin 7</div>
             <div class="item"><img src="/img/user-default.png" alt="">Admin 8</div>
         </div>
+        <script>
+            let adminsCachedSearch;
+            let adminStatus;
+
+            const numberLevel = {
+                "dev": 3,
+                "direcao": 2,
+                "simples": 1
+            };
+
+            function criarItemAdmin(admin) {
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.innerHTML = `<img src="/api/admins/${admin.id}?getImagem=true" alt="">${admin.fields.nome || 'Administrador sem nome'}`;
+                div.addEventListener("click", () => {
+                    const content = document.querySelector(".box-content .content");
+                    content.classList.remove("empty");
+                    content.innerHTML = "";
+
+                    let nome = admin.fields.nome;
+
+                    const topContent = document.createElement("div");
+                    topContent.className = "top-content";
+                    const img = document.createElement("img");
+                    img.src = `/api/admins/${admin.id}?getImagem=true`;
+                    img.alt = "";
+                    const h1 = document.createElement("h1");
+                    h1.textContent = admin.fields.nome || 'Administrador sem nome';
+                    topContent.appendChild(img);
+                    topContent.appendChild(h1);
+                    content.appendChild(topContent);
+
+                    const form = document.createElement("form");
+                    form.className = "form-gerenc";
+                    const inputsNomeDiv = document.createElement("div");
+                    inputsNomeDiv.className = "inputs-gerenc";
+                    const labelNome = document.createElement("label");
+                    labelNome.textContent = "Nome";
+                    const inputNome = document.createElement("input");
+                    inputNome.type = "text";
+                    inputNome.value = admin.fields.nome;
+                    inputNome.addEventListener("input", (e) => {
+                        nome = inputNome.value;
+                    });
+                    inputNome.disabled = true;
+                    inputsNomeDiv.appendChild(labelNome);
+                    inputsNomeDiv.appendChild(inputNome);
+                    form.appendChild(inputsNomeDiv);
+                    const inputsEmailDiv = document.createElement("div");
+                    inputsEmailDiv.className = "inputs-gerenc";
+                    const labelEmail = document.createElement("label");
+                    labelEmail.textContent = "Email";
+                    const inputEmail = document.createElement("input");
+                    inputEmail.type = "text";
+                    inputEmail.value = admin.fields.email;
+                    inputEmail.disabled = true;
+                    inputsEmailDiv.appendChild(labelEmail);
+                    inputsEmailDiv.appendChild(inputEmail);
+                    form.appendChild(inputsEmailDiv);
+                    content.appendChild(form);
+                    if (numberLevel[adminStatus.nivel] > numberLevel[admin.fields.nivel] || adminStatus.email === admin.fields.email) {
+                        inputNome.disabled = false;
+                        const buttonsDiv = document.createElement("div");
+                        buttonsDiv.className = "aceitar-recusar";
+                        const aceitarButton = document.createElement("button");
+                        aceitarButton.type = "button";
+                        aceitarButton.id = "aceitar-gerenc";
+                        aceitarButton.textContent = "Editar";
+                        aceitarButton.addEventListener("click", () => {
+                            const fd = new FormData();
+                            fd.append("nome", nome);
+                            fetch("/api/admins/" + admin.id, {
+                                method: "PATCH",
+                                body: fd,
+                            }).then(resp => resp.json()).then(json => {
+                                if (json.status === "error") {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Houve um erro...',
+                                        text: json.message || 'Erro ao editar administrador.'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Sucesso!',
+                                        text: 'Administrador editado com sucesso!'
+                                    });
+                                    pesquisarAdmins();
+                                }
+                            })
+                        })
+                        if (adminStatus.email !== admin.fields.email) {
+                            const recusarButton = document.createElement("button");
+                            recusarButton.type = "button";
+                            recusarButton.id = "recusar-gerenc";
+                            recusarButton.textContent = "Excluir";
+                            buttonsDiv.appendChild(recusarButton);
+                        }
+                        buttonsDiv.appendChild(aceitarButton);
+                        form.appendChild(buttonsDiv);
+
+                        const center = document.createElement("div");
+                        center.style.display = "flex";
+                        center.style.justifyContent = "center";
+                        center.style.gridColumn = "1 / span 2";
+                        const addFotoDiv = document.createElement('div');
+                        addFotoDiv.classList.add('add');
+                        const addFotoTitle = document.createElement('h3');
+                        addFotoTitle.textContent = admin.fields.url_imagem ? "Alterar foto" : "Adicionar foto";
+                        const addFotoInput = document.createElement('input');
+                        addFotoInput.type = 'file';
+                        addFotoInput.accept = "image/*";
+                        addFotoInput.classList.add('campo-file');
+                        const addFotoBtn = document.createElement('button');
+                        addFotoBtn.type = 'button';
+                        addFotoBtn.textContent = 'Enviar';
+                        addFotoBtn.addEventListener("click", () => {
+                            const foto = addFotoInput.files[0];
+                            if (foto) {
+                                const fd = new FormData();
+                                fd.append("blob", foto);
+                                fetch("/api/admins/" + admin.id, {
+                                    method: "PATCH",
+                                    body: fd,
+                                }).then(resp => resp.json()).then(json => {
+                                    if (json.status === "error") {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Houve um erro...',
+                                            text: json.message || 'Erro ao enviar foto.'
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Sucesso!',
+                                            text: 'Foto enviada com sucesso!'
+                                        });
+                                        const d = new Date();
+                                        img.src = `/api/admins/${admin.id}?getImagem=true&t=${d.toISOString()}`;
+                                        div.querySelector('img').src = `/api/admins/${admin.id}?getImagem=true&t=${d.toISOString()}`;
+                                    }
+                                });
+                            }
+                        });
+                        addFotoDiv.appendChild(addFotoTitle);
+                        addFotoDiv.appendChild(addFotoInput);
+                        addFotoDiv.appendChild(addFotoBtn);
+                        center.appendChild(addFotoDiv);
+                        form.appendChild(center);
+                    }
+                });
+                return div;
+            }
+
+            async function pesquisarAdmins(value = "") {
+                if (!adminStatus) adminStatus = await (await fetch("/actions/login_status")).json();
+                if (!adminsCachedSearch) adminsCachedSearch = await (await fetch("/api/admins")).json();
+                const itens = document.getElementById("itens-admins");
+                itens.innerHTML = "";
+                for (const admin of adminsCachedSearch) {
+                    if (admin.fields.nome.toLowerCase().includes(value.toLowerCase()) || value === "") {
+                        itens.appendChild(criarItemAdmin(admin));
+                    }
+                }
+            }
+
+            document.getElementById("option-switch-administradores").addEventListener("click", () => pesquisarAdmins());
+        </script>
     </div>
 
     <div class="box-content">
-        <div class="content">
+        <div class="content empty">
             <div class="top-content">
                 <img src="/img/user-default.png" alt="">
                 <h1>Simone</h1>
@@ -30,6 +198,10 @@
                 <div class="inputs-gerenc">
                     <label for="">Email</label>
                     <input type="text" placeholder="simone@gmail.com">
+                </div>
+                <div class="aceitar-recusar">
+                    <button type="button" id="aceitar-gerenc">Editar</button>
+                    <button type="button" id="recusar-gerenc">Excluir</button>
                 </div>
             </form>
         </div>
