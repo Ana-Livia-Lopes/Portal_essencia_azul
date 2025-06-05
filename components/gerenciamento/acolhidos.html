@@ -265,6 +265,41 @@
                     excluirBtn.id = 'recusar-gerenc';
                     excluirBtn.type = 'button';
                     excluirBtn.textContent = 'Excluir';
+                    excluirBtn.addEventListener("click", () => {
+                        Swal.fire({
+                            title: 'Tem certeza?',
+                            text: "Você não poderá reverter essa ação!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Sim, excluir!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                fetch("/api/acolhidos/" + acolhido.id, {
+                                    method: "DELETE",
+                                }).then(resp => resp.json()).then(json => {
+                                    if (json.status === "error") {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Houve um erro...',
+                                            text: json.message || 'Erro ao excluir acolhido.'
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Sucesso!',
+                                            text: 'Acolhido excluído com sucesso!'
+                                        });
+                                        div.remove();
+                                        contentDiv.classList.add("empty");
+                                        contentDiv.innerHTML = "";
+                                        cachedSearch = undefined;
+                                    }
+                                })
+                            }
+                        })
+                    })
                     actionDiv.appendChild(salvarBtn);
                     actionDiv.appendChild(excluirBtn);
                     formContent.appendChild(actionDiv);
@@ -305,10 +340,16 @@
                                         text: 'Documento enviado com sucesso!'
                                     });
                                     addDocInput.value = "";
+                                    criarDocumento(json);
                                 }
                             })
                         } else {
-
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro',
+                                text: 'Nenhum documento selecionado.'
+                            });
+                            
                         }
                     });
                     addDocBtn.type = 'button';
@@ -355,7 +396,11 @@
                                 }
                             })
                         } else {
-
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro',
+                                text: 'Nenhuma foto selecionada.'
+                            });
                         }
                     });
                     addFotoBtn.type = 'button';
@@ -365,7 +410,168 @@
                     addFotoDiv.appendChild(addFotoBtn);
                     formContent.appendChild(addFotoDiv);
 
+                    const docsContainer = document.createElement('div');
+                    docsContainer.style.gridColumn = "1 / span 2";
+
+                    const h2docs = document.createElement('h2');
+                    h2docs.textContent = "Documentos";
+                    h2docs.classList.add('titulo-checks');
+                    docsContainer.appendChild(h2docs);
+
+                    let docs;
+                    const docsDiv = document.createElement('div');
+                    docsDiv.classList.add('docs-list');
+                    docsDiv.innerHTML = `
+                        <div style="display: flex; justify-content: center; width: 100%;">
+                            <div class="loader"></div>
+                        </div>
+                    `
+                    docsContainer.appendChild(docsDiv);
+                    formContent.appendChild(docsContainer);
+                    fetch("/api/acolhidos/" + acolhido.id, {
+                        headers: {
+                            ["x-acolhido-docs"]: "true",
+                        }
+                    }).then(resp => resp.json()).then(json => {
+                        docs = json;
+
+                        docsDiv.innerHTML = "";
+                        for (const documento of docs) {
+                            criarDocumento(documento);
+                        }
+                    })
+
                     contentDiv.appendChild(formContent);
+
+                    function criarDocumento(documento) {
+                        const containerDoc = document.createElement('div');
+                        containerDoc.classList.add('membro-row');
+                        const leftSide = document.createElement('div');
+                        leftSide.classList.add('left-side');
+                        const leftSide1 = document.createElement('div');
+                        leftSide1.innerHTML = `<i class="fa fa-file-alt" style="font-size: 2em; color: #1535B5;"></i>`;
+                        leftSide1.addEventListener("click", () => {
+                            window.open(`/api/acolhidos/${acolhido.id}?doc=${documento.id}`);
+                        });
+                        leftSide.appendChild(leftSide1);
+                        const leftSide2 = document.createElement('div');
+                        const pNome = document.createElement('p');
+                        pNome.classList.add("titulo-row")
+                        pNome.textContent = documento.fields.nome || "Documento sem nome";
+                        const pDescricao = document.createElement('p');
+                        pDescricao.textContent = documento.fields.descricao || "Documento sem descrição";
+                        leftSide2.appendChild(pNome);
+                        leftSide2.appendChild(pDescricao);
+                        leftSide.appendChild(leftSide2);
+                        containerDoc.appendChild(leftSide);
+
+                        const rightSide = document.createElement('div');
+                        rightSide.classList.add('right-side');
+                        const editBtn = document.createElement('button');
+                        editBtn.type = 'button';
+                        editBtn.classList.add('edit-doc-btn');
+                        editBtn.innerHTML = '<i class="fa fa-edit"></i>';
+                        editBtn.addEventListener("click", () => {
+                            Swal.fire({
+                                title: 'Editar Documento',
+                                html: `
+                                    <input type="text" id="doc-edit-nome" class="swal2-input" placeholder="Nome do documento" value="${documento.fields.nome || ''}">
+                                    <textarea id="doc-edit-descricao" class="swal2-textarea" placeholder="Descrição">${documento.fields.descricao || ''}</textarea>
+                                    <input type="file" id="doc-edit-file" class="swal2-file" accept="application/pdf,image/*">
+                                `,
+                                focusConfirm: false,
+                                preConfirm: () => {
+                                    const fd = new FormData();
+                                    const nome = document.getElementById('doc-edit-nome').value;
+                                    const descricao = document.getElementById('doc-edit-descricao').value;
+                                    const file = document.getElementById('doc-edit-file').files[0];
+                                    if (!nome) {
+                                        Swal.showValidationMessage('O nome do documento é obrigatório');
+                                        return false;
+                                    }
+                                    fd.append('nome', nome);
+                                    fd.append('descricao', descricao);
+                                    if (file) {
+                                        fd.append('blob', file);
+                                    }
+                                    return fd;
+                                }
+                            }).then(result => {
+                                if (result.isConfirmed) {
+                                    const fd = result.value;
+                                    fetch(`/api/acolhidos/${acolhido.id}/${documento.id}`, {
+                                        method: "PATCH",
+                                        headers: {
+                                            ["x-acolhido-docs"]: "true"
+                                        },
+                                        body: fd
+                                    }).then(resp => resp.json()).then(json => {
+                                        if (json.status === "error") {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Houve um erro...',
+                                                text: json.message || 'Erro ao editar documento.'
+                                            });
+                                        } else {
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Sucesso!',
+                                                text: 'Documento editado com sucesso!'
+                                            });
+                                            pNome.textContent = json.fields.nome || "Documento sem nome";
+                                            pDescricao.textContent = json.fields.descricao || "Documento sem descrição";
+                                        }
+                                    })
+                                }
+                            })
+                        });
+
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.type = 'button';
+                        deleteBtn.classList.add('delete-doc-btn');
+                        deleteBtn.innerHTML = '<i class="fa fa-trash"></i>';
+                        deleteBtn.addEventListener("click", () => {
+                            Swal.fire({
+                                title: 'Tem certeza?',
+                                text: "Você não poderá reverter essa ação!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: 'Sim, excluir!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    fetch(`/api/acolhidos/${acolhido.id}/${documento.id}`, {
+                                        method: "DELETE",
+                                        headers: {
+                                            ["x-acolhido-docs"]: "true"
+                                        }
+                                    }).then(resp => resp.json()).then(json => {
+                                        if (json.status === "error") {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Houve um erro...',
+                                                text: json.message || 'Erro ao excluir documento.'
+                                            });
+                                        } else {
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Sucesso!',
+                                                text: 'Documento excluído com sucesso!'
+                                            });
+                                            containerDoc.remove();
+                                        }
+                                    })
+                                }
+                            })
+                        });
+
+                        rightSide.appendChild(editBtn);
+                        rightSide.appendChild(deleteBtn);
+                        containerDoc.appendChild(rightSide);
+
+                        docsDiv.appendChild(containerDoc);
+                    }
                 });
             }
 
@@ -559,3 +765,19 @@
         </div>
     </div>
 </div>
+<style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #1535B5;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+        margin: auto 24px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>

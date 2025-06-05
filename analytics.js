@@ -54,7 +54,7 @@ async function createAnalytics() {
             const data = acolhido.data();
             if (data.identificacoes?.ciptea) newValues.possuiCarteira++;
             if (data.identificacoes?.cordao) newValues.possuiCordao++;
-            if (data.identificacoes?.vaga) newValues.possuiVaga++;
+            if (data.identificacoes?.vaga_exclusiva) newValues.possuiVaga++;
             newValues.totalAcolhidos++;
             if (data.escola) newValues.totalEstudam++;
             if (data.escola?.tem_suporte) newValues.possuiApoio++;

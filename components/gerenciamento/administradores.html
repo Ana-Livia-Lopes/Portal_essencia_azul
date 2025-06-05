@@ -26,7 +26,7 @@
             function criarItemAdmin(admin) {
                 const div = document.createElement('div');
                 div.className = 'item';
-                div.innerHTML = `<img src="/api/admins/${admin.id}?getImagem=true" alt="">${admin.fields.nome || 'Administrador sem nome'}`;
+                div.innerHTML = `<img src="/api/admins/${admin.id}?getImagem=true" alt=""><span id=\"admin-${admin.id}\">${admin.fields.nome}</span>`;
                 div.addEventListener("click", () => {
                     const content = document.querySelector(".box-content .content");
                     content.classList.remove("empty");
@@ -100,7 +100,9 @@
                                         title: 'Sucesso!',
                                         text: 'Administrador editado com sucesso!'
                                     });
-                                    pesquisarAdmins();
+                                    document.getElementById(`admin-${admin.id}`).textContent = nome;
+                                    h1.textContent = nome;
+                                    // pesquisarAdmins();
                                 }
                             })
                         })
@@ -109,6 +111,41 @@
                             recusarButton.type = "button";
                             recusarButton.id = "recusar-gerenc";
                             recusarButton.textContent = "Excluir";
+                            recusarButton.addEventListener("click", () => {
+                                Swal.fire({
+                                    title: 'Tem certeza?',
+                                    text: "Você não poderá reverter isso!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Sim, excluir!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        fetch("/api/admins/" + admin.id, {
+                                            method: "DELETE",
+                                        }).then(resp => resp.json()).then(json => {
+                                            if (json.status === "error") {
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Houve um erro...',
+                                                    text: json.message || 'Erro ao excluir administrador.'
+                                                });
+                                            } else {
+                                                Swal.fire({
+                                                    icon: 'success',
+                                                    title: 'Sucesso!',
+                                                    text: 'Administrador excluído com sucesso!'
+                                                });
+                                                div.remove();
+                                                content.classList.add("empty");
+                                                content.innerHTML = "";
+                                                adminsCachedSearch = undefined;
+                                            }
+                                        });
+                                    }
+                                })
+                            });
                             buttonsDiv.appendChild(recusarButton);
                         }
                         buttonsDiv.appendChild(aceitarButton);
@@ -185,7 +222,7 @@
 
     <div class="box-content">
         <div class="content empty">
-            <div class="top-content">
+            <!-- <div class="top-content">
                 <img src="/img/user-default.png" alt="">
                 <h1>Simone</h1>
             </div>
@@ -203,7 +240,7 @@
                     <button type="button" id="aceitar-gerenc">Editar</button>
                     <button type="button" id="recusar-gerenc">Excluir</button>
                 </div>
-            </form>
+            </form> -->
         </div>
     </div>
 </div>

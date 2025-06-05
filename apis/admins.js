@@ -29,5 +29,24 @@ module.exports = {
             }, response);
         }
     },
-    async patch() {},
+    async patch({ session, response, params, body }) {
+        if (!params.id) throw new ClientError(response, "ID não informado");
+        const blob = body.files.blob ? await getFormidableBlob(body.files.blob) : undefined;
+        const admin = await update(session.get("login"), Admin, params.id, {
+            nome: body.fields.nome ? singleField(body.fields.nome) : undefined,
+            blob,
+        }, { editType: "update" }, response);
+        return admin;
+    },
+    async delete({ session, response, params, server }) {
+        if (!params.id) throw new ClientError(response, "ID não informado");
+        const admin = await remove(session.get("login"), Admin, params.id, response);
+        server.sessions.forEach(session => {
+            const login = session.get("login");
+            if (login && login.email === admin.fields.email) {
+                server.sessions.delete(session.id);
+            }
+        })
+        return admin;
+    }
 }

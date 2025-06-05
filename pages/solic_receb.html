@@ -175,22 +175,23 @@
 
             const tituloFiltro = document.createElement("div");
             tituloFiltro.className = "titulo-filtro";
-console.log("data_solicitacao:", acolhido.fields.data_solicitacao);
+            console.log(acolhido)
+            console.log("data_solicitacao:", acolhido.fields.data_solicitacao);
       
-let dataFormat = "Data não informada";
-    if (acolhido.fields.data_solicitacao) {
-        const data = new Date(acolhido.fields.data_solicitacao);
-        if (!isNaN(data.getTime())) {
-            dataFormat = data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
-                " às " + data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        }
-    }
+            let dataFormat = "Data não informada";
+            if (acolhido.fields.data_solicitacao) {
+                const data = new Date(acolhido.fields.data_solicitacao);
+                if (!isNaN(data.getTime())) {
+                    dataFormat = data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
+                    " às " + data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                }
+            }
 
 
             tituloFiltro.innerHTML = `
-    <span>Solicitação de <strong>acolhido</strong> para ${acolhido.fields.nome}</span>
-    <p>${dataFormat}</p>
-    <i class="chevron fa fa-solid fa-chevron-down"></i>
+            <span>Solicitação de <strong>acolhido</strong> para ${acolhido.fields.nome}</span>
+            <p>${dataFormat}</p>
+            <i class="chevron fa fa-solid fa-chevron-down"></i>
 `;
 
             const conteudo = document.createElement("div");
@@ -203,35 +204,9 @@ let dataFormat = "Data não informada";
             const aceitarButton = document.createElement("button");
             aceitarButton.type = "button";
             aceitarButton.className = "aceitar";
-            aceitarButton.textContent = "Aceitar";
+            aceitarButton.textContent = "Confirmar";
             aceitarButton.addEventListener("click", () => {
-                Swal.fire({
-                    title: "Confirmar aceitação",
-                    text: "Tem certeza que deseja aceitar este acolhido?",
-                    icon: "question",
-                    showCancelButton: true,
-                    confirmButtonText: "Sim, aceitar",
-                    confirmButtonColor: "#1535B5",
-                    cancelButtonText: "Cancelar",
-                }).then(result => {
-                    if (result.isConfirmed) {
-                        fetch(`/api/solicitacoes/acolhidos/${acolhido.id}`, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(acolhido.fields)
-                        }).then(resp => resp.json()).then(json => {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Acolhido aceito com sucesso!",
-                                confirmButtonColor: "#1535B5"
-                            }).then(() => {
-                                formContainer.remove();
-                            });
-                        });
-                    }
-                });
+                window.location.href = `/gerenciamento/cadastrar_acolhido?id=${acolhido.id}`;
             });
 
             const recusarButton = document.createElement("button");
@@ -250,7 +225,10 @@ let dataFormat = "Data não informada";
                 }).then(result => {
                     if (result.isConfirmed) {
                         fetch(`/api/solicitacoes/acolhidos/${acolhido.id}`, {
-                            method: "DELETE"
+                            method: "DELETE",
+                            headers: {
+                                ["x-response-email"]: "refused",
+                            }
                         }).then(resp => resp.json()).then(json => {
                             Swal.fire({
                                 icon: "success",

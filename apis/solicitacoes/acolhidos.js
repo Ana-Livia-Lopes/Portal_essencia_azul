@@ -5,6 +5,8 @@ const { addDoc, collection, Timestamp } = require("firebase/firestore");
 const { db } = require("../../firebase.js");
 const jsonField = require( "../_jsonField.js" );
 const filterUndefined = require( "./_filterUndefined.js" );
+const { transporter } = require("../../mail.js");
+const { auth } = require("../../config.json").mail;
 
 /** @type {import("../../src/server").Page.RestHandlersObject} */
 module.exports = {
@@ -51,6 +53,7 @@ module.exports = {
             endereco,
             observacoes,
             remetente,
+            data_solicitacao: Timestamp.fromDate(new Date())
         }));
 
         return JSON.stringify({
@@ -73,7 +76,7 @@ module.exports = {
             }, response);
         }
     },
-    async delete({ params, session, response }) {
+    async delete({ params, session, response, request }) {
         if (!session || !isLogged(session)) throw new AuthenticationError(response, "Usuário não autenticado");
         if (!params.id) throw new ClientError(response, "ID não informado");
         const acolhido = await remove(session.get("login"), SolicitacaoAcolhido, params.id, response);

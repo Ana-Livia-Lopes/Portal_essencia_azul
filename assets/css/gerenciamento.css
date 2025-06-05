@@ -223,8 +223,59 @@ body {
   height: 560px;
 }
 
+.cont-adm .empty {
+  height: 280px;
+}
+
 .cont-adm {
   max-height: 300px;
+}
+
+.left-side {
+  display: flex;
+  justify-content: start;
+  gap: 12px;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-left: 12px;
+}
+
+.edit-doc-btn,
+.delete-doc-btn {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(21, 53, 181, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+  padding: 0;
+}
+
+.edit-doc-btn:hover,
+.delete-doc-btn:hover {
+  background: #f0f4ff;
+  box-shadow: 0 2px 8px rgba(21, 53, 181, 0.13);
+}
+
+.edit-doc-btn i,
+.delete-doc-btn i {
+  font-size: 20px;
+  color: #1535B5;
+  margin: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
 }
 
 .sidebar {

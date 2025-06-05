@@ -4,7 +4,7 @@ const redirect = require( "../src/server/redirect.js" );
 const getFormidableBlob = require( "./_getFormidableBlob.js" );
 const singleField = require( "./_singleField.js" );
 const jsonField = require("./_jsonField.js");
-const { doc } = require("firebase/firestore");
+const { doc, getDocs, collection, query, where } = require("firebase/firestore");
 const { db } = require("../firebase.js");
 
 const maxSize = 50 * 1024 * 1024; // 50 MB
@@ -45,6 +45,9 @@ module.exports = {
     },
     async delete({ session, params, response }) {
         if (!params.id) throw new ClientError(response, "ID não informado");
+        if ((await getDocs(query(collection(db, "acolhidos"), where("ref_familia", "==", doc(db, "familias", params.id))))).size > 0) {
+            throw new ClientError(response, "Não é possível remover uma família com acolhidos associados");
+        }
         return await remove(session.get("login"), Familia, params.id, response);
     },
     async patch({ body, session, params, response }) {

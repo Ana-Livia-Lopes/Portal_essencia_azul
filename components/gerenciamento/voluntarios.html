@@ -60,6 +60,8 @@
             div.textContent = voluntario.fields.nome || 'Voluntário sem nome';
 
             div.addEventListener("click", () => {
+                const fields = {};
+
                 const content = document.querySelector(".box-content .content");
                 content.innerHTML = '';
                 content.classList.remove("empty");
@@ -70,11 +72,11 @@
                 const form = document.createElement('form');
                 form.className = 'form-gerenc';
                 const inputs = [
-                    { label: 'Nome', value: voluntario.fields.nome || '' },
-                    { label: 'CPF', value: voluntario.fields.cpf || '' },
-                    { label: 'Email', value: voluntario.fields.email || '' },
-                    { label: 'Telefone', value: voluntario.fields.telefone || '' },
-                    { label: 'Como quer ajudar?', value: voluntario.fields.como_ajudar || '' },
+                    { label: 'Nome', value: voluntario.fields.nome || '', output: "nome" },
+                    { label: 'CPF', value: voluntario.fields.cpf || '', output: "cpf" },
+                    { label: 'Email', value: voluntario.fields.email || '', output: "email" },
+                    { label: 'Telefone', value: voluntario.fields.telefone || '', output: "telefone" },
+                    { label: 'Como quer ajudar?', value: voluntario.fields.como_ajudar || '', fullGrid: true, output: "como_ajudar" },
                 ];
                 inputs.forEach(inputData => {
                     const divInput = document.createElement('div');
@@ -87,6 +89,12 @@
                     divInput.appendChild(label);
                     divInput.appendChild(input);
                     form.appendChild(divInput);
+                    input.addEventListener("input", () => {
+                        fields[inputData.output] = input.value;
+                    });
+                    if (inputData.fullGrid) {
+                        divInput.style.gridColumn = "1 / span 2";
+                    }
                 });
                 const textareaDiv = document.createElement('div');
                 textareaDiv.className = 'inputs-gerenc textarea';
@@ -94,6 +102,9 @@
                 textareaLabel.textContent = 'Por que quer ser voluntário?';
                 const textarea = document.createElement('textarea');
                 textarea.value = voluntario.fields.por_que_ser_voluntario || '';
+                textarea.addEventListener("input", () => {
+                    fields.por_que_ser_voluntario = textarea.value;
+                });
                 textareaDiv.appendChild(textareaLabel);
                 textareaDiv.appendChild(textarea);
                 form.appendChild(textareaDiv);
@@ -104,19 +115,72 @@
                 aceitarButton.textContent = 'Editar';
                 aceitarButton.addEventListener("click", (e) => {
                     e.preventDefault();
-                    // Aqui você pode adicionar a lógica para editar o voluntário
-                    alert(`Editando voluntário: ${voluntario.fields.nome}`);
+                    const fd = new FormData();
+                    for (const [key, value] of Object.entries(fields)) {
+                        fd.append(key, value);
+                    }
+                    fetch("/api/voluntarios/" + voluntario.id, {
+                        method: "PATCH",
+                        body: fd
+                    }).then(resp => resp.json()).then(json => {
+                        if (json.status === "error") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Houve um erro...',
+                                text: json.message || 'Erro ao editar voluntário.'
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sucesso!',
+                                text: 'Voluntário editado com sucesso!'
+                            });
+                            h1.textContent = json.fields.nome || 'Voluntário sem nome';
+                            div.textContent = json.fields.nome || 'Voluntário sem nome';
+                        }
+                    })
                 });
                 const recusarButton = document.createElement('button');
                 recusarButton.id = 'recusar-gerenc';
                 recusarButton.textContent = 'Remover';
                 recusarButton.addEventListener("click", (e) => {
                     e.preventDefault();
-                    // Aqui você pode adicionar a lógica para remover o voluntário
-                    alert(`Removendo voluntário: ${voluntario.fields.nome}`);
+                    Swal.fire({
+                        title: 'Tem certeza?',
+                        text: "Você não poderá reverter isso!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Sim, remover!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch("/api/voluntarios/" + voluntario.id, {
+                                method: "DELETE"
+                            }).then(resp => resp.json()).then(json => {
+                                if (json.status === "error") {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Houve um erro...',
+                                        text: json.message || 'Erro ao remover voluntário.'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Sucesso!',
+                                        text: 'Voluntário removido com sucesso!'
+                                    });
+                                    div.remove();
+                                    content.classList.add("empty");
+                                    content.innerHTML = '';
+                                    cachedVoluntariosSearch = undefined;
+                                }
+                            });
+                        }
+                    });
                 });
-                // buttonDiv.appendChild(aceitarButton);
-                // buttonDiv.appendChild(recusarButton);
+                buttonDiv.appendChild(aceitarButton);
+                buttonDiv.appendChild(recusarButton);
                 form.appendChild(buttonDiv);
                 content.appendChild(form);
             });

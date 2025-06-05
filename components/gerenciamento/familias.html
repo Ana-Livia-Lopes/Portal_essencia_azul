@@ -250,7 +250,37 @@
                     });
 
                     excluirButton.addEventListener("click", () => {
-
+                        Swal.fire({
+                            title: "Tem certeza?",
+                            text: "Você não poderá reverter isso!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Sim, excluir",
+                            cancelButtonText: "Cancelar"
+                        }).then(result => {
+                            if (result.isConfirmed) {
+                                fetch("/api/familias/" + familia.id, {
+                                    method: "DELETE"
+                                }).then(resp => resp.json()).then(json => {
+                                    if (json.status === "error") {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Houve um erro...",
+                                            text: json.message
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Família excluída com sucesso!"
+                                        });
+                                        familiaCachedSearch = undefined;
+                                        div.remove();
+                                        content.classList.add("empty");
+                                        content.innerHTML = "";
+                                    }
+                                });
+                            }
+                        });
                     });
 
                     aceitarRecusar.append(editarButton);
@@ -390,8 +420,8 @@
                 <div style="display: flex; justify-content: center; width: 100%;">
                     <div class="loader"></div>
                 </div>
-            </form>
-        </div> -->
+            </form> -->
+        </div> 
     </div>
 </div>
 <style>

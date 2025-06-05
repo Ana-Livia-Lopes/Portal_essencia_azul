@@ -672,8 +672,14 @@ var EssenciaAzul = ( function() {
                         fields.senha = crypto.createHash("sha256").update(fields.senha).digest("hex");
                         break;
                     case "update":
-                        if (fields.senha) {
-                            fields.senha = crypto.createHash("sha256").update(fields.senha).digest("hex");
+                        if (fields.blob) {
+                            delete fields.url_imagem;
+                            fields.url_imagem = await updateInStorage(Admin._bucket, fields.url_imagem, fields.blob, response, Admin.collection);
+                            delete fields.blob;
+                        }
+                        delete fields.senha;
+                        if (fields.novasenha) {
+                            fields.senha = crypto.createHash("sha256").update(fields.novasenha).digest("hex");
                         }
                         if (fields.nivel && ![ "simples", "direcao", "dev" ].includes(fields.nivel)) throw new ClientError(response, "Nível inválido, use simples, direcao ou dev");
                         if (fields.email) {

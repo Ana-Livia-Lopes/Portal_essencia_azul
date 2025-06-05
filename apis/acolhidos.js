@@ -14,9 +14,17 @@ module.exports = {
             if (!params.id) throw new ClientError(response, "ID não informado");
             const acolhido = (await read(session.get("login"), Acolhido, { id: params.id }, response))[0];
             if (!acolhido) throw new NotFoundError(response, "Acolhido não encontrado");
-            const docs = await acolhido.references.get_documentos();
-            if (params.doc) {
-                const doc = docs.find(doc => doc.id === params.doc);
+            const docs = await read(session.get("login"), Documento, {
+                conditions: [
+                    {
+                        field: "ref_acolhido",
+                        relation: "==",
+                        value: doc(db, "acolhidos", acolhido.id),
+                    }
+                ]
+            }, response);
+            if (query.doc) {
+                const doc = docs.find(doc => doc.id === query.doc);
                 if (!doc) throw new NotFoundError(response, "Documento não encontrado");
                 throw Redirect(await doc.references.get_arquivo());
             }
@@ -144,9 +152,17 @@ module.exports = {
             const acolhido = (await read(session.get("login"), Acolhido, { id: params.id }, response))[0];
             if (!acolhido) throw new NotFoundError(response, "Acolhido não encontrado");
             if (!params.doc) throw new ClientError(response, "Documento não informado");
-            const docs = await acolhido.references.get_documentos();
-            const doc = docs.find(doc => doc.id === params.doc);
-            if (!doc) throw new NotFoundError(response, "Documento não encontrado");
+            const docs = await read(session.get("login"), Documento, {
+                conditions: [
+                    {
+                        field: "ref_acolhido",
+                        relation: "==",
+                        value: doc(db, "acolhidos", acolhido.id),
+                    }
+                ]
+            }, response);
+            const documento = docs.find(doc => doc.id === params.doc);
+            if (!documento) throw new NotFoundError(response, "Documento não encontrado");
             const patchFields = {};
             if (body.fields.nome) patchFields.nome = singleField(body.fields.nome);
             if (body.fields.descricao) patchFields.descricao = singleField(body.fields.descricao);
@@ -154,7 +170,7 @@ module.exports = {
                 const blob = await getFormidableBlob(body.files.blob);
                 patchFields.blob = blob;
             }
-            return await update(session.get("login"), Documento, doc.id, patchFields, {
+            return await update(session.get("login"), Documento, documento.id, patchFields, {
                 editType: "update"
             }, response);
         } else {
@@ -192,19 +208,24 @@ module.exports = {
             }, response);
         }
     },
-    async delete({ params, request }) {
+    async delete({ params, request, session, response }) {
         if (request.headers["x-acolhido-docs"]) {
             if (!params.id) throw new ClientError(response, "ID não informado");
             if (!params.doc) throw new ClientError(response, "Documento não informado");
             const acolhido = (await read(session.get("login"), Acolhido, { id: params.id }, response))[0];
             if (!acolhido) throw new NotFoundError(response, "Acolhido não encontrado");
-            const docs = await acolhido.references.get_documentos();
-            const doc = docs.find(doc => doc.id === params.doc);
-            if (!doc) throw new NotFoundError(response, "Documento não encontrado");
-            await remove(session.get("login"), Documento, doc.id, response);
-            return await update(session.get("login"), Acolhido, acolhido.id, {
-                ref_documentos: acolhido.fields.ref_documentos.filter(ref => ref.id !== doc.id)
+            const docs = await read(session.get("login"), Documento, {
+                conditions: [
+                    {
+                        field: "ref_acolhido",
+                        relation: "==",
+                        value: doc(db, "acolhidos", acolhido.id),
+                    }
+                ]
             }, response);
+            const documento = docs.find(doc => doc.id === params.doc);
+            if (!documento) throw new NotFoundError(response, "Documento não encontrado");
+            return await remove(session.get("login"), Documento, documento.id, response);
         } else {
             if (!params.id) throw new ClientError(response, "ID não informado");
             const acolhido = (await read(session.get("login"), Acolhido, { id: params.id }, response))[0];
