@@ -880,6 +880,11 @@ body {
     align-items: center;
   }
 
+  #graficoDonut {
+    width: 400px;
+    height: 400px;
+  }
+
   .estatisticas-acolhidos {
     margin-bottom: 10px;
   }

@@ -228,7 +228,7 @@
                         title: "Tem certeza?",
                         text: "Você realmente deseja excluir este produto?",
                         icon: "warning",
-                        showCancelButton: true, 
+                        showCancelButton: true,
                         confirmButtonColor: "#1535B5",
                         confirmButtonText: "Sim, excluir",
                         cancelButtonText: "Cancelar"
@@ -617,9 +617,18 @@
             <div class="linha"></div>
             <p id="entendaTitulo" class="conteudo-site">Gostou do catálogo?</p>
             <p id="entenda" class="conteudo-site">Produtos disponíveis em nosso endereço</p>
-            <a href="/contato" class="botao conteudo-site">Clique aqui</a>
+            <a onclick="enviarZap()" class="botao conteudo-site">Clique aqui</a>
         </div>
     </section>
+
+    <script>
+        function enviarZap() {
+            const numero = '5512991966930';
+            const mensagem = `Olá, tenho interesse em um produto do catálogo.`;
+            const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+            window.open(url, '_blank');
+        }
+    </script>
 
     <component-footer />
 </body>
