@@ -187,22 +187,38 @@
     }
 
     function removerImagem(id) {
+        const totalImagens = window.IMAGENS ? window.IMAGENS.length : imagens.length;
+    if (totalImagens <= 3) {
         if (Swal) {
             Swal.fire({
-                title: "Deseja realmente apagar esta imagem?",
-                text: "Esta ação não pode ser desfeita.",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Sim, apagar!",
-                cancelButtonText: "Não, cancelar!",
+                title: "Não é possível remover",
+                text: "O carrossel precisa de pelo menos 3 imagens, adcione uma antes de excluir esta.",
+                icon: "info",
+                confirmButtonText: "Ok",
                 confirmButtonColor: "#1535B5",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    removerImagemRequest(id);
-                }
             });
         } else {
-            if (confirm("Deseja realmente apagar esta imagem?")) removerImagemRequest(id);
+            alert("O carrossel precisa de pelo menos 3 imagens.");
         }
+        return;
     }
+
+    if (Swal) {
+        Swal.fire({
+            title: "Deseja realmente apagar esta imagem?",
+            text: "Esta ação não pode ser desfeita.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim, apagar!",
+            cancelButtonText: "Não, cancelar!",
+            confirmButtonColor: "#1535B5",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                removerImagemRequest(id);
+            }
+        });
+    } else {
+        if (confirm("Deseja realmente apagar esta imagem?")) removerImagemRequest(id);
+    }
+}
 </script>
