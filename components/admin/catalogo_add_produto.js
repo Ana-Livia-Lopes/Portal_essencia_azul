@@ -156,6 +156,8 @@ const content = `<button onclick="adicionarProduto()" class="botao-editar conteu
                                     title: "Produto adicionado com sucesso!",
                                     confirmButtonColor: "#1535B5",
                                     timer: 1500
+                                }).then(() => {
+                                    window.location.reload();
                                 });
                             }
                         }).catch(err => {

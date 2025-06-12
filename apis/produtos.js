@@ -12,7 +12,7 @@ module.exports = {
     async post({ body, session, response }) {
         if (!body.files.blob || !body.fields.nome || !body.fields.preco) throw new ClientError(response, "Parâmetros insuficientes");
         const blob = await getFormidableBlob(body.files.blob);
-        const opcoesArr = body.fields["opcoes[]"] ? jsonField(body, "opcoes[]") : [];
+        const opcoesArr = body.fields["opcoes[]"];
         const opcoes = [];
         for (let i = 0; i < opcoesArr.length; i++) {
             let opcao = opcoesArr[i];
