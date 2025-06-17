@@ -81,7 +81,7 @@
                 const onlyNumeric = /^\d+$/;
 
                 if (window.FOOTER_INFO.whatsapp) {
-                    whatsapp1.textContent = window.FOOTER_INFO.whatsapp.footer_1;
+                    whatsapp1.innerHTML = `<i class="fa-brands fa-whatsapp"></i>${window.FOOTER_INFO.whatsapp.footer_1}`;
                     whatsapp1.href = `https://api.whatsapp.com/send/?phone=${
                         window.FOOTER_INFO.whatsapp.footer_1.split("").filter(c => onlyNumeric.test(c)).join("")
                     }&text=Ol%C3%A1%2C+tenho+interesse+em+um+produto+do+cat%C3%A1logo.&type=phone_number&app_absent=0`;

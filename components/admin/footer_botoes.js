@@ -1,10 +1,13 @@
 const { isLogged } = require("../../src");
 
 const usuarioLogado = `<div class="botoes-admin">
-    <a><button onclick="editarFooter()" id="gerenciamento">Editar Footer</button></a>
+    <a><button onclick="editarFooter()" id="gerenciamento">Editar informações</button></a>
     <a href="/gerenciamento"><button id="gerenciamento">Gerenciamento</button></a>
     <a><button id="sair" onclick="sair()" id="sair-adm">Sair</button></a>
     
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/bindings/inputmask.binding.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function sair() {
@@ -64,7 +67,13 @@ const usuarioLogado = `<div class="botoes-admin">
                         <input type="text" id="facebook" class="modal-input" value="daUmJeitoLin">
 
                         <label for="telefone" class="modal-label">Telefone</label>
-                        <input type="text" id="telefone" class="modal-input" value="daUmJeitoLin">
+                        <input type="text" id="editar_telefone_1" class="modal-input" value="daUmJeitoLin">
+                        
+                        <label for="telefone" class="modal-label">Telefone</label>
+                        <input type="text" id="editar_telefone_2" class="modal-input" value="daUmJeitoLin">
+
+                        <label for="telefone" class="modal-label">Telefone</label>
+                        <input type="text" id="editar_telefone_catalogo" class="modal-input" value="daUmJeitoLin">
                     </div>
                 \`,
                 confirmButtonText: 'Salvar alterações',
@@ -74,6 +83,11 @@ const usuarioLogado = `<div class="botoes-admin">
                 focusConfirm: false,
                 customClass: {
                     popup: 'custom-popup'
+                },
+                didOpen: () => {
+                    Inputmask("(99) 99999-9999").mask("#editar_telefone_1");
+                    Inputmask("(99) 99999-9999").mask("#editar_telefone_2");
+                    Inputmask("(99) 99999-9999").mask("#editar_telefone_catalogo");
                 },
                 preConfirm: () => {
                     const endereco = document.getElementById('endereco').value.trim();
