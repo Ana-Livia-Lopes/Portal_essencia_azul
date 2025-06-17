@@ -11,10 +11,10 @@
         <h2 class="conteudo-site">Grupo de Apoio a Pais de Crianças e Adolescentes portadores de TEA</h2>
         <div id="info">
             <div id="endereco-email">
-                <h5 class="conteudo-site">Endereço:</h5>
+                <h5 class="conteudo-site" id="footer_endereco_texto">Endereço:</h5>
 
                 <p class="conteudo-site">R. Prof. João Batista Ortiz Monteiro, 345 - Vila Antônio Augusto Luiz, Caçapava - SP, 12287-310</p>
-                <a href="https://www.google.com.br/maps/place/R.+Prof.+Jo%C3%A3o+Batista+Ortiz+Monteiro,
+                <a id="footer_endereco_link" href="https://www.google.com.br/maps/place/R.+Prof.+Jo%C3%A3o+Batista+Ortiz+Monteiro,
                 +345+-+Vila+Ant%C3%B4nio+Augusto+Luiz,+Ca%C3%A7apava+-+SP,+12287-310/@-23.1114977,-45.710877,
                 19.5z/data=!4m15!1m8!3m7!1s0x94cc517e22d894a5:0x653d53ede958fa5d!2sR.+Prof.+Jo%C3%A3o
                 +Batista+Ortiz+Monteiro,+345+-+Vila+Ant%C3%B4nio+Augusto+Luiz,+Ca%C3%A7apava+-+SP,+12287-310!3b1!8m2!3d
@@ -23,16 +23,16 @@
                 target="_blank" class="conteudo-site">Ver localização</a>
                 
                 <h5 id="email-footer" class="conteudo-site">Email:</h5>
-                <p class="conteudo-site">essenciatea@gmail.com</p>
+                <p class="conteudo-site" id="footer_email">essenciatea@gmail.com</p>
             </div>
             <div id="redes-contato">
                 <ul>
-                    <a href="https://www.instagram.com/essencia.azul/" target="_blank" class="conteudo-site"><li class="item-contato"><i class="fa-brands fa-instagram"></i>@essencia.azul</li></a>
-                    <a href="https://www.facebook.com/teacacapava/" target="_blank" class="conteudo-site"><li class="item-contato"><i class="fa-brands fa-facebook"></i>Essência Azul</li></a>
+                    <a href="https://www.instagram.com/essencia.azul/" target="_blank" class="conteudo-site"><li class="item-contato" id="footer_instagram"><i class="fa-brands fa-instagram"></i>@essencia.azul</li></a>
+                    <a href="https://www.facebook.com/teacacapava/" target="_blank" class="conteudo-site"><li class="item-contato" id="footer_facebook"><i class="fa-brands fa-facebook"></i>Essência Azul</li></a>
                     <div>
-                        <a href="https://wa.me/5512996511830" target="_blank" class="conteudo-site"><li class="item-contato"><i class="fa-brands fa-whatsapp"></i>(12) 99651-1830 </li></a>
+                        <a href="https://wa.me/5512996511830" target="_blank" class="conteudo-site"><li class="item-contato" id="footer_whatsapp_1"><i class="fa-brands fa-whatsapp"></i>(12) 99651-1830 </li></a>
                         <p id="barra">/</p>
-                        <a href="https://wa.me/5512991263198" target="_blank" class="conteudo-site">(12) 99126-3198</a>
+                        <a href="https://wa.me/5512991263198" target="_blank" class="conteudo-site" id="footer_whatsapp_2">(12) 99126-3198</a>
                     </div>
                 </ul>
             </div>
@@ -50,7 +50,49 @@
         </div>
         
         <component-admin-footer_botoes />
+        <script>
+            if (!window.FOOTER_INFO) {
+                console.log("MISSING HEADER COMPONENT OR FOOTER INFO COMPONENT")
+            } else {
+                const enderecoTexto = document.getElementById("footer_endereco_texto");
+                const enderecoLink = document.getElementById("footer_endereco_link");
+                const email = document.getElementById("footer_email");
+                const instagram = document.getElementById("footer_instagram");
+                const facebook = document.getElementById("footer_facebook");
+                const whatsapp1 = document.getElementById("footer_whatsapp_1");
+                const whatsapp2 = document.getElementById("footer_whatsapp_2");
 
+                if (window.FOOTER_INFO.endereco) {
+                    enderecoTexto.textContent = window.FOOTER_INFO.endereco.texto;
+                    enderecoLink.href = window.FOOTER_INFO.endereco.link;
+                }
+
+                email.textContent = window.FOOTER_INFO.email;
+
+                instagram.innerHTML = `<i class="fa-brands fa-instagram"></i>@${window.FOOTER_INFO.instagram}</li>`;
+                instagram.href = `https://www.instagram.com/${window.FOOTER_INFO.instagram}/`;
+
+                if (window.FOOTER_INFO.facebook) {
+                    facebook.innerHTML = `<i class="fa-brands fa-instagram"></i>${window.FOOTER_INFO.facebook.nome}</li>`;
+                    facebook.href = `https://www.facebook.com/${window.FOOTER_INFO.facebook.usuario}/`;
+                }
+
+
+                const onlyNumeric = /^\d+$/;
+
+                if (window.FOOTER_INFO.whatsapp) {
+                    whatsapp1.textContent = window.FOOTER_INFO.whatsapp.footer_1;
+                    whatsapp1.href = `https://api.whatsapp.com/send/?phone=${
+                        window.FOOTER_INFO.whatsapp.footer_1.split("").filter(c => onlyNumeric.test(c)).join("")
+                    }&text=Ol%C3%A1%2C+tenho+interesse+em+um+produto+do+cat%C3%A1logo.&type=phone_number&app_absent=0`;
+                    whatsapp2.textContent = window.FOOTER_INFO.whatsapp.footer_2;
+                    whatsapp2.href = `https://api.whatsapp.com/send/?phone=${
+                        window.FOOTER_INFO.whatsapp.footer_2.split("").filter(c => onlyNumeric.test(c)).join("")
+                    }&text=Ol%C3%A1%2C+tenho+interesse+em+um+produto+do+cat%C3%A1logo.&type=phone_number&app_absent=0`;
+                }
+
+            }
+        </script>
     </div>
     <img id="puzzle2-footer" src="/img/puzzle.png" alt="">
 </footer>
