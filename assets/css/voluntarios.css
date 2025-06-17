@@ -70,7 +70,7 @@ form {
   flex-direction: column;
 }
 
-label {
+.label {
   text-align: left;
   padding-left: 48px;
   font-family: 'Montserrat';
@@ -83,7 +83,7 @@ label {
   grid-column: 1 / span 2;
 }
 
-input {
+.input {
   width: 68.5%;
   height: 40px;
   margin-bottom: 20px;
@@ -115,7 +115,7 @@ input:focus {
   background-size: 20px;
 }
 
-#email {
+#emaill {
   background-image: url('/img/envelope-solid.svg');
   background-size: 18px;
 }

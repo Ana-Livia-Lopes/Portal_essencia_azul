@@ -245,6 +245,46 @@
         ;
         color: #4558a7;
     }
+    .modal-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.modal-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 8px;
+}
+
+.modal-input,
+.modal-textarea,
+.modal-file {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.modal-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.modal-file {
+    padding: 6px;
+    background-color: #f9f9f9;
+    border: 1px dashed #ccc;
+}
+
+.custom-popup {
+    border-radius: 10px;
+    padding: 25px;
+}
 
     @media (max-width: 768px) {
         #footer {
