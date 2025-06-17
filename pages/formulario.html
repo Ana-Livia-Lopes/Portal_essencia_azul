@@ -26,31 +26,22 @@
                 </div>
                 <h1 class="conteudo-site">Solicitar cadastro</h1>
                 <p class="conteudo-site">
-                    Prezados pais, responsáveis e membros da nossa comunidade,
+                    Prezados pais, responsáveis e membros da comunidade,
                     <br><br>
-                    A Associação Essência Azul tem o compromisso de oferecer suporte e
-                    apoio integral a famílias de crianças e pessoas com autismo.
-                    Acreditamos que cada indivíduo é único e merece o melhor
-                    atendimento possível. Para cumprir nossa missão com excelência, é
-                    fundamental que tenhamos informações detalhadas sobre nossos
-                    membros, a fim de personalizar o suporte e serviços de acordo com
-                    as necessidades individuais.
+                    A Associação Essência Azul tem como missão oferecer
+                    apoio completo às famílias de pessoas com autismo.
+                    Para prestarmos um atendimento mais personalizado e
+                    eficaz, precisamos conhecer melhor cada membro da
+                    nossa comunidade.
                     <br><br>
-                    Este formulário foi criado para nos ajudar a conhecer melhor cada
-                    membro da nossa comunidade. Todas as informações fornecidas aqui
-                    são tratadas com absoluta confidencialidade e segurança. Nossa
-                    prioridade é o bem-estar de todos, e essas informações nos
-                    permitirão oferecer suporte direcionado e eficaz.
+                    Este formulário tem o objetivo de coletar informações
+                    importantes, que serão tratadas com total sigilo e
+                    usadas exclusivamente pela Associação. Pedimos que o
+                    preencham com sinceridade e atenção.
                     <br><br>
-                    Pedimos que preencham o formulário com sinceridade e precisão,
-                    fornecendo todas as informações relevantes. Lembre-se de que esses
-                    dados serão usados exclusivamente para os fins da Associação
-                    Essência Azul, e nunca serão compartilhados com terceiros sem seu
-                    consentimento.
-                    <br><br>
-                    Agradecemos sua colaboração e confiança. Juntos, podemos criar um
-                    ambiente de apoio e compreensão, promovendo o bem-estar e a
-                    qualidade de vida das pessoas com autismo e suas famílias.
+                    Agradecemos a confiança e colaboração. Juntos,
+                    podemos construir um ambiente de acolhimento,
+                    respeito e cuidado.
                     <br><br>
                     Com carinho,
                     <br><br>
@@ -109,7 +100,7 @@
                         <input class="conteudo-site" type="radio" id="escola-suporte-s" name="escola-suporte"
                             value="true" />
                         <label class="conteudo-site" for="escola-suporte-s">Sim</label>
-    
+
                         <input class="conteudo-site" type="radio" id="escola-suporte-n" name="escola-suporte"
                             value="false" />
                         <label class="conteudo-site" for="escola-suporte-n">Não</label>
@@ -164,7 +155,8 @@
                 </div>
             </div>
             <div class="caixas">
-                <h2 class="conteudo-site">Tem cartão para utilizar vaga de estacionamento exclusiva para autistas? *</h2>
+                <h2 class="conteudo-site">Tem cartão para utilizar vaga de estacionamento exclusiva para autistas? *
+                </h2>
                 <div class="div-maior-input-radio">
                     <div class="radio" id="radios-vaga-estacionamento">
                         <input type="radio" id="vaga-sim" name="vaga" value="Sim">
@@ -179,11 +171,18 @@
                 <h2 class="conteudo-site">Áreas de Interesse (interesses da criança/pessoa autista, o que gosta de
                     fazer?) *</h2>
                 <!-- <input type="text" placeholder="Escreva aqui" class="conteudo-site"> -->
-                <div class="list-input conteudo-site" id="inputs-area-interesse"></div>
+                <div class="list-info">
+                    <div class="list-input conteudo-site" id="inputs-area-interesse"></div>
+                    <a class="info-button" onclick="infoLista()"><i class="fa-solid fa-question"></i></a>
+                </div>
+
             </div>
             <div class="caixas">
                 <h2 class="conteudo-site">Hiperfoco (descreva em que o autista demonstra hiperfoco) *</h2>
-                <div class="list-input conteudo-site" id="inputs-hiperfocos"></div>
+                <div class="list-info">
+                    <div class="list-input conteudo-site" id="inputs-hiperfocos"></div>
+                    <a class="info-button" onclick="infoLista()"><i class="fa-solid fa-question"></i></a>
+                </div>
             </div>
             <div class="caixas">
                 <h2 class="conteudo-site">Como o autista se acalma? (técnicas ou atividades que acalmam a criança/pessoa
@@ -193,12 +192,18 @@
             <div class="caixas">
                 <h2 class="conteudo-site">Atividades que o autista NÃO gosta de fazer (atividades que a criança evita ou
                     não gosta) *</h2>
-                <div class="list-input conteudo-site" id="inputs-atividade-nao-gosta"></div>
+                <div class="list-info">
+                    <div class="list-input conteudo-site" id="inputs-atividade-nao-gosta"></div>
+                    <a class="info-button" onclick="infoLista()"><i class="fa-solid fa-question"></i></a>
+                </div>
             </div>
             <div class="caixas">
                 <h2 class="conteudo-site">Restrições alimentares (se a criança/pessoa tem restrições alimentares,
                     descreva) *</h2>
-                <div class="list-input conteudo-site" id="inputs-restricoes-alimentares"></div>
+                <div class="list-info">
+                    <div class="list-input conteudo-site" id="inputs-restricoes-alimentares"></div>
+                    <a class="info-button" onclick="infoLista()"><i class="fa-solid fa-question"></i></a>
+                </div>
             </div>
             <div class="caixas">
                 <h2 class="conteudo-site">Comida favorita *</h2>
@@ -212,11 +217,17 @@
                 <h2 class="conteudo-site">Quais terapias está fazendo? (Lista de terapias ou tratamentos que a
                     criança/pessoa está fazendo) *
                 </h2>
-                <div class="list-input conteudo-site" id="inputs-terapias-faz"></div>
+                <div class="list-info">
+                    <div class="list-input conteudo-site" id="inputs-terapias-faz"></div>
+                    <a class="info-button" onclick="infoLista()"><i class="fa-solid fa-question"></i></a>
+                </div>
             </div>
             <div class="caixas">
                 <h2 class="conteudo-site">Quais terapias necessita e NÃO está fazendo? *</h2>
-                <div class="list-input conteudo-site" id="inputs-terapias-precisa"></div>
+                <div class="list-info">
+                    <div class="list-input conteudo-site" id="inputs-terapias-precisa"></div>
+                    <a class="info-button" onclick="infoLista()"><i class="fa-solid fa-question"></i></a>
+                </div>
             </div>
 
             <div class="caixas">
@@ -230,11 +241,12 @@
 
                 </div>
                 <div style="display: flex; justify-content: center;">
-                    <button type="button" onclick="criarResidente()" class="conteudo-site" id="adicionar-residente">Adicionar residente</button>
+                    <button type="button" onclick="criarResidente()" class="conteudo-site"
+                        id="adicionar-residente">Adicionar residente</button>
                 </div>
                 <script>
                     const containerResidentes = document.getElementById("container-residentes");
-                    
+
                     containerResidentes.residentes = [];
 
                     function criarResidente() {
@@ -294,7 +306,7 @@
             <div class="caixas">
                 <h2 class="conteudo-site">Quem são os responsáveis que podemos contatar? *</h2>
                 <div id="container-responsaveis">
-                    
+
                 </div>
                 <div style="display: flex; justify-content: center; margin-bottom: 10px;">
                     <button type="button" onclick="criarResponsavel()" class="conteudo-site" id="adicionar-responsavel">
@@ -338,21 +350,21 @@
 
                         sublinhaDiv.appendChild(relacaoDiv);
                         sublinhaDiv.appendChild(contatoDiv);
-                        
+
                         responsavelDiv.appendChild(nomeDiv);
                         responsavelDiv.appendChild(sublinhaDiv);
 
                         const hr = document.createElement("hr");
                         responsavelDiv.appendChild(hr);
-                        
+
                         containerResponsaveis.appendChild(responsavelDiv);
-                        
+
                         responsavelDiv.responsavel = {
                             get nome() { return inputNome.value },
                             get relacao() { return inputRelacao.value },
                             get contato() { return inputContato.value }
                         };
-                        
+
                         containerResponsaveis.responsaveis.push(responsavelDiv.responsavel);
 
                         const i = document.createElement("i");
@@ -361,7 +373,7 @@
                             containerResponsaveis.removeChild(responsavelDiv);
                             containerResponsaveis.responsaveis = containerResponsaveis.responsaveis.filter(r => r !== responsavelDiv.responsavel);
                         });
-                        
+
                         responsavelDiv.appendChild(i);
                     }
                     criarResponsavel();
@@ -383,7 +395,7 @@
     <script>
         const form = document.getElementById("formularios");
 
-        form.addEventListener("keydown", function(event) {
+        form.addEventListener("keydown", function (event) {
             if (event.key === "Enter") {
                 event.preventDefault();
             }
@@ -530,6 +542,18 @@
             })
         })
     </script>
+    <script>
+        function infoLista() {
+            Swal.fire({
+                title: "Itens de lista",
+                text: "Você pode adicionar vários itens, basta pressionar enter após digitar cada um. Para remover um item, apague-o por inteiro.",
+                icon: "question",
+                showCancelButton: false,
+                confirmButtonText: "OK!",
+                confirmButtonColor: "#1535B5",
+            })
+        }
+    </script>
     <script type="module">
         import ListInput from "/js/list_input.js";
 
@@ -542,7 +566,7 @@
             width: 100%;
 
             input {
-                width: 560px;
+                width: 520px;
                 text-indent: 20px;
                 background-image: url("/img/circle-solid.svg");
                 background-repeat: no-repeat;
@@ -555,8 +579,15 @@
             .conteudo-site.list-input {
                 width: 100%;
             }
+
             .conteudo-site.list-input input {
-                width: 100%;
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .conteudo-site.list-input input {
+                width: 93%;
             }
         }
     </style>

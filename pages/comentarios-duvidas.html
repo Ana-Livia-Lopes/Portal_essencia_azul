@@ -10,10 +10,12 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/component-json-comentarios.js"></script>
     <title>Comentários e dúvidas</title>
 </head>
 
-<body>
+<body style="height: 100vh !important;">
     <component-json-comentarios />
     <div class="voltar-div">
         <h3><a class="voltar" href="/gerenciamento"><i class="fa-solid fa-arrow-left" style="color: '#002293;'"></i>
@@ -48,8 +50,12 @@
                     const comentarioDiv = document.createElement("div");
                     comentarioDiv.className = "div-corpo";
                     comentarioDiv.innerHTML = `
-                        <div class="info">
-                            <p id="data">Enviado em ${dataFormatada}</p>
+                        <div class="info topo">
+                            <p id="data">${dataFormatada}</p>
+                            <a class="btn-excluir" onclick="removerComentario('${comentario.id}')">
+                                <i class="fa-solid fa-xmark"></i>
+                            </a>
+                        </div>
                         <div class="info">
                             <label for="">Nome</label>
                             <p class="area-info">${comentario.fields.nome || "N/A"}</p>
@@ -60,10 +66,36 @@
                         </div>
                         <div class="info">
                             <label for="">Comentário e/ou dúvida:</label>
-                            <p class="area-info">${comentario.fields.mensagem || "N/A"}</p>
-                        </div>`;
+                            <p class="area-info coment">${comentario.fields.mensagem || "N/A"}</p>
+                        </div>
+                        `;
                     container.appendChild(comentarioDiv);
                 }
+            }
+
+            function removerComentario(id) {
+                if (Swal) {
+                    Swal.fire({
+                        title: "Deseja realmente apagar este comentário?",
+                        text: "Esta ação não pode ser desfeita.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Sim, apagar!",
+                        cancelButtonText: "Não, cancelar!",
+                        confirmButtonColor: "#1535B5",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            removerComentarioRequest(id);
+                        }
+                    });
+                } else {
+                    if (confirm("Deseja realmente apagar este comentario?")) removerComentarioRequest(id);
+                }
+            }
+
+            function removerComentarioRequest(id) {
+                fetch("  "  + id, { method: "DELETE" }).then(window.location.reload.bind(window.location));
+                // colocar o endpoint correto para a remoção do comentário
             }
         </script>
     </div>
