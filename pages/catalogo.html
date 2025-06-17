@@ -439,8 +439,9 @@
                 }
 
 
-
-                for (const opcao of [{ nome, preco, descricao, imagem }, ...opcoes]) {
+                const opcoesArr = [{ nome, preco, descricao, imagem }, ...opcoes];
+                for (let i = 0; i < opcoesArr.length; i++) {
+                    const opcao = opcoesArr[i];
                     const opcaoObj = {};
                     if (opcao.nome) {
                         opcaoObj.nome = document.createElement("h4");
@@ -467,7 +468,7 @@
                     const container = document.createElement("div");
                     const input = document.createElement("input");
                     input.type = "radio";
-                    input.checked = true;
+                    if (i === 0) input.checked = true;
                     const label = document.createElement("label");
                     const span = document.createElement("span");
                     span.onclick = function () {

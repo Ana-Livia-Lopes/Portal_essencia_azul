@@ -12,13 +12,15 @@ module.exports = {
     async post({ body, session, response }) {
         if (!body.files.blob || !body.fields.nome || !body.fields.preco) throw new ClientError(response, "Parâmetros insuficientes");
         const blob = await getFormidableBlob(body.files.blob);
-        const opcoesArr = body.fields["opcoes[]"] ? jsonField(body, "opcoes[]") : [];
         const opcoes = [];
-        for (let i = 0; i < opcoesArr.length; i++) {
-            let opcao = opcoesArr[i];
-            opcao = JSON.parse(opcao);
-            if (body.files[`blob_opcao[${i}]`]) opcao.blob = await getFormidableBlob(body.files[`blob_opcao[${i}]`]);
-            opcoes.push(opcao);
+        const opcoesArr = body.fields["opcoes[]"];
+        if (opcoesArr) {
+            for (let i = 0; i < opcoesArr.length; i++) {
+                let opcao = opcoesArr[i];
+                opcao = JSON.parse(opcao);
+                if (body.files[`blob_opcao[${i}]`]) opcao.blob = await getFormidableBlob(body.files[`blob_opcao[${i}]`]);
+                opcoes.push(opcao);
+            }
         }
 
         if (blob.type !== "image/jpeg" && blob.type !== "image/png") throw new ClientError(response, "Tipo de arquivo inválido");
