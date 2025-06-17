@@ -48,31 +48,33 @@ const usuarioLogado = `<div class="botoes-admin">
 
         function editarFooter() {
             Swal.fire({
-                title: 'Editar informações do footer',
+                title: 'Editar informações',
                 html: \`
                     <div class="modal-container">
                         <label for="endereco" class="modal-label">Endereço</label>
-                        <input type="text" id="endereco" class="modal-input" value="daUmJeitoLin">
+                        <textarea type="text" id="editar_endereco_texto" class="modal-textarea" value="daUmJeitoLin"></textarea>
 
                         <label for="linkendereco" class="modal-label">Link do Endereço</label>
-                        <input type="text" id="linkendereco" class="modal-input" value="daUmJeitoLin">
+                        <textarea type="text" id="editar_endereco_link" class="modal-textarea" value="daUmJeitoLin"></textarea>
 
                         <label for="email" class="modal-label">E-mail</label>
-                        <input type="email" id="email" class="modal-input" value="daUmJeitoLin">
+                        <input type="email" id="editar_email" class="modal-input" value="daUmJeitoLin">
 
-                        <label for="insta" class="modal-label">Instagram</label>
-                        <input type="text" id="insta" class="modal-input" value="daUmJeitoLin">
+                        <label for="insta" class="modal-label">Usuário do Instagram</label>
+                        <input type="text" id="editar_instagram" class="modal-input" value="daUmJeitoLin">
 
-                        <label for="facebook" class="modal-label">Facebook</label>
-                        <input type="text" id="facebook" class="modal-input" value="daUmJeitoLin">
+                        <label for="facebook" class="modal-label">Usuário do Facebook</label>
+                        <input type="text" id="editar_facebook_usuario" class="modal-input" value="daUmJeitoLin">
+                        <label for="facebook" class="modal-label">Nome do Facebook</label>
+                        <input type="text" id="editar_facebook_nome" class="modal-input" value="daUmJeitoLin">
 
-                        <label for="telefone" class="modal-label">Telefone</label>
+                        <label for="telefone" class="modal-label">Telefone 1 - Rodapé</label>
                         <input type="text" id="editar_telefone_1" class="modal-input" value="daUmJeitoLin">
                         
-                        <label for="telefone" class="modal-label">Telefone</label>
+                        <label for="telefone" class="modal-label">Telefone 2 - Rodapé</label>
                         <input type="text" id="editar_telefone_2" class="modal-input" value="daUmJeitoLin">
 
-                        <label for="telefone" class="modal-label">Telefone</label>
+                        <label for="telefone" class="modal-label">Telefone - Catálogo</label>
                         <input type="text" id="editar_telefone_catalogo" class="modal-input" value="daUmJeitoLin">
                     </div>
                 \`,
@@ -88,6 +90,26 @@ const usuarioLogado = `<div class="botoes-admin">
                     Inputmask("(99) 99999-9999").mask("#editar_telefone_1");
                     Inputmask("(99) 99999-9999").mask("#editar_telefone_2");
                     Inputmask("(99) 99999-9999").mask("#editar_telefone_catalogo");
+
+                    const enderecoInput = document.getElementById('editar_endereco_texto');
+                    const linkEnderecoInput = document.getElementById('editar_endereco_link');
+                    const emailInput = document.getElementById('editar_email');
+                    const instaInput = document.getElementById('editar_instagram');
+                    const facebookUsuarioInput = document.getElementById('editar_facebook_usuario');
+                    const facebookNomeInput = document.getElementById('editar_facebook_nome');
+                    const telefone1Input = document.getElementById('editar_telefone_1');
+                    const telefone2Input = document.getElementById('editar_telefone_2');
+                    const telefoneCatalogoInput = document.getElementById('editar_telefone_catalogo');
+
+                    enderecoInput.value = window.FOOTER_INFO.endereco.texto;
+                    linkEnderecoInput.value = window.FOOTER_INFO.endereco.link;
+                    emailInput.value = window.FOOTER_INFO.email;
+                    instaInput.value = window.FOOTER_INFO.instagram;
+                    facebookUsuarioInput.value = window.FOOTER_INFO.facebook.usuario;
+                    facebookNomeInput.value = window.FOOTER_INFO.facebook.nome;
+                    telefone1Input.value = window.FOOTER_INFO.whatsapp.footer_1;
+                    telefone2Input.value = window.FOOTER_INFO.whatsapp.footer_2;
+                    telefoneCatalogoInput.value = window.FOOTER_INFO.whatsapp.catalogo;
                 },
                 preConfirm: () => {
                     const endereco = document.getElementById('endereco').value.trim();
