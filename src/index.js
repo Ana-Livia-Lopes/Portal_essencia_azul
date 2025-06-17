@@ -1103,7 +1103,7 @@ var EssenciaAzul = ( function() {
             const newAdminData = await getDoc(doc(db, "admins", newAdmin.id));
             const newAdminDoc = newAdminData.data();
             const newAdminKey = newAdminDoc.chave;
-            return new Login(session, newAdminDoc.nome, email, newAdminDoc.nivel, newAdminKey, privateLoginConstructorIndicator);
+            // return new Login(session, newAdminDoc.nome, email, newAdminDoc.nivel, newAdminKey, privateLoginConstructorIndicator);
         } else {
             throw new ClientError(response, "É necessário estar em uma sessão autorizada para registrar um administrador");
         }
