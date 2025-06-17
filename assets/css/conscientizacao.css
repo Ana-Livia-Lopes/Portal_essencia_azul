@@ -164,7 +164,8 @@ span.material-symbols-outlined {
     font-size: 19px;
     width: 46%;
     text-align: justify;
-    margin-bottom: 50px;
+        margin-bottom: 38px;
+    margin-top: 15px;
 }
 
 .section3 .graus h3 {
@@ -172,16 +173,23 @@ span.material-symbols-outlined {
     margin-bottom: 20px;
 }
 
+.section3 .grausCom{
+    margin: 0 10px;
+}
+
 .section3 .niveis {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .section3 #celular{
     display: none;
 }
 
-.section3 .niveis #n3p {
-    margin-left: 85px;
+.n3{
+    margin-top: 15px;
+    margin-right: 370px;
 }
 
 .section4 #flechas {
@@ -488,7 +496,7 @@ span.material-symbols-outlined {
     }
 
     .section2 h2 {
-        font-size: 26px;
+        font-size: 22px;
         margin-bottom: 0;
     }
 
@@ -545,6 +553,10 @@ span.material-symbols-outlined {
         width: 100%;
     }
 
+    .section3 .grausCom h3{
+    text-align: center;
+}
+
     .section4 #video-passos{
         width: 300px;
         height: 165px;
@@ -555,17 +567,18 @@ span.material-symbols-outlined {
 
     .section4 #flechas {
         padding: 1rem;
-        width: 92.5%;
+        width: 92.9%;
+        display: flex;
         justify-content: center;
+        align-items: center;
+        margin-right: auto;
+        margin-left: auto;
     }
 
     .olcards {
         max-width: 100%;
         padding: 0 1rem;
-    }
-
-    .olcards li {
-        flex-direction: column;
+        --cardsGap: 0;
     }
 
     .olcards li::before {
@@ -574,7 +587,7 @@ span.material-symbols-outlined {
         margin-right: 0;
         position: static;
         transform: none;
-        padding: 0.2em 0.4em;
+        padding: 0.7em 0.4em;
         align-self: flex-start;
     }
 
@@ -660,7 +673,7 @@ span.material-symbols-outlined {
     }
     
     .section2 h2 {
-        font-size: 20px;
+        font-size: 18px;
     }
     
     .content h4 {
@@ -690,7 +703,6 @@ span.material-symbols-outlined {
     }
 
     .section3 .graus p {
-        margin: 15px 10px;
         font-size: 15px;
     }
 
@@ -701,11 +713,6 @@ span.material-symbols-outlined {
 
     .section3 .niveis #n3 {
         margin-top: 10px;
-        margin-left: 10px;
-    }
-
-    .section3 .niveis #n3p {
-        margin-top: 45px;
         margin-left: 10px;
     }
 
