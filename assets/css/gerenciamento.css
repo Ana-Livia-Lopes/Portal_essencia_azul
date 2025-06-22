@@ -587,6 +587,12 @@ body {
   margin-left: 10px !important;
 }
 
+.top-content p {
+  font-size: 18px;
+  color: #333;
+  margin-left: 10px;
+}
+
 .checkbox-div {
   grid-column: 1 / span 2;
   display: grid;

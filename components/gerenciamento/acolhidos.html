@@ -181,6 +181,10 @@
                     topContent.appendChild(nameElement);
                     contentDiv.appendChild(topContent);
 
+                    const tipoElement = document.createElement('p');
+                    tipoElement.textContent = "Acolhido";
+                    topContent.appendChild(tipoElement);
+
                     const coluna1 = document.createElement('div');
                     coluna1.classList.add('coluna');
                     const coluna2 = document.createElement('div');
@@ -421,7 +425,7 @@
                                 title: 'Erro',
                                 text: 'Nenhum documento selecionado.'
                             });
-                            
+
                         }
                     });
                     addDocBtn.type = 'button';
@@ -851,7 +855,12 @@
     }
 
     @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
     }
 </style>
