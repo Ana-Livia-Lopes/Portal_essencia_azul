@@ -309,20 +309,30 @@
                 <h3 class="conteudo-site responsavel">Família</h3>
                 <!-- opcao de pesquisa de selecionar uma familia ja existente -->
 
-                <div style="display: flex; justify-content: center;">
+                <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
                     <button type="button" id="buscar-familia" class="conteudo-site"
                         style="display: flex; align-items: center; gap: 6px; margin-bottom: 24px;">
                         <i class="fa-solid fa-search"></i>
                         <p>Buscar família existente</p>
                     </button>
+                    <div id="display-parente-container" style="display: none; justify-content: center; flex-direction: column;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <p>Parente</p>
+                            <i class="fa-solid fa-trash" id="remover-parente" style="cursor: pointer; color: #002293; font-size: 20px;"></i>
+                        </div>
+                        <div id="display-parente">
+
+                        </div>
+                    </div>
                 </div>
 
                 <script>
                     let id_parente;
+                    let parente;
                     let cachedSearch;
                     let lastSelectedElement;
 
-                    function criarItemAcolhido(acolhido, output) {
+                    function criarItemAcolhido(acolhido, output, addListeners = true) {
                         const div = document.createElement('div');
                         div.classList.add('item');
                         const img = document.createElement('img');
@@ -330,11 +340,12 @@
                         img.alt = acolhido.fields.nome || "Acolhido";
                         div.appendChild(img);
                         div.appendChild(document.createTextNode(acolhido.fields.nome || "Acolhido"));
-                        div.addEventListener("click", () => {
+                        if (addListeners) div.addEventListener("click", () => {
                             if (lastSelectedElement) lastSelectedElement.classList.remove("selected");
                             div.classList.add("selected");
                             lastSelectedElement = div;
                             id_parente = acolhido.id;
+                            parente = acolhido;
                         });
                         output.appendChild(div);
                     }
@@ -377,17 +388,41 @@
                         }).then(result => {
                             let id_acolhido = result.isConfirmed ? result.value : null;
                             if (result.isConfirmed && id_acolhido) {
-                                document.querySelectorAll(".fa-solid.fa-trash.remover-residente").forEach(i => i.dispatchEvent(new Event("click")));
-                                document.getElementById("criar-residente").disabled = true;
-                                const enderecoInput = document.getElementById("endereco");
-                                enderecoInput.disabled = true;
-                                enderecoInput.value = "";
-                                
-                                id_parente = id_acolhido;
+                                setParente();
                             } else {
-                                id_parente = undefined;
+                                unsetParente();
                             }
                         });
+                    });
+
+                    function setParente() {
+                        const enderecoInput = document.getElementById("endereco");
+                        const parenteDisplayContainer = document.getElementById("display-parente-container");
+                        const parenteDisplay = document.getElementById("display-parente");
+                        document.querySelectorAll(".fa-solid.fa-trash.remover-residente").forEach(i => i.dispatchEvent(new Event("click")));
+                        document.getElementById("criar-residente").disabled = true;
+                        enderecoInput.disabled = true;
+                        enderecoInput.value = "";
+                        parenteDisplayContainer.hidden = false;
+                        parenteDisplayContainer.style.display = "flex";
+                        criarItemAcolhido(parente, parenteDisplay, false);
+                    }
+
+                    function unsetParente() {
+                        const enderecoInput = document.getElementById("endereco");
+                        const parenteDisplayContainer = document.getElementById("display-parente-container");
+                        const parenteDisplay = document.getElementById("display-parente");
+                        document.getElementById("criar-residente").disabled = false;
+                        enderecoInput.disabled = false;
+                        parenteDisplayContainer.hidden = true;
+                        parenteDisplayContainer.style.display = "none";
+                        parenteDisplay.innerHTML = '';
+                        id_parente = undefined;
+                        parente = undefined;
+                    }
+
+                    document.getElementById("remover-parente").addEventListener("click", () => {
+                        unsetParente();
                     });
                 </script>
                 <style>
@@ -406,6 +441,9 @@
 
                     .item img {
                         width: 30px;
+                        height: 30px;
+                        object-fit: cover;
+                        border-radius: 50%;
                     }
 
                     .item:hover {
@@ -414,6 +452,15 @@
 
                     .item.selected {
                         background-color: rgb(175, 175, 175);
+                    }
+
+                    #endereco:disabled {
+                        background-color: rgb(214, 214, 214);
+                        border-color: rgb(160, 160, 160);
+                    }
+
+                    #criar-residente:disabled {
+                        background-color: rgb(160, 160, 160) !important;
                     }
                 </style>
 
