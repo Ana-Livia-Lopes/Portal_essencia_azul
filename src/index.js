@@ -979,17 +979,19 @@ var EssenciaAzul = ( function() {
     const privateLoginConstructorIndicator = Symbol("Login.PrivateConstructorIndicator");
 
     class Login {
-        constructor(session, name, email, nivel, key, constructorKey) {
+        constructor(session, name, email, nivel, key, constructorKey, id) {
             if (constructorKey !== privateLoginConstructorIndicator) throw new Error("Private constructor");
             session.set("login", this);
 
             privateKeys.set(this, key);
 
+            this.id = id;
             this.session = session;
             this.email = email;
             this.name = name;
             this.nivel = nivel;
 
+            Property.set(this, "id", "freeze", "lock");
             Property.set(this, "session", "freeze", "lock");
             Property.set(this, "email", "freeze", "lock");
             Property.set(this, "name", "freeze", "lock");
@@ -1052,7 +1054,7 @@ var EssenciaAzul = ( function() {
         const adminDocData = adminDoc.data();
         const key = adminDocData.chave;
 
-        let login = new Login(session, adminDocData.nome, email, adminDocData.nivel, key, privateLoginConstructorIndicator);
+        let login = new Login(session, adminDocData.nome, email, adminDocData.nivel, key, privateLoginConstructorIndicator, adminDoc.id);
         return login;
     }
 

@@ -1,5 +1,6 @@
 const { getDocs, query, collection, where } = require("firebase/firestore");
 const { db } = require("./firebase.js");
+const supabase = require("./supabase.js");
 
 const analyticsResult = {
     possuiCarteira: 75,
@@ -67,9 +68,17 @@ async function createAnalytics() {
     console.log("Analytics updated");
 }
 
-setInterval(() => {
-    createAnalytics();
-}, 1000 * 60 * 60 * 24);
+async function clearOldRegisters() {
+    // TODO
+}
+
+setInterval(async () => {
+    await createAnalytics();
+
+    try {
+        await supabase.storage.from("public-images").exists("logo.png")
+    } catch(err) {}
+}, 1000 * 60 * 60 * 12);
 
 createAnalytics();
 

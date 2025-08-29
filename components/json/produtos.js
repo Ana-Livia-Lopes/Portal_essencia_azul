@@ -1,6 +1,7 @@
 const { getPublics, Produto } = require( "../../src/index.js" );
 const { ServerError } = require( "../../src/server/errors.js" );
 const supabase = require( "../../supabase.js" );
+const escapeHtml = require("./_escapeHtml.js");
 
 module.exports = async function execute(_, { response }) {
     const produtos = []
@@ -14,5 +15,5 @@ module.exports = async function execute(_, { response }) {
             }
         }
     }
-    return `<script>window.PRODUTOS = ${JSON.stringify(produtos)}</script>`;
+    return `<script>window.PRODUTOS = ${escapeHtml(produtos)}</script>`;
 }
