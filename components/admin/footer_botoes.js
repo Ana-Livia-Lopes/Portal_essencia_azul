@@ -112,51 +112,67 @@ const usuarioLogado = `<div class="botoes-admin">
                     telefoneCatalogoInput.value = window.FOOTER_INFO.whatsapp.catalogo;
                 },
                 preConfirm: () => {
-                    const endereco = document.getElementById('endereco').value.trim();
-                    const linkendereco = document.getElementById('linkendereco').value.trim();
-                    const email = document.getElementById('email').value.trim();
-                    const insta = document.getElementById('insta').value.trim();
-                    const facebook = document.getElementById('facebook').value.trim();
-                    const telefone = document.getElementById('telefone').value.trim();
+                    const enderecoInput = document.getElementById('editar_endereco_texto');
+                    const linkEnderecoInput = document.getElementById('editar_endereco_link');
+                    const emailInput = document.getElementById('editar_email');
+                    const instaInput = document.getElementById('editar_instagram');
+                    const facebookUsuarioInput = document.getElementById('editar_facebook_usuario');
+                    const facebookNomeInput = document.getElementById('editar_facebook_nome');
+                    const telefone1Input = document.getElementById('editar_telefone_1');
+                    const telefone2Input = document.getElementById('editar_telefone_2');
+                    const telefoneCatalogoInput = document.getElementById('editar_telefone_catalogo');
 
-                    if (!endereco || !linkendereco || !email || !telefone) {
-                        Swal.showValidationMessage('Preencha todos os campos obrigatórios!');
-                        return false;
-                    }
-
-                    const fd = new FormData();
-                    fd.append("endereco", endereco);
-                    fd.append("linkendereco", linkendereco);
-                    fd.append("email", email);
-                    fd.append("insta", insta);
-                    fd.append("facebook", facebook);
-                    fd.append("telefone", telefone);
-                    if (arquivo) fd.append("arquivo", arquivo);
-
-                    return fetch('/editar-footer', {
-                        method: 'POST',
-                        body: fd
-                    }).then(resp => resp.json())
-                      .catch(() => {
-                          Swal.showValidationMessage("Erro na requisição.");
-                      });
+                    return {
+                        endereco: {
+                            texto: enderecoInput.value,
+                            link: linkEnderecoInput.value
+                        },
+                        email: emailInput.value,
+                        instagram: instaInput.value,
+                        facebook: {
+                            usuario: facebookUsuarioInput.value,
+                            nome: facebookNomeInput.value
+                        },
+                        whatsapp: {
+                            footer_1: telefone1Input.value,
+                            footer_2: telefone2Input.value,
+                            catalogo: telefoneCatalogoInput.value
+                        }
+                    };
                 }
             }).then(result => {
-                if (result.isConfirmed && result.value?.status === "success") {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Sucesso!",
-                        text: "Footer atualizado com sucesso!",
-                        confirmButtonColor: "#1535B5",
-                    }).then(() => window.location.reload());
-                } else if (result.value?.status === "error") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Erro!",
-                        text: result.value.message,
-                        confirmButtonColor: "#1535B5",
-                    });
-                }
+                if (!result.isConfirmed) return;
+                fetch("/actions/update_info", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        endereco: result.value.endereco,
+                        email: result.value.email,
+                        instagram: result.value.instagram,
+                        facebook: result.value.facebook,
+                        whatsapp: result.value.whatsapp
+                    }),
+                }).then(resp => resp.json()).then(json => {
+                    if (json.status === "okay") {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Sucesso",
+                            text: json.message,
+                            confirmButtonColor: "#1535B5",
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Erro",
+                            text: json.message,
+                            confirmButtonColor: "#1535B5",
+                        });
+                    }    
+                });
             });
         }
     </script>

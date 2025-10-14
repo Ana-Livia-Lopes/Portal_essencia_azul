@@ -6,7 +6,7 @@ const Command = require("./cli.js");
 const {  } = require("./src/");
 require("./analytics.js");
 
-const server = new Server();
+const server = require('./server.js');
 console.clear();
 
 const grey = chalk.rgb(169, 169, 169);

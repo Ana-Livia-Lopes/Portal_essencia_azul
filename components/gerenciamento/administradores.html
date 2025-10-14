@@ -23,6 +23,19 @@
                 "simples": 1
             };
 
+            function labelForNivel(nivel) {
+                switch (nivel) {
+                    case 3:
+                        return "Principal"
+                    case 2:
+                        return "Direção"
+                    case 1:
+                        return "Simples"
+                    default:
+                        return "Desconhecido"
+                }
+            }
+
             function criarItemAdmin(admin) {
                 const div = document.createElement('div');
                 div.className = 'item';
@@ -41,8 +54,11 @@
                     img.alt = "";
                     const h1 = document.createElement("h1");
                     h1.textContent = admin.fields.nome || 'Administrador sem nome';
+                    const tipoElement = document.createElement('p');
+                    tipoElement.textContent = "Administrador - " + labelForNivel(numberLevel[admin.fields.nivel]);
                     topContent.appendChild(img);
                     topContent.appendChild(h1);
+                    topContent.appendChild(tipoElement);
                     content.appendChild(topContent);
 
                     const form = document.createElement("form");
@@ -159,6 +175,98 @@
                                 })
                             });
                             buttonsDiv.appendChild(recusarButton);
+                        }
+                        if (LOGIN_STATUS && LOGIN_STATUS.nivel === "dev") {
+                            const rebaixarButton = document.createElement("button");
+                            rebaixarButton.type = "button";
+                            rebaixarButton.id = "rebaixar-gerenc";
+                            rebaixarButton.textContent = "Rebaixar";
+                            rebaixarButton.style.backgroundColor = "#0074D9";
+                            rebaixarButton.style.color = "#fff";
+                            rebaixarButton.addEventListener("click", () => {
+                                Swal.fire({
+                                    title: 'Tem certeza?',
+                                    text: "Deseja realmente rebaixar este administrador para nível Simples?",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Sim, rebaixar!',
+                                }).then(result => {
+                                    if (result.isConfirmed) {
+                                        const fd = new FormData();
+                                        fd.append("nivel", "simples");
+                                        fetch("/actions/demote?id=" + admin.id).then(resp => resp.json()).then(json => {
+                                            if (json.status === "error") {
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Houve um erro...',
+                                                    text: json.message || 'Erro ao rebaixar administrador.'
+                                                });
+                                            } else {
+                                                Swal.fire({
+                                                    icon: 'success',
+                                                    title: 'Sucesso!',
+                                                    text: 'Administrador rebaixado com sucesso!'
+                                                });
+                                                admin.fields.nivel = "simples";
+                                                tipoElement.textContent = "Administrador - " + labelForNivel(numberLevel[admin.fields.nivel]);
+                                                rebaixarButton.insertAdjacentElement("afterend", promoverButton);
+                                                rebaixarButton.remove();
+                                            }
+                                        })
+                                    }
+                                })
+                            })
+
+                            const promoverButton = document.createElement("button");
+                            promoverButton.type = "button";
+                            promoverButton.id = "promover-gerenc";
+                            promoverButton.textContent = "Promover";
+                            promoverButton.style.backgroundColor = "#0074D9";
+                            promoverButton.style.color = "#fff";
+                            promoverButton.addEventListener("click", () => {
+                                Swal.fire({
+                                    title: 'Tem certeza?',
+                                    text: "Deseja realmente promover este administrador para nível Direção?",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Sim, promover!',
+                                }).then(result => {
+                                    if (result.isConfirmed) {
+                                        fetch("/actions/promote?id=" + admin.id)
+                                            .then(resp => resp.json())
+                                            .then(json => {
+                                                if (json.status === "error") {
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Houve um erro...',
+                                                        text: json.message || 'Erro ao promover administrador.'
+                                                    });
+                                                } else {
+                                                    Swal.fire({
+                                                        icon: 'success',
+                                                        title: 'Sucesso!',
+                                                        text: 'Administrador promovido com sucesso!'
+                                                    });
+                                                    admin.fields.nivel = "direcao";
+                                                    tipoElement.textContent = "Administrador - " + labelForNivel(numberLevel[admin.fields.nivel]);
+                                                    promoverButton.insertAdjacentElement("afterend", rebaixarButton);
+                                                    promoverButton.remove();
+                                                }
+                                            });
+                                    }
+                                });
+                            });
+                            
+                            if (admin.fields.nivel === "direcao") {
+                                buttonsDiv.appendChild(rebaixarButton);
+                            }
+                            if (admin.fields.nivel === "simples") {
+                                buttonsDiv.appendChild(promoverButton);
+                            }
                         }
                         buttonsDiv.appendChild(aceitarButton);
                         form.appendChild(buttonsDiv);

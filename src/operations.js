@@ -1,18 +1,19 @@
-const mysql = require("mysql");
-const { Property, Session } = require("./tools");
+// const mysql = require("mysql");
+const { Property } = require("./util");
+const { Session } = require('./server');
 
 var Operations = ( function() {
-    function connect() {
-        delete require.cache[require.resolve("../config.json")];
-        const config = require("../config.json").database;
+    // function connect() {
+    //     delete require.cache[require.resolve("../config.json")];
+    //     const config = require("../config.json").database;
 
-        return mysql.createConnection({
-            user: config.username,
-            password: config.password,
-            host: config.hostname,
-            database: config.database
-        });
-    }
+    //     return mysql.createConnection({
+    //         user: config.username,
+    //         password: config.password,
+    //         host: config.hostname,
+    //         database: config.database
+    //     });
+    // }
 
     /**
      * @type {WeakMap<Login, string>}
@@ -60,7 +61,7 @@ var Operations = ( function() {
     }
 
     async function login(session, email, password) {
-        if (!(session instanceof Session)) throw new Error("É necessário uma sessão no navegador para realizar login");
+        if (!(session instanceof Session.Constructor)) throw new Error("É necessário uma sessão no navegador para realizar login");
         let hasLogin = session.get("login");
         if (hasLogin && hasLogin instanceof Login) return hasLogin;
 
@@ -72,12 +73,12 @@ var Operations = ( function() {
     }
 
     function isLogged(session) {
-        if (!(session instanceof Session)) throw new Error("É necessário uma sessão no navegador para procurar por login");
+        if (!(session instanceof Session.Constructor)) return false;
         if (session.get("login") instanceof Session) return true; else return false;
     }
     
     function logout(session) {
-        if (!(session instanceof Session)) throw new Error("É necessário uma sessão no navegador para realizar logout");
+        if (!(session instanceof Session.Constructor)) throw new Error("É necessário uma sessão no navegador para realizar logout");
         let hasLogin = session.get("login");
         if (hasLogin && hasLogin instanceof Login) {
             session.delete("login");
@@ -104,7 +105,6 @@ var Operations = ( function() {
 
 
     return {
-        connect,
         login,
         logout,
         isLogged,

@@ -67,5 +67,23 @@
         "events": {
             "before": [ "onlyLogin" ]
         }
+    },
+    "actions/update_info.js": {
+        "contentType": "application/json",
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "actions/promote.js": {
+        "contentType": "application/json",
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
+    "actions/demote.js": {
+        "contentType": "application/json",
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
     }
 }
