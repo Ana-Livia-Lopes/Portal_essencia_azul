@@ -565,7 +565,7 @@
         if (window.SOLICITACAO) {
             const fields = window.SOLICITACAO.fields;
             document.getElementById("name").value = fields.nome;
-            const data_nascimento = new Date(fields.data_nascimento.seconds * 1000);
+            const data_nascimento = new Date(fields.data_nascimento);
             document.getElementById("data-nascimento").value = `${data_nascimento.getFullYear()}-${String(data_nascimento.getMonth() + 1).padStart(2, '0')}-${String(data_nascimento.getDate()).padStart(2, '0')}`;
             document.getElementById("nivel-suporte").value = fields.nivel_suporte;
             document.getElementById("comoacalma").value = fields.como_acalma;
