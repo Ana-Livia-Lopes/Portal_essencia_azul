@@ -386,6 +386,8 @@
                                             title: "Erro ao remover solicitação antiga, porém foi aceita com sucesso",
                                             text: json.message,
                                             confirmButtonColor: "#1535B5"
+                                        }).then(() => {
+                                            formContainer.remove();
                                         });
                                     } else {
                                         Swal.fire({

@@ -83,7 +83,7 @@ module.exports = {
         if (request.headers["x-response-email"]) {
             let responseStatus = request.headers["x-response-email"];
             if (responseStatus === "accepted" || responseStatus === "refused") {
-                await new Promise((res, rej) => {
+                new Promise((res, rej) => {
                     const subject = responseStatus === "accepted" ?
                         `Sua solicitação de cadastro de ${acolhido.fields.nome} foi aceita!` :
                         `Sua solicitação de cadastro de ${acolhido.fields.nome} foi recusada...`;
@@ -107,7 +107,7 @@ Para saber mais sobre, entre em contato através de https://portalessenciaazul.c
                         </div>
                         `,
                     }, (error, info) => {
-                        if (error) rej(error); else res(info);
+                        if (error) console.error(error); else res(info);
                     });
                 });
             }

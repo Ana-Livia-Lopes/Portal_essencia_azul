@@ -61,7 +61,7 @@ module.exports = {
             let responseStatus = request.headers["x-response-email"];
             if (responseStatus === "accepted" || responseStatus === "refused") {
                 console.log(responseStatus);
-                await new Promise((res, rej) => {
+                new Promise((res, rej) => {
                     const subject = responseStatus === "accepted" ?
                         "Sua solicitação para ser voluntário foi aceita!" :
                         "Sua solicitação para ser voluntário foi recusada...";
@@ -70,24 +70,28 @@ module.exports = {
 Para saber mais sobre, entre em contato através de https://portalessenciaazul.com/contato.` :
                         `Olá${voluntario.fields.nome ? ", " + voluntario.fields.nome : ""}, a Essência Azul avaliou seu pedido para se tornar um voluntário, mas infelizmente foi recusado...
 Para saber mais sobre, entre em contato através de https://portalessenciaazul.com/contato.`;
-                    transporter.sendMail({
-                        from: auth.user,
-                        to: voluntario.fields.email,
-                        subject,
-                        html: `
-                        <div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
-                            <img src="https://rsvzdbgemzdhmatbezlp.supabase.co/storage/v1/object/public/public-images//portal-essencia-azul.png" style="width: 220px;" />
-                            <h1 style="color: #1535B5;">${subject}</h1>
-                            <p style="font-size: 16px; line-height: 1.5;">${text}</p>
-                            <p style="margin-top: 30px;">Atenciosamente,<br/>Associação Essência Azul</p>
-                            <hr style="margin-top: 40px;" />
-                            <p style="font-size: 12px; color: #999;">Você está recebendo este e-mail porque se cadastrou no site da Essência Azul.</p>
-                        </div>
-                        `,
+                    try {
+                        transporter.sendMail({
+                            from: auth.user,
+                            to: voluntario.fields.email,
+                            subject,
+                            html: `
+                            <div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
+                                <img src="https://rsvzdbgemzdhmatbezlp.supabase.co/storage/v1/object/public/public-images//portal-essencia-azul.png" style="width: 220px;" />
+                                <h1 style="color: #1535B5;">${subject}</h1>
+                                <p style="font-size: 16px; line-height: 1.5;">${text}</p>
+                                <p style="margin-top: 30px;">Atenciosamente,<br/>Associação Essência Azul</p>
+                                <hr style="margin-top: 40px;" />
+                                <p style="font-size: 12px; color: #999;">Você está recebendo este e-mail porque se cadastrou no site da Essência Azul.</p>
+                            </div>
+                            `,
 
-                    }, (error, info) => {
-                        if (error) rej(error); else res(info);
-                    });
+                        }, (error, info) => {
+                            if (error) console.error(error); else res(info);
+                        });
+                    } catch (err) {
+
+                    }
                 });
             }
         }
