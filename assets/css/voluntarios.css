@@ -115,7 +115,7 @@ input:focus {
   background-size: 20px;
 }
 
-#emaill {
+#email {
   background-image: url('/img/envelope-solid.svg');
   background-size: 18px;
 }
@@ -262,7 +262,7 @@ textarea:focus {
     padding-left: 25px;
   }
   input{
-    width: 78%;
+    width: 75% !important;
   }
   select{
     width: 88%;
