@@ -6,6 +6,6 @@ module.exports = function() {
     const footerInfo = escapeHtml(require("../../footer.json"), false);
     footerInfo.endereco.link = original.endereco.link;
     return `<script>
-        window.FOOTER_INFO = ${footerInfo};
+        window.FOOTER_INFO = ${JSON.stringify(footerInfo)};
     </script>`;
 }
