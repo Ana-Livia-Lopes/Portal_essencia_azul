@@ -262,7 +262,7 @@ textarea:focus {
     padding-left: 25px;
   }
   input{
-    width: 78%;
+    width: 75% !important;
   }
   select{
     width: 88%;
