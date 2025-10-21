@@ -17,12 +17,12 @@ function escapeHtml(str = "") {
 
 const mapEscapeArray = (element) => escapeHtmlJSON(element, false);
 
-function escapeHtmlJSON(obj, toJSON = true) {
+function escapeHtmlJSON(obj, toJSON = true, ignores = []) {
     let newObj;
     
     switch (typeof obj) {
         case "string":
-            newObj = escapeHtml(obj);
+            newObj = escapeHtml(obj, toJSON, ignores);
             break;
         case "object":
             if (obj instanceof Array) {
@@ -34,6 +34,7 @@ function escapeHtmlJSON(obj, toJSON = true) {
             } else {
                 newObj = {};
                 for (const key in obj) {
+                    if (ignores.includes(key)) continue;
                     newObj[escapeHtml(key)] = escapeHtmlJSON(obj[key], false);
                 }
             }
