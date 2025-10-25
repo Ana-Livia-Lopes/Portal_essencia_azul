@@ -27,11 +27,12 @@
             const pessoaDiv = document.createElement('div');
             pessoaDiv.id = 'pessoa';
             const img = document.createElement('img');
-            img.src = admin ? `/api/admins/${admin.id}?getImagem=true` || '/img/user-default.png' : '/img/user-default.png';
+            img.src = admin?.id ? `/api/admins/${admin.id}?getImagem=true` || '/img/user-default.png' : '/img/user-default.png';
             img.alt = '';
             img.classList.add("relatorio-img");
             const nomeH2 = document.createElement('h2');
-            nomeH2.textContent = admin?.fields?.nome || "Administrador Desconhecido";
+            nomeH2.style.fontSize = "20px";
+            nomeH2.textContent = admin?.fields?.nome || "Administrador desconhecido";
             pessoaDiv.appendChild(img);
             pessoaDiv.appendChild(nomeH2);
 
