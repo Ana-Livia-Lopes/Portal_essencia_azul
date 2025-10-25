@@ -141,7 +141,20 @@ class ListInput {
     constructor(container, ...initialValues) {
         if (CreatedListInputs.has(container)) return container;
         if (!(container instanceof HTMLElement)) throw new Error("container must be an HTMLElement");
+        container.style.position = "relative";
         const input = createListInputTopic();
+
+        const addButton = document.createElement("i");
+        addButton.classList.add('fa', 'fa-add');
+        addButton.style.fontSize = "20px";
+        addButton.style.position = "absolute";
+        addButton.style.bottom = "30px";
+        addButton.style.right = "12px";
+        addButton.style.cursor = "pointer";
+        addButton.addEventListener("click", () => {
+            container.append(createListInputTopic());
+        });
+        container.append(addButton);
         container.append(input);
 
         const values = [];
