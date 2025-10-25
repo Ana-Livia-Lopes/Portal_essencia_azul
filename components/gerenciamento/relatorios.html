@@ -14,14 +14,12 @@
             id = id.replace(adminRefRegexp, "");
             if (!id) throw new TypeError("ID não informado");
             if (id in adminsCache) return adminsCache[id];
-            console.log("/api/admins/" + id)
             adminsCache[id] = (await (await fetch("/api/admins/" + id)).json())
             return adminsCache[id];
         }
 
         async function criarAlteracao(alteracao) {
             const admin = await getAdmin(alteracao.fields.admin)
-            console.log(admin)
 
             const alteracaoDiv = document.createElement('div');
             alteracaoDiv.classList.add('alteracao');
@@ -29,11 +27,11 @@
             const pessoaDiv = document.createElement('div');
             pessoaDiv.id = 'pessoa';
             const img = document.createElement('img');
-            img.src = `/api/admins/${admin.id}?getImagem=true` || '/img/user-default.png';
+            img.src = admin ? `/api/admins/${admin.id}?getImagem=true` || '/img/user-default.png' : '/img/user-default.png';
             img.alt = '';
             img.classList.add("relatorio-img");
             const nomeH2 = document.createElement('h2');
-            nomeH2.textContent = admin.fields.nome;
+            nomeH2.textContent = admin?.fields?.nome || "Administrador Desconhecido";
             pessoaDiv.appendChild(img);
             pessoaDiv.appendChild(nomeH2);
 
