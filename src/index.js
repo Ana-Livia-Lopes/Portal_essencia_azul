@@ -106,6 +106,12 @@ var EssenciaAzul = ( function() {
         documento_novo;
         documento_antigo;
     }
+    BaseDataTypes.RegistroParticipacao = class RegistroParticipacao {
+        tipo;
+        participante;
+        contatos;
+        familia;
+    }
 
     /**
      * @type {WeakMap<Login, string>}
@@ -708,12 +714,18 @@ var EssenciaAzul = ( function() {
         privateFields: [ "ref_admin" ]
     });
 
+    Types.RegistroParticipacao = createDatabaseDocumentType(BaseDataTypes.RegistroParticipacao, "registro_participacoes", {
+        
+    })
+
+    Types.RegistroParticipacao.tipos = ["familia", "voluntario", "colaborador", "empresa"];
+
     const {
         Acolhido, Familia,
         Apoiador, Voluntario,
         Documento, Imagem, Evento, Produto,
         SolicitacaoAcolhido, SolicitacaoVoluntario,
-        Admin, Alteracao
+        Admin, Alteracao, RegistroParticipacao
     } = Types;
 
     async function validateKey(key) {

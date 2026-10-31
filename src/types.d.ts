@@ -133,7 +133,28 @@ declare namespace BaseDataTypes {
         A extends "remover" ? AlteracaoRemover :
         A extends "editar" ? AlteracaoEditar :
         ( AlteracaoAdicionar | AlteracaoRemover | AlteracaoEditar )
+    
+    class RegistroParticipacao<T extends TipoRegistroParticipacao> {
+        tipo: T;
+        participante: string;
+        contato: string;
+        familia: T extends "familia"
+            ? ({
+                nome: string,
+                autista: boolean,
+            } & (
+                {
+                    relacao: "Acolhido",
+                    ref_acolhido: (DocumentReference),
+                } | {
+                    relacao: string
+                }
+            ))[]
+            : null;
+    }
 }
+
+type TipoRegistroParticipacao = "familia" | "voluntario" | "colaborador" | "empresa"
 
 declare abstract class AlteracaoBase<A extends string> {
     ref_admin: (DocumentReference)
@@ -263,6 +284,10 @@ declare namespace DataTypes {
         references: {
             get_admin(): Promise<Admin>
         }
+    }
+
+    export class RegistroParticipacao extends DatabaseDocument<BaseDataTypes.RegistroParticipacao<TipoRegistroParticipacao>> {
+        static tipos: ["familia", "voluntario", "colaborador", "empresa"]
     }
 }
 

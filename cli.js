@@ -59,7 +59,7 @@ class Command {
 
         listen() {
             return process.stdin.on("data", data => {
-                data = data.toString("utf-8").replace("\r\n", "");
+                data = data.toString("utf-8").replace("\r","").replace("\n", "");
 
                 const split = data.split(" ");
                 const commandName = split[0];

@@ -55,6 +55,12 @@
             "before": [ "onlyLogin" ]
         }
     },
+    "natal.js": {
+        "paths": [ "/natal/[id]" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
     "solicitacoes/acolhidos.js": {
         "paths": [ "/solicitacoes/acolhidos/[id]" ]
     },
