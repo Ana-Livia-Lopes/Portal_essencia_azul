@@ -1,0 +1,284 @@
+.paginaNatal,
+.paginaNatal * {
+    box-sizing: border-box;
+}
+
+.paginaNatal {
+    min-height: 100vh;
+    padding: 48px 20px 72px;
+    background: linear-gradient(180deg, #eaf7ff 0%, #f5faff 100%);
+    color: #233149;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#formularioNatal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: min(100%, 760px);
+    margin: 0 auto;
+}
+
+.cardMaior {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    padding: 32px;
+    border: 1px solid #e5edf5;
+    border-radius: 14px;
+    background-color: #fff;
+    box-shadow: 0 8px 26px rgba(40, 73, 110, 0.08);
+}
+
+.introducaoNatal {
+    gap: 14px;
+    padding: 36px;
+}
+
+.marcaNatal {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+    color: #1535b5;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.marcaNatal img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.etiquetaNatal {
+    color: #4967c6;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.introducaoNatal h1 {
+    color: #1535b5;
+    font-size: clamp(26px, 5vw, 34px);
+    line-height: 1.2;
+}
+
+.introducaoNatal > p:not(.etiquetaNatal) {
+    max-width: 620px;
+    color: #536176;
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.avisoNatal {
+    padding: 13px 15px;
+    border-left: 4px solid #7295ee;
+    border-radius: 4px;
+    background-color: #f0f5ff;
+}
+
+.tituloSecaoNatal {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.numeroSecaoNatal {
+    display: grid;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border-radius: 50%;
+    background-color: #eaf0ff;
+    color: #1535b5;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.tituloSecaoNatal h2 {
+    margin: 2px 0 6px;
+    color: #233b80;
+    font-size: 19px;
+}
+
+.tituloSecaoNatal p {
+    color: #718096;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.gradeCamposNatal {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 18px;
+}
+
+.campoNatal {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 9px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.campoLargoNatal {
+    grid-column: 1 / -1;
+}
+
+.campoNatal label,
+.campoNatal legend {
+    color: #34445c;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.campoNatal input,
+.campoNatal select,
+.campoNatal textarea,
+.listaCamposNatal input,
+.listaCamposNatal select {
+    width: 100%;
+    min-width: 0;
+    padding: 12px 13px;
+    border: 1px solid #d5deea;
+    border-radius: 7px;
+    background-color: #fbfcfe;
+    color: #27364d;
+    font: inherit;
+    font-size: 14px;
+}
+
+.campoNatal textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+.campoNatal input:focus,
+.campoNatal select:focus,
+.campoNatal textarea:focus,
+.listaCamposNatal input:focus,
+.listaCamposNatal select:focus {
+    outline: 3px solid rgba(21, 53, 181, 0.14);
+    border-color: #5574db;
+}
+
+.grupoNatal {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.grupoNatal h3 {
+    color: #34445c;
+    font-size: 14px;
+}
+
+.listaCamposNatal {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.linhaResidenteNatal {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.botaoAdicionarNatal,
+.botaoRemoverNatal {
+    align-self: flex-start;
+    padding: 10px 14px;
+    border: 1px solid #cbd6f5;
+    border-radius: 7px;
+    background-color: #f5f7ff;
+    color: #1535b5;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.botaoRemoverNatal {
+    border-color: #f0d7dc;
+    background-color: #fff8f8;
+    color: #a53d4d;
+}
+
+.botaoAdicionarNatal:hover {
+    background-color: #e9eeff;
+}
+
+.botaoRemoverNatal:hover {
+    background-color: #ffeded;
+}
+
+.rodapeFormularioNatal {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+#mensagemFormularioNatal {
+    min-height: 20px;
+    color: #344b87;
+    font-size: 13px;
+    text-align: center;
+}
+
+.botaoEnviarNatal {
+    min-width: 230px;
+    padding: 14px 22px;
+    border: 0;
+    border-radius: 8px;
+    background-color: #1535b5;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.botaoEnviarNatal:hover {
+    transform: translateY(-1px);
+    background-color: #102b99;
+}
+
+@media (max-width: 640px) {
+    .paginaNatal {
+        padding: 28px 14px 48px;
+    }
+
+    .cardMaior,
+    .introducaoNatal {
+        padding: 24px 20px;
+    }
+
+    .gradeCamposNatal {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .campoLargoNatal {
+        grid-column: auto;
+    }
+
+    .linhaResidenteNatal {
+        grid-template-columns: minmax(0, 1fr);
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e8edf3;
+    }
+
+    .botaoRemoverNatal {
+        justify-self: start;
+    }
+}

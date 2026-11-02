@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/form_natal.css">
+    <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <component-header />
+    <component-acessibilidade />
+
+    <main class="paginaNatal">
+        <form id="formularioNatal">
+            <section class="cardMaior introducaoNatal">
+                <div class="marcaNatal">
+                    <img src="/img/logo.png" alt="Logo da Associação Essência Azul">
+                    <span>PORTAL ESSÊNCIA AZUL</span>
+                </div>
+                <p class="etiquetaNatal">CADASTRO NO NATAL ESSENCIA AZUL</p>
+                <h1>Inscrição no evento de Natal</h1>
+                <p class="avisoNatal">
+                    Esse é um formulario para inscrição do Natal Essência Azul. Preencha os dados para convite do evento.
+                </p>
+            </section>
+
+            <section class="cardMaior">
+                <div class="tituloSecaoNatal">
+                    <span class="numeroSecaoNatal">01</span>
+                    <div>
+                        <h2>Usuário que está preenchendo</h2>
+                        <p>contato</p>
+                    </div>
+                </div>
+                <div class="gradeCamposNatal">
+                    <div class="campoNatal">
+                        <label for="nomeRemetente">Nome completo <span>*</span></label>
+                        <input id="nomeRemetente" type="text"
+                            placeholder="Ex.: Maria da Silva" required>
+                    </div>
+                    <div class="campoNatal">
+                        <label for="emailRemetente">Seu e-mail <span>*</span></label>
+                        <input id="emailRemetente" type="email"
+                            placeholder="email@email.com" required>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cardMaior">
+                <div class="tituloSecaoNatal">
+                    <span class="numeroSecaoNatal">02</span>
+                    <div>
+                        <h2>Sobre a pessoa acolhida</h2>
+                        <p>dados do usuário</p>
+                    </div>
+                </div>
+                <div class="gradeCamposNatal">
+                    <div class="campoNatal campoLargoNatal">
+                        <label for="nomeAcolhido">Nome completo <span>*</span></label>
+                        <input id="nomeAcolhido" name="nome" type="text" 
+                            placeholder="Ex.: Gabriel de Brito" required>
+                    </div>
+                    <div class="campoNatal">
+                        <label for="dataNascimento">Data de nascimento <span>*</span></label>
+                        <input id="dataNascimento" name="data_nascimento" type="date" required>
+                    </div>
+                    <div class="campoNatal">
+                        <label for="nivelSuporte">Nível de suporte <span>*</span></label>
+                        <select id="nivelSuporte" name="nivel_suporte" required>
+                            <option value="">Selecione uma opção</option>
+                            <option value="1">Nível 1</option>
+                            <option value="2">Nível 2</option>
+                            <option value="3">Nível 3</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cardMaior">
+                <div class="tituloSecaoNatal">
+                    <span class="numeroSecaoNatal">03</span>
+                    <div>
+                        <h2>Quem mais vai participar do natal essencia azul</h2>
+                        <p>Coloque seus filhos e outros membros que irão na festa!</p>
+                    </div>
+                </div>
+                <div class="grupoNatal">
+                    <h3>Pessoas</h3>
+                    <div id="listaResidentes" class="listaCamposNatal">
+                        <div class="linhaResidenteNatal">
+                            <input name="nome" type="text" placeholder="Nome" aria-label="Nome">
+                            <select name="nome" aria-label="Perfil">
+                                <option value="">Perfil</option>
+                                <option value="autista">Autista</option>
+                                <option value="neurotipico">Neurotípico</option>
+                                <option value="investigacao">Em investigação</option>
+                            </select>
+                            <button class="botaoRemoverNatal" type="button" aria-label="Remover morador" data-remover hidden>Remover</button>
+                        </div>
+                    </div>
+                    <button class="botaoAdicionarNatal" type="button" data-adicionar="residente">+ Adicionar pessoa</button>
+                </div>
+            </section>
+
+            <div class="rodapeFormularioNatal">
+                <p id="mensagemFormularioNatal" role="status" aria-live="polite"></p>
+                <button class="botaoEnviarNatal" type="submit">Enviar</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        const formularioNatal = document.getElementById("formularioNatal");
+        const mensagemFormularioNatal = document.getElementById("mensagemFormularioNatal");
+
+        formularioNatal.addEventListener("click", (evento) => {
+            const botaoAdicionar = evento.target.closest("[data-adicionar]");
+            const botaoRemover = evento.target.closest("[data-remover]");
+
+            if (botaoAdicionar) {
+                const lista = document.getElementById("listaResidentes");
+                const linhaOriginal = lista.firstElementChild;
+                const novaLinha = linhaOriginal.cloneNode(true);
+                novaLinha.querySelectorAll("input, select").forEach((campo) => {
+                    campo.value = "";
+                });
+                novaLinha.querySelector("[data-remover]").hidden = false;
+                lista.appendChild(novaLinha);
+            }
+
+            if (botaoRemover) {
+                botaoRemover.closest(".linhaResidenteNatal").remove();
+            }
+        });
+
+    </script>
+</body>
+
+</html>
