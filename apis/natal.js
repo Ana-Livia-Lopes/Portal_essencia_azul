@@ -5,10 +5,12 @@ module.exports = {
     async get({ request, response, query, session }) {
         let quantidade = 0;
         let autistas = 0;
+        let familias = 0;
         const data = await read(session.get("login"), RegistroParticipacao, {}, response);
         for (const item of data) {
             quantidade += 1;
             if (item.fields.tipo == "familia") {
+                familias += 1;
                 for (const membro of item.fields.familia) {
                     quantidade += 1;
                     if (membro.autista) {
@@ -24,6 +26,7 @@ module.exports = {
             statistics: {
                 participantes: quantidade,
                 autistas,
+                familias,
             },
             data,
         };

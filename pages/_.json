@@ -39,6 +39,15 @@
             "before": [ "onlyLogin" ]
         }
     },
+    "forms_natal.html": {
+        "paths": [ "/form_natal" ]
+    },
+    "dashboard_natal.html": {
+        "paths": [ "/gerenciamento/natal" ],
+        "events": {
+            "before": [ "onlyLogin" ]
+        }
+    },
     "comentarios-duvidas.html": {
         "paths": [ "/gerenciamento/comentarios" ],
         "events": {

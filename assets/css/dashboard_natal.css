@@ -1,0 +1,209 @@
+.painelNatal,
+.painelNatal * {
+    box-sizing: border-box;
+}
+
+.painelNatal {
+    width: min(100% - 48px, 1120px);
+    min-height: calc(100vh - 100px);
+    margin: 0 auto;
+    padding: 30px 0 72px;
+    color: #233149;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.voltarNatal {
+    display: inline-block;
+    margin-bottom: 24px;
+    color: #3154b4;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.voltarNatal:hover {
+    text-decoration: underline;
+}
+
+.cabecalhoNatal {
+    display: flex;
+    min-height: 220px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+    padding: 38px 44px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #1c48a8;
+    color: #fff;
+    box-shadow: 0 16px 36px rgba(27, 62, 133, 0.18);
+}
+
+.cabecalhoTextoNatal {
+    position: relative;
+    z-index: 1;
+}
+
+.cabecalhoNatal .etiquetaNatal {
+    margin-bottom: 9px;
+    color: #d3e2ff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+}
+
+.etiquetaNatal span {
+    padding: 0 5px;
+    color: #8be0cf;
+}
+
+.cabecalhoNatal h1 {
+    margin: 0 0 9px;
+    color: #fff;
+    font-size: clamp(28px, 5vw, 38px);
+}
+
+.cabecalhoTextoNatal > p:last-child {
+    margin: 0;
+    color: #e0eaff;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.areaResumoNatal {
+    padding: 28px;
+    border: 1px solid #e8edf5;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(36, 59, 96, 0.07);
+}
+
+.tituloResumoNatal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.tituloResumoNatal h2 {
+    margin: 0 0 6px;
+    color: #243963;
+    font-size: 19px;
+}
+
+.tituloResumoNatal p {
+    margin: 0;
+    color: #8490a2;
+    font-size: 12px;
+}
+
+.estadoNatal {
+    margin: 0 0 14px;
+    color: #68778c;
+    font-size: 13px;
+}
+
+.estadoErroNatal {
+    padding: 14px 16px;
+    border: 1px solid #f1cbd0;
+    border-radius: 9px;
+    background: #fff6f6;
+    color: #a32e3b;
+}
+
+.resumoNatal {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.resumoNatal[hidden] {
+    display: none;
+}
+
+.cartaoNatal {
+    position: relative;
+    display: flex;
+    min-height: 205px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    padding: 23px;
+    border: 1px solid #e9edf4;
+    border-radius: 14px;
+    background: #fbfcfe;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cartaoNatal:hover {
+    transform: translateY(-4px);
+}
+
+.cartaoDestaqueNatal {
+    border-color: #dce6ff;
+    background-color: #e3ecff
+}
+
+.cartaoFamiliasNatal {
+    border-color: #dce6ff;
+    background-color: #eef3ff
+}
+
+.cartaoAutistasNatal {
+    border-color: #dce6ff;
+    background-color: #f9fbff
+}
+
+.rotuloCartaoNatal {
+    color: #65738a;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.cartaoNatal strong {
+    color: #1c3e9c;
+    font-size: 46px;
+    line-height: 1;
+}
+
+.descricaoCartaoNatal {
+    color: #8792a3;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+    .painelNatal {
+        width: min(100% - 28px, 560px);
+        padding-top: 22px;
+    }
+
+    .cabecalhoNatal {
+        min-height: 190px;
+        padding: 28px 24px;
+        border-radius: 16px;
+    }
+
+    .areaResumoNatal {
+        padding: 22px 18px;
+    }
+
+    .tituloResumoNatal {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+
+    .resumoNatal {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .cartaoNatal {
+        min-height: 174px;
+    }
+}

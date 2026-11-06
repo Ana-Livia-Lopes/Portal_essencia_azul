@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/dashboard_natal.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <component-header />
+    <component-admin-login_status />
+
+    <main class="painelNatal">
+        <a class="voltarNatal" href="/gerenciamento">← Voltar ao gerenciamento</a>
+
+        <section class="cabecalhoNatal">
+            <div class="cabecalhoTextoNatal">
+                <p class="etiquetaNatal">ESSÊNCIA AZUL | EVENTO DE NATAL</p>
+                <h1>Dashboard do Natal</h1>
+                <p>dados das inscrições para o evento</p>
+            </div>
+        </section>
+
+        <section class="areaResumoNatal" aria-label="Resumo das inscrições">
+            <div class="tituloResumoNatal">
+                <div>
+                    <h2>Dados das inscrições</h2>
+                    <p>Totais registrados para o evento</p>
+                </div>
+            </div>
+
+            <p id="estadoNatal" class="estadoNatal" role="status" aria-live="polite"></p>
+
+            <div id="resumoNatal" class="resumoNatal" hidden>
+                <article class="cartaoNatal cartaoDestaqueNatal">
+                    <span class="rotuloCartaoNatal">Pessoas inscritas</span>
+                    <strong id="totalParticipantesNatal">0</strong>
+                    <span class="descricaoCartaoNatal">pessoas que farão parte do evento</span>
+                </article>
+                <article class="cartaoNatal cartaoFamiliasNatal">
+                    <span class="rotuloCartaoNatal">Inscrições de famílias</span>
+                    <strong id="totalFamiliasNatal">0</strong>
+                    <span class="descricaoCartaoNatal">Famílias inscritas no evento</span>
+                </article>
+                <article class="cartaoNatal cartaoAutistasNatal">
+                    <span class="rotuloCartaoNatal">Pessoas com autismo</span>
+                    <strong id="totalAutistasNatal">0</strong>
+                    <span class="descricaoCartaoNatal">Informadas nas inscrições familiares</span>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const estadoNatal = document.getElementById("estadoNatal");
+        const resumoNatal = document.getElementById("resumoNatal");
+
+        async function carregarResumoNatal() {
+            estadoNatal.classList.remove("estadoErroNatal");
+
+            try {
+                const resposta = await fetch("/api/natal");
+                if (!resposta.ok) {
+                    throw new Error(`Não foi possível carregar as inscrições (HTTP ${resposta.status}).`);
+                }
+
+                const resultado = await resposta.json();
+                const estatisticas = resultado.statistics;
+                if (
+                    !estatisticas
+                    || !Number.isFinite(estatisticas.participantes)
+                    || !Number.isFinite(estatisticas.familias)
+                    || !Number.isFinite(estatisticas.autistas)
+                ) {
+                    throw new Error("deu ruim.");
+                }
+
+                document.getElementById("totalParticipantesNatal").textContent = estatisticas.participantes;
+                document.getElementById("totalFamiliasNatal").textContent = estatisticas.familias;
+                document.getElementById("totalAutistasNatal").textContent = estatisticas.autistas;
+                resumoNatal.hidden = false;
+                estadoNatal.textContent = "";
+            } catch (erro) {
+                resumoNatal.hidden = true;
+                estadoNatal.textContent = erro.message || "Ocorreu um erro ao carregar os dados do Natal.";
+                estadoNatal.classList.add("estadoErroNatal");
+            }
+        }
+
+        carregarResumoNatal();
+    </script>
+</body>
+
+</html>
