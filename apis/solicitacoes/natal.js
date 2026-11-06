@@ -41,36 +41,38 @@ module.exports = {
         };
 
         if (tipo === "familia") {
-            try {
-                const familia = JSON.parse(body.fields.familia ?? "null");
-    
-                if (!(Array.isArray(familia) && familia.every(familiaverifier))) {
-                    throw new ClientError(response, "Família deve ser uma lista de membros");
-                }
-    
-                for (const membro of familia) {
-                    if (membro.ref_acolhido) {
-                        if (!(await getDoc(doc(db, "acolhidos", membro.ref_acolhido))).exists()) {
-                            throw new NotFoundError(response, "Acolhido mencionado não encontrado");
-                        }
-    
-                        membro.relacao = "Acolhido";
-                        membro.autista = true;
-                        membro.ref_acolhido = doc(db, "acolhidos", membro.ref_acolhido)
-                    }
-    
-                    for (const key in membro) {
-                        if (!(key === "nome" || key === "autista" || key === "relacao" || key === "ref_acolhido")) {
-                            delete membro[key];
-                        }
-                    }
-                }
-    
-                documento.familia = familia;
-            } catch (err) {
-                console.log(err);
-                throw new ClientError(response, "Estrutura de dados da família inválida");
+            const familia = body.fields.familia;
+
+            if (!(Array.isArray(familia) && familia.every(familiaverifier))) {
+                throw new ClientError(response, "Família deve ser uma lista de membros");
             }
+
+            for (const membro of familia) {
+                if (membro.ref_acolhido) {
+                    if (!(await getDoc(doc(db, "acolhidos", membro.ref_acolhido))).exists()) {
+                        throw new NotFoundError(response, "Acolhido mencionado não encontrado");
+                    }
+
+                    membro.relacao = "Acolhido";
+                    membro.autista = true;
+                    membro.ref_acolhido = doc(db, "acolhidos", membro.ref_acolhido)
+                }
+
+                for (const key in membro) {
+                    if (!(key === "nome" || key === "autista" || key === "relacao" || key === "ref_acolhido")) {
+                        delete membro[key];
+                    }
+                }
+            }
+
+            documento.familia = familia;
+            // try {
+            //     const familia = JSON.parse(body.fields.familia ?? "null");
+    
+            // } catch (err) {
+            //     console.log(err);
+            //     throw new ClientError(response, "Estrutura de dados da família inválida");
+            // }
         }
 
         await addDoc(collection(db, "registro_participacoes"), filterUndefined(documento));

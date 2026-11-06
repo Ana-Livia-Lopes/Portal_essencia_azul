@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/form_natal.css">
     <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Formulário para Festa de Natal</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
@@ -94,13 +96,18 @@
                     <div id="listaResidentes" class="listaCamposNatal">
                         <div class="linhaResidenteNatal">
                             <input name="nome" type="text" placeholder="Nome" aria-label="Nome">
-                            <select name="nome" aria-label="Perfil">
+                            <input name="relacao" type="text" placeholder="Relação familiar" aria-label="Relação familiar">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="autista" aria-label="Autista">
+                                <p style="white-space: nowrap;">É autista?</p>
+                            </span>
+                            <!-- <select name="nome" aria-label="Perfil">
                                 <option value="">Perfil</option>
                                 <option value="autista">Autista</option>
                                 <option value="neurotipico">Neurotípico</option>
                                 <option value="investigacao">Em investigação</option>
-                            </select>
-                            <button class="botaoRemoverNatal" type="button" aria-label="Remover morador" data-remover hidden>Remover</button>
+                            </select> -->
+                            <button class="botaoRemoverNatal" type="button" aria-label="Remover morador" data-remover>Remover</button>
                         </div>
                     </div>
                     <button class="botaoAdicionarNatal" type="button" data-adicionar="residente">+ Adicionar pessoa</button>
@@ -118,23 +125,109 @@
         const formularioNatal = document.getElementById("formularioNatal");
         const mensagemFormularioNatal = document.getElementById("mensagemFormularioNatal");
 
+        const linhaOriginal = document.getElementById("listaResidentes").firstElementChild;
+        document.getElementById("listaResidentes").removeChild(linhaOriginal);
+
         formularioNatal.addEventListener("click", (evento) => {
             const botaoAdicionar = evento.target.closest("[data-adicionar]");
             const botaoRemover = evento.target.closest("[data-remover]");
 
             if (botaoAdicionar) {
                 const lista = document.getElementById("listaResidentes");
-                const linhaOriginal = lista.firstElementChild;
+                // const linhaOriginal = lista.firstElementChild;
                 const novaLinha = linhaOriginal.cloneNode(true);
                 novaLinha.querySelectorAll("input, select").forEach((campo) => {
                     campo.value = "";
                 });
-                novaLinha.querySelector("[data-remover]").hidden = false;
+                // novaLinha.querySelector("[data-remover]").hidden = false;
                 lista.appendChild(novaLinha);
             }
 
             if (botaoRemover) {
                 botaoRemover.closest(".linhaResidenteNatal").remove();
+            }
+        });
+
+        formularioNatal.addEventListener("submit", event => {
+            event.preventDefault();
+
+            const faltando = [];
+
+            const participante = document.getElementById("nomeRemetente").value.trim();
+            const contato = document.getElementById("emailRemetente").value.trim();
+
+            if (participante === "") faltando.push("Participante");
+            if (contato === "") faltando.push("E-mail");
+
+            const familia = [];
+
+            const acolhido = {
+                nome: document.getElementById("nomeAcolhido").value.trim(),
+                autista: true,
+                relacao: "Acolhido",
+            };
+
+            if (acolhido.nome === "") faltando.push("Nome do Acolhido");
+
+            familia.push(acolhido);
+
+            let i = 0
+            for (const linha of document.querySelectorAll("#formularioNatal .linhaResidenteNatal")) {
+                i++;
+                const nome = linha.querySelector("input[name='nome']").value.trim();
+                const relacao = linha.querySelector("input[name='relacao']").value.trim();
+                const autista = linha.querySelector("input[name='autista']").checked;
+
+                const faltandolinha = [];
+                
+                if (nome === "") faltandolinha.push("Nome");
+                if (relacao === "") faltandolinha.push("Relação Familiar");
+
+                if (faltandolinha.length > 0) {
+                    faltando.push(`Informações do ${i}º membro da família`)
+                } else {
+                    familia.push({
+                        nome,
+                        relacao,
+                        autista
+                    })
+                }
+            }
+
+            if (faltando.length > 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Informações faltando",
+                    html: faltando.join("<br>"),
+                })
+            } else {
+                const form = {
+                    participante,
+                    contato,
+                    tipo: "familia",
+                    familia,
+                };
+
+                fetch("/api/solicitacoes/natal", {
+                    method: "POST",
+                    body: JSON.stringify(form),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then((res) => res.json()).then((json) => {
+                    if (json.status === "error") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Houve um erro...",
+                            text: "Não foi possível enviar a requisição",
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Convite registrado!",
+                        }).then(() => location.replace("/"))
+                    }
+                })
             }
         });
 

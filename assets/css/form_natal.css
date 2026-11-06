@@ -187,7 +187,7 @@
 
 .linhaResidenteNatal {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) auto auto;
     align-items: center;
     gap: 10px;
 }
