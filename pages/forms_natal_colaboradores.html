@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/form_natal.css">
+    <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Formulário para Festa de Natal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/bindings/inputmask.binding.min.js"></script>
+</head>
+
+<body>
+    <component-header />
+    <component-acessibilidade />
+
+    <main class="paginaNatal">
+        <form id="formularioNatal">
+            <section class="cardMaior introducaoNatal">
+                <div class="marcaNatal">
+                    <img src="/img/logo.png" alt="Logo da Associação Essência Azul">
+                    <span>PORTAL ESSÊNCIA AZUL</span>
+                </div>
+                <p class="etiquetaNatal">CADASTRO NO NATAL ESSENCIA AZUL</p>
+                <h1>Inscrição no evento de Natal</h1>
+                <p class="avisoNatal">
+                    Esse é um formulario para inscrição do Natal Essência Azul. Preencha os dados para convite do evento.
+                </p>
+                <p class="avisoNatal alerta">
+                    Este formulário é dedicado à <b>COLABORADORES</b> da associação! Caso não seja seu caso, entre em contato.
+                </p>
+            </section>
+
+            <section class="cardMaior">
+                <div class="tituloSecaoNatal">
+                    <span class="numeroSecaoNatal">01</span>
+                    <div>
+                        <h2>Usuário que está preenchendo</h2>
+                        <p>contato</p>
+                    </div>
+                </div>
+                <div class="gradeCamposNatal">
+                    <div class="campoNatal">
+                        <label for="nomeRemetente">Nome completo <span>*</span></label>
+                        <input id="nomeRemetente" type="text"
+                            placeholder="Ex.: Maria da Silva" required>
+                    </div>
+                    <div class="campoNatal">
+                        <label for="contato">Seu telefone <span>*</span></label>
+                        <input id="contato" type="text"
+                            placeholder="(00) 00000-0000" required>
+                    </div>
+                </div>
+            </section>
+
+            <div class="rodapeFormularioNatal">
+                <p id="mensagemFormularioNatal" role="status" aria-live="polite"></p>
+                <button class="botaoEnviarNatal" type="submit">Enviar</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        const formularioNatal = document.getElementById("formularioNatal");
+        const mensagemFormularioNatal = document.getElementById("mensagemFormularioNatal");
+
+        // const linhaOriginal = document.getElementById("listaResidentes").firstElementChild;
+        // document.getElementById("listaResidentes").removeChild(linhaOriginal);
+
+        // formularioNatal.addEventListener("click", (evento) => {
+        //     const botaoAdicionar = evento.target.closest("[data-adicionar]");
+        //     const botaoRemover = evento.target.closest("[data-remover]");
+
+        //     if (botaoAdicionar) {
+        //         const lista = document.getElementById("listaResidentes");
+        //         // const linhaOriginal = lista.firstElementChild;
+        //         const novaLinha = linhaOriginal.cloneNode(true);
+        //         novaLinha.querySelectorAll("input, select").forEach((campo) => {
+        //             campo.value = "";
+        //         });
+        //         // novaLinha.querySelector("[data-remover]").hidden = false;
+        //         lista.appendChild(novaLinha);
+        //     }
+
+        //     if (botaoRemover) {
+        //         botaoRemover.closest(".linhaResidenteNatal").remove();
+        //     }
+        // });
+
+        formularioNatal.addEventListener("submit", event => {
+            event.preventDefault();
+
+            const faltando = [];
+
+            const participante = document.getElementById("nomeRemetente").value.trim();
+            const contato = document.getElementById("contato").value.trim();
+
+            if (participante === "") faltando.push("Participante");
+            if (contato === "") faltando.push("E-mail");
+
+            if (faltando.length > 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Informações faltando",
+                    html: faltando.join("<br>"),
+                })
+            } else {
+                const form = {
+                    participante,
+                    contato,
+                    tipo: "colaborador",
+                };
+
+                fetch("/api/solicitacoes/natal", {
+                    method: "POST",
+                    body: JSON.stringify(form),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then((res) => res.json()).then((json) => {
+                    if (json.status === "error") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Houve um erro...",
+                            text: "Não foi possível enviar a requisição",
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Convite registrado!",
+                        }).then(() => location.replace("/"))
+                    }
+                })
+            }
+        });
+
+        window.addEventListener("DOMContentLoaded", () => {
+            Inputmask("(99) 99999-9999").mask("#contato");
+        });
+
+    </script>
+</body>
+
+</html>

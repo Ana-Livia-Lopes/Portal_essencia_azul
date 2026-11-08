@@ -80,6 +80,10 @@
     background-color: #f0f5ff;
 }
 
+.avisoNatal.alerta {
+    border-left: 4px solid #ee7272;
+}
+
 .tituloSecaoNatal {
     display: flex;
     align-items: flex-start;

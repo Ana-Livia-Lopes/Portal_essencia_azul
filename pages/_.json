@@ -42,6 +42,15 @@
     "forms_natal.html": {
         "paths": [ "/form_natal" ]
     },
+    "forms_natal_voluntarios.html": {
+        "paths": [ "/form_natal/voluntarios" ]
+    },
+    "forms_natal_colaboradores.html": {
+        "paths": [ "/form_natal/colaboradores" ]
+    },
+    "forms_natal_empresas.html": {
+        "paths": [ "/form_natal/empresas" ]
+    },
     "dashboard_natal.html": {
         "paths": [ "/gerenciamento/natal" ],
         "events": {
