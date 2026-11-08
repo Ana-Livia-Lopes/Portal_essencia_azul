@@ -190,6 +190,8 @@
     grid-template-columns: repeat(2, minmax(0, 1fr)) auto auto;
     align-items: center;
     gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e8edf3;
 }
 
 .botaoAdicionarNatal,
@@ -274,11 +276,20 @@
 
     .linhaResidenteNatal {
         grid-template-columns: minmax(0, 1fr);
+        align-items: start;
         padding-bottom: 12px;
         border-bottom: 1px solid #e8edf3;
+    }
+    .linhaResidenteNatal span {
+        justify-content: start;
+        margin-left: 16px;
+    }
+    .linhaResidenteNatal span input {
+        width: min-content;
     }
 
     .botaoRemoverNatal {
         justify-self: start;
+        margin-left: 16px;
     }
 }

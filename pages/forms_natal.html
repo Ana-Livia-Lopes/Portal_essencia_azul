@@ -11,6 +11,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/bindings/inputmask.binding.min.js"></script>
 </head>
 
 <body>
@@ -46,9 +48,9 @@
                             placeholder="Ex.: Maria da Silva" required>
                     </div>
                     <div class="campoNatal">
-                        <label for="emailRemetente">Seu e-mail <span>*</span></label>
-                        <input id="emailRemetente" type="email"
-                            placeholder="email@email.com" required>
+                        <label for="contato">Seu telefone <span>*</span></label>
+                        <input id="contato" type="text"
+                            placeholder="(00) 00000-0000" required>
                     </div>
                 </div>
             </section>
@@ -96,7 +98,7 @@
                     <div id="listaResidentes" class="listaCamposNatal">
                         <div class="linhaResidenteNatal">
                             <input name="nome" type="text" placeholder="Nome" aria-label="Nome">
-                            <input name="relacao" type="text" placeholder="Relação familiar" aria-label="Relação familiar">
+                            <input name="relacao" type="text" placeholder="Relação familiar (ex: Irmão, Prima, Avô...)" aria-label="Relação familiar">
                             <span style="display: flex; align-items: center; gap: 8px;">
                                 <input type="checkbox" name="autista" aria-label="Autista">
                                 <p style="white-space: nowrap;">É autista?</p>
@@ -154,7 +156,7 @@
             const faltando = [];
 
             const participante = document.getElementById("nomeRemetente").value.trim();
-            const contato = document.getElementById("emailRemetente").value.trim();
+            const contato = document.getElementById("contato").value.trim();
 
             if (participante === "") faltando.push("Participante");
             if (contato === "") faltando.push("E-mail");
@@ -229,6 +231,10 @@
                     }
                 })
             }
+        });
+
+        window.addEventListener("DOMContentLoaded", () => {
+            Inputmask("(99) 99999-9999").mask("#contato");
         });
 
     </script>
