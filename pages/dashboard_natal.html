@@ -4,10 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/gerenciamento.css">
     <link rel="stylesheet" href="/css/dashboard_natal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+    <title>Painel de Convites de Natal</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -53,11 +57,22 @@
                 </article>
             </div>
         </section>
+
+        <section class="areaResumoNatal" aria-label="Inscrições de Natal">
+            <input type="search" placeholder="Pesquisar" class="search" oninput="pesquisar(this.value)">
+            <div id="areaConvites">
+
+            </div>
+        </section>
     </main>
 
     <script>
         const estadoNatal = document.getElementById("estadoNatal");
         const resumoNatal = document.getElementById("resumoNatal");
+
+        let convites;
+
+        let resultado_pesquisa = [];
 
         async function carregarResumoNatal() {
             estadoNatal.classList.remove("estadoErroNatal");
@@ -69,6 +84,7 @@
                 }
 
                 const resultado = await resposta.json();
+                convites = resultado.data;
                 const estatisticas = resultado.statistics;
                 if (
                     !estatisticas
@@ -84,11 +100,150 @@
                 document.getElementById("totalAutistasNatal").textContent = estatisticas.autistas;
                 resumoNatal.hidden = false;
                 estadoNatal.textContent = "";
+
+                pesquisar("")
             } catch (erro) {
                 resumoNatal.hidden = true;
                 estadoNatal.textContent = erro.message || "Ocorreu um erro ao carregar os dados do Natal.";
                 estadoNatal.classList.add("estadoErroNatal");
             }
+        }
+
+        function pesquisar(pesquisa) {
+            resultado_pesquisa = convites.filter((value) => value.fields.participante.toLocaleLowerCase().includes(pesquisa.toLocaleLowerCase()));
+
+            const area = document.getElementById("areaConvites")
+
+            area.innerHTML = '';
+
+            for (const convite of resultado_pesquisa) {
+                const container = element("div", "container-convite");
+
+                const linhatopo = element("span", "linha");
+                
+                const spannome = element("span");
+                const label = element("span");
+                content(label, "Convite de")
+                label.style.marginRight = "8px";
+                label.style.fontSize = "22px";
+                const nome = element("span", "nome");
+                nome.style.fontWeight = "bold";
+                content(nome, convite.fields.participante);
+                nest(spannome, label, nome);
+
+                const deletebutton = element("i", "fa", "fa-trash")
+                deletebutton.style.color = "#3154b4";
+                deletebutton.addEventListener("click", () => apagar(convite));
+                nest(linhatopo, spannome, deletebutton);
+
+                const linhainfo = element("span", "linha");
+                const tipo = element("b", );
+                tipo.style.color = "#3154b4"
+                content(tipo, parsetipo(convite.fields.tipo));
+                const contato = element("p", "contato");
+                content(contato, convite.fields.contato);
+                const separador = element("p");
+                content(separador, "•")
+                nest(linhainfo,contato, separador, tipo);
+
+                nest(container, linhatopo, linhainfo);
+
+                if (convite.fields.tipo === "familia") {
+                    const familia = element("div", "areafamilia");
+
+                    const label = element("b");
+                    content(label, `Membros da Família (${convite.fields.familia.length})`);
+
+                    const membros = element("div", "membrosfamilia");
+
+                    for (const membro of convite.fields.familia) {
+                        const nome = element("p", "nome");
+                        content(nome, membro.nome);
+
+                        const linha = element("span", "linha");
+                        const relacao = element("p", "contato");
+                        relacao.style.color = "#3154b4"
+                        content(relacao, membro.relacao);
+                        const separador = element("p");
+                        content(separador, "•");
+                        nest(linha, nome, separador, relacao);
+                        const autista = element("b");
+                        if (membro.autista) {
+                            content(autista, "AUTISTA");
+                        } else {
+                            content(autista, "NÃO AUTISTA");
+                        }
+                        
+                        const bloco = element("div", "bloco");
+                        nest(bloco, linha, autista);
+                        nest(membros, bloco);
+                    }
+
+                    nest(familia, label, membros);
+
+                    nest(container, familia);
+                }
+
+                nest(area, container);
+            }
+        }
+
+        function parsetipo(tipo) {
+            switch (tipo) {
+                case "familia": return "FAMÍLIA";
+                case "voluntario": return "VOLUNTÁRIO";
+                case "empresa": return "EMPRESA";
+                case "colaborador": return "COLABORADOR";
+                default: return "???";
+            }
+        }
+
+        function element(tag, ...classes) {
+            const element = document.createElement(tag);
+            for (const classname of classes) {
+                element.classList.add(classname);
+            }
+            return element;
+        }
+
+        function content(element, content) {
+            element.textContent = content;
+        }
+
+        function nest(element, ...children) {
+            element.append(...children);
+        }
+
+        function apagar(convite) {
+            Swal.fire({
+                title: 'Apagar convite',
+                text: "Tem certeza que deseja excluir o convite de " + convite.fields.participante + "?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Cancelar'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    fetch("/api/natal/" + convite.id, {
+                        method: "DELETE",
+                    }).then(r => r.json()).then(response => {
+                        if (response.status === "error") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Houve um erro...",
+                                text: "Não foi possível excluir o convite",
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Convite excluído",
+                            }).then(() => location.reload());
+                        }
+                    })
+                }
+            });
         }
 
         carregarResumoNatal();

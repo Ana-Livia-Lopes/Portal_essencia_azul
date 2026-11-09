@@ -1,4 +1,4 @@
-const { RegistroParticipacao, read } = require("../src")
+const { RegistroParticipacao, read, remove } = require("../src")
 
 /** @type {import("../src/server").Page.RestHandlersObject} */
 module.exports = {
@@ -30,5 +30,19 @@ module.exports = {
             },
             data,
         };
+    },
+    async delete({ request, response, session, params }) {
+        try {
+            await remove(session.get("login"), RegistroParticipacao, params.id, response);
+            return {
+                status: "ok",
+            }
+        } catch (e) {
+            console.log(e);
+            return {
+                status: "error",
+                error: e,
+            }
+        }
     }
 }
