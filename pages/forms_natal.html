@@ -116,6 +116,22 @@
                 </div>
             </section>
 
+            <div class="avisoNatal" style="width: 100%; background-color: #7295ee36;">
+                <div id="row-termos">
+                    <div id="row-termos-label">
+                        <i id="row-termos-botao" class="fa fa-chevron-right" onclick="toggleshowtermos()"></i>
+                        <input type="checkbox" name="termos-uso" id="termos-uso">
+                        <b>DECLARAÇÃO DE CIÊNCIA E AUTORIZAÇÃO DE USO DE IMAGEM</b>
+                    </div>
+                    <div id="row-termos-texto">
+                        <p>Ao preencher e enviar este formulário, <b><u>declaro estar ciente e autorizo</u></b> a participação dos familiares inscritos no evento Festa de Natal da Essência Azul.</p>
+                        <p><b><u>Autorizo gratuitamente o uso de imagens e vídeos meus e dos familiares inscritos</u></b>, inclusive menores sob minha responsabilidade, registrados durante o evento, para divulgação nas redes sociais, site e materiais institucionais da Essência Azul – AAFAC.</p>
+                        <p>Declaro também estar ciente de que os <b><u>dados informados serão utilizados exclusivamente para organização e segurança do evento</u></b>, respeitando a Lei Geral de Proteção de Dados (LGPD).</p>
+                        <p>Declaro ser <b><u>responsável pelas informações fornecidas e concordo com os termos acima</u></b>, em meu nome e em nome dos menores sob minha responsabilidade.</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="rodapeFormularioNatal">
                 <p id="mensagemFormularioNatal" role="status" aria-live="polite"></p>
                 <button class="botaoEnviarNatal" type="submit">Enviar</button>
@@ -124,6 +140,12 @@
     </main>
 
     <script>
+        function toggleshowtermos() {
+            const row = document.getElementById("row-termos");
+
+            row.classList.toggle("aberto");
+        }
+
         const formularioNatal = document.getElementById("formularioNatal");
         const mensagemFormularioNatal = document.getElementById("mensagemFormularioNatal");
 
@@ -150,8 +172,26 @@
             }
         });
 
-        formularioNatal.addEventListener("submit", event => {
+        formularioNatal.addEventListener("submit", async event => {
             event.preventDefault();
+
+            const termos = document.getElementById("termos-uso");
+
+            if (!termos.checked) {
+                const result = await Swal.fire({
+                    icon: "warning",
+                    title: "Termos não aceitos",
+                    text: "É necessário aceitar os termos de imagem para se inscrever no evento",
+                    showCancelButton: true,
+                    cancelButtonText: "Cancelar",
+                    confirmButtonText: "Confirmar",
+                    confirmButtonColor: "#72db35"
+                    // confirmButtonColor: "#"
+                });
+                if (!result.isConfirmed) {
+                    return;
+                }
+            }
 
             const faltando = [];
 

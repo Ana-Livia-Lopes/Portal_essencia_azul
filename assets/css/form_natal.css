@@ -260,7 +260,46 @@
     background-color: #102b99;
 }
 
+#row-termos-label {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#row-termos-botao {
+    transform: rotate(0deg);
+    transition: 500ms;
+}
+
+.aberto #row-termos-botao {
+    transform: rotate(90deg);
+    transition: 500ms;
+}
+
+#row-termos-texto {
+    transition: 500ms;
+    padding-top: 8px;
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#row-termos-texto p {
+    overflow-wrap: break-word;
+    padding-top: 8px;
+}
+
+#row-termos:not(#row-termos.aberto) #row-termos-texto {
+    padding-top: 0px;
+    max-height: 0px;
+}
+
 @media (max-width: 640px) {
+    #row-termos-texto {
+        max-height: 800px;
+    }
+
     .paginaNatal {
         padding: 28px 14px 48px;
     }
